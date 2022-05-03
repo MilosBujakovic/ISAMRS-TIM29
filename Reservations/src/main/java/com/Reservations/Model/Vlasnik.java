@@ -2,10 +2,33 @@ package com.Reservations.Model;
 
 import java.util.ArrayList;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="Vlasnici")
 public class Vlasnik extends Korisnik{
+	
+
+	@Column(name="tip")
 	private String tip;
+	
+	@Enumerated(EnumType.STRING)
 	Vlasnici vl;
+	
+	@ElementCollection
+    @CollectionTable(name = "Vikendice")
+    @Column(name = "naziviVikendica")
 	private ArrayList<Vikendica> vikendice;
+	
+	@ElementCollection
+    @CollectionTable(name = "Brodovi")
+    @Column(name = "brojKreveta")
 	private ArrayList<Brod> brodovi;
 	
 	public Vlasnik() {

@@ -1,42 +1,78 @@
-package com.Reservations.Model;
 
+package com.Reservations.Model;
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Brodovi")
 public class Brod {
+	
+	@Id
+	@Column(name="id")
 	private String ID;
+	
+	@Column(name="naziv")
 	private String naziv;
+	
+	@Column(name="tip")
 	private String tip;
+	
+	@Column(name="duzina")
 	private double duzina;
+	
+	@Column(name="brojMotora")
 	private String brojMotora;
+	
+	@Column(name="snaga")
 	private int snaga;
+	
+	@Column(name="maxBrzina")
 	private double maxBrzina;
+	
+	@Column(name="adresa")
 	private String adresa;
+	
+	@Column(name="opis")
 	private String opis;
+	
+	@Column(name="cena")
 	private double cena;
-	private ArrayList<String> navigacionaOprema;
+	
+	@Column(name="navigacionaOprema")
+	private String navigacionaOprema;
+	
+	@Column(name="kapacitet")
 	private String kapacitet;
-	private ArrayList<String> pecaroskaOprema;
+	
+	@Column(name="pecaroskaOprema")
+	private String pecaroskaOprema;
 	
 	public Brod() {
 		
 	}
-	
-	public Brod(String iD, String naziv, String tip, double duzina, String brojMotora, int snaga, double maxBrzina,
-			String adresa, String opis, double cena, ArrayList<String> navigacionaOprema, String kapacitet, ArrayList<String> pecaroskaOprema) {
+
+	public Brod(String iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
+			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
+			String opis) {
 		super();
 		ID = iD;
-		this.naziv = naziv;
-		this.tip = tip;
-		this.duzina = duzina;
-		this.brojMotora = brojMotora;
-		this.snaga = snaga;
+		this.cena = cena;
 		this.maxBrzina = maxBrzina;
 		this.adresa = adresa;
-		this.opis = opis;
-		this.cena = cena;
+		this.tip = tip;
 		this.navigacionaOprema = navigacionaOprema;
+		this.brojMotora = brojMotora;
+		this.naziv = naziv;
+		this.snaga = snaga;
 		this.kapacitet = kapacitet;
 		this.pecaroskaOprema = pecaroskaOprema;
+		this.duzina = duzina;
+		this.opis = opis;
 	}
 
 	public String getID() {
@@ -119,11 +155,11 @@ public class Brod {
 		this.cena = cena;
 	}
 
-	public ArrayList<String> getNavigacionaOprema() {
+	public String getNavigacionaOprema() {
 		return navigacionaOprema;
 	}
 
-	public void setNavigacionaOprema(ArrayList<String> navigacionaOprema) {
+	public void setNavigacionaOprema(String navigacionaOprema) {
 		this.navigacionaOprema = navigacionaOprema;
 	}
 
@@ -135,11 +171,11 @@ public class Brod {
 		this.kapacitet = kapacitet;
 	}
 
-	public ArrayList<String> getPecaroskaOprema() {
+	public String getPecaroskaOprema() {
 		return pecaroskaOprema;
 	}
 
-	public void setPecaroskaOprema(ArrayList<String> pecaroskaOprema) {
+	public void setPecaroskaOprema(String pecaroskaOprema) {
 		this.pecaroskaOprema = pecaroskaOprema;
 	}
 
@@ -150,6 +186,7 @@ public class Brod {
 				+ ", cena=" + cena + ", navigacionaOprema=" + navigacionaOprema + ", kapacitet=" + kapacitet
 				+ ", pecaroskaOprema=" + pecaroskaOprema + "]";
 	}
+	
 
 	
 	

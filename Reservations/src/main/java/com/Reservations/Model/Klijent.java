@@ -1,5 +1,10 @@
 package com.Reservations.Model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="Klijent")
 public class Klijent extends Korisnik {
 
 	public Klijent() {

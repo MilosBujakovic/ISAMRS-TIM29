@@ -2,12 +2,37 @@ package com.Reservations.Model;
 
 import java.util.ArrayList;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="Vikendica")
 public class Vikendica {
+	@Id
+	@Column(name="id")
 	private String ID;
+	
+	
+	@Column(name="naziv")
 	private String naziv;
+	
+	
+	@Column(name="adresa")
 	private String adresa;
+	
+	
+	@Column(name="opis")
 	private String opis;
+	
+	@ElementCollection
+    @CollectionTable(name = "ListaSoba")
+    @Column(name = "brojKreveta")
 	private ArrayList<Integer> listaSoba;
+	
+	@Column(name="cena")
 	private double cena;
 	
 	public Vikendica() {

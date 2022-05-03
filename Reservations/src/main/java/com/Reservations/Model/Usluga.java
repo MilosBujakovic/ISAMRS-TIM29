@@ -2,15 +2,41 @@ package com.Reservations.Model;
 
 import java.util.ArrayList;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.Table;
+@Entity
+@Table(name="Usluga")
 public class Usluga {
+	@Id
+	@Column(name="id")
 	private String ID;
+	
+	@Column(name="naziv")
 	private String naziv;
+	
+	@Column(name="adresa")
 	private String adresa;
+	
+	@Column(name="opis")
 	private String opis;
+	
+	@Column(name="biografijaInstruktora")
 	private String biografijaInstruktora;
+	
+	@Column(name="maxOsoba")
 	private int maxOsoba;
-	private ArrayList<String> pecaroskaOprema;
+	
+	@Column(name="pecaroskaOprema")
+	private String pecaroskaOprema;
+	
+	@Column(name="cena")
 	private double cena;
+	
+	@Enumerated(EnumType.STRING)
 	private TipoviUsluga tip;
 	
 	public Usluga() {
@@ -18,7 +44,7 @@ public class Usluga {
 	}
 	
 	public Usluga(String iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
-			ArrayList<String> pecaroskaOprema, double cena) {
+			String pecaroskaOprema, double cena) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
@@ -78,11 +104,11 @@ public class Usluga {
 		this.maxOsoba = maxOsoba;
 	}
 
-	public ArrayList<String> getPecaroskaOprema() {
+	public String getPecaroskaOprema() {
 		return pecaroskaOprema;
 	}
 
-	public void setPecaroskaOprema(ArrayList<String> pecaroskaOprema) {
+	public void setPecaroskaOprema(String pecaroskaOprema) {
 		this.pecaroskaOprema = pecaroskaOprema;
 	}
 

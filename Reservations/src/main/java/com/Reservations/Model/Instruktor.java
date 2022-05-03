@@ -2,7 +2,17 @@ package com.Reservations.Model;
 
 import java.util.ArrayList;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+@Entity
+@Table(name="Instruktor")
 public class Instruktor extends Korisnik {
+	@ElementCollection
+    @CollectionTable(name = "Usluge")
+    @Column(name = "usluge")
 	private ArrayList<Usluga> usluge;
 
 	public Instruktor() {
