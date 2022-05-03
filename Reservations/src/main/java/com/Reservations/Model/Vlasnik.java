@@ -21,48 +21,20 @@ public class Vlasnik extends Korisnik{
 	@Enumerated(EnumType.STRING)
 	Vlasnici vl;
 	
-	@ElementCollection
-    @CollectionTable(name = "Vikendice")
-    @Column(name = "naziviVikendica")
-	private ArrayList<Vikendica> vikendice;
-	
-	@ElementCollection
-    @CollectionTable(name = "Brodovi")
-    @Column(name = "brojKreveta")
-	private ArrayList<Brod> brodovi;
-	
 	public Vlasnik() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
 	public Vlasnik(String iD, String korisnickoIme, String ime, String prezime, String email, String lozinka,
-			String adresa, String grad, String drzava, String brojTel, ArrayList<Vikendica> vikendice, ArrayList<Brod> brodovi) {
+			String adresa, String grad, String drzava, String brojTel) {
 		super(iD, korisnickoIme, ime, prezime, email, lozinka, adresa, grad, drzava, brojTel);
-		this.vikendice = vikendice;
-		this.brodovi = brodovi;
 		// TODO Auto-generated constructor stub
-	}
-
-	public ArrayList<Vikendica> getVikendice() {
-		return vikendice;
-	}
-
-	public void setVikendice(ArrayList<Vikendica> vikendice) {
-		this.vikendice = vikendice;
-	}
-
-	public ArrayList<Brod> getBrodovi() {
-		return brodovi;
-	}
-
-	public void setBrodovi(ArrayList<Brod> brodovi) {
-		this.brodovi = brodovi;
 	}
 
 	@Override
 	public String toString() {
-		return "Vlasnik [tip=" + tip + ", vl=" + vl + ", vikendice=" + vikendice + ", brodovi=" + brodovi + ", getID()="
+		return "Vlasnik [tip=" + tip + ", vl=" + vl + ", getID()="
 				+ getID() + ", getKorisnickoIme()=" + getKorisnickoIme() + ", getIme()=" + getIme() + ", getPrezime()="
 				+ getPrezime() + ", getEmail()=" + getEmail() + ", getLozinka()=" + getLozinka() + ", getAdresa()="
 				+ getAdresa() + ", getGrad()=" + getGrad() + ", getDrzava()=" + getDrzava() + ", getBrojTel()="

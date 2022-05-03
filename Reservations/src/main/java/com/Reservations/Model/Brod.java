@@ -52,13 +52,16 @@ public class Brod {
 	@Column(name="pecaroskaOprema")
 	private String pecaroskaOprema;
 	
+	@Column(name="vlasnik_id")
+	private String vlasnikID;
+	
 	public Brod() {
 		
 	}
 
 	public Brod(String iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
 			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
-			String opis) {
+			String opis, String vlasnikID) {
 		super();
 		ID = iD;
 		this.cena = cena;
@@ -73,6 +76,7 @@ public class Brod {
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.duzina = duzina;
 		this.opis = opis;
+		this.vlasnikID = vlasnikID;
 	}
 
 	public String getID() {
@@ -179,12 +183,20 @@ public class Brod {
 		this.pecaroskaOprema = pecaroskaOprema;
 	}
 
+	public String getVlasnikID() {
+		return vlasnikID;
+	}
+
+	public void setVlasnikID(String vlasnikID) {
+		this.vlasnikID = vlasnikID;
+	}
+
 	@Override
 	public String toString() {
 		return "Brod [ID=" + ID + ", naziv=" + naziv + ", tip=" + tip + ", duzina=" + duzina + ", brojMotora="
 				+ brojMotora + ", snaga=" + snaga + ", maxBrzina=" + maxBrzina + ", adresa=" + adresa + ", opis=" + opis
 				+ ", cena=" + cena + ", navigacionaOprema=" + navigacionaOprema + ", kapacitet=" + kapacitet
-				+ ", pecaroskaOprema=" + pecaroskaOprema + "]";
+				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnikID=" + vlasnikID + "]";
 	}
 	
 

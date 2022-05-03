@@ -1,15 +1,14 @@
 package com.Reservations.Model;
 
-import java.util.ArrayList;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 @Entity
-@Table(name="Usluga")
+@Table(name="Usluge")
 public class Usluga {
 	@Id
 	@Column(name="id")
@@ -39,12 +38,15 @@ public class Usluga {
 	@Enumerated(EnumType.STRING)
 	private TipoviUsluga tip;
 	
+	@Column(name="instruktor_id")
+	private String instruktorID;
+	
 	public Usluga() {
 		
 	}
 	
 	public Usluga(String iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
-			String pecaroskaOprema, double cena) {
+			String pecaroskaOprema, double cena, String instruktorID) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
@@ -54,6 +56,7 @@ public class Usluga {
 		this.maxOsoba = maxOsoba;
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.cena = cena;
+		this.instruktorID = instruktorID;
 	}
 
 	public String getID() {
@@ -87,13 +90,13 @@ public class Usluga {
 	public void setOpis(String opis) {
 		this.opis = opis;
 	}
-
-	public String getBiografijaI() {
+	
+	public String getBiografijaInstruktora() {
 		return biografijaInstruktora;
 	}
 
-	public void setBiografijaI(String biografijaI) {
-		this.biografijaInstruktora = biografijaI;
+	public void setBiografijaInstruktora(String biografijaInstruktora) {
+		this.biografijaInstruktora = biografijaInstruktora;
 	}
 
 	public int getMaxOsoba() {
@@ -119,13 +122,23 @@ public class Usluga {
 	public void setCena(double cena) {
 		this.cena = cena;
 	}
+	
+
+	public String getInstruktorID() {
+		return instruktorID;
+	}
+
+	public void setInstruktorID(String instruktorID) {
+		this.instruktorID = instruktorID;
+	}
 
 	@Override
 	public String toString() {
-		return "Usluga [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", biografijaI="
-				+ biografijaInstruktora + ", maxOsoba=" + maxOsoba + ", pecaroskaOprema=" + pecaroskaOprema + ", cena=" + cena
-				+ "]";
+		return "Usluga [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis
+				+ ", biografijaInstruktora=" + biografijaInstruktora + ", maxOsoba=" + maxOsoba + ", pecaroskaOprema="
+				+ pecaroskaOprema + ", cena=" + cena + ", tip=" + tip + ", instruktorID=" + instruktorID + "]";
 	}
+
 	
 	
 }
