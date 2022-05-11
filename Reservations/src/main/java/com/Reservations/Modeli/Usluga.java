@@ -1,4 +1,4 @@
-package com.Reservations.Model;
+package com.Reservations.Modeli;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.Reservations.Model.enums.TipoviUsluga;
+import com.Reservations.Modeli.enums.TipoviUsluga;
 
 @Entity
 @Table(name="Usluge")

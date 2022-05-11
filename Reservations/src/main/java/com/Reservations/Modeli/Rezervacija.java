@@ -1,4 +1,4 @@
-package com.Reservations.Model;
+package com.Reservations.Modeli;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
