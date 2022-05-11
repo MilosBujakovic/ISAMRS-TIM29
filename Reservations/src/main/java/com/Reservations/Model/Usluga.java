@@ -4,15 +4,22 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.Reservations.Model.enums.TipoviUsluga;
 
 @Entity
 @Table(name="Usluge")
 public class Usluga {
 	@Id
-	@Column(name="id")
-	private String ID;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
 	
 	@Column(name="naziv")
 	private String naziv;
@@ -35,18 +42,19 @@ public class Usluga {
 	@Column(name="cena")
 	private double cena;
 	
-	@Enumerated(EnumType.STRING)
+	@Column(name="tip")
 	private TipoviUsluga tip;
 	
-	@Column(name="instruktor_id")
-	private String instruktorID;
+	@ManyToOne
+	@JoinColumn(name="instruktor_id")
+	private Korisnik instruktor;
 	
 	public Usluga() {
 		
 	}
 	
-	public Usluga(String iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
-			String pecaroskaOprema, double cena, String instruktorID) {
+	public Usluga(long iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
+			String pecaroskaOprema, double cena, Korisnik instruktor) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
@@ -56,14 +64,14 @@ public class Usluga {
 		this.maxOsoba = maxOsoba;
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.cena = cena;
-		this.instruktorID = instruktorID;
+		this.instruktor = instruktor;
 	}
 
-	public String getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 
@@ -124,19 +132,19 @@ public class Usluga {
 	}
 	
 
-	public String getInstruktorID() {
-		return instruktorID;
+	public Korisnik getInstruktorID() {
+		return instruktor;
 	}
 
-	public void setInstruktorID(String instruktorID) {
-		this.instruktorID = instruktorID;
+	public void setInstruktorID(Korisnik instruktor) {
+		this.instruktor = instruktor;
 	}
 
 	@Override
 	public String toString() {
 		return "Usluga [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis
 				+ ", biografijaInstruktora=" + biografijaInstruktora + ", maxOsoba=" + maxOsoba + ", pecaroskaOprema="
-				+ pecaroskaOprema + ", cena=" + cena + ", tip=" + tip + ", instruktorID=" + instruktorID + "]";
+				+ pecaroskaOprema + ", cena=" + cena + ", tip=" + tip + ", instruktorID=" + instruktor.toString() + "]";
 	}
 
 	

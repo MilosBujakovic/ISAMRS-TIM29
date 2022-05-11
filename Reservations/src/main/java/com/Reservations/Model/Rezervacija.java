@@ -2,13 +2,18 @@ package com.Reservations.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
 @Table(name="Rezervacije")
 public class Rezervacija {
+	
 	@Id
-	private String ID;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
 	
 	@Column(name="nazivEntiteta")
 	private String nazivEntiteta;
@@ -32,7 +37,7 @@ public class Rezervacija {
 		
 	}
 	
-	public Rezervacija(String iD, String nazivEntiteta, String datumVreme, String trajanje, int maxOsoba,
+	public Rezervacija(long iD, String nazivEntiteta, String datumVreme, String trajanje, int maxOsoba,
 			String dodatneUsluge, double cena) {
 		super();
 		ID = iD;
@@ -44,11 +49,11 @@ public class Rezervacija {
 		this.cena = cena;
 	}
 
-	public String getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 

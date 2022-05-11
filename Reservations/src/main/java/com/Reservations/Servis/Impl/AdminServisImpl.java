@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.Reservations.Model.Administrator;
 import com.Reservations.Repository.AdminRepo;
 import com.Reservations.Servis.AdminServis;
-@Service
+@Service("adminservis")
 public class AdminServisImpl implements AdminServis {
 
 	@Autowired

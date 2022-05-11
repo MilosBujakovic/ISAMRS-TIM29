@@ -1,11 +1,12 @@
 
 package com.Reservations.Model;
-import java.util.ArrayList;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,8 +14,9 @@ import javax.persistence.Table;
 public class Brod {
 	
 	@Id
-	@Column(name="id")
-	private String ID;
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
 	
 	@Column(name="naziv")
 	private String naziv;
@@ -52,16 +54,17 @@ public class Brod {
 	@Column(name="pecaroskaOprema")
 	private String pecaroskaOprema;
 	
-	@Column(name="vlasnik_id")
-	private String vlasnikID;
+	@ManyToOne
+	@JoinColumn(name="vlasnik_id")
+	private Korisnik vlasnik;
 	
 	public Brod() {
 		
 	}
 
-	public Brod(String iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
+	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
 			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
-			String opis, String vlasnikID) {
+			String opis, Korisnik vlasnik) {
 		super();
 		ID = iD;
 		this.cena = cena;
@@ -76,14 +79,14 @@ public class Brod {
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.duzina = duzina;
 		this.opis = opis;
-		this.vlasnikID = vlasnikID;
+		this.vlasnik = vlasnik;
 	}
 
-	public String getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 
@@ -183,12 +186,12 @@ public class Brod {
 		this.pecaroskaOprema = pecaroskaOprema;
 	}
 
-	public String getVlasnikID() {
-		return vlasnikID;
+	public Korisnik getVlasnikID() {
+		return vlasnik;
 	}
 
-	public void setVlasnikID(String vlasnikID) {
-		this.vlasnikID = vlasnikID;
+	public void setVlasnikID(Korisnik vlasnik) {
+		this.vlasnik = vlasnik;
 	}
 
 	@Override
@@ -196,7 +199,7 @@ public class Brod {
 		return "Brod [ID=" + ID + ", naziv=" + naziv + ", tip=" + tip + ", duzina=" + duzina + ", brojMotora="
 				+ brojMotora + ", snaga=" + snaga + ", maxBrzina=" + maxBrzina + ", adresa=" + adresa + ", opis=" + opis
 				+ ", cena=" + cena + ", navigacionaOprema=" + navigacionaOprema + ", kapacitet=" + kapacitet
-				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnikID=" + vlasnikID + "]";
+				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnik=" + vlasnik + "]";
 	}
 	
 

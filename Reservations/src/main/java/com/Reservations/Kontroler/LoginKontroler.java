@@ -1,9 +1,11 @@
 package com.Reservations.Kontroler;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.Reservations.Model.Administrator;
@@ -13,6 +15,7 @@ import com.Reservations.Servis.KlijentServis;
 import com.Reservations.Servis.VlasnikServis;
 @Controller
 @RequestMapping("/login")
+
 public class LoginKontroler {
 	
 	private String username;
@@ -26,8 +29,11 @@ public class LoginKontroler {
 	@Autowired
 	private InstruktorServis instruktorservis;
 	
-	  @RequestMapping(method = RequestMethod.POST)
+	
+	
+	@RequestMapping("welcome.jsp")
 	  @ResponseBody
+	  @GetMapping(value="")
 	  public String handlePostRequest(String username, String password) {
 		  this.username=username;
 		  this.password=password;

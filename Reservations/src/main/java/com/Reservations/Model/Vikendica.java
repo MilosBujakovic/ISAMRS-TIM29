@@ -1,12 +1,13 @@
 package com.Reservations.Model;
 
-import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
@@ -14,8 +15,10 @@ import javax.persistence.Table;
 @Table(name="Vikendica")
 public class Vikendica {
 	@Id
-	@Column(name="id")
-	private String ID;
+	
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
 	
 	
 	@Column(name="naziv")
@@ -37,28 +40,28 @@ public class Vikendica {
 	@Column(name="cena")
 	private double cena;
 	
-	@Column(name="vlasnik_id")
-	private String vlasnikID;
+	@Column(name="vlasnik")
+	private Korisnik vlasnik;
 	
 	public Vikendica() {
 
 	}
 	
-	public Vikendica(String iD, String naziv, String adresa, String opis, Set<Integer> listaSoba, String vlasnikID) {
+	public Vikendica(long iD, String naziv, String adresa, String opis, Set<Integer> listaSoba, Korisnik vlasnik) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
 		this.listaSoba = listaSoba;
-		this.vlasnikID = vlasnikID;
+		this.vlasnik = vlasnik;
 	}
 
-	public String getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 
@@ -104,18 +107,18 @@ public class Vikendica {
 	
 	
 
-	public String getVlasnikID() {
-		return vlasnikID;
+	public Korisnik getVlasnik() {
+		return vlasnik;
 	}
 
-	public void setVlasnikID(String vlasnikID) {
-		this.vlasnikID = vlasnikID;
+	public void setVlasnik(Korisnik vlasnik) {
+		this.vlasnik = vlasnik;
 	}
 
 	@Override
 	public String toString() {
 		return "Vikendica [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", listaSoba="
-				+ listaSoba + ", cena=" + cena + ", vlasnikID=" + vlasnikID + "]";
+				+ listaSoba + ", cena=" + cena + ", vlasnikID=" + vlasnik + "]";
 	}
 
 

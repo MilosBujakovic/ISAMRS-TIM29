@@ -1,28 +1,49 @@
 package com.Reservations.Model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@MappedSuperclass
+@Entity
+@Table(name="Korisnik")
 
-public abstract class Korisnik {
+public  class Korisnik {
 	@Id
-	private String ID;
+	@Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long ID;
+	@Column(name = "username")
 	private String korisnickoIme;
+	@Column(name = "ime")
 	private String ime;
+	@Column(name = "prezime")
 	private String prezime;
+	@Column(name = "email")
 	private String email;
+	@Column(name = "lozinka")
 	private String lozinka;
+	@Column(name = "adresa")
 	private String adresa;
+	@Column(name = "grad")
 	private String grad;
+	@Column(name = "drzava")
 	private String drzava;
+	@Column(name = "brojTel")
 	private String brojTel;
-	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "uloga_id")
+	private Uloga uloga;
 	public Korisnik()
 	{}
 	
 	
-	public Korisnik(String iD, String korisnickoIme, String ime, String prezime, String email, String lozinka,
+	public Korisnik(long iD, String korisnickoIme, String ime, String prezime, String email, String lozinka,
 			String adresa, String grad, String drzava, String brojTel) {
 		super();
 		ID = iD;
@@ -37,11 +58,11 @@ public abstract class Korisnik {
 		this.brojTel = brojTel;
 	}
 
-	public String getID() {
+	public long getID() {
 		return ID;
 	}
 
-	public void setID(String iD) {
+	public void setID(long iD) {
 		ID = iD;
 	}
 
