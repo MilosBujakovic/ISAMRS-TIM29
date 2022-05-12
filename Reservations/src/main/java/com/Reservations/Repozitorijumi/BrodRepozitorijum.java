@@ -6,5 +6,5 @@ import com.Reservations.Modeli.Brod;
 
 public interface BrodRepozitorijum extends JpaRepository<Brod, Long>
 {
-	Brod findByName(String name);
+	Brod findByNaziv(String name);
 }
