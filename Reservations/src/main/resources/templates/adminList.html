@@ -7,9 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Administrator</title>
-</head>
 <link rel="stylesheet" th:href="@{/css/adminProfile.css}"
 	href="/css/adminProfile.css">
+</head>
 <body>
 	<header role="banner">
 		<h1>Profil administratora</h1>
@@ -39,17 +39,18 @@
 		<section class="panel important">
 
 			<h2>Svi entiteti</h2>
-			<form action="#">
+			<form>
 				<div class="onethird">
 					<label for="select-choice">Izaberi :</label> <select
 						name="select-choice" id="select-choice">
-						<option value="Klijenti">Klijenti</option>
-						<option value="Vlasnici vikendica">Vlasnici vikendica</option>
-						<option value="Vikendice">Vikendice</option>
-						<option value="Vlasnici brodova">Vlasnici brodova</option>
-						<option value="Brodovi">Brodovi</option>
-						<option value="Instruktori pecanja">Instruktori pecanja</option>
-					</select> <input type="submit" value="Submit" />
+						<option value="Klijent">Klijenti</option>
+						<option value="VikendicaVlasnik">Vlasnici vikendica</option>
+						<option value="Vikendica">Vikendice</option>
+						<option value="BrodVlasnik">Vlasnici brodova</option>
+						<option value="Brod">Brodovi</option>
+						<option value="Instruktor">Instruktori pecanja</option>
+					</select> 
+					<input type="submit" value="Submit" id="prikaz" />
 				</div>
 			</form>
 			<table>
@@ -58,5 +59,7 @@
 		</section>
 
 	</main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="/js/PrikazKorisnika.js"></script>
 </body>
 </html>
