@@ -38,9 +38,9 @@ public class AdminKontroler {
 	    return "adminList";
 	  }
 	
-	@RequestMapping(value = "/admin/my-data")
+	@RequestMapping(value = "/admin/my-profile")
 	  public String getDataPage(){
-		System.out.println("My data page was called!");
+		System.out.println("My profile page was called!");
 	      return "adminMyData";
 	  }
 	
