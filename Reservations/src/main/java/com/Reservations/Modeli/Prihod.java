@@ -30,6 +30,9 @@ public class Prihod {
 	@Column(name = "datum")
 	private Date datum;
 
+	@Column(name = "procenat")
+	private double procenat;
+
 	public Prihod(long iD, double vrednost, Rezervacija rezervacija, Date datum) {
 		super();
 		ID = iD;
@@ -70,10 +73,18 @@ public class Prihod {
 		this.datum = datum;
 	}
 
+	public double getProcenat() {
+		return procenat;
+	}
+
+	public void setProcenat(double procenat) {
+		this.procenat = procenat;
+	}
+
 	@Override
 	public String toString() {
 		return "Prihod [ID=" + ID + ", vrednost=" + vrednost + ", rezervacija=" + rezervacija + ", datum=" + datum
-				+ "]";
+				+ ", procenat=" + procenat + "]";
 	}
 
 }

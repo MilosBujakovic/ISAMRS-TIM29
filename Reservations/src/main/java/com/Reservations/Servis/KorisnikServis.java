@@ -15,13 +15,11 @@ import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 public class KorisnikServis 
 {
 
-	
 	@Autowired
 	private KorisnikRepozitorijum korisnikRepozitorijum;
 	
 	@Autowired
 	private UlogaServis ulogaServis;
-
 
 	
 	public Korisnik findByUsername(String username) {
