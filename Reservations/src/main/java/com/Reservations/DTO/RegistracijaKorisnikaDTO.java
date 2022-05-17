@@ -1,8 +1,6 @@
 package com.Reservations.DTO;
 
 public class RegistracijaKorisnikaDTO {
-	private Long id;
-
 	private String username;
 
 	private String password;
@@ -26,10 +24,9 @@ public class RegistracijaKorisnikaDTO {
 	}
 	
 
-	public RegistracijaKorisnikaDTO(Long id, String username, String password, String firstName, String lastName, String email,
+	public RegistracijaKorisnikaDTO(String username, String password, String firstName, String lastName, String email,
 			String address, String phone, String city, String country) {
 		super();
-		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.firstName = firstName;
@@ -42,13 +39,6 @@ public class RegistracijaKorisnikaDTO {
 	}
 
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getUsername() {
 		return username;

@@ -1,30 +1,38 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
 <title>Administrator</title>
 </head>
-<link  rel="stylesheet" href="./adminProfile.css">
+<link  rel="stylesheet" th:href="@{/css/adminProfile.css}" href="/css/adminProfile.css">
 <body>
-<header role="banner">
-  <h1>Admin Panel</h1>
-  <ul class="utilities">
-    <li class="users"><a href="#">My Account</a></li>
-    <li class="logout warn"><a href="">Log Out</a></li>
-  </ul>
-</header>
+	<header role="banner">
+		<h1>Profil administratora</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/}">Log out</a></li>
+		</ul>
+	</header>
 
-<nav role="navigation">
-  <ul class="main">
-    <li class="dashboard"><a href="#">Dashboard</a></li>
-    <li class="write"><a href="#">Write Post</a></li>
-    <li class="edit"><a href="#">Edit Posts</a></li>
-    <li class="comments"><a href="#">Comments</a></li>
-    <li class="users"><a href="#">Manage Users</a></li>
-  </ul>
-</nav>
+	<nav role="navigation">
+		<ul class="main">
+			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
+					stanja sistema</a></li>
+			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+					prihoda</a></li>
+			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+					izvestaja</a></li>
+			<li class="admin"><a th:href="@{/admin/add-admin}">Dodaj
+					administratora</a></li>
+		</ul>
+	</nav>
 
-<main role="main">
+	<main role="main">
   <section class="panel important">
     <h2>Welcome to Your Dashboard </h2>
     <ul>

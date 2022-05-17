@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.Modeli.enums.TipRegistracije;
 
 // Registracija = Zahtev za registraciju vlasnika/instruktora
@@ -65,6 +66,20 @@ public class Registracija {
 			this.brojTel = brojTel;
 			this.tipRegistracije = tipRegistracije;
 			this.razlogRegistracije = razlogRegistracije;
+		}
+
+		public Registracija(RegistracijaVlasnikaInstruktoraDTO regRequest) {
+			this.korisnickoIme = regRequest.getUsername();
+			this.ime = regRequest.getFirstName();
+			this.prezime = regRequest.getLastName();
+			this.email = regRequest.getEmail();
+			this.lozinka = regRequest.getPassword();
+			this.adresa = regRequest.getAddress();
+			this.grad = regRequest.getCity();
+			this.drzava = regRequest.getCountry();
+			this.brojTel = regRequest.getPhone();
+			this.tipRegistracije = regRequest.getRegistrationType();
+			this.razlogRegistracije = regRequest.getRegisterReason();
 		}
 
 		public long getID() {
@@ -167,8 +182,15 @@ public class Registracija {
 
 		@Override
 		public String toString() {
-			return "ZahtevRegistracije [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime="
+			return "Registracija [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime="
 					+ prezime + ", email=" + email + ", lozinka=" + lozinka + ", adresa=" + adresa + ", grad=" + grad
+					+ ", drzava=" + drzava + ", brojTel=" + brojTel + ", tipRegistracije="
+					+ tipRegistracije + ", razlogRegistracije=" + razlogRegistracije + "]";
+		}
+		
+		public String toPrivateString() {
+			return "ZahtevRegistracije [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime="
+					+ prezime + ", email=" + email + ", adresa=" + adresa + ", grad=" + grad
 					+ ", drzava=" + drzava + ", brojTel=" + brojTel + ", tipRegistracije="
 					+ tipRegistracije + ", razlogRegistracije=" + razlogRegistracije + "]";
 		}
