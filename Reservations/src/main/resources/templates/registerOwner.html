@@ -7,6 +7,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <head>
 <meta http-equiv="Content-Type" content="text/html" />
 <title>Registracija vlasnika/instruktora</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" media="all" 
           href="/css/register.css" th:href="@{/css/register.css}" >
 </head>
@@ -82,7 +83,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       </form>
     </main>
     <footer>
-      <p>Već imate nalog? <a href="#">Ulogujte se ovde</a></p>
+      <p>Već imate nalog? <a th:href="@{/login}">Ulogujte se ovde</a></p>
     </footer>
     <i class="wave"></i>
   </section>

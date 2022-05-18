@@ -1,5 +1,6 @@
 package com.Reservations.Servis;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +16,20 @@ import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 public class KorisnikServis 
 {
 
-	
 	@Autowired
 	private KorisnikRepozitorijum korisnikRepozitorijum;
 	
 	@Autowired
 	private UlogaServis ulogaServis;
 
-
 	
 	public Korisnik findByUsername(String username) {
 		return korisnikRepozitorijum.findByKorisnickoIme(username);
 	}
 	
-	
+	public List<Korisnik> listAll() {
+		return korisnikRepozitorijum.findAll();
+	}
 
 	public Korisnik findById(Long id) {
 		try {
@@ -41,11 +42,27 @@ public class KorisnikServis
 
 	public Korisnik save(RegistracijaKorisnikaDTO userRequest) {
 		Korisnik u = new Korisnik();
+
+		long id = 0;
+		for (long i = 1; i < Long.MAX_VALUE; i++)
+		{
+			Korisnik check = this.findById(i);
+			if (check != null)
+			{
+				continue;
+			}
+			else
+			{
+				id = i;
+				break;
+			}
+		}
 		u.setKorisnickoIme(userRequest.getUsername());
 		
 		u.setLozinka(userRequest.getPassword());
 
-		u.setID(userRequest.getId());
+		
+		u.setID(id);
 		u.setIme(userRequest.getFirstName());
 		u.setPrezime(userRequest.getLastName());
 		u.setAdresa(userRequest.getAddress());

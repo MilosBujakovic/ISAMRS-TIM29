@@ -1,0 +1,61 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Administrator</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/adminProfile.css}"
+	href="/css/adminProfile.css">
+<body>
+	<header role="banner">
+		<h1>Profil administratora</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
+		</ul>
+	</header>
+
+	<nav role="navigation">
+		<ul class="main">
+			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
+					stanja sistema</a></li>
+			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+					prihoda</a></li>
+			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+					izvestaja</a></li>
+			<li class="admin"><a th:href="@{/admin/add-admin}">Dodaj
+					administratora</a></li>
+		</ul>
+	</nav>
+
+	<main role="main">
+		<section class="panel important">
+			<h2>Dobrodošli na komandnu tablu</h2>
+			<p class="feedback success">Uvek proverite da li ima zahteva za
+				registraciju!</p>
+			<p class="feedback">Ne dodajte nove administratore bez potvrde
+				celog tima!</p>
+
+		</section>
+		<section class="panel important">
+			<h2>Zahtevi za registraciju</h2>
+			<table>
+				<tr>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Korisnicko ime</th>
+					<th>Tip registracije</th>
+					<th>Razlog registracije</th>
+				</tr>
+				
+			</table>
+		</section>
+
+	</main>
+</body>
+</html>

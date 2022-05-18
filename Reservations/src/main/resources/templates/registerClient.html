@@ -7,7 +7,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <head>
 
 <title>Registracija klijenta</title>
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <link rel="stylesheet" type="text/css" media="all" 
           href="/css/register.css" th:href="@{/css/register.css}" >
 </head>
@@ -19,47 +19,47 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       <h4>Molimo vas unesite vaše podatke ispod</h4>
     </header>
     <main>
-      <form th:action="@{/verify}">
+      <form id="registration_form" th:action="@{/verify}">
         <div class="form-item-double box-item">
 	        <div class="form-item ">
-	          <input type="text" name="firstName" placeholder="Ime" data-required>
+	          <input type="text" name="firstName" id="firstName" placeholder="Ime" data-required>
 	          <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
 	        </div>
-	          <div class="form-item">
-	          <input type="text" name="lastName" placeholder="Prezime" data-required>
+	       	<div class="form-item">
+	          <input type="text" name="lastName" id="lastName" placeholder="Prezime" data-required>
 	          <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
 	        </div>
         </div>
         <div class="form-item box-item">
-          <input type="text" name="username" placeholder="Korisničko ime" data-required>
+          <input type="text" name="username" id="username" placeholder="Korisničko ime" data-required>
           <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
         </div>
           <div class="form-item box-item">
-          <input type="password" name="password" placeholder="Lozinka" data-required>
+          <input type="password" name="password" id="password" placeholder="Lozinka" data-required>
           <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
         </div>
         <div class="form-item box-item">
-          <input type="email" name="email" placeholder="Email" data-email data-required>
+          <input type="email" name="email" id="email" placeholder="Email" data-email data-required>
           <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
           <small class="errorEmail"><i class="fa fa-asterisk" aria-hidden="true"></i> email nije validan</small>
         </div>
         <div class="form-item box-item">
-          <input type="text" name="phone" placeholder="Broj telefona" data-required data-number data-count="10">
+          <input type="text" name="phone" id="phone" placeholder="Broj telefona" data-required data-number data-count="10">
           <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
           <small class="errorNum"><i class="fa fa-asterisk" aria-hidden="true"></i> mora biti broj</small>
           <small class="errorChar"><i class="fa fa-asterisk" aria-hidden="true"></i> mora imati 10 cifara</small>
         </div>
         <div class="form-item box-item">
-          <input type="text" name="address" placeholder="Adresa" data-required>
+          <input type="text" name="address" id="address" placeholder="Adresa" data-required>
           <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
         </div>
         <div class="form-item-double box-item">
           <div class="form-item ">
-            <input type="text" name="city" placeholder="Grad" data-required>
+            <input type="text" name="city" id="city" placeholder="Grad" data-required>
             <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
           </div>
           <div class="form-item">
-            <input type="text" name="country" placeholder="Država" data-required>
+            <input type="text" name="country" id="country" placeholder="Država" data-required>
             <small class="errorReq"><i class="fa fa-asterisk" aria-hidden="true"></i> obavezno polje</small>
           </div>
         </div>
@@ -69,11 +69,42 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       </form>
     </main>
     <footer>
-      <p>Već imate nalog? <a thhref="@{/login}">Ulogujte se ovde</a></p>
+      <p>Već imate nalog? <a th:href="@{/login}">Ulogujte se ovde</a></p>
     </footer>
     <i class="wave"></i>
   </section>
 </div>
  <script  src="/js/register.js"></script>
+ <script>
+ $(document).ready(function(){
+	    $("#registration_form").on('submit', function(e) {
+	        e.preventDefault();
+	       
+	            var user = {};
+	            user.firstName = document.getElementById("firstName").value;
+	            user.lastName = document.getElementById("lastName").value;
+	            user.email = document.getElementById("email").value;
+	            user.address = document.getElementById("address").value;
+	            user.phone = document.getElementById("phone").value;
+	            user.password = document.getElementById("password").value;
+	            user.username = document.getElementById("username").value;
+	            user.city = document.getElementById("city").value;
+	            user.country = document.getElementById("country").value;
+
+	            console.log(user);
+	            $.ajax({
+	                url: "http://localhost:8080/verify",
+	                dataType: "json",
+	                contentType: "application/json",
+	                data: JSON.stringify(user),
+	                success: function(result) {
+	                                    
+	                }, error: function(error) {
+	                    console.log(error);
+	                }
+	            });
+	            return true;      
+	    });
+	});</script>
 </body>
 </html>

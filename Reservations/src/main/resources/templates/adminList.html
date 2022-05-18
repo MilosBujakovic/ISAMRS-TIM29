@@ -1,0 +1,90 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Administrator</title>
+<link rel="stylesheet" th:href="@{/css/adminProfile.css}"
+	href="/css/adminProfile.css">
+</head>
+<body>
+	<header role="banner">
+		<h1>Profil administratora</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
+		</ul>
+	</header>
+
+	<nav role="navigation">
+		<ul class="main">
+			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
+					stanja sistema</a></li>
+			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+					prihoda</a></li>
+			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+					izvestaja</a></li>
+			<li class="admin"><a th:href="@{/admin/add-admin}">Dodaj
+					administratora</a></li>
+			<li class="home"><a th:href="@{/admin}">Nazad na profil</a></li>
+		</ul>
+	</nav>
+
+	<main role="main">
+
+		<section class="panel important">
+
+			<h2>Svi entiteti</h2>
+			<form>
+				<div class="onethird">
+					<label for="select-choice">Izaberi :</label> <select
+						name="select-choice" id="select-choice">
+						<option value="Korisnici">Klijenti</option>
+						<option value="VikendicaVlasnik">Vlasnici vikendica</option>
+						<option value="Vikendica">Vikendice</option>
+						<option value="BrodVlasnik">Vlasnici brodova</option>
+						<option value="Brod">Brodovi</option>
+						<option value="Instruktor">Instruktori pecanja</option>
+					</select> 
+					<input type="submit" value="Submit" id="prikaz" />
+				</div>
+			</form>
+			<table>
+				<tr>
+					<th>Id</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Korisnicko ime</th>
+					<th>Lozinka</th>
+					<th>Email</th>
+					<th>Broj telefona</th>
+					<th>Adresa</th>
+					<th>Grad</th>
+					<th>Drzava</th>
+					<th>Uloga</th>
+				</tr>
+				<tr th:each = "korisnik : ${korisnici}">
+					<td th:text = "${korisnik.ID}">ID</td>
+					<td th:text = "${korisnik.ime}">Ime</td>
+					<td th:text = "${korisnik.prezime}">Prezime</td>
+					<td th:text = "${korisnik.korisnickoIme}">Korisnicko ime</td>
+					<td th:text = "${korisnik.lozinka}">Lozinka</td>
+					<td th:text = "${korisnik.email}">Email</td>
+					<td th:text = "${korisnik.brojTel}">Broj telefona</td>
+					<td th:text = "${korisnik.adresa}">Adresa</td>
+					<td th:text = "${korisnik.grad}">Grad</td>
+					<td th:text = "${korisnik.drzava}">Drzava</td>
+					<td th:text = "${korisnik.uloga.ime}">Uloga</td>
+				</tr>
+			</table>
+		</section>
+
+	</main>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="/js/PrikazKorisnika.js"></script>
+</body>
+</html>

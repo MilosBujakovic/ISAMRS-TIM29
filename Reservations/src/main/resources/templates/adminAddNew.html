@@ -1,0 +1,58 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Administrator</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/adminProfile.css}"
+	href="/css/adminProfile.css">
+<body>
+	<header role="banner">
+		<h1>Profil administratora</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
+		</ul>
+	</header>
+
+	<nav role="navigation">
+		<ul class="main">
+			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
+					stanja sistema</a></li>
+			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+					prihoda</a></li>
+			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+					izvestaja</a></li>
+			<li class="admin"><a th:href="@{/admin/add-admin}">Dodaj
+					administratora</a></li>
+			<li class="home"><a th:href="@{/admin}">Nazad na profil</a></li>
+		</ul>
+	</nav>
+
+	<main role="main">
+		<section class="panel important">
+			<h2>Write a post</h2>
+			<form action="#">
+				<div class="onethird">
+					<input type="text" name="firstName" id="firstName" placeholder="Ime">
+	          		<input type="text" name="lastName" id="lastName" placeholder="Prezime">
+		            <input type="text" name="username" id="username" placeholder="Korisničko ime">
+		          	<input type="email" name="email" id="email" placeholder="Email" >
+		          	<input type="text" name="phone" id="phone" placeholder="Broj telefona">
+		          	<input type="text" name="address" id="address" placeholder="Adresa">
+		            <input type="text" name="city" id="city" placeholder="Grad">
+		            <input type="text" name="country" id="country" placeholder="Država">
+					<div>
+						<input type="submit" value="Submit" />
+					</div>
+				</div>
+			</form>
+		</section>
+	</main>
+</body>
+</html>

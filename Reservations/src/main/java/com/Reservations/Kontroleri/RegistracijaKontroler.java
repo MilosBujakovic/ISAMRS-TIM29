@@ -1,8 +1,21 @@
 package com.Reservations.Kontroleri;
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.Properties;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Korisnik;
@@ -19,37 +33,33 @@ import com.Reservations.Servis.RegistracijaServis;
 
 @Controller
 public class RegistracijaKontroler {
-	
+
 	@Autowired
 	KorisnikServis korisnikServis;
-	
+
 	@Autowired
 	RegistracijaServis regServis;
-	
+
 	@RequestMapping(value = "/register-owner")
-	  public String getRegisterOwnerPage(){
+	public String getRegisterOwnerPage() {
 		System.out.println("Register owner page was called!");
-	      return "registerOwner";
-	  }
-	
+		return "registerOwner";
+	}
+
 	@RequestMapping(value = "/register-client")
-	  public String getRegisterClientPage(){
+	public String getRegisterClientPage() {
 		System.out.println("Register client page was called!");
-	      return "registerClient";
-	  }
-	
-	@RequestMapping(value = "/request-sent", consumes =  MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-	  public String registerOwner(@RequestBody RegistracijaVlasnikaInstruktoraDTO regRequest) {
+		return "registerClient";
+	}
+
+	@RequestMapping(value = "/request-sent", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String registerOwner(@RequestBody RegistracijaVlasnikaInstruktoraDTO regRequest) {
 		long id = 0;
-		for (long i = 1; i < Long.MAX_VALUE; i++)
-		{
+		for (long i = 1; i < Long.MAX_VALUE; i++) {
 			Registracija check = this.regServis.findById(i);
-			if (check != null)
-			{
+			if (check != null) {
 				continue;
-			}
-			else
-			{
+			} else {
 				id = i;
 				break;
 			}
@@ -61,31 +71,23 @@ public class RegistracijaKontroler {
 			throw new ResourceConflictException(regRequest.getId(), "Username already exists");
 		}
 		this.regServis.save(regRequest);
-		return "registerRequest"; 
-	  }
-	
-	@RequestMapping(value = "/verify")
-	  public String registerClient(HttpServletRequest request) throws IOException {
-		
-//		long id = 0;
-//		for (long i = 1; i < Long.MAX_VALUE; i++)
-//		{
-//			Korisnik check = korisnikServis.findById(i);
-//			if (check != null)
-//			{
-//				continue;
-//			}
-//			else
-//			{
-//				id = i;
-//				break;
-//			}
-//		}
-//		userRequest.setId(id);
-//		System.out.println("Client registration in progress!");
+		try {
+			sendEmailToAdmin(regRequest);
+		} catch (MessagingException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "registerRequest";
+	}
+
+	@RequestMapping(value = "/verify", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String registerClient(@RequestBody @Valid RegistracijaKorisnikaDTO userRequest) {
+
+		System.out.println(userRequest.toString());
+		System.out.println("Client registration in progress!");
 //		Korisnik existUser = korisnikServis.findByUsername(userRequest.getUsername());
-//		if (existKorisnik != null) {
-//			throw new ResourceConflictException(userRequest.getId(), "Username already exists");
+//		if (existUser != null) {
+//			throw new ResourceConflictException(existUser.getID(), "Username already exists");
 //		}
 //
 //		try 
@@ -97,9 +99,38 @@ public class RegistracijaKontroler {
 //			System.out.println("Registration failure!");
 //			return "registerFailure";
 //		}
-		System.out.println("Registration successful!");
-		
-		return "registerSuccess"; 
-	  }
-	
+//		System.out.println("Registration successful!");
+
+		return "registerSuccess";
+	}
+
+	private void sendEmailToAdmin(RegistracijaVlasnikaInstruktoraDTO regRequest) throws AddressException, MessagingException, IOException {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("mrs.isa.test@gmail.com", "123456789mrs.");
+			}
+		});
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("mrs.isa.test@gmail.com", false));
+
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("teateodora2000@gmail.com"));
+		msg.setSubject("Novi zahtev za registraciju");
+		msg.setContent("Novi zahtev za registraciju", "text/html");
+		msg.setSentDate(new Date());
+
+		MimeBodyPart messageBodyPart = new MimeBodyPart();
+		Registracija reg = new Registracija(regRequest);
+		messageBodyPart.setContent(reg.toPrivateString(), "text/html");
+
+		Multipart multipart = new MimeMultipart();
+		multipart.addBodyPart(messageBodyPart);
+		msg.setContent(multipart);
+		Transport.send(msg);
+	}
 }

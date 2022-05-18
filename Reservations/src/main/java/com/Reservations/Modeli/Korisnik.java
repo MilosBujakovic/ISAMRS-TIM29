@@ -1,5 +1,7 @@
 package com.Reservations.Modeli;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,6 +41,8 @@ public  class Korisnik {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "uloga_id")
 	private Uloga uloga;
+//	@Column(name = "poslednjiDatumPromeneLozinke")
+//	private Date poslednjiDatumPromeneLozinke;
 	public Korisnik()
 	{}
 	
@@ -149,6 +153,17 @@ public  class Korisnik {
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
+
+	
+
+//	public Date getPoslednjiDatumPromeneLozinke() {
+//		return poslednjiDatumPromeneLozinke;
+//	}
+//
+//
+//	public void setPoslednjiDatumPromeneLozinke(Date poslednjiDatumPromeneLozinke) {
+//		this.poslednjiDatumPromeneLozinke = poslednjiDatumPromeneLozinke;
+//	}
 
 
 	@Override
