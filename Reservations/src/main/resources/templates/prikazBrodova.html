@@ -1073,18 +1073,20 @@ body {
   </div>
 </div>
 <br><br><br>
-<div class="column">
+
+
+<div class="column"  th:each="brod:${brodovi}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
     <div class="row">
       <div class="el-wrapper">
         <div class="box-up">
-          <img class="img1" src="/img/brod1.jpg" alt="">
+          <img class="img1" src="/img/brod1.jpg"  alt="">
           <div class="img-info">
-            <div class="info-inner">
+            <div class="info-inner" >
              
-              <span class="p-company">Speed boat,Dunav</span>
+             <span class="p-company"  th:text="${brod.tip}" >Speed boat,Dunav</span>
             </div>
            
           </div>
@@ -1096,45 +1098,9 @@ body {
           </div>
 
           <a class="cart" href="#">
-            <span class="price">$120</span>
+            <span class="price" th:text="${brod.cena}">$120</span>
             <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/brod2.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Recni brod,Tisa</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$100</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
+              <span class="txt">idi na profil</span>
             </span>
           </a>
         </div>
@@ -1146,149 +1112,12 @@ body {
 </div>
 
 
-<div class="row">
-<div class="column">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/brod3.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Gumeni camac,Sava</span>
-            </div>
-           
-          </div>
-        </div>
 
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
 
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
 
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/brod4.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Jezerski brod,Palicko jezero</span>
-            </div>
-           
-          </div>
-        </div>
 
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
 
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
 
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/brod5.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Brod za velike obalne plovidbe,Juzna Morava</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/brod6.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Jezerski brod,Srebrno jezero</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
 </body>
 
 </html>

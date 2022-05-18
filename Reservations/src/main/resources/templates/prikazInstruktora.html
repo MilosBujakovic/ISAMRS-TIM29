@@ -1072,7 +1072,7 @@ body {
   </div>
 </div>
 <br><br><br>
-<div class="column">
+<div class="column" th:each="inst:${usluga}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
@@ -1083,7 +1083,7 @@ body {
           <div class="img-info">
             <div class="info-inner">
              
-              <span class="p-company">Iznajmite opremu i pecajte sa Janom,Dunav</span>
+              <span class="p-company" th:text="${inst.naziv}">Iznajmite opremu i pecajte sa Janom,Dunav</span>
             </div>
            
           </div>
@@ -1095,7 +1095,7 @@ body {
           </div>
 
           <a class="cart" href="#">
-            <span class="price">$120</span>
+            <span class="price" th:text="${inst.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Add in cart</span>
             </span>
@@ -1108,186 +1108,6 @@ body {
 </div>
 </div>
 
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/pecanje2.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Pecajte sa Nikolom,Tisa</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$100</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-
-<div class="row">
-<div class="column">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/pecanje3.jpeg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Kurs pecanja za pocetnike sa Ivanom,Sava</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/pecanje4.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Majstor pecanje Borko,Palicko jezero</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/pecanje5.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Za 1 dan postajete pro sa Dusanom,Juzna Morava</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/pecanje6.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Napredan kurs za pecanje sa Stevanom,Srebrno jezero</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
 </body>
 
 </html>

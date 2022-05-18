@@ -1072,7 +1072,7 @@ body {
   </div>
 </div>
 <br><br><br>
-<div class="column">
+<div class="column" th:each="vik:${vikendice}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
@@ -1083,7 +1083,7 @@ body {
           <div class="img-info">
             <div class="info-inner">
              
-              <span class="p-company">Zlatibor</span>
+              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
             </div>
            
           </div>
@@ -1095,43 +1095,7 @@ body {
           </div>
 
           <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica2.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Vrdnik</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$100</span>
+            <span class="price"  th:text="${vik.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Add in cart</span>
             </span>
@@ -1145,149 +1109,5 @@ body {
 </div>
 
 
-<div class="row">
-<div class="column">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica3.jpeg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Fruska Gora</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica4.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Kosmaj</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica5.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Milanovac</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-
-<div class="column">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica6.jpg" alt="">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company">Irig</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" href="#">
-            <span class="price">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
-</body>
 
 </html>
