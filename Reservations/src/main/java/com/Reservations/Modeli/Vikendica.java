@@ -1,4 +1,4 @@
-package com.Reservations.Model;
+package com.Reservations.Modeli;
 
 import java.util.Set;
 
@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 @Entity
 @Table(name="Vikendica")
@@ -40,7 +41,8 @@ public class Vikendica {
 	@Column(name="cena")
 	private double cena;
 	
-	@Column(name="vlasnik")
+	@ManyToOne
+	@JoinColumn(name="vlasnik_id")
 	private Korisnik vlasnik;
 	
 	public Vikendica() {

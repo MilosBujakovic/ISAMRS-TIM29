@@ -1,4 +1,4 @@
-package com.Reservations.Model;
+package com.Reservations.Modeli;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ public class Uloga {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Column
+	@Column(name="ime")
 	private String ime;
 	
 	public Uloga() {

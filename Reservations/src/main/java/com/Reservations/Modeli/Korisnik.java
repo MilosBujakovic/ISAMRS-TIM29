@@ -1,4 +1,4 @@
-package com.Reservations.Model;
+package com.Reservations.Modeli;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ public  class Korisnik {
 	@Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ID;
-	@Column(name = "username")
+	@Column(name = "korisnickoIme")
 	private String korisnickoIme;
 	@Column(name = "ime")
 	private String ime;
@@ -44,7 +44,7 @@ public  class Korisnik {
 	
 	
 	public Korisnik(long iD, String korisnickoIme, String ime, String prezime, String email, String lozinka,
-			String adresa, String grad, String drzava, String brojTel) {
+			String adresa, String grad, String drzava, String brojTel, Uloga uloga) {
 		super();
 		ID = iD;
 		this.korisnickoIme = korisnickoIme;
@@ -56,6 +56,7 @@ public  class Korisnik {
 		this.grad = grad;
 		this.drzava = drzava;
 		this.brojTel = brojTel;
+		this.uloga = uloga;
 	}
 
 	public long getID() {
@@ -137,12 +138,24 @@ public  class Korisnik {
 	public void setBrojTel(String brojTel) {
 		this.brojTel = brojTel;
 	}
+	
+	
+
+	public Uloga getUloga() {
+		return uloga;
+	}
+
+
+	public void setUloga(Uloga uloga) {
+		this.uloga = uloga;
+	}
+
 
 	@Override
 	public String toString() {
 		return "Korisnik [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime=" + prezime
 				+ ", email=" + email + ", lozinka=" + lozinka + ", adresa=" + adresa + ", grad=" + grad + ", drzava="
-				+ drzava + ", brojTel=" + brojTel + "]";
+				+ drzava + ", brojTel=" + brojTel + ", uloga="+ uloga.toString() +"]";
 	}
 	
 	
