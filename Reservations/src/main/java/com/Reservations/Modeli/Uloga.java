@@ -39,6 +39,11 @@ public class Uloga {
 	public void setIme(String ime) {
 		this.ime = ime;
 	}
+
+	@Override
+	public String toString() {
+		return "Uloga [id=" + id + ", ime=" + ime + "]";
+	}
 	
 	
 	

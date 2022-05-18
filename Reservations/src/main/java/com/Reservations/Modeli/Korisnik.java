@@ -41,8 +41,8 @@ public  class Korisnik {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "uloga_id")
 	private Uloga uloga;
-	@Column(name = "poslednjiDatumPromeneLozinke")
-	private Date poslednjiDatumPromeneLozinke;
+//	@Column(name = "poslednjiDatumPromeneLozinke")
+//	private Date poslednjiDatumPromeneLozinke;
 	public Korisnik()
 	{}
 	
@@ -156,14 +156,14 @@ public  class Korisnik {
 
 	
 
-	public Date getPoslednjiDatumPromeneLozinke() {
-		return poslednjiDatumPromeneLozinke;
-	}
-
-
-	public void setPoslednjiDatumPromeneLozinke(Date poslednjiDatumPromeneLozinke) {
-		this.poslednjiDatumPromeneLozinke = poslednjiDatumPromeneLozinke;
-	}
+//	public Date getPoslednjiDatumPromeneLozinke() {
+//		return poslednjiDatumPromeneLozinke;
+//	}
+//
+//
+//	public void setPoslednjiDatumPromeneLozinke(Date poslednjiDatumPromeneLozinke) {
+//		this.poslednjiDatumPromeneLozinke = poslednjiDatumPromeneLozinke;
+//	}
 
 
 	@Override

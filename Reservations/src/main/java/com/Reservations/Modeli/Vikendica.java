@@ -32,11 +32,12 @@ public class Vikendica {
 	
 	@Column(name="opis")
 	private String opis;
+
+	@Column(name = "broj_soba")
+	private int brojSoba;
 	
-	@ElementCollection
-    @CollectionTable(name = "ListaSoba", joinColumns=@JoinColumn(name="soba_id"))
-    @Column(name = "brojKreveta")
-	public Set<Integer> listaSoba;
+    @Column(name = "broj_kreveta")
+	private int brojKreveta;
 	
 	@Column(name="cena")
 	private double cena;
@@ -49,13 +50,14 @@ public class Vikendica {
 
 	}
 	
-	public Vikendica(long iD, String naziv, String adresa, String opis, Set<Integer> listaSoba, Korisnik vlasnik) {
+	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
 		this.adresa = adresa;
 		this.opis = opis;
-		this.listaSoba = listaSoba;
+		this.brojSoba = brojSoba;
+		this.brojKreveta = brojKreveta;
 		this.vlasnik = vlasnik;
 	}
 
@@ -91,12 +93,21 @@ public class Vikendica {
 		this.opis = opis;
 	}
 
-	public Set<Integer> getListaSoba() {
-		return listaSoba;
+
+	public int getBrojSoba() {
+		return brojSoba;
 	}
 
-	public void setListaSoba(Set<Integer> listaSoba) {
-		this.listaSoba = listaSoba;
+	public void setBrojSoba(int brojSoba) {
+		this.brojSoba = brojSoba;
+	}
+
+	public int getBrojKreveta() {
+		return brojKreveta;
+	}
+
+	public void setBrojKreveta(int brojKreveta) {
+		this.brojKreveta = brojKreveta;
 	}
 
 	public double getCena() {
@@ -119,8 +130,8 @@ public class Vikendica {
 
 	@Override
 	public String toString() {
-		return "Vikendica [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", listaSoba="
-				+ listaSoba + ", cena=" + cena + ", vlasnikID=" + vlasnik + "]";
+		return "Vikendica [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", brojSoba="
+				+ brojSoba + ", brojKreveta=" + brojKreveta + ", cena=" + cena + ", vlasnik=" + vlasnik.toString() + "]";
 	}
 
 

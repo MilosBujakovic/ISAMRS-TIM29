@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.Dodaci.PrihodPDFGenerator;
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Prihod;
+import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -26,6 +28,9 @@ public class AdminKontroler {
 	@Autowired
 	PrihodServis prihodServis;
 	
+	@Autowired
+	KorisnikServis korisnikServis;
+	
 	@RequestMapping(value = "/admin")
 	  public String getAdminPage(){
 		System.out.println("Admin page was called!");
@@ -33,8 +38,11 @@ public class AdminKontroler {
 	  }
 	
 	@RequestMapping(value = "/admin/view-all", method = RequestMethod.GET)
-	  public String getEntitiesPage(){
+	  public String getEntitiesPage(Model model) {
 		System.out.println("All entities page was called!");
+		List<Korisnik> lista = korisnikServis.listAll();
+		model.addAttribute("korisnici", lista);
+		System.out.println(model.toString());
 	    return "adminList";
 	  }
 	

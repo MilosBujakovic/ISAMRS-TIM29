@@ -16,7 +16,7 @@
 		<ul class="utilities">
 			<li class="user"><a th:href="@{/admin/my-profile}">Moji
 					podaci</a></li>
-			<li class="logout warn"><a th:href="@{/}">Log out</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
 		</ul>
 	</header>
 
@@ -43,7 +43,7 @@
 				<div class="onethird">
 					<label for="select-choice">Izaberi :</label> <select
 						name="select-choice" id="select-choice">
-						<option value="Klijent">Klijenti</option>
+						<option value="Korisnici">Klijenti</option>
 						<option value="VikendicaVlasnik">Vlasnici vikendica</option>
 						<option value="Vikendica">Vikendice</option>
 						<option value="BrodVlasnik">Vlasnici brodova</option>
@@ -54,7 +54,32 @@
 				</div>
 			</form>
 			<table>
-				
+				<tr>
+					<th>Id</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Korisnicko ime</th>
+					<th>Lozinka</th>
+					<th>Email</th>
+					<th>Broj telefona</th>
+					<th>Adresa</th>
+					<th>Grad</th>
+					<th>Drzava</th>
+					<th>Uloga</th>
+				</tr>
+				<tr th:each = "korisnik : ${korisnici}">
+					<td th:text = "${korisnik.ID}">ID</td>
+					<td th:text = "${korisnik.ime}">Ime</td>
+					<td th:text = "${korisnik.prezime}">Prezime</td>
+					<td th:text = "${korisnik.korisnickoIme}">Korisnicko ime</td>
+					<td th:text = "${korisnik.lozinka}">Lozinka</td>
+					<td th:text = "${korisnik.email}">Email</td>
+					<td th:text = "${korisnik.brojTel}">Broj telefona</td>
+					<td th:text = "${korisnik.adresa}">Adresa</td>
+					<td th:text = "${korisnik.grad}">Grad</td>
+					<td th:text = "${korisnik.drzava}">Drzava</td>
+					<td th:text = "${korisnik.uloga.ime}">Uloga</td>
+				</tr>
 			</table>
 		</section>
 

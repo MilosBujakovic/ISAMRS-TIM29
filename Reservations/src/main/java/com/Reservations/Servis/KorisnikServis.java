@@ -1,5 +1,6 @@
 package com.Reservations.Servis;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,9 @@ public class KorisnikServis
 		return korisnikRepozitorijum.findByKorisnickoIme(username);
 	}
 	
-	
+	public List<Korisnik> listAll() {
+		return korisnikRepozitorijum.findAll();
+	}
 
 	public Korisnik findById(Long id) {
 		try {
