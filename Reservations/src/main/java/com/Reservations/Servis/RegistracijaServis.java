@@ -1,5 +1,6 @@
 package com.Reservations.Servis;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +45,13 @@ public class RegistracijaServis
 		r.setEmail(regRequest.getEmail());
 		
 		return this.registracijaRepozitorijum.save(r);// TODO Auto-generated method stub
+	}
+
+	public List<Registracija> listAll() {
+		return this.registracijaRepozitorijum.findAll();
+	}
+	
+	public void delete(long id) {
+		this.registracijaRepozitorijum.deleteById(id);
 	}
 }
