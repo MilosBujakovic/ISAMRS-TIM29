@@ -186,11 +186,11 @@ public class Brod {
 		this.pecaroskaOprema = pecaroskaOprema;
 	}
 
-	public Korisnik getVlasnikID() {
+	public Korisnik getVlasnik() {
 		return vlasnik;
 	}
 
-	public void setVlasnikID(Korisnik vlasnik) {
+	public void setVlasnik(Korisnik vlasnik) {
 		this.vlasnik = vlasnik;
 	}
 

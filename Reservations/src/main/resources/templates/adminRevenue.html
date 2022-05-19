@@ -22,8 +22,7 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
-					stanja sistema</a></li>
+			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz svih entiteta</a></li>
 			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
 					prihoda</a></li>
 			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
@@ -43,26 +42,21 @@
 					<th>Vrednost prihoda</th>
 					<th>Datum prihoda</th>
 				</tr>
-				<tr>
-					<td>17569</td>
-					<td>€150</td>
-					<td>Oct 10, 2015</td>
+				<tr th:each="prihod : ${prihodi}">
+					<td th:text="${prihod.rezervacija.ID}">17569</td>
+					<td th:text="${prihod.vrednost}">€150</td>
+					<td th:text="${prihod.datum}">Oct 10, 2015</td>
 
-				</tr>
-				<tr>
-					<td>17757</td>
-					<td>€210</td>
-					<td>Oct 7, 2015</td>
 				</tr>
 			</table>
 		</section>
 		<section class="panel">
 			<h2>Procenat prihoda od rezervacija</h2>
-			<form action="@{/admin/change-revenue-percent}">
+			<form th:action="@{/admin/revenue/change-percent}">
 				<div class="twothirds">
 					<label for="procenat">Promenite procenat prihoda:</label> <input
 						type="text" name="procenat" id="procenat"
-						placeholder="Novi procenat" /> <input type="submit"
+						placeholder="0.xx" /> <input type="submit"
 						value="Submit" />
 				</div>
 				<div class = "onethird">
@@ -71,10 +65,10 @@
 							<th>Trenutna vrednost</th>
 						</tr>
 						<tr>
-							<td>0.2</td>
+							<td th:text="${procenatDec}">0.2</td>
 						</tr>
 						<tr>
-							<td>20%</td>
+							<td th:text="${procenat}">20%</td>
 						</tr>
 					</table>
 				</div>

@@ -22,8 +22,7 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
-					stanja sistema</a></li>
+			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz svih entiteta</a></li>
 			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
 					prihoda</a></li>
 			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
@@ -40,39 +39,39 @@
 			<table class="twothirds">
 				<tr>
 					<td>Ime</td>
-					<td>Test</td>
+					<td th:text = "${admin.ime}">Ime</td>
 				</tr>
 				<tr>
 					<td>Prezime</td>
-					<td>Test</td>
+					<td th:text = "${admin.prezime}">Prezime</td>
 				</tr>
 				<tr>
 					<td>Korisnicko ime</td>
-					<td>Test</td>
+					<td th:text = "${admin.korisnickoIme}">Korisnicko ime</td>
 				</tr>
 				<tr>
 					<td>Email</td>
-					<td>Test</td>
+					<td th:text = "${admin.email}">Email</td>
 				</tr>
 				<tr>
 					<td>Lozinka</td>
-					<td>Test</td>
+					<td th:text = "${admin.lozinka}">Lozinka</td>
 				</tr>
 				<tr>
 					<td>Broj telefona</td>
-					<td>Test</td>
+					<td th:text = "${admin.brojTel}">Broj telefona</td>
 				</tr>
 				<tr>
 					<td>Adresa</td>
-					<td>Test</td>
+					<td th:text = "${admin.adresa}">Adresa</td>
 				</tr>
 				<tr>
 					<td>Grad</td>
-					<td>Test</td>
+					<td th:text = "${admin.grad}">Grad</td>
 				</tr>
 				<tr>
 					<td>Drzava</td>
-					<td>Test</td>
+					<td th:text = "${admin.drzava}">Drzava</td>
 				</tr>
 			</table>
 		</section>

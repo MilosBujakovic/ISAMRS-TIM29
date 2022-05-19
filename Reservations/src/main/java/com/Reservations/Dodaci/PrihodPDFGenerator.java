@@ -2,6 +2,8 @@ package com.Reservations.Dodaci;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +22,13 @@ import com.lowagie.text.pdf.PdfWriter;
 
 public class PrihodPDFGenerator {
 	private List<Prihod> lista;
-    public PrihodPDFGenerator(List<Prihod> lista) {
+	private Date pocDatum;
+	private Date krajDatum;
+	
+    public PrihodPDFGenerator(List<Prihod> lista, Date pocDatum, Date krajDatum) {
         this.lista = lista;
+        this.pocDatum = pocDatum;
+        this.krajDatum = krajDatum;
     }
  
     private void writeTableHeader(PdfPTable table) {
@@ -51,11 +58,15 @@ public class PrihodPDFGenerator {
      
     private void writeTableData(PdfPTable table) {
         for (Prihod p : lista) {
-            table.addCell(String.valueOf(p.getID()));
-            table.addCell(String.valueOf(p.getVrednost()));
-            table.addCell(String.valueOf(p.getRezervacija().getID()));
-            table.addCell(p.getDatum().toString());
-            table.addCell(String.valueOf(p.getProcenat()));
+        	 Calendar c = Calendar.getInstance();
+             c.setTime(pocDatum); 
+        	while(!c.getTime().after(krajDatum))
+        	{
+        		table.addCell(String.valueOf(p.getID()));
+                table.addCell(String.valueOf(p.getVrednost()));
+                table.addCell(String.valueOf(p.getRezervacija().getID()));
+                table.addCell(p.getDatum().toString());
+        	}
         }
     }
      
