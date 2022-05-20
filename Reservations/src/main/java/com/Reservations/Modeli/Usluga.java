@@ -47,12 +47,15 @@ public class Usluga {
 	@JoinColumn(name="instruktor_id")
 	private Korisnik instruktor;
 	
+	@Column(name="linkSlike")
+	private String linkSlike;
+	
 	public Usluga() {
 		
 	}
 	
 	public Usluga(long iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
-			String pecaroskaOprema, double cena, Korisnik instruktor) {
+			String pecaroskaOprema, double cena, Korisnik instruktor,String linkSlike) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
@@ -63,6 +66,7 @@ public class Usluga {
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.cena = cena;
 		this.instruktor = instruktor;
+		this.linkSlike=linkSlike;
 	}
 
 	public long getID() {
@@ -136,6 +140,15 @@ public class Usluga {
 
 	public void setInstruktorID(Korisnik instruktor) {
 		this.instruktor = instruktor;
+	}
+
+	
+	public String getLinkSlike() {
+		return linkSlike;
+	}
+
+	public void setLinkSlike(String linkSlike) {
+		this.linkSlike = linkSlike;
 	}
 
 	@Override

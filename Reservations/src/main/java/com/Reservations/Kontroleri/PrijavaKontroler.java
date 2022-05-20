@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Uloga;
 import com.Reservations.Servis.KorisnikServis;
 
 
@@ -32,17 +33,24 @@ public class PrijavaKontroler
 	  public String login(@RequestParam("username") String username, @RequestParam("password") String password){
 		System.out.println("Login is in progress!");
 		Korisnik existUser = userService.findByUsername(username);
+		Uloga u=new Uloga();
 		if (existUser == null) {
 			System.out.println("Login failure!");
 			return "loginFailure";
 		}
 		else
 		{
-			if (password.equals(existUser.getLozinka()))
+			if (password.equals(existUser.getLozinka()) )
 			{
+				if(existUser.getUloga().getIme().equals("Klijent")) {
 				System.out.println("Login successful!");
+				return "profilKorisnika";
+			}else if(existUser.getUloga().getIme().equals("Admin")) {
+				return "adminProfile";
+			}else {
 				return "loginSuccess";
 			}
+				}
 			else
 			{
 				System.out.println("Login failure!");
