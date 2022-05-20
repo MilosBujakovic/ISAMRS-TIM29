@@ -45,26 +45,12 @@ public class KorisnikServis
 	public Korisnik save(RegistracijaKorisnikaDTO userRequest) {
 		Korisnik u = new Korisnik();
 
-		long id = 0;
-		for (long i = 1; i < Long.MAX_VALUE; i++)
-		{
-			Korisnik check = this.findById(i);
-			if (check != null)
-			{
-				continue;
-			}
-			else
-			{
-				id = i;
-				break;
-			}
-		}
+		
 		u.setKorisnickoIme(userRequest.getUsername());
 		
 		u.setLozinka(userRequest.getPassword());
 
 		
-		u.setID(id);
 		u.setIme(userRequest.getFirstName());
 		u.setPrezime(userRequest.getLastName());
 		u.setAdresa(userRequest.getAddress());
@@ -84,29 +70,10 @@ public class KorisnikServis
 	public Korisnik save(Registracija reg) {
 		Korisnik u = new Korisnik();
 
-		long id = 0;
-		for (long i = 1; i < Long.MAX_VALUE; i++)
-		{
-			System.out.println("i = " + String.valueOf(i));
-			Korisnik check = this.findById(i);
-			if (check != null)
-			{
-				System.out.println(check.toString());
-				continue;
-			}
-			else
-			{
-				id = i;
-				break;
-			}
-		}
-		System.out.println("id = " + String.valueOf(id));
 		u.setKorisnickoIme(reg.getKorisnickoIme());
 		
 		u.setLozinka(reg.getLozinka());
 
-		
-		u.setID(id);
 		u.setIme(reg.getIme());
 		u.setPrezime(reg.getPrezime());
 		u.setAdresa(reg.getAdresa());

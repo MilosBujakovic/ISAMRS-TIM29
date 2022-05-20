@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.DTO.GVarijablaDTO;
-import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.Dodaci.PrihodPDFGenerator;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.GlobalnaVarijabla;
@@ -98,7 +97,12 @@ public class AdminKontroler {
 		}
 		else if (radio.equals("accept")) {
 			this.sendEmailToUser(true, textarea, reg.getEmail());
-			korisnikServis.save(reg);
+			try {
+				korisnikServis.save(reg);
+			}
+			catch (Exception e) {
+				System.out.println(e.getStackTrace().toString());
+			}
 			regServis.delete(id);
 		}
 		else {
@@ -140,7 +144,7 @@ public class AdminKontroler {
 	@RequestMapping(value = "/admin/my-profile")
 	public String getDataPage(Model model) {
 		System.out.println("My profile page was called!");
-		Korisnik admin = korisnikServis.findById(0L);
+		Korisnik admin = korisnikServis.findById(6L);
 		model.addAttribute("admin", admin);
 		return "adminMyData";
 	}
