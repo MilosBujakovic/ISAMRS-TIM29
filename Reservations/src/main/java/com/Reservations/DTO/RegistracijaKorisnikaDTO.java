@@ -24,8 +24,8 @@ public class RegistracijaKorisnikaDTO {
 	}
 	
 
-	public RegistracijaKorisnikaDTO(String username, String password, String firstName, String lastName, String email,
-			String address, String phone, String city, String country) {
+	public RegistracijaKorisnikaDTO(String firstName, String lastName,String username, String password,  String email,
+			 String phone,String address, String city, String country) {
 		super();
 		this.username = username;
 		this.password = password;
