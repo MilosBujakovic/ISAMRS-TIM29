@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
+import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
 
@@ -43,26 +45,12 @@ public class KorisnikServis
 	public Korisnik save(RegistracijaKorisnikaDTO userRequest) {
 		Korisnik u = new Korisnik();
 
-		long id = 0;
-		for (long i = 1; i < Long.MAX_VALUE; i++)
-		{
-			Korisnik check = this.findById(i);
-			if (check != null)
-			{
-				continue;
-			}
-			else
-			{
-				id = i;
-				break;
-			}
-		}
+		
 		u.setKorisnickoIme(userRequest.getUsername());
 		
 		u.setLozinka(userRequest.getPassword());
 
 		
-		u.setID(id);
 		u.setIme(userRequest.getFirstName());
 		u.setPrezime(userRequest.getLastName());
 		u.setAdresa(userRequest.getAddress());
@@ -73,11 +61,45 @@ public class KorisnikServis
 		u.setEmail(userRequest.getEmail());
 
 		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
-		Uloga role = ulogaServis.findByName("ROLE_CLIENT");
+		Uloga role = ulogaServis.findByName("Klijent");
 		u.setUloga(role);
 		
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
+	
+	public Korisnik save(Registracija reg) {
+		Korisnik u = new Korisnik();
+
+		u.setKorisnickoIme(reg.getKorisnickoIme());
+		
+		u.setLozinka(reg.getLozinka());
+
+		u.setIme(reg.getIme());
+		u.setPrezime(reg.getPrezime());
+		u.setAdresa(reg.getAdresa());
+		u.setGrad(reg.getGrad());
+		u.setDrzava(reg.getDrzava());
+		u.setBrojTel(reg.getBrojTel());
+		//u.setEnabled(true);
+		u.setEmail(reg.getEmail());
+
+		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
+		Uloga role = new Uloga();
+		if(reg.getTipRegistracije().equals(TipRegistracije.VikendicaVlasnik)) {
+			role = ulogaServis.findByName("VikendicaVlasnik");
+		}
+		else if(reg.getTipRegistracije().equals(TipRegistracije.BrodVlasnik)) {
+			role = ulogaServis.findByName("BrodVlasnik");
+		}
+		else if(reg.getTipRegistracije().equals(TipRegistracije.InstruktorPecanja)) {
+			role = ulogaServis.findByName("Instruktor");
+		}
+			
+		u.setUloga(role);
+		
+		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
+	}
+
 
 
 

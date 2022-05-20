@@ -132,8 +132,8 @@ nav[role=navigation] .admin a:before {
 }
 
 /* current nav item */
-.current, .dashboard .dashboard a, .write .write a, .edit .edit a,
-	.comments .comments a, .users .users a {
+.current, .home .home a, .euro .euro a, .reports .reports a,
+	.preview .preview a, .admin .admin a {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -361,7 +361,7 @@ tr:not(:first-child):hover {
 }
 
 td {
-	line-height: 40px;
+	line-height: 30px;
 	font-weight: 300;
 	padding: 0 10px;
 }

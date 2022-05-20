@@ -22,34 +22,30 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Pregled
-					stanja sistema</a></li>
+			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz svih entiteta</a></li>
 			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
 					prihoda</a></li>
 			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
 					izvestaja</a></li>
-			<li class="admin"><a th:href="@{/admin/add-admin}">Dodaj
-					administratora</a></li>
 			<li class="home"><a th:href="@{/admin}">Nazad na profil</a></li>
 		</ul>
 	</nav>
 
 	<main role="main">
 		<section class="panel important">
-			<h2>Write a post</h2>
-			<form action="#">
+			<form th:action="@{/admin/reports/print}">
 				<div class="onethird">
-					<input type="text" name="firstName" id="firstName" placeholder="Ime">
-	          		<input type="text" name="lastName" id="lastName" placeholder="Prezime">
-		            <input type="text" name="username" id="username" placeholder="Korisničko ime">
-		          	<input type="email" name="email" id="email" placeholder="Email" >
-		          	<input type="text" name="phone" id="phone" placeholder="Broj telefona">
-		          	<input type="text" name="address" id="address" placeholder="Adresa">
-		            <input type="text" name="city" id="city" placeholder="Grad">
-		            <input type="text" name="country" id="country" placeholder="Država">
-					<div>
-						<input type="submit" value="Submit" />
-					</div>
+					<label for="name">Pocetni datum:</label> <input type="text"
+						name="pocDatum" id="pocDatum" placeholder="dd/MM/yyyy" />
+				</div>
+
+				<div class="onethird">
+					<label for="name">Krajnji datum:</label> <input type="text"
+						name="krajDatum" id="krajDatum" placeholder="dd/MM/yyyy" />
+				</div>
+
+				<div class="onethird">
+					<input type="submit" value="Submit" />
 				</div>
 			</form>
 		</section>

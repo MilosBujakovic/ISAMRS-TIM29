@@ -28,41 +28,58 @@
 					prihoda</a></li>
 			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
 					izvestaja</a></li>
+			<li class="home"><a th:href="@{/admin}">Nazad na profil</a></li>
 		</ul>
 	</nav>
 
 	<main role="main">
 		<section class="panel important">
-			<h2>Dobrodošli na komandnu tablu</h2>
-			<p class="feedback success">Uvek proverite da li ima zahteva za
-				registraciju!</p>
-			<p class="feedback">Dodavanje novih administratora je direktno u bazi!</p>
-
-		</section>
-		<section class="panel important">
-			<h2>Zahtevi za registraciju</h2>
 			<table>
 				<tr>
 					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
+					<th>Email</th>
 					<th>Korisnicko ime</th>
+					<th>Broj telefona</th>
+					<th>Adresa</th>
+					<th>Grad</th>
+					<th>Drzava</th>
 					<th>Tip registracije</th>
 					<th>Razlog registracije</th>
-					<th>Pregled</th>
 				</tr>
-				<tr th:each="zahtev : ${zahtevi}">
+				<tr>
 					<td th:text="${zahtev.ID}">ID</td>
 					<td th:text="${zahtev.ime}">Ime</td>
 					<td th:text="${zahtev.prezime}">Prezime</td>
+					<td th:text="${zahtev.email}">Email</td>
 					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
+					<td th:text="${zahtev.brojTel}">Broj telefona</td>
+					<td th:text="${zahtev.adresa}">Adresa</td>
+					<td th:text="${zahtev.grad}">Grad</td>
+					<td th:text="${zahtev.drzava}">Drzava</td>
 					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
 					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
-					<td><a th:href="@{/admin/request/} + ${zahtev.ID}">►</a></td>
 				</tr>
 			</table>
 		</section>
-
+		<section class="panel important">
+		<form th:action="@{/admin/request/} + ${zahtev.ID} + @{/submit}">
+			<div class="onethird">
+				<label for="y"> <input type="radio"
+					name="radio" id="y" value="accept" /> Prihvati zahtev
+				</label> <label for="n"> <input type="radio"
+					name="radio" id="n" value="deny" /> Odbij zahtev
+				</label>
+				<input type="submit"
+						value="Submit" />
+			</div>
+			<div class="twothirds">
+				<label for="textarea">Razlog za odbijanje:</label>
+        		<textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
+			</div>
+			</form>
+		</section>
 	</main>
 </body>
 </html>
