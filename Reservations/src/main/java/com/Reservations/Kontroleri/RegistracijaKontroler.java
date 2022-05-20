@@ -22,7 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.HttpMediaTypeException;
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.Exception.ResourceConflictException;
@@ -54,17 +54,7 @@ public class RegistracijaKontroler {
 
 	@RequestMapping(value = "/request-sent", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String registerOwner(@RequestBody RegistracijaVlasnikaInstruktoraDTO regRequest) {
-		long id = 0;
-		for (long i = 1; i < Long.MAX_VALUE; i++) {
-			Registracija check = this.regServis.findById(i);
-			if (check != null) {
-				continue;
-			} else {
-				id = i;
-				break;
-			}
-		}
-		regRequest.setId(id);
+		
 		System.out.println("Owner registration request sent!");
 		Korisnik existKorisnik = this.korisnikServis.findByUsername(regRequest.getUsername());
 		if (existKorisnik != null) {
@@ -80,26 +70,26 @@ public class RegistracijaKontroler {
 		return "registerRequest";
 	}
 
-	@RequestMapping(value = "/verify", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String registerClient(@RequestBody @Valid RegistracijaKorisnikaDTO userRequest) {
+	@RequestMapping(value = "/verify", consumes = MediaType.ALL_VALUE)
+	public String registerClient( RegistracijaKorisnikaDTO userRequest) {
 
 		System.out.println(userRequest.toString());
 		System.out.println("Client registration in progress!");
-//		Korisnik existUser = korisnikServis.findByUsername(userRequest.getUsername());
-//		if (existUser != null) {
-//			throw new ResourceConflictException(existUser.getID(), "Username already exists");
-//		}
-//
-//		try 
-//		{
-//			this.korisnikServis.save(userRequest);
-//		}
-//		catch (Exception e)
-//		{
-//			System.out.println("Registration failure!");
-//			return "registerFailure";
-//		}
-//		System.out.println("Registration successful!");
+		Korisnik existUser = korisnikServis.findByUsername(userRequest.getUsername());
+		if (existUser != null) {
+			throw new ResourceConflictException(existUser.getID(), "Username already exists");
+		}
+
+		try 
+		{
+			this.korisnikServis.save(userRequest);
+		}
+		catch (Exception e)
+		{
+			System.out.println("Registration failure!");
+			return "registerFailure";
+		}
+		System.out.println("Registration successful!");
 
 		return "registerSuccess";
 	}

@@ -19,7 +19,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       <h4>Molimo vas unesite vaše podatke ispod</h4>
     </header>
     <main>
-      <form id="registration_form" th:action="@{/verify}">
+      <form id="registration_form" th:action="@{/verify}" method="post">
         <div class="form-item-double box-item">
 	        <div class="form-item ">
 	          <input type="text" name="firstName" id="firstName" placeholder="Ime" data-required>
@@ -75,36 +75,6 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
   </section>
 </div>
  <script  src="/js/register.js"></script>
- <script>
- $(document).ready(function(){
-	    $("#registration_form").on('submit', function(e) {
-	        e.preventDefault();
-	       
-	            var user = {};
-	            user.firstName = document.getElementById("firstName").value;
-	            user.lastName = document.getElementById("lastName").value;
-	            user.email = document.getElementById("email").value;
-	            user.address = document.getElementById("address").value;
-	            user.phone = document.getElementById("phone").value;
-	            user.password = document.getElementById("password").value;
-	            user.username = document.getElementById("username").value;
-	            user.city = document.getElementById("city").value;
-	            user.country = document.getElementById("country").value;
 
-	            console.log(user);
-	            $.ajax({
-	                url: "http://localhost:8080/verify",
-	                dataType: "json",
-	                contentType: "application/json",
-	                data: JSON.stringify(user),
-	                success: function(result) {
-	                                    
-	                }, error: function(error) {
-	                    console.log(error);
-	                }
-	            });
-	            return true;      
-	    });
-	});</script>
 </body>
 </html>
