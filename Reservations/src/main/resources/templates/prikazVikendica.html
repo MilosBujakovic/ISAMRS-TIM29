@@ -1071,15 +1071,22 @@ body {
     </div>
   </div>
 </div>
+
+<br><br><br><br><br>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<form align="center">
+  <input type="text" id="search" placeholder="Unesite naziv mesta" />
+  <button id="go"  th:onclick="myFunction()" > Search</button>
+</form>
 <br><br><br>
 <div class="column" th:each="vik:${vikendice}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
     <div class="row">
-      <div class="el-wrapper">
-        <div class="box-up">
-          <img class="img1" src="/img/vikendica1.jpg" alt="">
+      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
+        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
+          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}">
           <div class="img-info">
             <div class="info-inner">
              
@@ -1108,6 +1115,23 @@ body {
 </div>
 </div>
 
-
+<script th:inline="javascript">
+ function myFunction() {
+	  $('form').submit(function(e) {
+	  e.preventDefault(); 
+	  $('div img').hide();
+	  $('div img[alt*="' + $('#search').val() + '"]').show();
+	  $('div img[alt*="logo"]').show();
+	  
+	});
+	 $('form').submit(function(e) {
+	  e.preventDefault(); 
+	  $('.el-wrapper').hide();
+	  $('.el-wrapper[alt*="' + $('#search').val().toLowerCase() + '"]').show();
+	  
+	});
+	}
+    </script>
+</body>
 
 </html>

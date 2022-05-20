@@ -46,11 +46,14 @@ public class Vikendica {
 	@JoinColumn(name="vlasnik_id")
 	private Korisnik vlasnik;
 	
+	@Column(name="linkSlike")
+	private String linkSlike;
+	
 	public Vikendica() {
 
 	}
 	
-	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik) {
+	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik,String linkSlike) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
@@ -59,6 +62,7 @@ public class Vikendica {
 		this.brojSoba = brojSoba;
 		this.brojKreveta = brojKreveta;
 		this.vlasnik = vlasnik;
+		this.linkSlike=linkSlike;
 	}
 
 	public long getID() {
@@ -126,6 +130,15 @@ public class Vikendica {
 
 	public void setVlasnik(Korisnik vlasnik) {
 		this.vlasnik = vlasnik;
+	}
+	
+
+	public String getLinkSlike() {
+		return linkSlike;
+	}
+
+	public void setLinkSlike(String linkSlike) {
+		this.linkSlike = linkSlike;
 	}
 
 	@Override

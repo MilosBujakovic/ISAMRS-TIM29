@@ -58,13 +58,16 @@ public class Brod {
 	@JoinColumn(name="vlasnik_id")
 	private Korisnik vlasnik;
 	
+	
+	@Column(name="linkSlike")
+	private String linkSlike;
 	public Brod() {
 		
 	}
 
 	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
 			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
-			String opis, Korisnik vlasnik) {
+			String opis, Korisnik vlasnik,String linkSlike) {
 		super();
 		ID = iD;
 		this.cena = cena;
@@ -80,6 +83,7 @@ public class Brod {
 		this.duzina = duzina;
 		this.opis = opis;
 		this.vlasnik = vlasnik;
+		this.linkSlike=linkSlike;
 	}
 
 	public long getID() {
@@ -192,6 +196,15 @@ public class Brod {
 
 	public void setVlasnik(Korisnik vlasnik) {
 		this.vlasnik = vlasnik;
+	}
+	
+
+	public String getLinkSlike() {
+		return linkSlike;
+	}
+
+	public void setLinkSlike(String linkSlike) {
+		this.linkSlike = linkSlike;
 	}
 
 	@Override
