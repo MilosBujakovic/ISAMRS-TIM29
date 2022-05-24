@@ -1,7 +1,11 @@
 package com.Reservations.Modeli;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,13 +13,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name="Korisnik")
 
-public  class Korisnik {
+public  class Korisnik implements UserDetails {
 	@Id
 	@Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +50,14 @@ public  class Korisnik {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "uloga_id")
 	private Uloga uloga;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name ="user_authority", joinColumns= @JoinColumn(name ="user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "authority_id", referencedColumnName = "id"))
+	private List<Uloga> uloge;
 //	@Column(name = "poslednjiDatumPromeneLozinke")
 //	private Date poslednjiDatumPromeneLozinke;
+	@Column
+	private boolean enabled;//TODO:progledati poslije
+	
 	public Korisnik()
 	{}
 	
@@ -61,6 +76,7 @@ public  class Korisnik {
 		this.drzava = drzava;
 		this.brojTel = brojTel;
 		this.uloga = uloga;
+		this.uloge.add(uloga);
 	}
 
 	public long getID() {
@@ -153,6 +169,8 @@ public  class Korisnik {
 	public void setUloga(Uloga uloga) {
 		this.uloga = uloga;
 	}
+	
+	
 
 	
 
@@ -166,11 +184,79 @@ public  class Korisnik {
 //	}
 
 
+	public List<Uloga> getUloge() {
+		return uloge;
+	}
+
+
+	public void setUloge(List<Uloga> uloge) {
+		this.uloge = uloge;
+	}
+
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Korisnik [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime=" + prezime
 				+ ", email=" + email + ", lozinka=" + lozinka + ", adresa=" + adresa + ", grad=" + grad + ", drzava="
 				+ drzava + ", brojTel=" + brojTel + ", uloga="+ uloga.toString() +"]";
+	}
+
+
+	public Date getPoslednjiDatumPromeneLozinke() {
+		return null;
+	}
+
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() 
+	{
+		List<Uloga> uloga = new ArrayList<Uloga>();
+		uloga.add(this.uloga);
+		return uloga;
+	}
+	
+	
+
+
+	@Override
+	public String getPassword() {
+		return this.lozinka;
+	}
+
+
+	@Override
+	public String getUsername() {
+		return this.korisnickoIme;
+	}
+
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return enabled;
 	}
 	
 	

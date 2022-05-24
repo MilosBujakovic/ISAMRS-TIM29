@@ -30,7 +30,8 @@ public class PrijavaKontroler
 	  }
 	
 	@RequestMapping(value = "/login-process")
-	  public String login(@RequestParam("username") String username, @RequestParam("password") String password){
+	  public String login(@RequestParam("username") String username, @RequestParam("password") String password)
+	{
 		System.out.println("Login is in progress!");
 		Korisnik existUser = userService.findByUsername(username);
 		Uloga u=new Uloga();
@@ -42,15 +43,21 @@ public class PrijavaKontroler
 		{
 			if (password.equals(existUser.getLozinka()) )
 			{
-				if(existUser.getUloga().getIme().equals("Klijent")) {
-				System.out.println("Login successful!");
-				return "profilKorisnika";
-			}else if(existUser.getUloga().getIme().equals("Admin")) {
-				return "adminProfile";
-			}else {
-				return "loginSuccess";
-			}
+				if(existUser.getUloga().getIme().equals("Klijent")) 
+				{
+					System.out.println("Login successful!");
+					return "profilKorisnika";
 				}
+				else if(existUser.getUloga().getIme().equals("Admin")) 
+				{
+					return "adminProfile";
+				}
+				else if(existUser.getUloga().getIme().equals("VikendicaVlasnik"))
+				{
+					return "vlasnikVikendicePocetna";
+				}
+				else {return "loginSuccess";}
+			}
 			else
 			{
 				System.out.println("Login failure!");
