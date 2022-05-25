@@ -139,7 +139,7 @@ public class VlasnikVikendiceKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
-
+/*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 
 	{

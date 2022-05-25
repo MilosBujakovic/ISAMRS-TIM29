@@ -94,7 +94,10 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 HttpMethod.GET,
                 "/",
+                "/*",
+                "/*/*",
                 "/login*",
+                "/admin/reports",
                 "/*/*Pregled*",
                 "/webjars/**",
                 "/*.html",
