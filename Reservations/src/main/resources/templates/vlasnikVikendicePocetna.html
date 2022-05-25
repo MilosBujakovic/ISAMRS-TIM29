@@ -1,0 +1,68 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Administrator</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/adminProfile.css}"
+	href="/css/adminProfile.css">
+<body>
+	<header role="banner">
+		<h1>Profil Vlasnika vikendice</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/vikendicaVlasnik/my-profile}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
+		</ul>
+	</header>
+
+	<nav role="navigation">
+		<ul class="main">
+			<li class="preview"><a th:href="@{/vikendicaVlasnik/prikaziVikendice}">Moje vikendice
+					</a></li>
+			<li class="euro"><a th:href="@{/vikendicaVlasnik/pisanjeZalbe}">Pisanje žalbi na klijente
+					</a></li>
+			<li class="reports"><a th:href="@{/vikendicaVlasnik/izvjestaji}">Prikaz
+					izvestaja</a></li>
+		</ul>
+	</nav>
+
+	<main role="main">
+		<section class="panel important">
+			<h2>Dobrodošli na komandnu tablu</h2>
+			<p class="feedback success">Uvek proverite da li ima zahteva za
+				registraciju!</p>
+			<p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p>
+
+		</section>
+		<section class="panel important">
+			<h2>Zahtevi za registraciju</h2>
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Korisnicko ime</th>
+					<th>Tip registracije</th>
+					<th>Razlog registracije</th>
+					<th>Pregled</th>
+				</tr>
+				<tr th:each="zahtev : ${zahtevi}">
+					<td th:text="${zahtev.ID}">ID</td>
+					<td th:text="${zahtev.ime}">Ime</td>
+					<td th:text="${zahtev.prezime}">Prezime</td>
+					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
+					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
+					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
+					<td><a th:href="@{/admin/request/} + ${zahtev.ID}">►</a></td>
+				</tr>
+			</table>
+		</section>
+
+	</main>
+</body>
+</html>

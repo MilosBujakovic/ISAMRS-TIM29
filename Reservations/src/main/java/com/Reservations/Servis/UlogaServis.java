@@ -21,7 +21,7 @@ public class UlogaServis
 	    return auth;
 	  }
 
-	  
+	  		
 	  public Uloga findByName(String name) {
 		  Uloga uloga = this.ulogaRepozitorijum.findByIme(name);
 	    return uloga;

@@ -7,6 +7,7 @@ import com.Reservations.Modeli.Uloga;
 public interface UlogaRepozitorijum extends JpaRepository<Uloga, Long>
 {
 	Uloga findByIme(String name);
+	//Uloga findById(Long id);
 }
 
 

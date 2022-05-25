@@ -7,9 +7,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="Uloga")
-public class Uloga {
+public class Uloga  implements GrantedAuthority{
 	@Id
 	@Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,12 +31,14 @@ public class Uloga {
 		this.id = id;
 		this.ime = ime;
 	}
+	@JsonIgnore
 	public long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
+	@JsonIgnore
 	public String getIme() {
 		return ime;
 	}
@@ -43,6 +49,11 @@ public class Uloga {
 	@Override
 	public String toString() {
 		return "Uloga [id=" + id + ", ime=" + ime + "]";
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.ime;
 	}
 	
 	
