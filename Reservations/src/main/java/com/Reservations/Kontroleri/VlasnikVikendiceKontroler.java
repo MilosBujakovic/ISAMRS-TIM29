@@ -104,7 +104,7 @@ public class VlasnikVikendiceKontroler {
 */
 	@RequestMapping(value = "/vikendicaVlasnik/prikaziVikendice", method = RequestMethod.GET)
 	public String getEntitiesPage(Model model) {
-		System.out.println("All entities page was called!");
+		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
 		List<Vikendica> vikendice = vikendicaServis.listAll();
 		Korisnik vlasnik=null;
@@ -127,7 +127,7 @@ public class VlasnikVikendiceKontroler {
 		
 
 		System.out.println(model.toString());
-		return "prikazVikendica";
+		return "vikendicePregled";
 	}
 
 	@RequestMapping(value = "/vikendicaVlasnik/my-profile")

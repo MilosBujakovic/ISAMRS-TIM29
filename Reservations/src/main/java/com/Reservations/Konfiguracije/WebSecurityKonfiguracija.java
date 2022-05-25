@@ -95,7 +95,7 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
                 HttpMethod.GET,
                 "/",
                 "/login*",
-                "/*/prikaz*",
+                "/*/*Pregled*",
                 "/webjars/**",
                 "/*.html",
                 "/favicon.ico",
