@@ -103,7 +103,8 @@ public class VlasnikVikendiceKontroler {
 	}
 */
 	@RequestMapping(value = "/vikendicaVlasnik/prikaziVikendice", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model) {
+	public String getEntitiesPage(Model model) 
+	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
 		List<Vikendica> vikendice = vikendicaServis.listAll();
@@ -131,21 +132,24 @@ public class VlasnikVikendiceKontroler {
 	}
 
 	@RequestMapping(value = "/vikendicaVlasnik/my-profile")
-	public String getDataPage(Model model) {
+	public String getDataPage(Model model) 
+	{
 		System.out.println("My profile page was called!");
 		Korisnik vlasnikVikendice = korisnikServis.findById(6L);//TODO:dodati ID iz tokena
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
-/*
+
 	@RequestMapping(value = "/admin/reports")
-	public String getReportsDates() {
+	public String getReportsDates() 
+	{
 		System.out.println("Report page was called!");
 		return "adminReports";
 	}
 
 	@GetMapping("/admin/reports/print")
-    public void exportToPDF(HttpServletResponse response, @RequestParam String pocDatum, @RequestParam String krajDatum) throws DocumentException, IOException, ParseException {
+    public void exportToPDF(HttpServletResponse response, @RequestParam String pocDatum, @RequestParam String krajDatum) throws DocumentException, IOException, ParseException 
+	{
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -162,7 +166,7 @@ public class VlasnikVikendiceKontroler {
         pdf.export(response);
          
     }
-
+/*
 	private void sendEmailToUser(Boolean prihvacen, String razlog, String mail) throws AddressException, MessagingException, IOException {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
