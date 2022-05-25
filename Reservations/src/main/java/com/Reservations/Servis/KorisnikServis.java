@@ -99,6 +99,10 @@ public class KorisnikServis
 		
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
+	
+	public Korisnik Update(RegistracijaKorisnikaDTO userRequest) {
+		Korisnik k=this.korisnikRepozitorijum.findByKorisnickoIme(userRequest.getUsername());
+	}
 
 
 

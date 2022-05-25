@@ -144,7 +144,7 @@ public class AdminKontroler {
 	@RequestMapping(value = "/admin/my-profile")
 	public String getDataPage(Model model) {
 		System.out.println("My profile page was called!");
-		Korisnik admin = korisnikServis.findById(6L);
+		Korisnik admin = korisnikServis.findById(0L);
 		model.addAttribute("admin", admin);
 		return "adminMyData";
 	}
