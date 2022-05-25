@@ -12,9 +12,9 @@
 	href="/css/adminProfile.css">
 <body>
 	<header role="banner">
-		<h1>Profil administratora</h1>
+		<h1>Profil Vlasnika vikendice</h1>
 		<ul class="utilities">
-			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+			<li class="user"><a th:href="@{/vikendicaVlasnik/my-profile}">Moji
 					podaci</a></li>
 			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
 		</ul>
@@ -22,12 +22,12 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz svih entiteta</a></li>
-			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
-					prihoda</a></li>
-			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+			<li class="preview"><a th:href="@{/vikendicaVlasnik/prikaziVikendice}">Moje vikendice
+					</a></li>
+			<li class="euro"><a th:href="@{/vikendicaVlasnik/pisanjeZalbe}">Pisanje žalbi na klijente
+					</a></li>
+			<li class="reports"><a th:href="@{/vikendicaVlasnik/izvjestaji}">Prikaz
 					izvestaja</a></li>
-			<li class="home"><a th:href="@{/admin}">Nazad na profil</a></li>
 		</ul>
 	</nav>
 
