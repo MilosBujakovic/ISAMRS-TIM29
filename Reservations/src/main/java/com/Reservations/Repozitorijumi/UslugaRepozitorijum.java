@@ -1,5 +1,7 @@
 package com.Reservations.Repozitorijumi;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.Reservations.Modeli.Usluga;
