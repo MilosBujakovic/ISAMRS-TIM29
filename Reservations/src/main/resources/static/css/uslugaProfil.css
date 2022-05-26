@@ -585,6 +585,7 @@ h1 {
 h2 {
   font-size: 2.125rem;
   margin: 0;
+  text-align:left;
 }
 
 h3 {
@@ -602,6 +603,8 @@ img {
   height: auto;
   -o-object-fit: cover;
      object-fit: cover;
+     
+    border-radius: 5%;
 }
 
 

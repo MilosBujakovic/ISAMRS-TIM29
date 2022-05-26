@@ -33,7 +33,7 @@
 		<h2>Moje usluge</h2>
 		<ul th:each="usluga : ${usluge}">
 			<li>
-				<img th:src="${usluga.linkSlike}" class="slika">
+				<a th:href="@{/usluga/} + ${usluga.ID}"><img th:src="${usluga.linkSlike}" class="slika"></a>
 				<div class="txt">
 					<h2 th:text="${usluga.naziv}">Naslov</h2>
 					<p th:text="${usluga.opis}">Opis usluge</p>

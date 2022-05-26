@@ -104,7 +104,7 @@
             }
         }
 		img {
-  border-radius: 5%;
+  border-radius: 50%;
   border: 5px solid #ffff;
 }
 
@@ -612,7 +612,8 @@ h2 {
 .panel .slika {
 	flex-grow: 2;
 	width: 150px;
-	height: 85px;
+	height: 113px;
+	border-radius: 0;
 }
 
 
