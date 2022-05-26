@@ -1100,7 +1100,7 @@ body {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" href="#">
+          <a class="cart"  th:href="@{/klijent/usluga/}+${inst.ID}">
             <span class="price" th:text="${inst.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Add in cart</span>

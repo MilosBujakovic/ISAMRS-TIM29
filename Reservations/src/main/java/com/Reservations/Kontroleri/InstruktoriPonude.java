@@ -23,4 +23,13 @@ public class InstruktoriPonude {
 		System.out.println(model.toString());
 	      return "prikazInstruktora";
 	  }
+	
+	@RequestMapping(value = "/OsnovniprikazInstruktora")
+	  public String getOsnPage(Model model){
+		System.out.println("OsnovniPrikazInstruktora page was called!");
+		List<Usluga>usluga=uslugaServis.listAll();
+		model.addAttribute("usluga", usluga);
+		System.out.println(model.toString());
+	      return "OsnovniPodaciInstruktora";
+	  }
 }

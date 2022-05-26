@@ -26,4 +26,12 @@ public class VikendicePonude {
 		System.out.println(model.toString());
 	      return "prikazVikendica";
 	  }
+	@RequestMapping(value = "/OsnovniprikazVikendica")
+	  public String getOsnPage(Model model){
+			System.out.println("OsnPrikazVikendica page was called!");
+			List<Vikendica>vikendice=vikendicaServis.listAll();
+			model.addAttribute("vikendice", vikendice);
+			System.out.println(model.toString());
+	      return "OsnovniPodaciVik";
+	  }
 }
