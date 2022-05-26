@@ -23,4 +23,15 @@ public class BrodoviPonude {
 		System.out.println(model.toString());
 	      return "prikazBrodova";
 	  }
+
+	@RequestMapping(value = "/OsnovniprikazBrodova")
+	  public String getOsnPage(Model model){
+		System.out.println("PrikazBrodova page was called!");
+		List<Brod>brodovi=brodServis.listAll();
+		model.addAttribute("brodovi", brodovi);
+		
+	      return "OsnovniPodaciBrod";
+	  }
+	
+	
 }

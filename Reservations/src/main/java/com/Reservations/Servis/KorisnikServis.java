@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
+import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
@@ -100,8 +101,14 @@ public class KorisnikServis
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
 	
-	public Korisnik Update(RegistracijaKorisnikaDTO userRequest) {
+	public Korisnik Update(ZahtevZaBrisanjeDTO userRequest) {
 		Korisnik k=this.korisnikRepozitorijum.findByKorisnickoIme(userRequest.getUsername());
+		k.setKorisnickoIme(userRequest.getUsername());
+		k.setLozinka(userRequest.getPassword());
+		k.setEmail(userRequest.getEmail());
+		k.setBrojTel(userRequest.getEmail());
+		
+		return null;
 	}
 
 

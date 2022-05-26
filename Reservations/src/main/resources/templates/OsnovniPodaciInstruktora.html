@@ -1058,10 +1058,7 @@ body {
  <div class="hold">
   <div class="header" >
     <div class="container">
-      <div id="logo">
-      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
-	   <h3 style="float:right;">Klijent</h3>
-      </div>
+   
 	 
       <ul class="nav">
         <li><a href="#">O nama</a></li>
@@ -1071,26 +1068,25 @@ body {
     </div>
   </div>
 </div>
-
-<br><br><br><br><br>
+<br><br><br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <form align="center">
   <input type="text" id="search" placeholder="Unesite naziv mesta" />
   <button id="go"  th:onclick="myFunction()" > Search</button>
 </form>
 <br><br><br>
-<div class="column" th:each="brod:${brodovi}">
+<div class="column" th:each="inst:${usluga}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
     <div class="row">
-      <div class="el-wrapper" th:alt="${brod.tip.toLowerCase()}">
-        <div class="box-up" th:alt="${brod.tip.toLowerCase()}">
-          <img class="img1"  th:src="${brod.linkSlike}" th:alt="${brod.tip.toLowerCase()}">
+      <div class="el-wrapper" th:alt="${inst.naziv.toLowerCase()}">
+        <div class="box-up" th:alt="${inst.naziv.toLowerCase()}">
+          <img class="img1"  th:src="${inst.linkSlike}" th:alt="${inst.naziv.toLowerCase()}">
           <div class="img-info">
             <div class="info-inner">
              
-              <span class="p-company"  th:text="${brod.tip}">Zlatibor</span>
+              <span class="p-company" th:text="${inst.naziv}">Iznajmite opremu i pecajte sa Janom,Dunav</span>
             </div>
            
           </div>
@@ -1101,10 +1097,10 @@ body {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" href="#">
-            <span class="price"  th:text="${brod.cena}">$120</span>
+          <a class="cart" th:href="@{/usluga/}+${inst.ID}">
+            <span class="price" th:text="${inst.cena}">$120</span>
             <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
+              <span class="txt">Prikazi profil</span>
             </span>
           </a>
         </div>
@@ -1114,8 +1110,7 @@ body {
 </div>
 </div>
 </div>
-
-<script th:inline="javascript">
+ <script th:inline="javascript">
  function myFunction() {
 	  $('form').submit(function(e) {
 	  e.preventDefault(); 

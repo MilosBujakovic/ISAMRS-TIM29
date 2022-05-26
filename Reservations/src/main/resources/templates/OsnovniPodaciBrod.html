@@ -1058,10 +1058,7 @@ body {
  <div class="hold">
   <div class="header" >
     <div class="container">
-      <div id="logo">
-      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
-	   <h3 style="float:right;">Klijent</h3>
-      </div>
+    
 	 
       <ul class="nav">
         <li><a href="#">O nama</a></li>
@@ -1101,10 +1098,10 @@ body {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" href="#">
-            <span class="price"  th:text="${brod.cena}">$120</span>
+          <a class="cart" th:href="@{/brod/}+${brod.ID}">
+            <span class="price"  th:text="${brod.cena}" th:alt="${brod.cena}">$120</span>
             <span class="add-to-cart">
-              <span class="txt">Add in cart</span>
+              <span class="txt">Prikazi Profil</span>
             </span>
           </a>
         </div>

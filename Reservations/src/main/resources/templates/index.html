@@ -20,6 +20,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       <div id="logo">
       <img alt="logo" src="/img/Logo.png" height="40px">
       </div>
+       
       <ul class="nav">
         <li><a href="#">O nama</a></li>
         <li><a href="#">Kontakt</a></li>
@@ -42,21 +43,21 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
     <div class="content">
       <h2 class="title">Vikendice</h2>
       <p class="copy">Negde biste na godišnji odmor? Rezervišite smeštaj u prelepoj vikendici po povoljnoj ceni.</p>
-      <button class="btn">Pogledajte ponude</button>
+      <a th:href="@{/OsnovniprikazVikendica}"><button class="btn">Pogledajte ponude</button></a>
     </div>
   </div>
   <div class="card">
     <div class="content">
       <h2 class="title">Brodovi</h2>
       <p class="copy">Želite li da uživate u lepom danu na nekoj reci ili jezeru? Iznajmljivanje broda na dan nikad nije bilo lakše. </p>
-      <button class="btn">Pogledajte ponude</button>
+      <a th:href="@{/OsnovniprikazBrodova}"><button class="btn">Pogledajte ponude</button></a>
     </div>
   </div>
   <div class="card">
     <div class="content">
       <h2 class="title">Instruktori pecanja</h2>
       <p class="copy">Hteli biste da naučite da pecate? Možda biste u avanturu u prirodi? Rezervišite termin sa jednim od naših instruktora već danas.</p>
-      <button class="btn">Pogledajte ponude</button>
+     <a th:href="@{/OsnovniprikazInstruktora}"><button class="btn">Pogledajte ponude</button></a>
     </div>
   </div>
 </main>
