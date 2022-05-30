@@ -50,14 +50,19 @@ public class PrijavaKontroler
 				}
 				else if(existUser.getUloga().getIme().equals("Admin")) 
 				{
-					return "adminProfile";
+					return "redirect:/admin/" + String.valueOf(existUser.getID());
 				}
 				else if(existUser.getUloga().getIme().equals("VikendicaVlasnik"))
 				{
 					return "vlasnikVikendicePocetna";
 				}
+				else if(existUser.getUloga().getIme().equals("Instruktor")) 
+				{
+					return "redirect:/instruktor/" + String.valueOf(existUser.getID());
+				}
 				else {return "loginSuccess";}
 			}
+			
 			else
 			{
 				System.out.println("Login failure!");

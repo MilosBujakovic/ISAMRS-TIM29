@@ -14,7 +14,7 @@
 	<header role="banner">
 		<h1>Profil administratora</h1>
 		<ul class="utilities">
-			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+			<li class="user"><a th:href="@{/admin/}+${id+'/my-profile'}">Moji
 					podaci</a></li>
 			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
 		</ul>
@@ -22,11 +22,11 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz
+			<li class="preview"><a th:href="@{/admin/}+${id+'/view-all'}">Prikaz
 					svih entiteta</a></li>
-			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+			<li class="euro"><a th:href="@{/admin/}+${id+'/revenue'}">Evidencija
 					prihoda</a></li>
-			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+			<li class="reports"><a th:href="@{/admin/}+${id+'/reports'}">Prikaz
 					izvestaja</a></li>
 		</ul>
 	</nav>

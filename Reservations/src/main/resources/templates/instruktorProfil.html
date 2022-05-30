@@ -20,9 +20,9 @@
 				</div>
 
 				<ul class="nav">
-					<li><a href="#">Moj profil</a></li>
-					<li><a href="#">Istorija rezervacija</a></li>
-					<li><a href="#">Izvestaji</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj profil</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija rezervacija</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
 			</div>
