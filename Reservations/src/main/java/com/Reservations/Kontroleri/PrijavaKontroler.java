@@ -54,8 +54,8 @@ public class PrijavaKontroler
 				}
 				else if(existUser.getUloga().getIme().equals("VikendicaVlasnik"))
 				{
-					return "vlasnikVikendicePocetna";
-				}
+					return "redirect:/vikendicaVlasnik/pocetna/"+username;
+				} 
 				else {return "loginSuccess";}
 			}
 			else
