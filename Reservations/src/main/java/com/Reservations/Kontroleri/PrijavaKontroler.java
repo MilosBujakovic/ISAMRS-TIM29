@@ -45,10 +45,8 @@ public class PrijavaKontroler
 			{
 				if(existUser.getUloga().getIme().equals("Klijent")) 
 				{
-					KlijentKontroler k=new KlijentKontroler();
-					
 					System.out.println("Login successful!");
-					return "redirect:/profilKorisnika/"+String.valueOf(existUser.getID());
+					return "profilKorisnika";
 				}
 				else if(existUser.getUloga().getIme().equals("Admin")) 
 				{

@@ -64,7 +64,7 @@ public class KorisnikServis
 		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
 		Uloga role = ulogaServis.findByName("Klijent");
 		u.setUloga(role);
-		u.setEnabled(true);
+		
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
 	
@@ -97,7 +97,6 @@ public class KorisnikServis
 		}
 			
 		u.setUloga(role);
-		u.setEnabled(true);
 		
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
