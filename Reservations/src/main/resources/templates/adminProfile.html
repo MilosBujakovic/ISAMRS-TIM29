@@ -32,13 +32,7 @@
 	</nav>
 
 	<main role="main">
-		<section class="panel important">
-			<h2>Dobrodošli na komandnu tablu</h2>
-			<p class="feedback success">Uvek proverite da li ima zahteva za
-				registraciju!</p>
-			<p class="feedback">Dodavanje novih administratora je direktno u bazi!</p>
-
-		</section>
+		
 		<section class="panel important">
 			<h2>Zahtevi za registraciju</h2>
 			<table>
@@ -58,7 +52,7 @@
 					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
 					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
 					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
-					<td><a th:href="@{/admin/request/} + ${zahtev.ID}">►</a></td>
+					<td><a th:href="@{/admin/}+${id+'/request/'} + ${zahtev.ID}">►</a></td>
 				</tr>
 			</table>
 		</section>
