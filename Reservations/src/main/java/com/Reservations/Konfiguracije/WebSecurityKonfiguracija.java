@@ -96,6 +96,7 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
                 "/",
                 "/*",
                 "/*/*",
+                "/*/*/*",
                 "/login*",
                 "/admin/reports",
                 "/*/*Pregled*",

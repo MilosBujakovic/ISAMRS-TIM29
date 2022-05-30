@@ -52,4 +52,22 @@ public class InstruktorKontroler {
 		model.addAttribute("usluge", lista);
 		return "instruktorProfil";
 	}
+	
+	@RequestMapping(value = "/instruktor/moj-profil")
+	public String getProfilPage(Model model) {
+		System.out.println("Instruktor page was called!");
+		return "instruktorProfil";
+	}
+	
+	@RequestMapping(value = "/instruktor/istorija")
+	public String getIstorijaPage(Model model) {
+		System.out.println("Instruktor page was called!");
+		return "instruktorProfil";
+	}
+
+	@RequestMapping(value = "/instruktor/izvestaji")
+	public String getIzvestajiPage(Model model) {
+		System.out.println("Instruktor page was called!");
+		return "instruktorProfil";
+	}
 }

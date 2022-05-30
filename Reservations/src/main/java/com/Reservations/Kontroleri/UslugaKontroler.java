@@ -20,7 +20,7 @@ public class UslugaKontroler {
 	@Autowired
 	KorisnikServis korisnikServis;
 	
-	@RequestMapping(value = "klijent/usluga/{id}")
+	@RequestMapping(value = "/klijent/usluga/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
