@@ -178,5 +178,4 @@ public class TokenUtils {
 		return request.getHeader(AUTH_HEADER);
 	}
 
-
 }
