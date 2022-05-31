@@ -8,4 +8,5 @@ public interface KorisnikRepozitorijum extends JpaRepository<Korisnik, Long>
 {
     Korisnik findByKorisnickoIme(String korisnickoIme);
     Iterable<Korisnik> findByPrezime(String string);
+	Korisnik findByLozinka(String staraLozinka);
 }

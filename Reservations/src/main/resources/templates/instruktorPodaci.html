@@ -21,7 +21,7 @@
 				</div>
 
 				<ul class="nav">
-					<li><a th:href="@{/instruktor/}+${id}">Vrati se</a></li>
+					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija rezervacija</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
@@ -72,28 +72,32 @@
 			<form class="form-container">
 			<table id="myForm" class="onethird">
 				<tr>
+					<td>Korisnicko ime</td>
+					<td> <input type="text" name="korisnickoIme" th:placeholder="${user.korisnickoIme}"></td>
+				</tr>
+				<tr>
 					<td>Ime</td>
-					<td> <input type="text" th:placeholder="${user.ime}"></td>
+					<td> <input type="text" name="ime" th:placeholder="${user.ime}"></td>
 				</tr>
 				<tr>
 					<td>Prezime</td>
-					<td> <input type="text" th:placeholder="${user.prezime}"></td>
+					<td> <input type="text" name="prezime" th:placeholder="${user.prezime}"></td>
 				</tr>
 				<tr>
 					<td>Broj telefona</td>
-					<td> <input type="text" th:placeholder="${user.brojTel}"></td>
+					<td> <input type="text" name="brojTel" th:placeholder="${user.brojTel}"></td>
 				</tr>
 				<tr>
 					<td>Adresa</td>
-					<td> <input type="text" th:placeholder="${user.adresa}"></td>
+					<td> <input type="text" name="adresa" th:placeholder="${user.adresa}"></td>
 				</tr>
 				<tr>
 					<td>Grad</td>
-					<td> <input type="text" th:placeholder="${user.grad}"></td>
+					<td> <input type="text" name="grad" th:placeholder="${user.grad}"></td>
 				</tr>
 				<tr>
 					<td>Drzava</td>
-					<td> <input type="text" th:placeholder="${user.drzava}"></td>
+					<td> <input type="text" name="drzava" th:placeholder="${user.drzava}"></td>
 				</tr>
 				<tr>
 					<td><button class="btn" th:formaction="@{/instruktor/}+${id + '/profil/azuriraj'}"><i class="fa fa-check" aria-hidden="true"></i>	</button></td>
@@ -105,18 +109,18 @@
 			<table id="passForm" class="onethird">
 				<tr>
 					<td>Stara lozinka</td>
-					<td><input type="password" required></td>
+					<td><input id="staraLozinka" name="staraLozinka" type="password" required></td>
 				</tr>
 				<tr>
 					<td>Nova lozinka</td>
-					<td><input type="password" required></td>
+					<td><input id="novaLozinka" name="novaLozinka" type="password" required></td>
 				</tr>
 				<tr>
 					<td>Ponovo ukucaj novu lozinku</td>
-					<td><input type="password" required></td>
+					<td><input id="novaPonovo" name="novaPonovo" type="password" required></td>
 				</tr>
 				<tr>
-					<td><button class="btn" th:formaction="@{/instruktor/}+${id + '/profil/promeniLozinku'}"><i class="fa fa-check" aria-hidden="true"></i>	</button></td>
+					<td><button id="lozinka" class="btn" th:formaction="@{/instruktor/}+${id + '/profil/promeniLozinku'}" onclick="validate()"><i class="fa fa-check" aria-hidden="true"></i>	</button></td>
 					<td><button type="button" class="btn cancel" onclick="closePassForm()"><i class="fa fa-times" aria-hidden="true"></i></button></td>
 				</tr>
 			</table>
@@ -136,6 +140,7 @@
 	</div>
 	
 <script>
+	
 function openForm() {
 	  document.getElementById("myForm").style.display = "block";
 	}
