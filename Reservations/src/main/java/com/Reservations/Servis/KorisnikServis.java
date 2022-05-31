@@ -13,6 +13,7 @@ import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
+import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
@@ -106,14 +107,23 @@ public class KorisnikServis
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
 	
-	public Korisnik Update(ZahtevZaBrisanjeDTO userRequest) {
-		Korisnik k=this.korisnikRepozitorijum.findByKorisnickoIme(userRequest.getUsername());
-		k.setKorisnickoIme(userRequest.getUsername());
-		k.setLozinka(userRequest.getPassword());
-		k.setEmail(userRequest.getEmail());
-		k.setBrojTel(userRequest.getEmail());
+	public Korisnik update(ZahtevZaBrisanjeDTO regRequest) {
+		Korisnik r =korisnikRepozitorijum.findByKorisnickoIme(regRequest.getUsername());
+		r.setKorisnickoIme(regRequest.getUsername());
 		
-		return null;
+
+	
+		r.setIme(regRequest.getFirstName());
+		r.setPrezime(regRequest.getLastName());
+		r.setAdresa(regRequest.getAddress());
+		r.setGrad(regRequest.getCity());
+		r.setDrzava(regRequest.getCountry());
+		r.setBrojTel(regRequest.getPhone());
+		
+		
+		
+		
+		return this.korisnikRepozitorijum.save(r);// TODO Auto-generated method stub
 	}
 
 	public Korisnik update(AzuriranjeInstruktoraDTO userRequest) {
