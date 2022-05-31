@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Korisnik;
@@ -56,12 +55,11 @@ public class VlasnikVikendiceKontroler {
     }
 	*/
 	
-	@RequestMapping(value = "/prikaziVikendice", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model) 
+	@RequestMapping(value = "/prikaziVikendice/{korisnickoIme}", method = RequestMethod.GET)
+	public String getEntitiesPage(Model model, @PathVariable String korisnickoIme) 
 	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
-		List<Vikendica> vikendice = vikendicaServis.listAll();
 		Korisnik vlasnik=null;
 		for (Korisnik kor : korisnici) {
 			if (kor.getUloga().getIme().equals("VikendicaVlasnik"))
@@ -73,19 +71,26 @@ public class VlasnikVikendiceKontroler {
 		}
 		if(vlasnik!=null)
 		{
-			for(Vikendica vikendica : vikendice)
-			{
-				if(vikendica.getVlasnik().equals(vlasnik))model.addAttribute("vikendice", vikendica);
-			}
+			System.out.println("Ubacujem vikendice");
+			List<Vikendica> vikendice = vikendicaServis.findByVlasnik(vlasnik.getID());
+			model.addAttribute("vikendice", vikendice);
+			
 		}
 		else System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
-		
-
+		VlasnikVikendiceDTO vlasnikV= new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
+		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		return "vikendicePregled";
+		return "mojeVikendice";
 	}
 	
-
+	@RequestMapping(value = "/profilVlasnikaVikendice/{korisnickoIme}")
+	public String moj_profil(Model model, @PathVariable String korisnickoIme) 
+	{
+		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
+		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
+		return "profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
+	}
 
 	@RequestMapping(value = "/moj-profil/{korisnickoIme}")
 	public String getDataPage(Model model, @PathVariable String korisnickoIme) 

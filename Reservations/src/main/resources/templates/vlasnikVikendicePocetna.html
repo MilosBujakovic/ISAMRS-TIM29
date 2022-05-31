@@ -8,75 +8,59 @@
 <meta charset="UTF-8">
 <title>Vlasnik vikendice pocetna</title>
 </head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/pocetna.css}"
 	href="/css/pocetna.css">
 <body>
+	<section class=top>
 	<header role="banner">
-<div class="hold"  th:each="vlasnik:${vlasnikVikendice}">
-  <div class="header" >
-    <div class="container">
-      <div id="logo">
-      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
-	   <h3 style="float:right;;transform:translateY(-200%)translateX(+10%)" th:text="${vlasnik.ime+' '+vlasnik.prezime}"></h3>
-      </div>
-	  
-      <ul class="nav">
-        <li><a th:href="vlasnikVikendice.html">Moj profil</a></li>
-        <li><a href="#">Moje vikendice</a></li>
-         <li><a href="#">Pisanje zalbe</a></li>
-         <li><a href="#">Moje vikendice</a></li>
-        <li><a th:href="@{/login}">Log out</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-	</header>
+	<div class="hold"  th:each="vlasnik:${vlasnikVikendice}">
+	  <div class="header" >
+	    <div class="container">
+	      <div id="logo">
+	      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
+		   <h3 style="float:right;;transform:translateY(-200%)translateX(+10%)" th:text="${vlasnik.ime+' '+vlasnik.prezime}"></h3>
+	      </div>
+		  
+	      <ul class="nav">
+	        <li><a th:href="@{profilVlasnikaVikendice/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moj profil</a></li>
+	        <li><a th:href="@{/vikendicaVlasnik/prikaziVikendice/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moje vikendice</a></li>
+	         <li><a href="#" target="glavni_prikaz">Moji klijenti</a></li>
+	         <li><a href="#" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
+	        <li><a th:href="@{/login}">Log out</a></li>
+	      </ul>
+	    </div>
+	  </div>
+	</div></header>
+	</section>
+	
+	
+	<div class="container rounded bg-white mt-1 mb-5 ml-0">
+    <div class="row justify-content-start">
+    <section class=left>
+        <div class="col-sm-4 border-right">
+			<nav class="mainMenu">
+				<ul class="mainMenu">
+					<li class=""><a th:href="@{/vikendicaVlasnik/azuriraj}" target="glavni_prikaz">Izmijeni podatke</a></li> <!--@{/vikendicaVlasnik/moj-profil}-->
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moje vikendice
+							</a></li>
+					<li class="euro"><a th:href="@{/vikendicaVlasnik/pisanjeZalbe}" target="glavni_prikaz">Pisanje žalbi na klijente
+							</a></li>
+					<li class="reports"><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Napiši izvještaj
+							</a></li>
+				</ul>
+			</nav>          
+        </div>
+        </section>
+        
+        <!--div class="col-md-7 justify-content-md-center"-->
+        <section class="right-top">
+				<h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
+				<h2><p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p></h2>
+		</section><!--/div-->
+			<section class=right><iframe name="glavni_prikaz"></iframe></section>
+	</div>
+	</div>
 
-	<nav role="navigation">
-		<ul class="main">
-			<li class="user"><a th:href="@{/vikendicaVlasnik/azuriraj}">Moji
-					podaci</a></li> <!--@{/vikendicaVlasnik/moj-profil}-->
-			<li class="preview"><a th:href="@{/vikendicaVlasnik/prikaziVikendice}">Moje vikendice
-					</a></li>
-			<li class="euro"><a th:href="@{/vikendicaVlasnik/pisanjeZalbe}">Pisanje žalbi na klijente
-					</a></li>
-			<li class="reports"><a th:href="@{/vikendicaVlasnik/izvjestaji}">Prikaz
-					izvestaja</a></li>
-		</ul>
-	</nav>
-
-	<main role="main">
-		<section class="panel important">
-			<h2>Dobrodošli na komandnu tablu</h2>
-			<p class="feedback success">Uvek proverite da li ima zahteva za
-				registraciju!</p>
-			<p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p>
-
-		</section>
-		<section class="panel important">
-			<h2>Zahtevi za registraciju</h2>
-			<table>
-				<tr>
-					<th>ID</th>
-					<th>Ime</th>
-					<th>Prezime</th>
-					<th>Korisnicko ime</th>
-					<th>Tip registracije</th>
-					<th>Razlog registracije</th>
-					<th>Pregled</th>
-				</tr>
-				<tr th:each="zahtev : ${zahtevi}">
-					<td th:text="${zahtev.ID}">ID</td>
-					<td th:text="${zahtev.ime}">Ime</td>
-					<td th:text="${zahtev.prezime}">Prezime</td>
-					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
-					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
-					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
-					<td><a th:href="@{/admin/request/} + ${zahtev.ID}">►</a></td>
-				</tr>
-			</table>
-		</section>
-
-	</main>
 </body>
 </html>

@@ -5,7 +5,8 @@ import java.util.Date;
 import com.Reservations.Modeli.Korisnik;
 
 public class VlasnikVikendiceDTO 
-{	private String korisnickoIme;
+{
+	private String korisnickoIme;
 
 	private String ime;
 	

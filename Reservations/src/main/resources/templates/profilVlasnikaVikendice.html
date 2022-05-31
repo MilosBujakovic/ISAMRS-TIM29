@@ -1,0 +1,22 @@
+<html>
+<body>
+    <div class="p-3 py-5">
+       <div class="d-flex justify-content-md-center align-items-center mb-3">
+           <h4 class="text-right">Moji podaci</h4>
+       </div>
+        
+        <div class="row mt-3 ">
+            <div class="col-md-12"><label class="labels">Ime</label><input readonly type="text" class="form-control" placeholder="Unesite ime" th:value="${vlasnikVikendice.ime}"></div>
+            <div class="col-md-12"><label class="labels">Prezime</label><input readonly type="text" class="form-control" placeholder="Unesite prezime" th:value="${vlasnikVikendice.prezime}"></div>
+            <div class="col-md-12"><label class="labels">Korisnièko ime</label><input readonly type="text" class="form-control" placeholder="Unesite korisnièko ime" th:value="${vlasnikVikendice.korisnickoIme}"></div>
+            <div class="col-md-12"><label class="labels">Adresa</label><input readonly type="text" class="form-control" placeholder="Unesite mjesto prebivališta" th:value="${vlasnikVikendice.adresa}"></div>
+            <div class="col-md-12"><label class="labels">Grad</label><input readonly type="text" class="form-control" placeholder="Unesite grad" th:value="${vlasnikVikendice.grad}"></div>
+            <div class="col-md-12"><label class="labels">Država</label><input readonly type="text" class="form-control" placeholder="Unesite državu" th:value="${vlasnikVikendice.drzava}"></div>
+            <div class="col-md-12"><label class="labels">Broj telefona</label><input readonly type="text" class="form-control" placeholder="Unesite broj telefona" th:value="${vlasnikVikendice.brojTel}"></div>
+            <div class="col-md-12"><label class="labels">Elektronska Pošta</label><input readonly type="text" class="form-control" placeholder="Unesite elektronsku poštu" th:value="${vlasnikVikendice.email}"></div>
+        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Izmijeni podatke</button>
+         <button class="btn btn-primary profile-button" type="button">Izmijeni lozinku</button></div>
+    </div>
+   </div>
+</body>
+</html>
