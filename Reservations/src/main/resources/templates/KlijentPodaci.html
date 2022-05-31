@@ -927,35 +927,29 @@ body {
 <div class="container rounded bg-white mt-5 mb-5" >
     <div class="row">
         <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="/img/avatar.png"><span class="font-weight-bold"th:text="${pod.korisnickoIme}">Edogaru</span><span class="text-black-50" th:text="${pod.email}">edogaru@mail.com.my</span><span> </span></div>
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="/img/avatar.png"><span class="font-weight-bold" th:text="${pod.korisnickoIme}">Edogaru</span><span class="text-black-50" th:text="${pod.email}">edogaru@mail.com.my</span><span> </span></div>
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Moji podaci</h4>
                 </div>
-                <form>
                 <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="first name" th:value="${pod.ime}"  name="firstName"></div>
-                    <div class="col-md-6"><label class="labels">Prezime</label><input type="text" class="form-control" value="" th:value="${pod.prezime}" name="lastName"></div>
+                    <div class="col-md-6"><label class="labels">Ime</label><input type="text" class="form-control" placeholder="first name" th:value="${pod.ime}"></div>
+                    <div class="col-md-6"><label class="labels">Prezime</label><input type="text" class="form-control" value="" th:value="${pod.prezime}"></div>
                 </div>
                 <div class="row mt-3">
-                    <div class="col-md-12"><label class="labels">Korisnicko ime</label><input type="text" class="form-control" placeholder="enter phone number" th:value="${pod.korisnickoIme}" name="username"></div>
-                    <div class="col-md-12"><label class="labels">Lozinka</label><input type="text" class="form-control" placeholder="enter address line 1" th:value="${pod.lozinka}"   name="password"></div>
-                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter address line 2" th:value="${pod.email}"   name="email"></div>
-                    <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="enter address line 2"  th:value="${pod.brojTel}"   name="phone"></div>
+                    <div class="col-md-12"><label class="labels">Korisnicko ime</label><input type="text" class="form-control" placeholder="enter phone number" th:value="${pod.korisnickoIme}"></div>
+                    <div class="col-md-12"><label class="labels">Lozinka</label><input type="text" class="form-control" placeholder="enter address line 1" th:value="${pod.lozinka}"></div>
+                    <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="enter address line 2" th:value="${pod.email}"></div>
+                    <div class="col-md-12"><label class="labels">Broj telefona</label><input type="text" class="form-control" placeholder="enter address line 2"  th:value="${pod.brojTel}"></div>
 
                 </div>
                 <div class="row mt-3">
-                 <div class="col-md-12"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="enter address line 2"  th:value="${pod.adresa}"   name="address"></div>
-                    <div class="col-md-6"><label class="labels">Drzava</label><input type="text" class="form-control" placeholder="country"  th:value="${pod.drzava}" name="country"></div>
-                    <div class="col-md-6"><label class="labels">Grad</label><input type="text" class="form-control" value=""  th:value="${pod.grad}" name="city"></div>
-                      <div class="col-md-12"><label class="labels">Razlog za brisanje naloga</label><input type="text" class="form-control" placeholder="poruka"   name="razlog"></div>
-                    
-                </div >
-                <div class="mt-5 text-center"  ><button class="btn btn-primary profile-button" type="sumbit" th:formaction="@{/azurirajPodatke/}+${pod.ID}">Azuriraj podatke</button>
-                <button class="btn btn-primary profile-button" type="submit" th:formaction="@{/brisiNalog/}+${pod.ID}">Obrisi nalog</button></div>
-                </form>
+                    <div class="col-md-6"><label class="labels">Drzava</label><input type="text" class="form-control" placeholder="country"  th:value="${pod.drzava}"></div>
+                    <div class="col-md-6"><label class="labels">Grad</label><input type="text" class="form-control" value=""  th:value="${pod.grad}"></div>
+                </div>
+                
             </div>
         </div>
 
