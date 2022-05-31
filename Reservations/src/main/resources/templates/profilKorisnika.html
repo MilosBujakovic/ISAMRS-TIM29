@@ -768,10 +768,12 @@ h2 {
       </div>
 	  
       <ul class="nav">
-        <li><a th:href="@{/azuriraj}">Azuriraj podatke</a></li>
+       
+        <li><a th:href="@{/azuriraj/}+${id}">Azuriraj podatke</a></li>
         <li><a href="#">Moje rezervacije</a></li>
          <li><a href="#">Pisanje zalbe</a></li>
          <li><a href="#">Istorija rezervacija</a></li>
+         <li><a th:href="@{/moji/}+${id}">Moji podaci</a></li>
         <li><a th:href="@{/login}">Log out</a></li>
       </ul>
     </div>

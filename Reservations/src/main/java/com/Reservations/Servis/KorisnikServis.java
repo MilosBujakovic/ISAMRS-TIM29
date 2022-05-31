@@ -2,15 +2,18 @@ package com.Reservations.Servis;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
+import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
@@ -18,6 +21,8 @@ import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 @Service
 public class KorisnikServis 
 {
+	@Autowired
+	CustomUserDetailsService cuds;
 
 	@Autowired
 	private KorisnikRepozitorijum korisnikRepozitorijum;
@@ -97,23 +102,71 @@ public class KorisnikServis
 		}
 			
 		u.setUloga(role);
+		u.setEnabled(true);
 		
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
 	
-	public Korisnik Update(ZahtevZaBrisanjeDTO userRequest) {
-		Korisnik k=this.korisnikRepozitorijum.findByKorisnickoIme(userRequest.getUsername());
-		k.setKorisnickoIme(userRequest.getUsername());
-		k.setLozinka(userRequest.getPassword());
-		k.setEmail(userRequest.getEmail());
-		k.setBrojTel(userRequest.getEmail());
+	public Korisnik update(ZahtevZaBrisanjeDTO regRequest) {
+		Korisnik r =korisnikRepozitorijum.findByKorisnickoIme(regRequest.getUsername());
+		r.setKorisnickoIme(regRequest.getUsername());
 		
-		return null;
+
+	
+		r.setIme(regRequest.getFirstName());
+		r.setPrezime(regRequest.getLastName());
+		r.setAdresa(regRequest.getAddress());
+		r.setGrad(regRequest.getCity());
+		r.setDrzava(regRequest.getCountry());
+		r.setBrojTel(regRequest.getPhone());
+		
+		
+		
+		
+		return this.korisnikRepozitorijum.save(r);// TODO Auto-generated method stub
 	}
 
+	public Korisnik update(AzuriranjeInstruktoraDTO userRequest) {
+		Korisnik k= this.findById(userRequest.getId());
+		if(!userRequest.getAdresa().equals(""))
+		{
+			k.setAdresa(userRequest.getAdresa());
+		}
+		if(!userRequest.getBrojTel().equals(""))
+		{
+			k.setBrojTel(userRequest.getBrojTel());
+		}
+		if(!userRequest.getDrzava().equals(""))
+		{
+			k.setDrzava(userRequest.getDrzava());
+		}
+		if(!userRequest.getGrad().equals(""))
+		{
+			k.setGrad(userRequest.getGrad());
+		}
+		if(!userRequest.getKorisnickoIme().equals(""))
+		{
+			k.setKorisnickoIme(userRequest.getKorisnickoIme());
+		}
+		if(!userRequest.getIme().equals(""))
+		{
+			k.setIme(userRequest.getIme());
+		}
+		if(!userRequest.getPrezime().equals(""))
+		{
+			k.setPrezime(userRequest.getPrezime());
+		}
+		System.out.println(k.toString());
+		return this.korisnikRepozitorijum.save(k);
+	}
 
-
-
+	public Korisnik changePassword(Long id, String staraLozinka, String novaLozinka) {
+		Korisnik k= this.findById(id);
+		k.setLozinka(novaLozinka);
+		//cuds.changePassword(staraLozinka, novaLozinka);
+		return this.korisnikRepozitorijum.save(k);
+		
+	}
 
 
 }
