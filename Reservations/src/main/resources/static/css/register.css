@@ -28,8 +28,8 @@ body {
 
 .section {
   background: #FF416C;
-  background: -webkit-linear-gradient(to right, #FF4B2B, #FF416C);
-  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  background: -webkit-linear-gradient(to right, #ff8080, #FF416C);
+  background: linear-gradient(to right, #ff8080, #FF416C);
   position: relative;
   overflow: hidden;
   display: flex;
