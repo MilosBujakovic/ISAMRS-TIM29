@@ -89,13 +89,16 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
         // TokenAuthenticationFilter ce ignorisati sve ispod navedene putanje
         web.ignoring().antMatchers(
                 HttpMethod.POST,
-                "/login-process"
+                "/login-process",
+                "/*/*/**"
         );
         web.ignoring().antMatchers(
                 HttpMethod.GET,
                 "/",
                 "/*",
                 "/*/*",
+                "/*/**",
+                "/*/*/**",
                 "/login*",
                 "/admin/reports",
                 "/*/*Pregled*",

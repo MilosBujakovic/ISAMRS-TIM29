@@ -14,7 +14,7 @@
 	<header role="banner">
 		<h1>Profil administratora</h1>
 		<ul class="utilities">
-			<li class="user"><a th:href="@{/admin/my-profile}">Moji
+			<li class="user"><a th:href="@{/admin/}+${id+'/my-profile'}">Moji
 					podaci</a></li>
 			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
 		</ul>
@@ -22,23 +22,17 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/view-all}">Prikaz
+			<li class="preview"><a th:href="@{/admin/}+${id+'/view-all'}">Prikaz
 					svih entiteta</a></li>
-			<li class="euro"><a th:href="@{/admin/revenue}">Evidencija
+			<li class="euro"><a th:href="@{/admin/}+${id+'/revenue'}">Evidencija
 					prihoda</a></li>
-			<li class="reports"><a th:href="@{/admin/reports}">Prikaz
+			<li class="reports"><a th:href="@{/admin/}+${id+'/reports'}">Prikaz
 					izvestaja</a></li>
 		</ul>
 	</nav>
 
 	<main role="main">
-		<section class="panel important">
-			<h2>Dobrodošli na komandnu tablu</h2>
-			<p class="feedback success">Uvek proverite da li ima zahteva za
-				registraciju!</p>
-			<p class="feedback">Dodavanje novih administratora je direktno u bazi!</p>
-
-		</section>
+		
 		<section class="panel important">
 			<h2>Zahtevi za registraciju</h2>
 			<table>
@@ -58,7 +52,7 @@
 					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
 					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
 					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
-					<td><a th:href="@{/admin/request/} + ${zahtev.ID}">►</a></td>
+					<td><a th:href="@{/admin/}+${id+'/request/'} + ${zahtev.ID}">►</a></td>
 				</tr>
 			</table>
 		</section>
