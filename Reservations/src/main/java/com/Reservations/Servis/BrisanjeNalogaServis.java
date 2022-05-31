@@ -1,28 +1,59 @@
 package com.Reservations.Servis;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
+import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Repozitorijumi.BrisanjeNalogaRepozitorijum;
 @Service
 public class BrisanjeNalogaServis {
 	@Autowired
 	private BrisanjeNalogaRepozitorijum brisanjeRepozitorijum;
-	public List<ZahtevZaBrisanje> listAll(){
-		return brisanjeRepozitorijum.findAll();
+
+
+	
+	public ZahtevZaBrisanje findById(Long id) {
+		try {
+			return brisanjeRepozitorijum.findById(id).get();
+		} catch (NoSuchElementException e) {
+			return null;
+		}
 	}
-	public ZahtevZaBrisanje Save(ZahtevZaBrisanjeDTO DTO) {
-		ZahtevZaBrisanje z=new ZahtevZaBrisanje();
-		z.setIme(DTO.getUsername());
-		z.setLozinka(DTO.getPassword());
-		z.setEmail(DTO.getEmail());
-		z.setBrojTel(DTO.getPhone());
-		z.setRazlogRegistracije(DTO.getMessage());
-		return this.brisanjeRepozitorijum.save(z);
+
+	public ZahtevZaBrisanje save(ZahtevZaBrisanjeDTO regRequest) {
+		ZahtevZaBrisanje r = new ZahtevZaBrisanje();
+		r.setKorisnickoIme(regRequest.getUsername());
+		r.setLozinka(regRequest.getPassword());
+
+		r.setID(regRequest.getId());
+		r.setIme(regRequest.getFirstName());
+		r.setPrezime(regRequest.getLastName());
+		r.setAdresa(regRequest.getAddress());
+		r.setGrad(regRequest.getCity());
+		r.setDrzava(regRequest.getCountry());
+		r.setBrojTel(regRequest.getPhone());
 		
+		r.setRazlogRegistracije(regRequest.getRazlog());
+		r.setEmail(regRequest.getEmail());
+		
+		return this.brisanjeRepozitorijum.save(r);// TODO Auto-generated method stub
 	}
+
+	public List<ZahtevZaBrisanje> listAll() {
+		return this.brisanjeRepozitorijum.findAll();
+	}
+	
+	public void delete(long id) {
+		this.brisanjeRepozitorijum.deleteById(id);
+	}
+	public ZahtevZaBrisanje findByKorisnickoIme(String ime){
+		return this.brisanjeRepozitorijum.findByKorisnickoIme(ime);
+
+		}
+
 }
