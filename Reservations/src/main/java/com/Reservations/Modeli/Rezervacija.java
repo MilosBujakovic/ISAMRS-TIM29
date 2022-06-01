@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 @Entity
 @Table(name="Rezervacije")
@@ -15,11 +18,18 @@ public class Rezervacija {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ID;
 	
+	@ManyToOne
+	@JoinColumn(name="entitet_id")
+	private Vikendica entitet;
+	
 	@Column(name="nazivEntiteta")
 	private String nazivEntiteta;
 	
-	@Column(name="datumVreme")
-	private String datumVreme;
+	@Column(name="datum")
+	private String datum;
+	
+	@Column(name="vreme")
+	private String vreme;
 	
 	@Column(name="trajanje")
 	private String trajanje;
@@ -27,26 +37,13 @@ public class Rezervacija {
 	@Column(name="maxOsoba")
 	private int maxOsoba;
 	
-	@Column(name="dodatneUsluge")
-	private String dodatneUsluge;
+	
 	
 	@Column(name="cena")
 	private double cena;
 	
 	public Rezervacija () {
 		
-	}
-	
-	public Rezervacija(long iD, String nazivEntiteta, String datumVreme, String trajanje, int maxOsoba,
-			String dodatneUsluge, double cena) {
-		super();
-		ID = iD;
-		this.nazivEntiteta = nazivEntiteta;
-		this.datumVreme = datumVreme;
-		this.trajanje = trajanje;
-		this.maxOsoba = maxOsoba;
-		this.dodatneUsluge=dodatneUsluge;
-		this.cena = cena;
 	}
 
 	public long getID() {
@@ -65,12 +62,22 @@ public class Rezervacija {
 		this.nazivEntiteta = nazivEntiteta;
 	}
 
-	public String getDatumVreme() {
-		return datumVreme;
+	
+
+	public String getDatum() {
+		return datum;
 	}
 
-	public void setDatumVreme(String datumVreme) {
-		this.datumVreme = datumVreme;
+	public void setDatum(String datum) {
+		this.datum = datum;
+	}
+
+	public String getVreme() {
+		return vreme;
+	}
+
+	public void setVreme(String vreme) {
+		this.vreme = vreme;
 	}
 
 	public String getTrajanje() {
@@ -89,14 +96,6 @@ public class Rezervacija {
 		this.maxOsoba = maxOsoba;
 	}
 
-	public String getDodatneUsluge() {
-		return dodatneUsluge;
-	}
-
-	public void setDodatneUsluge(String dodatneUsluge) {
-		this.dodatneUsluge = dodatneUsluge;
-	}
-
 	public double getCena() {
 		return cena;
 	}
@@ -107,10 +106,11 @@ public class Rezervacija {
 
 	@Override
 	public String toString() {
-		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datumVreme=" + datumVreme
-				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", dodatneUsluge=" + dodatneUsluge + ", cena="
-				+ cena + "]";
+		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme
+				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + "]";
 	}
+
+	
 	
 	
 }
