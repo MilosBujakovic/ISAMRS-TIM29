@@ -4,9 +4,29 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+
+<style>
+label {
+  display: inline-block;
+  width: 140px;
+  text-align: right;
+}
+button{
+	margin-left:140px;
+}​
+</style>
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
-
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
+  $( function() {
+	    $( "#datepicker2" ).datepicker();
+	  } );
+  </script>
 <meta charset="UTF-8">
 <title>Profil usluge</title>
 
@@ -14,6 +34,8 @@
 	href="/css/instruktorProfil.css" th:href="@{/css/index.css}">
 <link rel="stylesheet" type="text/css" media="all"
 	href="/css/uslugaProfil.css" th:href="@{/css/uslugaProfil.css}">
+	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	
 </head>
 <body>
 	<div class="hold">
@@ -41,6 +63,31 @@
 				</div>
 				<div class="column-xs-12 column-md-5">
 				
+				<div class="block">
+    <label>Datum pocetka:</label>
+    <input type="text" id="datepicker2"/>
+</div>
+<br>
+<div class="block">
+    <label>Datum kraja:</label>
+    <input type="text" id="datepicker" />
+</div>
+<br>
+<div class="block">
+    <label>Trajanje:</label>
+    <input type="text"  />
+  
+</div>
+<br>
+<div class="block">
+    <label>Broj osoba:</label>
+    <input type="text"  />
+  
+</div>
+<div class="block">
+ <button  class="btn btn-primary profile-button" align="right" type="sumbit" >Rezervisi</button>
+</div>
+ 
 					<h1 th:text="${vik.naziv}">Naziv</h1>
 					<h2 th:text="${vik.cena + ' din'}">Cena</h2>
 					<div class="description">
