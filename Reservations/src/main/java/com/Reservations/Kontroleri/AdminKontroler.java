@@ -29,14 +29,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.GVarijablaDTO;
+import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Dodaci.PrihodPDFGenerator;
+import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.GlobalnaVarijabla;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Prihod;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.ZahtevZaBrisanje;
+import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
@@ -69,16 +74,21 @@ public class AdminKontroler {
 	@Autowired
 	VikendicaServis vikendicaServis;
 
+	@Autowired
+	BrisanjeNalogaServis bnServis;
+
 	@RequestMapping(value = "")
 	public String getAdminPage(Model model, @PathVariable Long id) {
 		System.out.println("Admin page was called!");
-		List<Registracija> lista = regServis.listAll();
+		List<Registracija> zahteviR = regServis.listAll();
+		List<ZahtevZaBrisanje> zahteviB = bnServis.listAll();
 		model.addAttribute("id", id);
-		model.addAttribute("zahtevi", lista);
+		model.addAttribute("zahtevi", zahteviR);
+		model.addAttribute("zahteviB", zahteviB);
 		return "adminProfile";
 	}
 
-	@RequestMapping(value = "/request/{rId}")
+	@RequestMapping(value = "/zahtevReg/{rId}")
 	public String viewRequest(Model model, @PathVariable Long rId, @PathVariable Long id) {
 		System.out.println("Request " + String.valueOf(rId) + " was opened!");
 		Registracija reg = regServis.findById(rId);
@@ -87,8 +97,9 @@ public class AdminKontroler {
 		return "adminRequest";
 	}
 
-	@RequestMapping(value = "/request/{rId}/submit")
-	public String sendBackRequest(Model model, @PathVariable Long rId, @PathVariable Long id, @RequestParam String radio, @RequestParam String textarea)
+	@RequestMapping(value = "/zahtevReg/{rId}/submit")
+	public String sendBackRequest(Model model, @PathVariable Long rId, @PathVariable Long id,
+			@RequestParam String radio, @RequestParam String textarea)
 			throws AddressException, MessagingException, IOException {
 		System.out.println("Request was processed!");
 		model.addAttribute("id", id);
@@ -112,8 +123,42 @@ public class AdminKontroler {
 		}
 		return "redirect:/admin/" + String.valueOf(id);
 	}
+	
+	@RequestMapping(value = "/zahtevZB/{rId}")
+	public String viewDeleteRequest(Model model, @PathVariable Long rId, @PathVariable Long id) {
+		System.out.println("Request " + String.valueOf(rId) + " was opened!");
+		ZahtevZaBrisanje zb = bnServis.findById(rId);
+		model.addAttribute("id", id);
+		model.addAttribute("zahtev", zb);
+		return "adminDeleteRequest";
+	}
 
-	@RequestMapping(value = "/view-all", method = RequestMethod.GET)
+	@RequestMapping(value = "/zahtevZB/{rId}/submit")
+	public String sendBackDeleteRequest(Model model, @PathVariable Long rId, @PathVariable Long id,
+			@RequestParam String radio)
+			throws AddressException, MessagingException, IOException {
+		System.out.println("Request was processed!");
+		model.addAttribute("id", id);
+		ZahtevZaBrisanje zb = bnServis.findById(rId);
+		System.out.println("radio = " + radio);
+		System.out.println(zb.toPrivateString());
+		if (radio.equals("deny")) {
+			bnServis.delete(rId);
+		} else if (radio.equals("accept")) {
+			try {
+				Korisnik k = korisnikServis.findByUsername(zb.getKorisnickoIme());
+				korisnikServis.delete(k.getID());
+			} catch (Exception e) {
+				System.out.println(e.getStackTrace().toString());
+			}
+			bnServis.delete(rId);
+		} else {
+			System.out.println("Something went wrong!");
+		}
+		return "redirect:/admin/" + String.valueOf(id);
+	}
+
+	@RequestMapping(value = "/pregled", method = RequestMethod.GET)
 	public String getEntitiesPage(Model model, @PathVariable Long id) {
 		System.out.println("All entities page was called!");
 		List<Korisnik> lista = korisnikServis.listAll();
@@ -144,7 +189,7 @@ public class AdminKontroler {
 		return "adminList";
 	}
 
-	@RequestMapping(value = "/my-profile")
+	@RequestMapping(value = "/profil")
 	public String getDataPage(Model model, @PathVariable Long id) {
 		System.out.println("My profile page was called!");
 		Korisnik admin = korisnikServis.findById(id);
@@ -153,7 +198,41 @@ public class AdminKontroler {
 		return "adminMyData";
 	}
 
-	@RequestMapping(value = "/revenue")
+	@RequestMapping(value = "/profil/azuriraj")
+	public String azurirajPage(Model model, @PathVariable Long id, AzuriranjeInstruktoraDTO aiDTO) {
+		System.out.println("Azuriraj page was called!");
+		System.out.println(aiDTO.toString());
+		korisnikServis.update(aiDTO);
+		return "redirect:/admin/" + String.valueOf(id) + "/profil";
+	}
+
+	@RequestMapping(value = "/profil/promeniLozinku")
+	public String lozinkaPage(Model model, @PathVariable Long id, PromenaLozinkeDTO plDTO) {
+		System.out.println("Lozinka page was called!");
+		System.out.println(plDTO.toString());
+		Korisnik k = korisnikServis.findById(id);
+		System.out.println(k.toString());
+		if (plDTO.getStaraLozinka().equals(k.getLozinka())) {
+			if (plDTO.getNovaLozinka().equals(plDTO.getNovaPonovo()))
+				korisnikServis.changePassword(id, plDTO.getStaraLozinka(), plDTO.getNovaLozinka());
+			else
+				throw new ResourceConflictException(id, "Lozinke se ne poklapaju!");
+		}
+		return "redirect:/admin/" + String.valueOf(id) + "/profil";
+	}
+
+	@RequestMapping(value = "/profil/brisiNalog")
+	public String brisanjePage(Model model, @PathVariable Long id, @RequestParam String razlog) {
+		System.out.println("Brisi page was called!");
+		Korisnik k = korisnikServis.findById(id);
+		ZahtevZaBrisanje zb = bnServis.findByKorisnickoIme(k.getKorisnickoIme());
+		if(!zb.equals(null))
+			throw new ResourceConflictException(id, "Zahtev vec postoji!");
+		bnServis.save(k, razlog);
+		return "redirect:/admin/" + String.valueOf(id) + "/profil";
+	}
+
+	@RequestMapping(value = "/prihodi")
 	public String getRevenuePage(Model model, @PathVariable Long id) {
 		System.out.println("Revenue page was called!");
 		List<Prihod> lista = prihodServis.listAll();
@@ -173,7 +252,7 @@ public class AdminKontroler {
 		return "adminRevenue";
 	}
 
-	@RequestMapping(value = "/revenue/change-percent")
+	@RequestMapping(value = "/prihodi/procenat")
 	public String changeRevenue(Model model, @RequestParam String procenat, @PathVariable Long id) {
 		System.out.println("Revenue was changed!");
 		GlobalnaVarijabla gv = gvServis.findByName("procenat");
@@ -194,17 +273,17 @@ public class AdminKontroler {
 			GVarijablaDTO gvDTO = new GVarijablaDTO(gv.getID(), gv.getIme(), procenat);
 			gvServis.update(gvDTO);
 		}
-		return "redirect:/admin/" + String.valueOf(id) + "/revenue";
+		return "redirect:/admin/" + String.valueOf(id) + "/prihodi";
 	}
 
-	@RequestMapping(value = "/reports")
+	@RequestMapping(value = "/izvestaji")
 	public String getReportsDates(@PathVariable Long id, Model model) {
 		System.out.println("Report page was called!");
 		model.addAttribute("id", id);
 		return "adminReports";
 	}
 
-	@GetMapping("/reports/print")
+	@GetMapping("/izvestaji/print")
 	public String exportToPDF(HttpServletResponse response, @RequestParam String pocDatum,
 			@RequestParam String krajDatum, @PathVariable Long id)
 			throws DocumentException, IOException, ParseException {
@@ -222,7 +301,7 @@ public class AdminKontroler {
 
 		PrihodPDFGenerator pdf = new PrihodPDFGenerator(lista, pocetni, krajnji);
 		pdf.export(response);
-		return "redirect:/admin/" + String.valueOf(id) + "/reports";
+		return "redirect:/admin/" + String.valueOf(id) + "/izvestaji";
 	}
 
 	private void sendEmailToUser(Boolean prihvacen, String razlog, String mail)

@@ -14,7 +14,7 @@
 	<header role="banner">
 		<h1>Profil administratora</h1>
 		<ul class="utilities">
-			<li class="user"><a th:href="@{/admin/}+${id+'/my-profile'}">Moji
+			<li class="user"><a th:href="@{/admin/}+${id+'/profil'}">Moji
 					podaci</a></li>
 			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
 		</ul>
@@ -22,11 +22,11 @@
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/}+${id+'/view-all'}">Prikaz
+			<li class="preview"><a th:href="@{/admin/}+${id+'/pregled'}">Prikaz
 					svih entiteta</a></li>
-			<li class="euro"><a th:href="@{/admin/}+${id+'/revenue'}">Evidencija
+			<li class="euro"><a th:href="@{/admin/}+${id+'/prihodi'}">Evidencija
 					prihoda</a></li>
-			<li class="reports"><a th:href="@{/admin/}+${id+'/reports'}">Prikaz
+			<li class="reports"><a th:href="@{/admin/}+${id+'/izvestaji'}">Prikaz
 					izvestaja</a></li>
 		</ul>
 	</nav>
@@ -40,6 +40,7 @@
 					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
+					<th>Email</th>
 					<th>Korisnicko ime</th>
 					<th>Tip registracije</th>
 					<th>Razlog registracije</th>
@@ -49,14 +50,38 @@
 					<td th:text="${zahtev.ID}">ID</td>
 					<td th:text="${zahtev.ime}">Ime</td>
 					<td th:text="${zahtev.prezime}">Prezime</td>
+					<td th:text="${zahtev.email}">Email</td>
 					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
 					<td th:text="${zahtev.tipRegistracije}">Tip registracije</td>
 					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
-					<td><a th:href="@{/admin/}+${id+'/request/'} + ${zahtev.ID}">►</a></td>
+					<td><a th:href="@{/admin/}+${id+'/zahtevReg/'} + ${zahtev.ID}">►</a></td>
 				</tr>
 			</table>
 		</section>
 
+		<section class="panel important">
+			<h2>Zahtevi za brisanje</h2>
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Ime</th>
+					<th>Prezime</th>
+					<th>Email</th>
+					<th>Korisnicko ime</th>
+					<th>Razlog za brisanje</th>
+					<th>Pregled</th>
+				</tr>
+				<tr th:each="zahtev : ${zahteviB}">
+					<td th:text="${zahtev.ID}">ID</td>
+					<td th:text="${zahtev.ime}">Ime</td>
+					<td th:text="${zahtev.prezime}">Prezime</td>
+					<td th:text="${zahtev.email}">Email</td>
+					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
+					<td th:text="${zahtev.razlogRegistracije}">Razlog za brisanje</td>
+					<td><a th:href="@{/admin/}+${id+'/zahtevZB/'} + ${zahtev.ID}">►</a></td>
+				</tr>
+			</table>
+		</section>
 	</main>
 </body>
 </html>
