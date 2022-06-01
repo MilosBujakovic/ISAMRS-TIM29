@@ -61,6 +61,16 @@
             font-size: 1.25rem;
 
         }
+
+        nav .mainMenu li a.delete  {
+          display: flex;
+          padding: 15px;
+          text-decoration: none;
+          text-transform: uppercase;
+          color: red;
+          font-size: 1.25rem;
+
+      }
         
         nav .mainMenu li a:hover {
             background: grey;

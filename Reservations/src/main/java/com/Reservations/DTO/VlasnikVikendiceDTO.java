@@ -6,6 +6,8 @@ import com.Reservations.Modeli.Korisnik;
 
 public class VlasnikVikendiceDTO 
 {
+	private Long ID;
+	
 	private String korisnickoIme;
 
 	private String ime;
@@ -28,9 +30,10 @@ public class VlasnikVikendiceDTO
 	{}
 	
 	
-	public VlasnikVikendiceDTO(String korisnickoIme, String ime, String prezime, String email, String lozinka,
+	public VlasnikVikendiceDTO(Long id, String korisnickoIme, String ime, String prezime, String email, String lozinka,
 			String adresa, String grad, String drzava, String brojTel) {
 		super();
+		this.ID = id;
 		this.korisnickoIme = korisnickoIme;
 		this.ime = ime;
 		this.prezime = prezime;
@@ -43,7 +46,18 @@ public class VlasnikVikendiceDTO
 	}
 
 
+	public Long getID() {
+		return ID;
+	}
+
+
+	public void setID(Long iD) {
+		ID = iD;
+	}
+
+
 	public VlasnikVikendiceDTO(Korisnik korisnik) {
+		this.ID = korisnik.getID();
 		this.ime = korisnik.getIme();
 		this.prezime=korisnik.getPrezime();
 		this.adresa = korisnik.getAdresa();
@@ -55,6 +69,16 @@ public class VlasnikVikendiceDTO
 		this.korisnickoIme = korisnik.getKorisnickoIme();
 	}
 
+	
+	public Long getId()
+	{
+		return this.ID;
+	}
+	
+	public void setId(Long id)
+	{
+		this.ID = id;
+	}
 
 	public String getKorisnickoIme() {
 		return korisnickoIme;
@@ -132,6 +156,14 @@ public class VlasnikVikendiceDTO
 
 	public Date getPoslednjiDatumPromeneLozinke() {
 		return null;
+	}
+
+
+	@Override
+	public String toString() {
+		return "VlasnikVikendiceDTO [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime="
+				+ prezime + ", lozinka=" + lozinka + ", adresa=" + adresa + ", email=" + email + ", grad=" + grad
+				+ ", drzava=" + drzava + ", brojTel=" + brojTel + "]";
 	}
 
 
