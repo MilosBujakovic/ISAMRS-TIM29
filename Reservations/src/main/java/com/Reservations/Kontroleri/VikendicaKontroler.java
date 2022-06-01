@@ -8,7 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.Reservations.Modeli.Brod;
+import com.Reservations.DTO.VikendicaDTO;
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.VikendicaServis;
@@ -16,7 +17,7 @@ import com.Reservations.Servis.VikendicaServis;
 @Controller
 public class VikendicaKontroler {
 	@Autowired
-	VikendicaServis uslugaServis;
+	VikendicaServis vikendicaServis;
 
 	@Autowired
 	KorisnikServis korisnikServis;
@@ -24,8 +25,8 @@ public class VikendicaKontroler {
 	@RequestMapping(value = "/klijent/vikendice/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id) {
 		System.out.println("BrodKlijentProfil page was called!");
-		Vikendica usluga = uslugaServis.findById(id);
-		List<Vikendica> lista = uslugaServis.findByVlasnik(3L);
+		Vikendica usluga = vikendicaServis.findById(id);
+		List<Vikendica> lista = vikendicaServis.findByVlasnik(3L);
 		model.addAttribute("vik", usluga);
 		model.addAttribute("vikVlas", lista);
 		return "VikOsnovniProfil";
@@ -34,11 +35,23 @@ public class VikendicaKontroler {
 	@RequestMapping(value = "/vikendice/{id}")
 	public String getUnauthServicePage(Model model, @PathVariable Long id) {
 		System.out.println("BrodProfil page was called!");
-		Vikendica usluga = uslugaServis.findById(id);
-		List<Vikendica> lista = uslugaServis.findByVlasnik(3L);
+		Vikendica usluga = vikendicaServis.findById(id);
+		List<Vikendica> lista = vikendicaServis.findByVlasnik(3L);
 		model.addAttribute("vik", usluga);
 		model.addAttribute("vikVlas", lista);
 		System.out.println(model.toString());
 		return "VikOsnovniProfil";
+	}
+	
+	@RequestMapping(value = "/vikendice/napravi/{vlasnikID}")
+	public String napraviVikendicu(Model model, @PathVariable Long vlasnikID, VikendicaDTO novaVikendica )
+	{
+		System.out.println("Napravi Vikendicu called!");
+		novaVikendica.setVlasnik(vlasnikID);
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		//TODO:dodati provjeru za duplikate
+		vikendicaServis.dodajVikendicu(novaVikendica);
+		
+		return "napravljenaVikendica";
 	}
 }

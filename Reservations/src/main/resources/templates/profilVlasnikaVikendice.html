@@ -1,20 +1,29 @@
-<html>
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head><meta charset="UTF-8"></meta>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/pocetna.css}"
+	href="/css/pocetna.css">
+</head>
 <body>
     <div class="p-3 py-5">
        <div class="d-flex justify-content-md-center align-items-center mb-3">
-           <h4 class="text-right">Moji podaci</h4>
+           <h4 class="text-center">Moji podaci</h4>
        </div>
         
         <div class="row mt-3 ">
-            <div class="col-md-12"><label class="labels">Ime</label><input readonly type="text" class="form-control" placeholder="Unesite ime" th:value="${vlasnikVikendice.ime}"></div>
-            <div class="col-md-12"><label class="labels">Prezime</label><input readonly type="text" class="form-control" placeholder="Unesite prezime" th:value="${vlasnikVikendice.prezime}"></div>
-            <div class="col-md-12"><label class="labels">Korisnièko ime</label><input readonly type="text" class="form-control" placeholder="Unesite korisnièko ime" th:value="${vlasnikVikendice.korisnickoIme}"></div>
-            <div class="col-md-12"><label class="labels">Adresa</label><input readonly type="text" class="form-control" placeholder="Unesite mjesto prebivališta" th:value="${vlasnikVikendice.adresa}"></div>
-            <div class="col-md-12"><label class="labels">Grad</label><input readonly type="text" class="form-control" placeholder="Unesite grad" th:value="${vlasnikVikendice.grad}"></div>
-            <div class="col-md-12"><label class="labels">Država</label><input readonly type="text" class="form-control" placeholder="Unesite državu" th:value="${vlasnikVikendice.drzava}"></div>
-            <div class="col-md-12"><label class="labels">Broj telefona</label><input readonly type="text" class="form-control" placeholder="Unesite broj telefona" th:value="${vlasnikVikendice.brojTel}"></div>
-            <div class="col-md-12"><label class="labels">Elektronska Pošta</label><input readonly type="text" class="form-control" placeholder="Unesite elektronsku poštu" th:value="${vlasnikVikendice.email}"></div>
-        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Izmijeni podatke</button>
+            <div class="col-md-8"><label class="labels">Ime</label><input readonly type="text" class="form-control" placeholder="Unesite ime" th:value="${vlasnikVikendice.ime}" name="ime"></div>
+            <div class="col-md-8"><label class="labels">Prezime</label><input readonly type="text" class="form-control" placeholder="Unesite prezime" th:value="${vlasnikVikendice.prezime}" name="prezime"></div>
+            <div class="col-md-8"><label class="labels">KorisniÄko ime</label><input readonly type="text" class="form-control" placeholder="Unesite korisniÄko ime" th:value="${vlasnikVikendice.korisnickoIme}" name="korisnickoIme"></div>
+            <div class="col-md-8"><label class="labels">Adresa</label><input readonly type="text" class="form-control" placeholder="Unesite mjesto prebivaliÅ¡ta" th:value="${vlasnikVikendice.adresa}" name="adresa"></div>
+            <div class="col-md-8"><label class="labels">Grad</label><input readonly type="text" class="form-control" placeholder="Unesite grad" th:value="${vlasnikVikendice.grad}" name="grad"></div>
+            <div class="col-md-8"><label class="labels">DrÅ¾ava</label><input readonly type="text" class="form-control" placeholder="Unesite drÅ¾avu" th:value="${vlasnikVikendice.drzava}" name="drzava"></div>
+            <div class="col-md-8"><label class="labels">Broj telefona</label><input readonly type="text" class="form-control" placeholder="Unesite broj telefona" th:value="${vlasnikVikendice.brojTel}" name="brojTel"></div>
+            <div class="col-md-8"><label class="labels">Elektronska PoÅ¡ta</label><input readonly type="text" class="form-control" placeholder="Unesite elektronsku poÅ¡tu" th:value="${vlasnikVikendice.email}" name="email"></div>
+        <div class="mt-5 text-left"><button class="btn btn-primary profile-button" type="button">Izmijeni podatke</button>
          <button class="btn btn-primary profile-button" type="button">Izmijeni lozinku</button></div>
     </div>
    </div>

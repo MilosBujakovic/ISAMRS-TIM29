@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.PromenaLozinkeDTO;
+import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Vikendica;
@@ -83,7 +85,7 @@ public class VlasnikVikendiceKontroler {
 		return "mojeVikendice";
 	}
 	
-	@RequestMapping(value = "/profilVlasnikaVikendice/{korisnickoIme}")
+	@RequestMapping(value = "/profil/{korisnickoIme}")
 	public String moj_profil(Model model, @PathVariable String korisnickoIme) 
 	{
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
@@ -101,14 +103,70 @@ public class VlasnikVikendiceKontroler {
 		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
 	
-	@RequestMapping(value = "/vikendicaVlasnik/azuriraj")
-	 public String getPodaciPage(Model model){
+	@RequestMapping(value = "/azuriraj-podatke/{korisnickoIme}")
+	 public String prikupiPodatke(Model model, @PathVariable String korisnickoIme){
 	  		System.out.println("AzurirajPodatke page was called!");
-	  		Korisnik podaci=korisnikServis.findById(2L);
-	  		model.addAttribute("podaci", podaci);
+	  		Korisnik korisnik=korisnikServis.findByUsername(korisnickoIme);
+	  		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
+	  		System.out.println(vlasnik);
+	  		model.addAttribute("vlasnikVikendice", vlasnik);
+	  		System.out.println("VLASNIK ID: "+vlasnik.getId());
 	  		System.out.println(model.toString());
-	  		 return "AzurirajPodatke";
+	  		 return "azurirajPodatkeVlasnika";
 	  	  }
+	
+	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}")
+	public String izmijeniPodatke(@PathVariable Long idVlasnika, Model model, VlasnikVikendiceDTO vlasnikVikendice)
+	{		
+	 		System.out.println("Azuriranje Podataka page was called!");
+	 		System.out.println(vlasnikVikendice);
+	 		Korisnik podaci=korisnikServis.azurirajPodatkeVlasnika(vlasnikVikendice);
+	 		model.addAttribute("vlasnikVikendice", podaci);
+	 		System.out.println(model.toString());
+	 		 return "azurirajPodatkeVlasnika";		
+	 	  }
+	
+	@RequestMapping(value = "/promjenaLozinke/{ID}")
+	 public String promjenaLozinke(Model model, @PathVariable Long ID){
+	  		System.out.println("PromjenaLozinke page was called!");
+	  		Korisnik korisnik=korisnikServis.findById(ID);
+	  		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
+	  		System.out.println(vlasnik);
+	  		PromenaLozinkeDTO lozinke = new PromenaLozinkeDTO();
+	  		model.addAttribute("vlasnikVikendice", vlasnik);
+	  		model.addAttribute("lozinke", lozinke);
+	  		System.out.println(model.toString());
+	  		 return "promjenaLozinkeVlasnika";
+	  	  }
+	
+	@RequestMapping(value ="/promijeniLozinku/{ID}")
+	 public String promijeniLozinku(Model model, @PathVariable Long ID, String ime, String prezime, String korisnickoIme, PromenaLozinkeDTO lozinke )
+	{
+  		System.out.println("PromijeniLozinku page was called!");
+  		Korisnik korisnik=korisnikServis.findById(ID);
+  		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
+  		{
+  			return "promjenaLozinkeNeuspjesna";
+  		}
+  		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
+  		{
+  			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
+  	  		return "azurirajPodatkeVlasnika";
+  		}
+  		else return "promjenaLozinkeNeuspjesna";
+  		
+  	  }
+	
+   @RequestMapping(value ="/napraviVikendicu/{ID}")
+   public String napraviVikendicu(Model model, @PathVariable Long ID)
+   {
+	   System.out.println("Pravljenje vikendice was called!");
+	   Korisnik k = korisnikServis.findById(ID);
+	   VikendicaDTO vikendica = new VikendicaDTO();
+	   model.addAttribute("vikendica", vikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   return "napraviVikendicu";
+   }
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 

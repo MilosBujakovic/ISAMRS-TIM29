@@ -2,18 +2,17 @@ package com.Reservations.Servis;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
+import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
-import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
@@ -166,6 +165,23 @@ public class KorisnikServis
 		//cuds.changePassword(staraLozinka, novaLozinka);
 		return this.korisnikRepozitorijum.save(k);
 		
+	}
+	
+	public Korisnik azurirajPodatkeVlasnika(VlasnikVikendiceDTO vlasnik)
+	{
+		Korisnik korisnik = this.findById(vlasnik.getId());
+		if(korisnik!=null)
+		{
+			korisnik.setAdresa(vlasnik.getAdresa());
+			korisnik.setBrojTel(vlasnik.getBrojTel());
+			korisnik.setDrzava(vlasnik.getDrzava());
+			korisnik.setEmail(vlasnik.getEmail());
+			korisnik.setGrad(vlasnik.getGrad());
+			korisnik.setIme(vlasnik.getIme());
+			korisnik.setKorisnickoIme(vlasnik.getKorisnickoIme());
+			korisnik.setPrezime(vlasnik.getPrezime());
+		}
+		return this.korisnikRepozitorijum.save(korisnik);
 	}
 
 
