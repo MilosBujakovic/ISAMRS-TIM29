@@ -8,12 +8,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
+import com.Reservations.Modeli.ZahtevZaBrisanje;
+import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.UslugaServis;
 
@@ -25,6 +28,9 @@ public class InstruktorKontroler {
 	
 	@Autowired
 	UslugaServis uslugaServis;
+
+	@Autowired
+	BrisanjeNalogaServis bnServis;
 	
 	@RequestMapping(value = "")
 	public String getHomePage(Model model, @PathVariable Long id) {
@@ -66,9 +72,10 @@ public class InstruktorKontroler {
 	}
 	
 	@RequestMapping(value = "/profil/brisiNalog", method=RequestMethod.POST)
-	public String requestDelete(@PathVariable Long id) {
+	public String requestDelete(@PathVariable Long id, @RequestParam String razlog) {
 		System.out.println("Brisi page was called!");
-		Korisnik u = korisnikServis.findById(id);
+		Korisnik k = korisnikServis.findById(id);
+		bnServis.save(k, razlog);
 		return "redirect:/instruktor/"+String.valueOf(id)+"/profil";
 	}
 	

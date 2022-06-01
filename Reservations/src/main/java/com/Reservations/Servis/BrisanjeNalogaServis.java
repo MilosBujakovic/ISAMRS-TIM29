@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Repozitorijumi.BrisanjeNalogaRepozitorijum;
@@ -55,5 +56,25 @@ public class BrisanjeNalogaServis {
 		return this.brisanjeRepozitorijum.findByKorisnickoIme(ime);
 
 		}
+
+	public ZahtevZaBrisanje save(Korisnik k, String razlog) {
+		ZahtevZaBrisanje r = new ZahtevZaBrisanje();
+		r.setKorisnickoIme(k.getKorisnickoIme());
+		r.setLozinka(k.getLozinka());
+
+		r.setID(k.getID());
+		r.setIme(k.getIme());
+		r.setPrezime(k.getPrezime());
+		r.setAdresa(k.getAdresa());
+		r.setGrad(k.getGrad());
+		r.setDrzava(k.getDrzava());
+		r.setBrojTel(k.getBrojTel());
+		
+		r.setRazlogRegistracije(razlog);
+		r.setEmail(k.getEmail());
+		
+		return this.brisanjeRepozitorijum.save(r);
+		
+	}
 
 }

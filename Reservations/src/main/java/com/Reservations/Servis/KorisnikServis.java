@@ -35,6 +35,10 @@ public class KorisnikServis
 		return korisnikRepozitorijum.findByKorisnickoIme(username);
 	}
 	
+	public void delete(long id) {
+		this.korisnikRepozitorijum.deleteById(id);
+	}
+	
 	public List<Korisnik> listAll() {
 		return korisnikRepozitorijum.findAll();
 	}
