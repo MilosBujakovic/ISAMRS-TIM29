@@ -11,21 +11,22 @@
 	href="/css/adminProfile.css">
 </head>
 <body>
-	<h1>Profil administratora</h1>
-	<ul class="utilities">
-		<li class="user"><a th:href="@{/admin/}+${id+'/my-profile'}">Moji
-				podaci</a></li>
-		<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
-	</ul>
+	<header role="banner">
+		<h1>Profil administratora</h1>
+		<ul class="utilities">
+			<li class="user"><a th:href="@{/admin/}+${id+'/profil'}">Moji
+					podaci</a></li>
+			<li class="logout warn"><a th:href="@{/login}">Log out</a></li>
+		</ul>
 	</header>
 
 	<nav role="navigation">
 		<ul class="main">
-			<li class="preview"><a th:href="@{/admin/}+${id+'/view-all'}">Prikaz
+			<li class="preview"><a th:href="@{/admin/}+${id+'/pregled'}">Prikaz
 					svih entiteta</a></li>
-			<li class="euro"><a th:href="@{/admin/}+${id+'/revenue'}">Evidencija
+			<li class="euro"><a th:href="@{/admin/}+${id+'/prihodi'}">Evidencija
 					prihoda</a></li>
-			<li class="reports"><a th:href="@{/admin/}+${id+'/reports'}">Prikaz
+			<li class="reports"><a th:href="@{/admin/}+${id+'/izvestaji'}">Prikaz
 					izvestaja</a></li>
 			<li class="home"><a th:href="@{/admin/}+${id}">Nazad na
 					profil</a></li>
@@ -64,7 +65,8 @@
 			</table>
 		</section>
 		<section class="panel important">
-			<form th:action="@{/admin/}+ ${id +'/request/'} + ${zahtev.ID} + @{/submit}">
+			<form
+				th:action="@{/admin/}+ ${id +'/zahtevReg/'} + ${zahtev.ID} + @{/submit}">
 				<div class="onethird">
 					<label for="y"> <input type="radio" name="radio" id="y"
 						value="accept" /> Prihvati zahtev

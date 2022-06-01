@@ -74,5 +74,7 @@ public String registerOwner( @PathVariable Long id,Korisnik user,ZahtevZaBrisanj
 	
 	return "AzurirajPodatke";
 }
+
+
 	
 } 
