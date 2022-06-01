@@ -1,18 +1,4 @@
-<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Humburger Menu</title>
-    <link rel="stylesheet" href="./style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
-    <style>
-        * {
+        {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -22,34 +8,67 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             font-family: "Arial", sans-serif;
         }
         
-        nav {
-            background: red;
-            color: #fff;
-            display: flex;
-            justify-content: space-between;
+
+
+        section.top
+        {
+            float: top;
+            min-width: 100%;
+        }
+        section.left
+        {
+            float: left;
+            min-height: 100%;
+            min-width: 20%;
+            max-width: 25%;
+            margin-left: 0%;
         }
         
+        section.right-top
+        {
+          float: right;
+          text-align: center;
+          margin-left:25%;   
+        }
+
+        iframe, section.right
+        {
+          float: right;
+          text-align: center;   
+          margin-left: 30%;
+          min-width: 100%;
+          min-height: 100%;
+        }
+        nav {
+          background: #4a4a4a;
+          color: #3886e8;
+          display: flex;
+          position: fixed;
+          min-height: 100%;
+      }
+        
         nav .mainMenu {
-            display: flex;
             list-style: none;
+            min-height: 100%;
         }
         
         nav .mainMenu li a {
-            display: inline-block;
+            display: flex;
             padding: 15px;
             text-decoration: none;
             text-transform: uppercase;
-            color: #fff;
-            font-size: 1.5rem;
+            color: #3886e8;
+            font-size: 1.25rem;
+
         }
         
         nav .mainMenu li a:hover {
-            background: rgb(255, 94, 0);
+            background: grey;
         }
         
         nav .openMenu {
             font-size: 2rem;
-            margin: 20px;
+            margin: 25px;
             display: none;
             cursor: pointer;
         }
@@ -79,7 +98,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
         
         nav .logo {
             margin: 6px;
-            font-size: 25px;
+            font-size: 10px;
             cursor: pointer;
         }
         
@@ -118,11 +137,38 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             }
         }
 		img {
- 
+  border-radius: 50%;
   border: 5px solid #ffff;
-  
 }
 
+.centered 
+{
+	margin-left: auto;
+	margin-right: auto;	
+}
+
+.labels {
+  font-size: 15px;
+  text-align: center;
+}
+
+.basic-table
+{
+  table-layout: fixed;
+  text-align: center;
+  padding-top:5%;
+  padding-left: 25%;
+  padding-right: 25%;
+	
+}
+
+
+
+table .two-columned
+{
+  column-width: 50%;
+  
+}
 
 
 .container {
@@ -211,22 +257,24 @@ body {
   transform: translateY(-50%);
   float: left;
   height: 40px;
-  width: 160px;
+  width: 171px;
   margin-left: 5px;
 }
-#logo img{
-  border-radius: 50%;
-  }
+
 ul.nav {
   float: right;
   list-style: none;
   margin: 0;
   padding: 0;
+  border-color: white;
+  border-width: 1px;
 }
 
 ul.nav li {
   float: left;
   position: relative;
+  border-color: white;
+  border-width: 1px;
 }
 
 ul.nav li a {
@@ -235,7 +283,7 @@ ul.nav li a {
 }
 
 ul.nav li:hover a {
-  color: red;
+  color: grey;
 }
 
 ul.nav li a {
@@ -520,9 +568,6 @@ h2 {
     transform: none;
     margin: 10px auto 0 auto;
   }
-  #logo img{
-  border-radius: 50%;
-  }
   ul.nav {
     float: none;
     display: block;
@@ -586,7 +631,7 @@ h2 {
 
 .page-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: stretch;
   width: 100%;
   grid-gap: 1rem;
@@ -651,7 +696,7 @@ h2 {
   transition: transform calc(var(--d) * 2) var(--e);
 }
 .card:nth-child(3n+1):before {
-  background-image: url("vik2.jpg");
+  background-image: url("/img/vik2.jpg");
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
@@ -659,14 +704,14 @@ h2 {
   
 }
 .card:nth-child(3n+2):before {
-  background-image: url("slika3.jpg");
+  background-image: url("/img/slika3.jpg");
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
  /* background-color: #9b0052;*/
 }
 .card:nth-child(3n):before {
-  background-image: url("slika2.jpg");
+  background-image: url("/img/slika2.jpg");
   background-position: center; /* Center the image */
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
@@ -763,462 +808,3 @@ h2 {
 .card:focus-within .content > *:not(.title) {
     transition-duration: 0s;
   }
-  .d-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-.align-center {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-.flex-centerY-centerX {
-  justify-content: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-body {
-  background-color: #f7f7f7;
-}
-
-.page-wrapper {
-  height: 100%;
-  display: table;
-}
-
-.page-wrapper .page-inner {
-  display: table-cell;
-  vertical-align: middle;
-}
-
-.el-wrapper {
-  width: 360px;
-  padding: 15px;
-  margin: 15px auto;
-  background-color: #fff;
-  border-radius:5%;
-}
-
-@media (max-width: 991px) {
-  .el-wrapper {
-    width: 345px;
-  }
-}
-
-@media (max-width: 767px) {
-  .el-wrapper {
-    width: 290px;
-    margin: 30px auto;
-  }
-}
-
-.el-wrapper:hover .h-bg {
-  left: 0px;
-}
-
-.el-wrapper:hover .price {
-  left: 20px;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
-  color: #818181;
-}
-
-.el-wrapper:hover .add-to-cart {
-  left: 50%;
-}
-
-.el-wrapper:hover .img {
-  webkit-filter: blur(7px);
-  -o-filter: blur(7px);
-  -ms-filter: blur(7px);
-  filter: blur(7px);
-  filter: progid:DXImageTransform.Microsoft.Blur(pixelradius='7', shadowopacity='0.0');
-  opacity: 0.4;
-}
-
-.el-wrapper:hover .info-inner {
-  bottom: 155px;
-}
-
-.el-wrapper:hover .a-size {
-  -webkit-transition-delay: 300ms;
-  -o-transition-delay: 300ms;
-  transition-delay: 300ms;
-  bottom: 50px;
-  opacity: 1;
-}
-
-.el-wrapper .box-down {
-  width: 100%;
-  height: 60px;
-  position: relative;
-  overflow: hidden;
-}
-
-.el-wrapper .box-up {
-  width: 100%;
-  height: 300px;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-}
-
-.el-wrapper .img {
-  padding: 20px 0;
-  -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-}
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 5px;
-}
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-.h-bg {
-  -webkit-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 800ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  width: 660px;
-  height: 100%;
-  background-color: #3f96cd;
-  position: absolute;
-  left: -659px;
-}
-
-.h-bg .h-bg-inner {
-  width: 50%;
-  height: 100%;
-  background-color: #464646;
-}
-
-.info-inner {
-  -webkit-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 400ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  position: absolute;
-  width: 100%;
-  bottom: 25px;
-}
-
-.info-inner .p-name,
-.info-inner .p-company {
-  display: block;
-}
-
-.info-inner .p-name {
-  font-family: 'PT Sans', sans-serif;
-  font-size: 18px;
-  color: white;
-}
-
-.info-inner .p-company {
-  font-family: 'Lato', sans-serif;
-  font-size: 12px;
-  text-transform: uppercase;
-  color: white;
-}
-
-.a-size {
-  -webkit-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 300ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  position: absolute;
-  width: 100%;
-  bottom: -20px;
-  font-family: 'PT Sans', sans-serif;
-  color: #828282;
-  opacity: 0;
-}
-
-.a-size .size {
-  color: #252525;
-}
-
-.cart {
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  font-family: 'Lato', sans-serif;
-  font-weight: 700;
-}
-
-.cart .price {
-  -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-delay: 100ms;
-  -o-transition-delay: 100ms;
-  transition-delay: 100ms;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  font-size: 16px;
-  color: #252525;
-}
-
-.cart .add-to-cart {
-  -webkit-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  -o-transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  transition: all 600ms cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -moz-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  -o-transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  transition-timing-function: cubic-bezier(0, 0, 0.18, 1);
-  /* ease-out */
-  -webkit-transition-delay: 100ms;
-  -o-transition-delay: 100ms;
-  transition-delay: 100ms;
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 110%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
-.cart .add-to-cart .txt {
-  font-size: 12px;
-  color: #fff;
-  letter-spacing: 0.045em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.img1{
-	width:100%;
-	height:100%;
-
-}
-*{
-  box-sizing: border-box;
-}
-
-.search-box{
-  width: fit-content;
-  height: fit-content;
-  position: relative;
-}
-.input-search{
-  height: 50px;
-  width: 50px;
-  border-style: none;
-  padding: 10px;
-  font-size: 18px;
-  letter-spacing: 2px;
-  outline: none;
-  border-radius: 25px;
-  transition: all .5s ease-in-out;
-  background-color: #00ccff;
-  padding-right: 40px;
-  color:#fff;
-  margin-left:950px;
-}
-.input-search::placeholder{
-  color:rgba(255,255,255,.5);
-  font-size: 18px;
-  letter-spacing: 2px;
-  font-weight: 100;
-  margin-left:800px;
-}
-.btn-search{
-  width: 50px;
-  height: 50px;
-  border-style: none;
-  font-size: 20px;
-  font-weight: bold;
-  outline: none;
-  cursor: pointer;
-  border-radius: 50%;
-  position: absolute;
-  right: 0px;
-  color:#ffffff ;
-  background-color:transparent;
-  pointer-events: painted;  
-  margin-left:800px;
-}
-.btn-search:focus ~ .input-search{
-  width: 300px;
-  border-radius: 10px;
-  background-color: #00ccff;
-  border-bottom:1px solid rgba(255,255,255,.5);
-  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-  margin-left:800px;
-}
-.input-search:focus{
-  width: 300px;
-  border-radius: 10px;
-  background-color:  #00ccff;
-  border-bottom:1px solid rgba(255,255,255,.5);
-  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
-  margin-left:800px;
-  
-}
-
-
-
-/*  footer   */
-footer {
-    background-color: #222;
-    color: #fff;
-    font-size: 14px;
-    bottom: 0;
-    position: fixed;
-    left: 0;
-    right: 0;
-    text-align: center;
-    z-index: 999;
-}
-
-    </style>
-</head>
-
-<body>
- <div class="hold">
-  <div class="header" >
-    <div class="container">
-      <div id="logo">
-      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
-      
-	   <h3 style="float:right;">Klijent</h3>
-	   
-	
-      </div>
-	 
-      <ul class="nav">
-      
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Kontakt</a></li>
-        <li><a th:href="@{/login}">Login</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<br><br><br><br><br>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<form align="center">
-  
-    <div class="search-box" align="center">
-    <button class="btn-search" id="go"  th:onclick="myFunction()"><i class="fas fa-search"></i></button>
-    <input type="text" id="search" class="input-search" placeholder="Type to Search...">
-  </div>
-  
-  
-</form>
-<br><br><br>
-<div class="column" th:each="inst:${usluga}">
-<div class="row">
-<div class="container page-wrapper">
-  <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper" th:alt="${inst.naziv.toLowerCase()}">
-        <div class="box-up" th:alt="${inst.naziv.toLowerCase()}">
-          <img class="img1"  th:src="${inst.linkSlike}" th:alt="${inst.naziv.toLowerCase()}">
-          <div class="img-info">
-            <div class="info-inner">
-             
-              <span class="p-company" th:text="${inst.naziv}">Iznajmite opremu i pecajte sa Janom,Dunav</span>
-            </div>
-           
-          </div>
-        </div>
-
-        <div class="box-down">
-          <div class="h-bg">
-            <div class="h-bg-inner"></div>
-          </div>
-
-          <a class="cart" th:href="@{/usluga/}+${inst.ID}">
-            <span class="price" th:text="${inst.cena}">$120</span>
-            <span class="add-to-cart">
-              <span class="txt">Prikazi profil</span>
-            </span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-</div>
- <script th:inline="javascript">
- function myFunction() {
-	  $('form').submit(function(e) {
-	  e.preventDefault(); 
-	  $('div img').hide();
-	  $('div img[alt*="' + $('#search').val() + '"]').show();
-	  $('div img[alt*="logo"]').show();
-	  
-	});
-	 $('form').submit(function(e) {
-	  e.preventDefault(); 
-	  $('.el-wrapper').hide();
-	  $('.el-wrapper[alt*="' + $('#search').val().toLowerCase() + '"]').show();
-	  
-	});
-	}
-    </script>
-</body>
-
-</html>

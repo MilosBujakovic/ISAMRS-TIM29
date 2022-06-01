@@ -1,0 +1,431 @@
+      * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+      
+        body {
+            font-family: "Arial", sans-serif;
+        }
+
+        .img1 {
+          height:200px;
+          background-color:#FFFFFF;
+          margin-top:10px;
+          overflow: hidden;
+      }
+      
+      .top1 img {
+          height:100%;
+      }
+        
+        nav {
+            background: #4a4a4a;
+            color: #3886e8;
+            display: flex;	
+            justify-content: space-between;
+        }
+        
+        nav .mainMenu {
+            list-style: none;
+        }
+        
+        nav .mainMenu li a {
+            display: flex;
+            padding: 15px;
+            text-decoration: none;
+            text-transform: uppercase;
+            color: #3886e8;
+            font-size: 1.25rem;
+        }
+        
+        nav .mainMenu li a:hover {
+            background: grey;
+        }
+        
+        nav .openMenu {
+            font-size: 2rem;
+            margin: 25px;
+            display: none;
+            cursor: pointer;
+        }
+        
+        nav .mainMenu .closeMenu,
+        .icons i {
+            font-size: 2rem;
+            display: none;
+            cursor: pointer;
+        }
+        
+        .fa-facebook:hover {
+            color: rgb(0, 110, 255);
+        }
+        
+        .fa-twitter:hover {
+            color: rgb(86, 154, 243);
+        }
+        
+        .fa-instagram:hover {
+            color: rgb(255, 0, 191);
+        }
+        
+        .fa-github:hover {
+            color: rgb(255, 123, 0);
+        }
+        
+        nav .logo {
+            margin: 6px;
+            font-size: 25px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 800px) {
+            nav .mainMenu {
+                height: 100vh;
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                z-index: 10;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                background: #000;
+                transition: top 1s ease;
+                display: none;
+            }
+            nav .mainMenu .closeMenu {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 20px;
+            }
+            nav .openMenu {
+                display: block;
+            }
+            nav .mainMenu li a:hover {
+                background: none;
+                color: rgb(255, 123, 0);
+                font-size: 1.6rem;
+            }
+            .icons i {
+                display: inline-block;
+                padding: 12px;
+            }
+        }
+		img {
+ 
+  border: 5px solid #ffff;
+  
+}
+
+
+
+.container {
+  position: relative;
+  font-family: Arial;
+}
+
+.text-block {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: black;
+  color: white;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+/*
+  terrible.css
+  Andrew Tunecliffe, 2015
+  http://atunnecliffe.com
+*/
+/* uncomment to see outlines of stuff when you hover *-/
+:hover {
+  background:rgba(0, 0, 0, 0.1);
+}/**/
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.section {
+  width: 100%;
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  color: #444;
+  font-size: 14px;
+  font-weight: 300;
+  font-family: Roboto, 'Open Sans', Arial, sans-serif;
+  overflow: hidden;
+}
+
+.section .container {
+  padding: 30px 0 50px 0;
+}
+
+.section.bg {
+  background: #f7f7f7;
+}
+/*
+  Header
+*/
+
+.hold {
+  height: 120px;
+}
+
+.header {
+  line-height: 120px;
+  width: 100%;
+  transition: line-height 0.2s linear, box-shadow 0.2s linear;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(245, 245, 245, 0.97);
+}
+
+.header.small {
+  line-height: 50px;
+  box-shadow: 0px 1px 3px 0px rgba(50, 50, 50, 0.8);
+}
+
+.header.small > .container > #logo {
+  height: 40px;
+}
+
+#logo {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+  float: left;
+  height: 40px;
+  width: 160px;
+  margin-left: 5px;
+}
+#logo img{
+  border-radius: 50%;
+  }
+ul.nav {
+  float: right;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+ul.nav li {
+  float: left;
+  position: relative;
+}
+
+ul.nav li a {
+  transition: color 0.2s linear;
+  font-size: 18px;
+}
+
+ul.nav li:hover a {
+  color: red;
+}
+
+ul.nav li a {
+  padding: 21px;
+  color: initial;
+  text-decoration: initial;
+}
+/*
+  Slider
+*/
+
+.section .slider,
+.section .footer {
+  background-image: url("https://static.wixstatic.com/media/84770f_a1b4f8827bf14dbbb73de592eb44eec4~mv2.jpg/v1/fill/w_1783,h_479,al_c,q_85,enc_auto/84770f_a1b4f8827bf14dbbb73de592eb44eec4~mv2.jpg");
+  background-position: center; /* Center the image */
+  background-repeat: no-repeat; /* Do not repeat the image */
+  background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.slidercontent {
+  text-align: center;
+}
+
+.hero {
+  font-family: 'Roboto Slab', sans-serif;
+  color: white;
+  text-shadow: 3px 3px 3px #822d7d;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+h1.hero {
+  font-size: 54px;
+}
+
+h2.hero {
+  font-size: 30px;
+  margin-bottom: 60px;
+}
+
+h1.hero:after {
+  content: "";
+  width: 300px;
+  position: relative;
+  border-bottom: 1px solid #aaa;
+  text-align: center;
+  margin: auto;
+  margin-top: 15px;
+}
+
+.call {
+  color: white;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.call span {
+  display: inline;
+  border: 1px solid white;
+  padding: 8px 13px;
+  font-size: 20px;
+  transition: background 0.15s linear;
+}
+
+.call span:hover {
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+/* 
+  Columns 
+*/
+
+.col {
+  float: left;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.col.four {
+  width: 23%;
+  margin: 0 1%;
+}
+
+.col.three {
+  width: 31.3%;
+  margin: 0 1%;
+}
+
+.col.two {
+  width: 40%;
+  margin: 0 2.5%;
+  padding: 0 2.5%;
+}
+
+.col.extrapad {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.col .service,
+.col .feature {
+  font-size: 21px;
+  font-weight: 300;
+  font-family: 'Roboto Slab', sans-serif;
+}
+
+.col .service:after {
+  content: "";
+  width: 50px;
+  position: relative;
+  border-bottom: 1px solid #eee;
+  display: block;
+  text-align: center;
+  margin: auto;
+  margin-top: 15px;
+}
+
+.col .feature {
+  font-size: 19px;
+}
+
+.col h1.side,
+.col p.side,
+.col span.side:first-of-type {
+  margin-left: 50px;
+  text-align: left;
+}
+
+.col .icon {
+  border-radius: 50%;
+  height: 85px;
+  width: 85px;
+  line-height: 85px;
+  text-align: center;
+  margin: 0 auto;
+  transition: background 0.25s linear, color 0.25s linear;
+}
+
+.col .icon.side {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: -15px;
+  height: 50px;
+  width: 50px;
+}
+
+.col:hover > .icon {
+  background: #F44336;
+  color: white;
+}
+
+.col:hover > .icon.side {
+  background: initial;
+  color: initial;
+}
+
+.responsivegroup {
+  display: none;
+}
+/*
+  Column specifics
+*/
+
+.col p,
+.col h1 {
+  padding: 0 1%;
+  text-align: center;
+}
+
+.group.margin {
+  margin-bottom: 20px;
+}
+
+.col .imgholder {
+  height: 300px;
+  width: 100%;
+  background: #333;
+  transition: background 0.3s linear;
+}
+
+.col.bg {
+  background: #FFF;
+}
+
+.col.pointer {
+  cursor: pointer;
+}
+
+.col.bg:hover .imgholder {
+  background: #555;
+}
+
+.col span.feature {
+  font-size: 20px;
+}

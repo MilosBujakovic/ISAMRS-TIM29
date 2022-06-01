@@ -96,6 +96,7 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
                 HttpMethod.GET,
                 "/",
                 "/*",
+                "/*/*/*",
                 "/*/*",
                 "/*/**",
                 "/*/*/**",

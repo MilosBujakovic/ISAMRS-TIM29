@@ -1,54 +1,25 @@
 package com.Reservations.Kontroleri;
 
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import com.Reservations.DTO.GVarijablaDTO;
-import com.Reservations.Dodaci.PrihodPDFGenerator;
-import com.Reservations.Modeli.Brod;
-import com.Reservations.Modeli.GlobalnaVarijabla;
+import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Prihod;
-import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Vikendica;
-import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
-import com.Reservations.Servis.RegistracijaServis;
 import com.Reservations.Servis.UlogaServis;
 import com.Reservations.Servis.VikendicaServis;
-import com.ibm.icu.text.DateFormat;
-import com.ibm.icu.text.SimpleDateFormat;
-import com.lowagie.text.DocumentException;
 
 @Controller
+@RequestMapping(value = "/vikendicaVlasnik")
 public class VlasnikVikendiceKontroler {
 
 	@Autowired
@@ -65,49 +36,30 @@ public class VlasnikVikendiceKontroler {
 
 	@Autowired
 	VikendicaServis vikendicaServis;
-/*
-	
-	@RequestMapping(value = "/vikendicaVlasnik/request/{id}")
-	public String viewRequest(Model model, @PathVariable Long id) {
-		System.out.println("Request "+ String.valueOf(id) +" was opened!");
-		Registracija reg = regServis.findById(id);
-		model.addAttribute("zahtev", reg);
-		return "adminRequest";
+
+	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
+	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
+	{
+		System.out.println("prikaziPocetnu: "+korisnickoIme);
+		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
+		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		return "/vlasnikVikendicePocetna.html";
 	}
+	/*
+    @RequestMapping(value = "/getClinicAndDoctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ClinicDoctorNameDTO> getClinicAndDoctor(@RequestParam String clinicId, @RequestParam String doctorId){
+        System.out.println("prikaziPocetnu");
+        ClinicDoctorNameDTO clinicDoctorNameDTO = doctorService.getClinicAndDoctor(clinicId,doctorId);
+        return new ResponseEntity<ClinicDoctorNameDTO>(clinicDoctorNameDTO, HttpStatus.OK);
+    }
+	*/
 	
-	@RequestMapping(value = "/vikendicaVlasnik/request/{id}/submit")
-	public String sendBackRequest(@PathVariable Long id, @RequestParam String radio, @RequestParam String textarea) throws AddressException, MessagingException, IOException {
-		System.out.println("Request was processed!");
-		Registracija reg = regServis.findById(id);
-		System.out.println("radio = " + radio);
-		System.out.println("textarea = " + textarea);
-		System.out.println(reg.toPrivateString());
-		if (radio.equals("deny")) {
-			this.sendEmailToUser(false, textarea, reg.getEmail());
-			regServis.delete(id);
-		}
-		else if (radio.equals("accept")) {
-			this.sendEmailToUser(true, textarea, reg.getEmail());
-			try {
-				korisnikServis.save(reg);
-			}
-			catch (Exception e) {
-				System.out.println(e.getStackTrace().toString());
-			}
-			regServis.delete(id);
-		}
-		else {
-			System.out.println("Something went wrong!");
-		}
-		return "adminProfile";
-	}
-*/
-	@RequestMapping(value = "/vikendicaVlasnik/prikaziVikendice", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model) 
+	@RequestMapping(value = "/prikaziVikendice/{korisnickoIme}", method = RequestMethod.GET)
+	public String getEntitiesPage(Model model, @PathVariable String korisnickoIme) 
 	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
-		List<Vikendica> vikendice = vikendicaServis.listAll();
 		Korisnik vlasnik=null;
 		for (Korisnik kor : korisnici) {
 			if (kor.getUloga().getIme().equals("VikendicaVlasnik"))
@@ -119,26 +71,44 @@ public class VlasnikVikendiceKontroler {
 		}
 		if(vlasnik!=null)
 		{
-			for(Vikendica vikendica : vikendice)
-			{
-				if(vikendica.getVlasnik().equals(vlasnik))model.addAttribute("vikendice", vikendica);
-			}
+			System.out.println("Ubacujem vikendice");
+			List<Vikendica> vikendice = vikendicaServis.findByVlasnik(vlasnik.getID());
+			model.addAttribute("vikendice", vikendice);
+			
 		}
 		else System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
-		
-
+		VlasnikVikendiceDTO vlasnikV= new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
+		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		return "vikendicePregled";
+		return "mojeVikendice";
+	}
+	
+	@RequestMapping(value = "/profilVlasnikaVikendice/{korisnickoIme}")
+	public String moj_profil(Model model, @PathVariable String korisnickoIme) 
+	{
+		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
+		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
+		return "profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
 	}
 
-	@RequestMapping(value = "/vikendicaVlasnik/my-profile")
-	public String getDataPage(Model model) 
+	@RequestMapping(value = "/moj-profil/{korisnickoIme}")
+	public String getDataPage(Model model, @PathVariable String korisnickoIme) 
 	{
-		System.out.println("My profile page was called!");
-		Korisnik vlasnikVikendice = korisnikServis.findById(6L);//TODO:dodati ID iz tokena
+		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
+		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
+	
+	@RequestMapping(value = "/vikendicaVlasnik/azuriraj")
+	 public String getPodaciPage(Model model){
+	  		System.out.println("AzurirajPodatke page was called!");
+	  		Korisnik podaci=korisnikServis.findById(2L);
+	  		model.addAttribute("podaci", podaci);
+	  		System.out.println(model.toString());
+	  		 return "AzurirajPodatke";
+	  	  }
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 
