@@ -46,7 +46,7 @@ public class VlasnikVikendiceKontroler {
 		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
 		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
-		return "/vlasnikVikendicePocetna.html";
+		return "/vikendice/vlasnikVikendicePocetna.html";
 	}
 	/*
     @RequestMapping(value = "/getClinicAndDoctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -82,7 +82,7 @@ public class VlasnikVikendiceKontroler {
 		VlasnikVikendiceDTO vlasnikV= new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		return "mojeVikendice";
+		return "/vikendice/mojeVikendice";
 	}
 	
 	@RequestMapping(value = "/profil/{korisnickoIme}")
@@ -91,7 +91,7 @@ public class VlasnikVikendiceKontroler {
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
-		return "profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
+		return "/vikendice/profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
 	}
 
 	@RequestMapping(value = "/moj-profil/{korisnickoIme}")
@@ -100,7 +100,7 @@ public class VlasnikVikendiceKontroler {
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
-		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
+		return "/vikendice/vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
 	
 	@RequestMapping(value = "/azuriraj-podatke/{korisnickoIme}")
@@ -112,7 +112,7 @@ public class VlasnikVikendiceKontroler {
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		System.out.println("VLASNIK ID: "+vlasnik.getId());
 	  		System.out.println(model.toString());
-	  		 return "azurirajPodatkeVlasnika";
+	  		 return "/vikendice/azurirajPodatkeVlasnika";
 	  	  }
 	
 	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}")
@@ -123,7 +123,7 @@ public class VlasnikVikendiceKontroler {
 	 		Korisnik podaci=korisnikServis.azurirajPodatkeVlasnika(vlasnikVikendice);
 	 		model.addAttribute("vlasnikVikendice", podaci);
 	 		System.out.println(model.toString());
-	 		 return "azurirajPodatkeVlasnika";		
+	 		 return "/vikendice/azurirajPodatkeVlasnika";		
 	 	  }
 	
 	@RequestMapping(value = "/promjenaLozinke/{ID}")
@@ -136,7 +136,7 @@ public class VlasnikVikendiceKontroler {
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		model.addAttribute("lozinke", lozinke);
 	  		System.out.println(model.toString());
-	  		 return "promjenaLozinkeVlasnika";
+	  		 return "/vikendice/promjenaLozinkeVlasnika";
 	  	  }
 	
 	@RequestMapping(value ="/promijeniLozinku/{ID}")
@@ -144,16 +144,17 @@ public class VlasnikVikendiceKontroler {
 	{
   		System.out.println("PromijeniLozinku page was called!");
   		Korisnik korisnik=korisnikServis.findById(ID);
+  		model.addAttribute("vlasnikVikendice", korisnik);
   		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
   		{
-  			return "promjenaLozinkeNeuspjesna";
+  			return "/promjenaLozinkeNeuspjesna";
   		}
   		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
   		{
   			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
   	  		return "azurirajPodatkeVlasnika";
   		}
-  		else return "promjenaLozinkeNeuspjesna";
+  		else return "/promjenaLozinkeNeuspjesna";
   		
   	  }
 	
@@ -165,7 +166,7 @@ public class VlasnikVikendiceKontroler {
 	   VikendicaDTO vikendica = new VikendicaDTO();
 	   model.addAttribute("vikendica", vikendica);
 	   model.addAttribute("vlasnikVikendice", k);
-	   return "napraviVikendicu";
+	   return "/vikendice/napraviVikendicu";
    }
 /*
 	@RequestMapping(value = "/admin/reports")
