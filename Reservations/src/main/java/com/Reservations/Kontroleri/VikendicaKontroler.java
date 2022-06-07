@@ -59,7 +59,7 @@ public class VikendicaKontroler {
 	public String getAuthServicePage(Model model, @PathVariable Long id) {
 		System.out.println("BrodProfil page was called!");
 		Vikendica usluga = vikendicaServis.findById(id);
-		List<Vikendica> lista = vikendicaServis.findByVlasnik(3L);
+		List<Vikendica> lista = vikendicaServis.findByVlasnik(usluga.getVlasnik().getID());
 		model.addAttribute("vik", usluga);
 		model.addAttribute("vikVlas", lista);
 		System.out.println(model.toString());
