@@ -109,7 +109,7 @@ public class AdminKontroler {
 		System.out.println(reg.toPrivateString());
 		if (radio.equals("deny")) {
 			this.sendEmailToUser(false, textarea, reg.getEmail());
-			regServis.delete(id);
+			regServis.delete(rId);
 		} else if (radio.equals("accept")) {
 			this.sendEmailToUser(true, textarea, reg.getEmail());
 			try {
@@ -117,7 +117,7 @@ public class AdminKontroler {
 			} catch (Exception e) {
 				System.out.println(e.getStackTrace().toString());
 			}
-			regServis.delete(id);
+			regServis.delete(rId);
 		} else {
 			System.out.println("Something went wrong!");
 		}
@@ -253,7 +253,7 @@ public class AdminKontroler {
 	}
 
 	@RequestMapping(value = "/prihodi/procenat")
-	public String changeRevenue(Model model, @RequestParam String procenat, @PathVariable Long id) {
+	public String changeRevenue(Model model, @PathVariable Long id, @RequestParam String procenat) {
 		System.out.println("Revenue was changed!");
 		GlobalnaVarijabla gv = gvServis.findByName("procenat");
 		if (gv == null) {

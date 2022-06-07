@@ -52,7 +52,7 @@
 		</section>
 		<section class="panel">
 			<h2>Procenat prihoda od rezervacija</h2>
-			<form th:action="@{/admin/prihodi/procenat}">
+			<form th:action="@{/admin/}+${id+'/prihodi/procenat'}">
 				<div class="twothirds">
 					<label for="procenat">Promenite procenat prihoda:</label> <input
 						type="text" name="procenat" id="procenat" placeholder="0.xx" /> <input
