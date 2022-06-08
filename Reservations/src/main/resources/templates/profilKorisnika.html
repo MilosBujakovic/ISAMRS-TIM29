@@ -796,14 +796,14 @@ h2 {
     <div class="content">
       <h2 class="title">Brodovi</h2>
       <p class="copy">Želite li da uživate u lepom danu na nekoj reci ili jezeru? Iznajmljivanje broda na dan nikad nije bilo lakše. </p>
-       <a th:href="@{/prikazBrodova}"><button class="btn">Pogledajte ponude</button></a>
+       <a th:href="@{/prikazBrodova/}+${id}"><button class="btn">Pogledajte ponude</button></a>
     </div>
   </div>
   <div class="card">
     <div class="content">
       <h2 class="title">Instruktori pecanja</h2>
       <p class="copy">Hteli biste da naučite da pecate? Možda biste u avanturu u prirodi? Rezervišite termin sa jednim od naših instruktora već danas.</p>
-     <a th:href="@{/prikazInstruktora}"> <button class="btn">Pogledajte ponude</button></a>
+     <a th:href="@{/prikazInstruktora/}+${id}"> <button class="btn">Pogledajte ponude</button></a>
     </div>
   </div>
 </main>

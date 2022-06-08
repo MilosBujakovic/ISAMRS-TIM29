@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.UslugaServis;
@@ -30,13 +31,15 @@ public class UslugaKontroler {
 		return "uslugaProfil";
 	}
 	
-	@RequestMapping(value = "/usluga/{id}")
-	public String getUnauthServicePage(Model model, @PathVariable Long id) {
+	@RequestMapping(value = "/usluga/{id}/{id2}")
+	public String getUnauthServicePage(Model model, @PathVariable Long id,@PathVariable Long id2) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
+		Korisnik k=korisnikServis.findById(id2);
 		List<Usluga> lista = uslugaServis.findByInstruktor(5L);
 		model.addAttribute("usluga", usluga);
 		model.addAttribute("uslugeInst", lista);
-		return "uslugaOsnovniProfil";
+		model.addAttribute("kor",k);
+		return "uslugaProfil";
 	}
 }
