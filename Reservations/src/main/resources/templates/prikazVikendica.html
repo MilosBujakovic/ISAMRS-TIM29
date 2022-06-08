@@ -1190,7 +1190,7 @@ footer {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" th:href="@{/Regvikendice/}+${vik.ID}">
+          <a class="cart" th:href="@{/Regvikendice/}+${vik.ID+'/'}+${kor.ID}">
             <span class="price"  th:alt="${vik.cena}" th:text="${vik.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Prikazi profil</span>
