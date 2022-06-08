@@ -23,6 +23,9 @@ public class VikendicaServis {
 	private RezervacijaRepozitorijum rezervacijaRepozitorijum;
 	
 	@Autowired
+	private RezervacijaServis rezervacijaServis;
+	
+	@Autowired
 	private KorisnikServis korisnikServis;
 	
 	public List<Vikendica> listAll(){
@@ -44,53 +47,91 @@ public class VikendicaServis {
 	}
 	
 	
-	public Vikendica dodajVikendicu(VikendicaDTO novaVikendica) {
-		System.out.println("Dodaj vikendicu servis!");
-		Vikendica vikendica = new Vikendica();
-		vikendica.setAdresa(novaVikendica.getAdresa());
-		vikendica.setBrojKreveta(novaVikendica.getBrojKreveta());
-		vikendica.setBrojSoba(novaVikendica.getBrojSoba());
-		vikendica.setCena(novaVikendica.getCena());
-		vikendica.setLinkSlike(novaVikendica.getLinkSlike());
-		vikendica.setNaziv(novaVikendica.getNaziv());
-		vikendica.setOpis(novaVikendica.getOpis());
-		System.out.println(novaVikendica.getVlasnik());
-		Korisnik vlasnik = korisnikServis.findById(novaVikendica.getVlasnik());
-		vikendica.setVlasnik(vlasnik);
-		
-		
-		List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();
-		vikendica.setID(vikendice.size());
-		return vikendicaRepozitorijum.save(vikendica);
-		
+	public String dodajVikendicu(VikendicaDTO novaVikendica) {
+		String poruka;
+		try
+		{
+			System.out.println("Dodaj vikendicu servis!");
+			Vikendica vikendica = new Vikendica();
+			vikendica.setAdresa(novaVikendica.getAdresa());
+			vikendica.setBrojKreveta(novaVikendica.getBrojKreveta());
+			vikendica.setBrojSoba(novaVikendica.getBrojSoba());
+			vikendica.setCena(novaVikendica.getCena());
+			vikendica.setLinkSlike(novaVikendica.getLinkSlike());
+			vikendica.setNaziv(novaVikendica.getNaziv());
+			vikendica.setOpis(novaVikendica.getOpis());
+			System.out.println(novaVikendica.getVlasnik());
+			Korisnik vlasnik = korisnikServis.findById(novaVikendica.getVlasnik());
+			vikendica.setVlasnik(vlasnik);
+			
+			
+			List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();
+			Long ID = 0L;
+			for(Vikendica vik : vikendice)
+			{	
+				if(vik.getID()==ID)
+				{
+					ID++;
+				}
+			}
+			vikendica.setID(ID);
+			vikendicaRepozitorijum.save(vikendica);
+			poruka = "Vikendica je uspjesno dodata!";
+			return poruka;
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			poruka = "Doslo je do greske pri dodavanju!";
+			
+		}
+		return poruka;
 	}
 	
-	public Vikendica izmijeniVikendicu(VikendicaDTO novaVikendica, Vikendica staraVikendica) {
-		System.out.println("Dodaj vikendicu servis!");
-		staraVikendica.setAdresa(novaVikendica.getAdresa());
-		staraVikendica.setBrojKreveta(novaVikendica.getBrojKreveta());
-		staraVikendica.setBrojSoba(novaVikendica.getBrojSoba());
-		staraVikendica.setCena(novaVikendica.getCena());
-		staraVikendica.setLinkSlike(novaVikendica.getLinkSlike());
-		staraVikendica.setNaziv(novaVikendica.getNaziv());
-		staraVikendica.setOpis(novaVikendica.getOpis());
-		System.out.println(novaVikendica.getVlasnik());
-	
-		return vikendicaRepozitorijum.save(staraVikendica);
+	public String izmijeniVikendicu(VikendicaDTO novaVikendica, Vikendica staraVikendica) {
+		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(staraVikendica.getID());
+		for(Rezervacija rez : rezervacije)
+		{
+			if(staraVikendica.getNaziv()!=rez.getNazivEntiteta())
+				rezervacije.remove(rez);
+		}
+		if(rezervacije==null || rezervacije.isEmpty())
+		{
+			System.out.println("Izmjena vikendice servis!");
+			staraVikendica.setAdresa(novaVikendica.getAdresa());
+			staraVikendica.setBrojKreveta(novaVikendica.getBrojKreveta());
+			staraVikendica.setBrojSoba(novaVikendica.getBrojSoba());
+			staraVikendica.setCena(novaVikendica.getCena());
+			
+			if(novaVikendica.getLinkSlike()!=null || novaVikendica.getLinkSlike()!="")
+				staraVikendica.setLinkSlike(novaVikendica.getLinkSlike());
+			
+			staraVikendica.setNaziv(novaVikendica.getNaziv());
+			staraVikendica.setOpis(novaVikendica.getOpis());
+			System.out.println(novaVikendica.getVlasnik());
 		
+			vikendicaRepozitorijum.save(staraVikendica);
+			return "Izmjena vikendice je uspjesna";
+		}
+		else return "Doslo je do greske, vikendica je vec rezervisana!";
+			
 	}
-	@SuppressWarnings("unused")
-	public boolean obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
+	
+	public String obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
 	{
 		Vikendica staraVikendica = this.findById(vikendicaID);
-		Rezervacija rezervacija = rezervacijaRepozitorijum.findByNazivEntiteta(staraVikendica.getNaziv());
-		
-		if(rezervacija==null)// TODO:provjeriti da li ima rezervacije?
+		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(staraVikendica.getID());
+		for(Rezervacija rez : rezervacije)
+		{
+			if(staraVikendica.getNaziv()!=rez.getNazivEntiteta())
+				rezervacije.remove(rez);
+		}
+		if(rezervacije==null || rezervacije.isEmpty())
 		{	
 			vikendicaRepozitorijum.delete(staraVikendica);
-			return true;
+			return "Brisanje vikendice je uspjesno!";
 		}
-		else return false;
+		else return "Doslo je do greske, vikendica je vec rezervisana!";
 	}
 
 }

@@ -23,11 +23,12 @@
 	<div class="col md-5">
 	<div class="row justify-content-center">
 		<form align="center">
-		  <input type="text" id="search" placeholder="Unesite naziv mesta"></input>
+		  <input type="text" id="search" placeholder="Unesite naziv mjesta"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
 	</div>
 	<br></br>
+	<form>
 	<div class="row">
 	<div align="center" class="column" th:each="vik:${vikendice}">
 	<input type="hidden" id="vikendicaID" name="vikendicaID" th:value="${vik.ID}"></input>
@@ -48,17 +49,20 @@
 	     
 	            <div class="h-bg-inner"></div>
 	          </div>
-	              <button class="btn btn-primary" th:href="@{/vikendicaVlasnik/izmijeniVikendicu/{vlasnikVikendice.ID}/{vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>
-	              
+	          	  <input type="text" readonly th:value="${vik.ID}"></input>
+	              <button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>
+
 	          <br></br>
 	              
 	        </div>
 	      </div>
 	     </div>
 	    </div>
+	</form>
 	  </div>
 	</div>
 	</div>
+	  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	
 <script th:inline="javascript">
  function myFunction() {

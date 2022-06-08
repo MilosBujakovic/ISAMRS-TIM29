@@ -51,8 +51,8 @@ public class VlasnikVikendiceKontroler {
 	}
 
 	
-	@RequestMapping(value = "/prikaziVikendice/{korisnickoIme}", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model, @PathVariable String korisnickoIme) 
+	@RequestMapping(value = "/prikaziVikendice/{vrstaPrikaza}/{korisnickoIme}", method = RequestMethod.GET)
+	public String getEntitiesPage(Model model, @PathVariable String vrstaPrikaza, @PathVariable String korisnickoIme) 
 	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
@@ -80,7 +80,9 @@ public class VlasnikVikendiceKontroler {
 		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		return "/vikendice/mojeVikendice";
+		if(vrstaPrikaza.equals("izmijeni"))return "/vikendice/izmjenaVikendica.html";
+		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else return "/vikendice/mojeVikendice";
 	}
 	
 	@RequestMapping(value = "/profil/{korisnickoIme}")
@@ -188,6 +190,10 @@ public class VlasnikVikendiceKontroler {
 	   model.addAttribute("vlasnikVikendice", k);
 	   return "/vikendice/obrisiVikendicu.html";
    }
+
+   
+   
+   
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 

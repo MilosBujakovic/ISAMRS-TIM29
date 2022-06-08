@@ -119,6 +119,13 @@
   
 }
 
+.img2
+{       
+  height:200px;
+  background-color:#FFFFFF;
+  margin-top:10px;
+  overflow: hidden;
+}
 
 
 .container {
