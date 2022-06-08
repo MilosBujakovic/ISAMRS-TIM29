@@ -98,16 +98,16 @@ public class RegistracijaKontroler {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");
 		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.host", "smtp.gmail.com");
+		props.put("mail.smtp.host", "smtp-mail.outlook.com");
 		props.put("mail.smtp.port", "587");
 
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication("mrs.isa.test@gmail.com", "123456789mrs.");
+				return new PasswordAuthentication("mrs.isa.test@outlook.com", "123456789mrs.");
 			}
 		});
 		Message msg = new MimeMessage(session);
-		msg.setFrom(new InternetAddress("mrs.isa.test@gmail.com", false));
+		msg.setFrom(new InternetAddress("mrs.isa.test@outlook.com", false));
 
 		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("teateodora2000@gmail.com"));
 		msg.setSubject("Novi zahtev za registraciju");
