@@ -57,7 +57,7 @@ button{
 				<div class="column-xs-12 column-md-7">
 					<div class="product-gallery">
 						<div class="product-image">
-								<img th:src="${usluga.linkSlike}">
+								<img th:src="${brod.linkSlike}">
 						</div>
 					</div>
 				</div>
@@ -90,19 +90,18 @@ button{
 
 
  
-					<h1 th:text="${usluga.naziv}">Naziv</h1>
-					<h2 th:text="${usluga.cena + ' din'}">Cena</h2>
+					<h1 th:text="${brod.tip}">Naziv</h1>
+					<h2 th:text="${brod.cena + ' din'}">Cena</h2>
 					<div class="description">
-						<p th:text="${'Adresa: ' + usluga.adresa}">Adresa</p>
+						<p th:text="${'Adresa: ' + brod.snaga}">Adresa</p>
 						<br />
-						<p th:text="${'Broj osoba: ' + usluga.maxOsoba}">Broj osoba</p>
-						
-						<p th:text="${'Opis: ' + usluga.opis}">Opis</p>
+						<p th:text="${'Broj osoba: ' + brod.kapacitet}">Broj osoba</p>
 						<br />
-						<p th:text="${'O instruktoru: ' + usluga.biografijaInstruktora}">Biografija</p>
+						<p th:text="${'Opis: ' + brod.opis}">Opis</p>
+						<br />
 					
 					</div>
-					 <button  class="btn btn-primary profile-button" th:formaction="@{/rezervisiUslugu/}+${usluga.ID+'/'}+${kor.ID}" align="right"  >Rezervisi</button>
+					 <button  class="btn btn-primary profile-button" th:formaction="@{/rezervisiBrod/}+${brod.ID+'/'}+${kor.ID}" align="right"  >Rezervisi</button>
 			</form>
 				</div>
 				
@@ -112,10 +111,10 @@ button{
 				<div class="column-xs-12">
 					<h3>Ovaj instruktor nudi i...</h3>
 				</div>
-				<div class="column-xs-12 column-md-4"  th:each="usl : ${uslugeInst}">
-					<img th:src="${usl.linkSlike}">
-					<h4 th:text="${usl.naziv}">Naziv</h4>
-					<p class="price"  th:text="${usl.cena + ' din'}">Cena</p>
+				<div class="column-xs-12 column-md-4"  th:each="vik : ${vikVlas}">
+					<img th:src="${brod.linkSlike}">
+					<h4 th:text="${brod.naziv}">Naziv</h4>
+					<p class="price"  th:text="${brod.cena + ' din'}">Cena</p>
 				</div>
 			</div>
 		</div>

@@ -32,14 +32,16 @@ public class UslugaKontroler {
 		return "uslugaProfil";
 	}
 	
-	@RequestMapping(value = "/usluga/{id}")
-	public String getUnauthServicePage(Model model, @PathVariable Long id) {
+	@RequestMapping(value = "/usluga/{id}/{id2}")
+	public String getUnauthServicePage(Model model, @PathVariable Long id,@PathVariable Long id2) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
+		Korisnik k=korisnikServis.findById(id2);
 		List<Usluga> lista = uslugaServis.findByInstruktor(usluga.getInstruktorID().getID());
 		model.addAttribute("usluga", usluga);
 		model.addAttribute("uslugeInst", lista);
-		return "uslugaOsnovniProfil";
+		model.addAttribute("kor",k);
+		return "uslugaProfil";
 	}
 	
 	@RequestMapping(value = "/instruktor/{id}/dodajUslugu", method=RequestMethod.POST)
