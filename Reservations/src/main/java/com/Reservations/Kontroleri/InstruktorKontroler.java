@@ -43,7 +43,7 @@ public class InstruktorKontroler {
 	public String getDataPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
 		Korisnik u = korisnikServis.findById(id);
-		model.addAttribute("user", u);
+		model.addAttribute("user", u);	
 		return "instruktorPodaci";
 	}
 	

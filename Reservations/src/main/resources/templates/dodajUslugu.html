@@ -8,6 +8,7 @@
 <title>Profil instruktora</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
 	<div class="hold">
@@ -20,49 +21,54 @@
 				</div>
 
 				<ul class="nav">
-					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj profil</a></li>
+					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija rezervacija</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji</a></li>
-
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<div>
-	<div class="panel">
-		<h2>Moje usluge</h2>
-		<ul th:each="usluga : ${usluge}">
-			<li>
-				<img th:src="${usluga.linkSlike}" class="slika">
-				<div class="txt">
-					<h2 th:text="${usluga.naziv}">Naslov</h2>
-					<p th:text="${usluga.opis}">Opis usluge</p>
-					<p th:text="${usluga.adresa}">Adresa</p>
-				</div>
-				<a href="#"><img src="/img/pencil.png" alt="promeni" class="edit"></a>
-			</li>
-		</ul>
-		<button type="button"></button>
-	</div>
-	<div class="panel">
-		<h2>Trenutne rezervacije</h2>
-		<ul>
-			<li>
-				<img src="" alt="slika" class="slika">
-				<div class="txt">
-					<h2>Naslov</h2>
-					<p>Klijent</p>
-					<p>Pocetni datum</p>
-					<p>Trajanje</p>
-				</div>
-				<a href="#"><img src="/img/pencil.png" alt="promeni" class="edit"></a>
-			</li>
-		</ul>
-	</div>
-	</div>
 	<div class="panel important">
-	
+		<table class="twothirds">
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Naziv</td>
+					<td><input th:placeholder = "Naziv"/></td>
+				</tr>
+				<tr>
+					<td>Slika</td>
+					<td><input type=file/></td>
+				</tr>
+			</table>
 	</div>
+	
 </body>
 </html>

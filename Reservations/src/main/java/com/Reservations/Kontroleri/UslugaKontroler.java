@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.UslugaServis;
@@ -24,7 +26,7 @@ public class UslugaKontroler {
 	public String getProfilePage(Model model, @PathVariable Long id) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
-		List<Usluga> lista = uslugaServis.findByInstruktor(5L);
+		List<Usluga> lista = uslugaServis.findByInstruktor(usluga.getInstruktorID().getID());
 		model.addAttribute("usluga", usluga);
 		model.addAttribute("uslugeInst", lista);
 		return "uslugaProfil";
@@ -34,9 +36,16 @@ public class UslugaKontroler {
 	public String getUnauthServicePage(Model model, @PathVariable Long id) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
-		List<Usluga> lista = uslugaServis.findByInstruktor(5L);
+		List<Usluga> lista = uslugaServis.findByInstruktor(usluga.getInstruktorID().getID());
 		model.addAttribute("usluga", usluga);
 		model.addAttribute("uslugeInst", lista);
 		return "uslugaOsnovniProfil";
+	}
+	
+	@RequestMapping(value = "/instruktor/{id}/dodajUslugu", method=RequestMethod.POST)
+	public String addService(Model model, @PathVariable Long id) {
+		System.out.println("Dodajemo uslugu!");
+		
+		return "dodajUslugu";
 	}
 }
