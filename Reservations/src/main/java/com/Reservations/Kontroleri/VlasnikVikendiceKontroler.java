@@ -48,14 +48,7 @@ public class VlasnikVikendiceKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		return "/vikendice/vlasnikVikendicePocetna.html";
 	}
-	/*
-    @RequestMapping(value = "/getClinicAndDoctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ClinicDoctorNameDTO> getClinicAndDoctor(@RequestParam String clinicId, @RequestParam String doctorId){
-        System.out.println("prikaziPocetnu");
-        ClinicDoctorNameDTO clinicDoctorNameDTO = doctorService.getClinicAndDoctor(clinicId,doctorId);
-        return new ResponseEntity<ClinicDoctorNameDTO>(clinicDoctorNameDTO, HttpStatus.OK);
-    }
-	*/
+
 	
 	@RequestMapping(value = "/prikaziVikendice/{korisnickoIme}", method = RequestMethod.GET)
 	public String getEntitiesPage(Model model, @PathVariable String korisnickoIme) 
@@ -78,8 +71,12 @@ public class VlasnikVikendiceKontroler {
 			model.addAttribute("vikendice", vikendice);
 			
 		}
-		else System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
-		VlasnikVikendiceDTO vlasnikV= new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
+		else
+		{
+			System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
+			return "/loginFaiulure";
+		}
+		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
 		return "/vikendice/mojeVikendice";
@@ -167,6 +164,28 @@ public class VlasnikVikendiceKontroler {
 	   model.addAttribute("vikendica", vikendica);
 	   model.addAttribute("vlasnikVikendice", k);
 	   return "/vikendice/napraviVikendicu";
+   }
+   
+   @RequestMapping(value ="/izmijeniVikendicu/{vlasnikID}/{vikendicaID}")
+   public String izmijeniVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Izmjena vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
+	   model.addAttribute("vikendica", vikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   return "/vikendice/izmijeni/"+vlasnikID+"/"+vikendicaID;
+   }
+   
+   @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{vikendicaID}")
+   public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Brisanje vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
+	   model.addAttribute("vikendica", vikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   return "/vikendice/obrisi/"+vlasnikID+"/"+vikendicaID;
    }
 /*
 	@RequestMapping(value = "/admin/reports")

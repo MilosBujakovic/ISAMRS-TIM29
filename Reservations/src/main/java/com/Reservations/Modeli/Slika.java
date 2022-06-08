@@ -26,6 +26,8 @@ public class Slika
 	@Column(name="slika")
 	private File slika;
 
+	public Slika() {}
+	
 	public Slika(Long iD, String naziv, String putanja, File slika) {
 		super();
 		ID = iD;
@@ -33,6 +35,8 @@ public class Slika
 		this.putanja = putanja;
 		this.slika = slika;
 	}
+	
+	
 
 	public Long getID() {
 		return ID;

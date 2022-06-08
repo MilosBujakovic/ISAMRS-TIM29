@@ -34,7 +34,7 @@ public class VikendicaKontroler {
 	@Autowired
 	SnimanjeDatotekaServis snimanjeDatotekaServis;
 	
-	public String putanjaSlika = "/img/";
+	public String putanjaSlika = "/img/vikendice/";
 	
 	@RequestMapping(value = "/klijent/vikendice/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id) {
@@ -80,40 +80,68 @@ public class VikendicaKontroler {
 			System.out.println("Vikendica:" + novaVikendica);
 			model.addAttribute("vlasnikVikendice", vlasnik);
 			vikendicaServis.dodajVikendicu(novaVikendica);
-			return "/napravljenaVikendica";
+			//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+			return "/vikendice/napravljenaVikendica";
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			return "/loginFailure";
 		}
-		/*
-		try
-		{
-			System.out.println("SlikeDTO?=null: "+slikaDTO==null);
-			System.out.println(snimanjeDatotekaServis.snimiDatoteku(slikaDTO));
-			if(!snimanjeDatotekaServis.snimiDatoteku(slikaDTO))
-			{
-				Exception e = new Exception();
-				e.printStackTrace();
-				return "/loginFailure";
-			}
-			else 
-			{
-				Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-				novaVikendica.setVlasnik(vlasnikID);
-				System.out.println("Vikendica:" + novaVikendica);
-				model.addAttribute("vlasnikVikendice", vlasnik);
-				vikendicaServis.dodajVikendicu(novaVikendica);
-				return "/napravljenaVikendica";
-			}
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return "/loginFailure";
-		}*/
+		
 	}
+	
+	@RequestMapping(value = "/vikendice/izmijeni/{vlasnikID}/{vikendicaID}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public String izmijeniVikendicu(SlikaDTO slikaDTO, Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID, VikendicaDTO novaVikendica) throws IOException
+	{		
+		System.out.println("Izmijeni Vikendicu called!");
+		System.out.println("slika vrijendost: "+ slikaDTO.getSlika());
+		System.out.println(slikaDTO.getNazivSlike());
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
+		File slika = new File(apsolutnaPutanja+this.putanjaSlika+slikaDTO.getNazivSlike());
+		System.out.println(slika.getAbsolutePath());
+		slika.createNewFile();
+		System.out.println("Usao u snimi");
+		Vikendica staraVikendica = vikendicaServis.findById(novaVikendica.getID());
+		
+		try(OutputStream os = new FileOutputStream(slika))
+		{
+			os.write(slikaDTO.getSlika().getBytes());
+			os.close();
+			Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+			novaVikendica.setVlasnik(vlasnikID);
+			novaVikendica.setLinkSlike(this.putanjaSlika+slikaDTO.getNazivSlike());
+			System.out.println("Vikendica:" + novaVikendica);
+			model.addAttribute("vlasnikVikendice", vlasnik);
+			vikendicaServis.izmijeniVikendicu(novaVikendica, staraVikendica);
+			//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+			return "/vikendice/napravljenaVikendica";
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return "/loginFailure";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/vikendice/obrisi/{vlasnikID}/{vikendicaID}")
+	public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID) throws IOException
+	{		
+		System.out.println("Obrisi Vikendicu called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		System.out.println("Usao u snimi");
+		Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
+		//TODO: zastita od brisanja ukoliko postoje rezervacije?s
+		vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+		return "/vikendice/napravljenaVikendica";
+		
+	}
+	
 	@RequestMapping(value = "/Regvikendice/{id}")
 	public String getAuthServicePage(Model model, @PathVariable Long id) {
 		System.out.println("BrodProfil page was called!");
