@@ -27,17 +27,20 @@
         section.right-top
         {
           float: right;
-          text-align: center;
-          margin-left:25%;   
+          text-align: left;
+          margin-left:25%;
+          position: fixed;
+          max-width: 70%;  
         }
 
         iframe, section.right
         {
           float: right;
           text-align: center;   
-          margin-left: 30%;
-          min-width: 100%;
-          min-height: 100%;
+          margin-left: 0%;
+          margin-top: 0%;
+          max-width:80%;
+          position: fixed;
         }
         nav {
           background: #4a4a4a;

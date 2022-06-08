@@ -1,0 +1,48 @@
+<html 
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head><meta charset="UTF-8"></meta>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"></link>
+	<link rel="stylesheet" th:href="@{/css/pocetna.css}"
+	href="/css/pocetna.css"></link>
+	<script>
+
+	function dobavi_putanju_slike()
+	{
+			document.getElementById("naziv").value = document.getElementById("filepicker").value.substring(12);
+			document.getElementById("putanja").value = document.getElementById("filepicker").value;
+			console.log(document.getElementById("filepicker").value.substring(12));
+			console.log(document.getElementById("filepicker").value);
+			//console.log(document.getElementById("filepicker").value);
+			console.log(typeof(document.getElementById("filepicker")));
+	        //console.log($(this).val()); // This will print out the file path
+            //console.log(e.target.files[0]);
+	        
+	        
+	}
+	</script>
+</head>
+<body>
+    <div class="p-3 py-5">
+       <div class="d-flex align-items-center mb-3">
+           <h4 class="text-left">Dodaj Vikendicu</h4>
+       </div>
+        <form enctype="multipart/form-data" th:object="${slika}" method="post">
+        <div class="row mt-3 ">
+        <div class="col-md-7"><input readonly type="hidden" class="form-control" placeholder="Unesite ime" th:value="${vlasnikVikendice.ID}" name="ID"></input></div>
+            <div class="col-md-8"><label class="labels">Naziv</label><input type="text" class="form-control" placeholder="Unesite ime" th:value="${vikendica.naziv}" name="naziv"></input></div>
+            <div class="col-md-8"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="Unesite prezime" th:value="${vikendica.adresa}" name="adresa"></input></div>
+            <div class="col-md-8"><label class="labels">Broj Soba</label><input type="text" class="form-control" placeholder="Unesite korisničko ime" th:value="${vikendica.brojSoba}" name="brojSoba"></input></div>
+            <div class="col-md-8"><label class="labels">Broj Kreveta</label><input type="text" class="form-control" placeholder="Unesite mjesto prebivališta" th:value="${vikendica.brojKreveta}" name="brojKreveta"></input></div>
+            <div class="col-md-8"><label class="labels">Cijena</label><input type="text" class="form-control" placeholder="Unesite grad" th:value="${vikendica.cena}" name="cena"></input></div>
+            <div class="col-md-8"><label class="labels">Slika:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${vikendica.linkSlike}" name="slika" id="filepicker" onchange="dobavi_putanju_slike()" multiple="multiple"></input></div>
+       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike" id="naziv"></input></div>
+       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" id="putanja"></input></div>
+<div class="mt-5 text-left"><button class="btn btn-primary profile-button" th:formaction="@{/vikendice/napravi/}+${vlasnikVikendice.ID}" type="submit" value="0">Dodaj Vikendicu</button>
+         </div>
+    </div></form>
+   </div>
+</body>
+</html>

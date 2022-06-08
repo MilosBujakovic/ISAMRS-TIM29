@@ -7,7 +7,7 @@ import com.Reservations.Modeli.Rezervacija;
 
 public interface RezervacijaRepozitorijum extends JpaRepository<Rezervacija,Long>{
 	Rezervacija findByNazivEntiteta(String username);
-
+	
 	
     
 }

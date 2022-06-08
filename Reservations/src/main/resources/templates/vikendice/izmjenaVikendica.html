@@ -11,30 +11,31 @@
 	<link rel="stylesheet" th:href="@{/css/moje_vikendice.css}"
 	href="/css/moje_vikendice.css"></link>
 		
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"></link>
 </head>
 
 <body>
 
 <div class="container rounded bg-white mt-1 mb-5 ml-0">
 <div class="row justify-content-start">      
-	
-	<br><br></br><br></br>
+	<input type="hidden" id="vlasnikID" name="vlasnikID" th:value="${vlasnikVikendice.ID}"></input>
+	<br></br><br></br>
 	<div class="col md-5">
 	<div class="row justify-content-center">
 		<form align="center">
-		  <input type="text" id="search" placeholder="Unesite naziv mesta" />
+		  <input type="text" id="search" placeholder="Unesite naziv mesta"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
 	</div>
-	<br><br><br>
+	<br></br>
 	<div class="row">
 	<div align="center" class="column" th:each="vik:${vikendice}">
+	<input type="hidden" id="vikendicaID" name="vikendicaID" th:value="${vik.ID}"></input>
 	<div class="container page-wrapper">
 	  <div class="page-inner">
 	      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
 	        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
-	          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}">
+	          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}"></img>
 	          <div class="img-info">
 	            <div class="info-inner">
 	             
@@ -44,30 +45,18 @@
 	          </div>
 	        </div>
 	
-	        <div class="box-down">
-	          <div class="h-bg">
+	     
 	            <div class="h-bg-inner"></div>
 	          </div>
-	
-	          <a class="cart" href="#">
-	            <span class="price"  th:text="${vik.cena}">$120</span>
-	            <span class="add-to-cart">
-	              <span class="txt">Izmijeni vikendicu</span>
-	            </span>
-	          </a>
-	          <br></br><br></br>
-	           <a class="cart" href="#">
-	            <span class="price"  th:text="${vik.cena}">$120</span>
-	            <span class="add-to-cart">
-	              <span class="txt">Obriši vikendicu</span>
-	            </span>
-	          </a>
+	              <button class="btn btn-primary" th:href="@{/vikendicaVlasnik/izmijeniVikendicu/{vlasnikVikendice.ID}/{vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>
+	              
+	          <br></br>
+	              
 	        </div>
 	      </div>
 	     </div>
 	    </div>
 	  </div>
-	</div>
 	</div>
 	</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	
@@ -89,7 +78,6 @@
 	}
     </script>
 	
-	</div>
 </body>
 
 </html>
