@@ -134,11 +134,16 @@ public class VikendicaKontroler {
 		System.out.println("Usao u snimi");
 		Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
 		//TODO: zastita od brisanja ukoliko postoje rezervacije?s
-		vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
+		
 		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 		model.addAttribute("vlasnikVikendice", vlasnik);
+		if(vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID))
+		{
+			 return "/vikendice/napravljenaVikendica";
+		}
+		return "loginFailure";
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
-		return "/vikendice/napravljenaVikendica";
+		
 		
 	}
 

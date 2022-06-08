@@ -36,6 +36,7 @@ public class VlasnikVikendiceKontroler {
 	@Autowired
 	UlogaServis ulogaServis;
 
+	
 	@Autowired
 	VikendicaServis vikendicaServis;
 
@@ -171,10 +172,10 @@ public class VlasnikVikendiceKontroler {
    {
 	   System.out.println("Izmjena vikendice was called!");
 	   Korisnik k = korisnikServis.findById(vlasnikID);
-	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
-	   model.addAttribute("vikendica", vikendica);
+	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
+	   model.addAttribute("vikendica", staraVikendica);
 	   model.addAttribute("vlasnikVikendice", k);
-	   return "/vikendice/izmijeni/"+vlasnikID+"/"+vikendicaID;
+	   return "/vikendice/izmijeniVikendicu.html";
    }
    
    @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{vikendicaID}")
@@ -185,7 +186,7 @@ public class VlasnikVikendiceKontroler {
 	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
 	   model.addAttribute("vikendica", vikendica);
 	   model.addAttribute("vlasnikVikendice", k);
-	   return "/vikendice/obrisi/"+vlasnikID+"/"+vikendicaID;
+	   return "/vikendice/obrisiVikendicu.html";
    }
 /*
 	@RequestMapping(value = "/admin/reports")

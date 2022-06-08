@@ -6,10 +6,9 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Uloga;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
@@ -81,16 +80,17 @@ public class VikendicaServis {
 		
 	}
 	@SuppressWarnings("unused")
-	public Long obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
+	public boolean obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
 	{
+		Vikendica staraVikendica = this.findById(vikendicaID);
+		Rezervacija rezervacija = rezervacijaRepozitorijum.findByNazivEntiteta(staraVikendica.getNaziv());
 		
-		if(true)// TODO:provjeriti da li ima rezervacije?
+		if(rezervacija==null)// TODO:provjeriti da li ima rezervacije?
 		{	
-			Vikendica staraVikendica = this.findById(vikendicaID);
 			vikendicaRepozitorijum.delete(staraVikendica);
-			return vlasnikID;
+			return true;
 		}
-		else return null;
+		else return false;
 	}
 
 }
