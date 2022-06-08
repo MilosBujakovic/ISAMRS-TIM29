@@ -62,15 +62,18 @@ button{
 					</div>
 				</div>
 				<div class="column-xs-12 column-md-5">
-				<form th:action="@{/rezervisiVik}">
+<form>
 				
 				<div class="block">
     <label>Datum pocetka:</label>
     <input type="text" id="datepicker2" name="datum"/>
 </div>
 <br>
+<div class="block">
 <label for="appt-time">Choose an appointment time: </label>
 <input id="appt-time" type="time" name="vreme" value="13:30">
+</div>
+
 
 <br>
 <div class="block">
@@ -84,12 +87,10 @@ button{
     <input type="text" name="maxOsoba" />
   
 </div>
-<div class="block">
- <button  class="btn btn-primary profile-button" align="right" type="sumbit" >Rezervisi</button>
-</div>
-</form>
+
+
  
-					<h1 th:text="${vik.naziv}">Naziv</h1>
+					<h2 th:text="${vik.naziv}"></h2>
 					<h2 th:text="${vik.cena + ' din'}">Cena</h2>
 					
 					<div class="description">
@@ -101,8 +102,12 @@ button{
 						<br />
 					
 					</div>
+					 <button  class="btn btn-primary profile-button" align="right"  th:formaction="@{/rezervisiVik/}+${vik.ID+'/'}+${kor.ID}">Rezervisi</button>
+			</form>
 				</div>
+				
 			</div>
+			
 			<div class="grid related-products">
 				<div class="column-xs-12">
 					<h3>Ovaj instruktor nudi i...</h3>

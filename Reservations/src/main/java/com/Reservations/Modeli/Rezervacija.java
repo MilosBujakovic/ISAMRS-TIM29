@@ -27,9 +27,8 @@ public class Rezervacija {
 	@Column(name="tip_entiteta")
 	private TipEntiteta tipEntiteta;
 	
-	@ManyToOne
-	@JoinColumn(name="entitet_id")
-	private Vikendica entitet;
+	
+
 	
 	@Column(name="nazivEntiteta")
 	private String nazivEntiteta;
