@@ -15,7 +15,6 @@ import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
-import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.UslugaServis;

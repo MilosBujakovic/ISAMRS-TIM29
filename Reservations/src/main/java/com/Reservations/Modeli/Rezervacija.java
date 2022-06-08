@@ -9,6 +9,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Modeli.enums.TipRezervacije;
 @Entity
 @Table(name="Rezervacije")
 public class Rezervacija {
@@ -17,10 +20,15 @@ public class Rezervacija {
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ID;
+
+	@Column(name="entitet_id")
+	private long entitetId;
 	
-	@ManyToOne
-	@JoinColumn(name="entitet_id")
-	private Vikendica entitet;
+	@Column(name="tip_entiteta")
+	private TipEntiteta tipEntiteta;
+	
+	
+
 	
 	@Column(name="nazivEntiteta")
 	private String nazivEntiteta;
@@ -42,6 +50,13 @@ public class Rezervacija {
 	@Column(name="cena")
 	private double cena;
 	
+	@ManyToOne
+	@JoinColumn(name="klijent_id")
+	private Korisnik klijent;
+	
+	@Column(name="tip")
+	private TipRezervacije tip;
+	
 	public Rezervacija () {
 		
 	}
@@ -52,6 +67,24 @@ public class Rezervacija {
 
 	public void setID(long iD) {
 		ID = iD;
+	}
+	
+	
+
+	public long getEntitetId() {
+		return entitetId;
+	}
+
+	public void setEntitetId(long entitetId) {
+		this.entitetId = entitetId;
+	}
+
+	public TipEntiteta getTipEntiteta() {
+		return tipEntiteta;
+	}
+
+	public void setTipEntiteta(TipEntiteta tipEntiteta) {
+		this.tipEntiteta = tipEntiteta;
 	}
 
 	public String getNazivEntiteta() {
@@ -102,6 +135,22 @@ public class Rezervacija {
 
 	public void setCena(double cena) {
 		this.cena = cena;
+	}
+
+	public TipRezervacije getTip() {
+		return tip;
+	}
+
+	public void setTip(TipRezervacije tip) {
+		this.tip = tip;
+	}
+
+	public Korisnik getKlijent() {
+		return klijent;
+	}
+
+	public void setKlijent(Korisnik klijent) {
+		this.klijent = klijent;
 	}
 
 	@Override

@@ -141,15 +141,17 @@ public class VikendicaKontroler {
 		return "/vikendice/napravljenaVikendica";
 		
 	}
-	
-	@RequestMapping(value = "/Regvikendice/{id}")
-	public String getAuthServicePage(Model model, @PathVariable Long id) {
-		System.out.println("BrodProfil page was called!");
+
+	@RequestMapping(value = "/Regvikendice/{id}/{id2}")
+	public String getAuthServicePage(Model model, @PathVariable Long id,@PathVariable Long id2) {
+		System.out.println("ProfilVikendice page was called!");
+		Korisnik k=korisnikServis.findById(id2);
 		Vikendica usluga = vikendicaServis.findById(id);
-		List<Vikendica> lista = vikendicaServis.findByVlasnik(3L);
+		List<Vikendica> lista = vikendicaServis.findByVlasnik(usluga.getVlasnik().getID());
 		model.addAttribute("vik", usluga);
 		model.addAttribute("vikVlas", lista);
-		System.out.println(model.toString());
+		model.addAttribute("kor",k);
+		
 		return "ProfilVikendica";
 
 	}
