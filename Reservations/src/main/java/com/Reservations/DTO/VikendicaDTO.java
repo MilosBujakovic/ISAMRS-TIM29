@@ -25,6 +25,13 @@ public class VikendicaDTO
 	
 	private String linkSlike;
 	
+	private String linkInterijera;
+	
+	private String dodatneUsluge;
+	
+	private String pravilaPonasanja;
+	
+	
 	private double cena;
 	
 	private Long vlasnik;
@@ -41,6 +48,9 @@ public class VikendicaDTO
 		this.cena = vikendica.getCena();
 		this.vlasnik = vikendica.getVlasnik().getID();
 		this.linkSlike = vikendica.getLinkSlike();
+		this.dodatneUsluge = vikendica.getDodatneUsluge();
+		this.pravilaPonasanja = vikendica.getPravilaPonasanja();
+		this.linkInterijera = vikendica.getLinkInterijera();
 	}
 	
 	
@@ -55,6 +65,9 @@ public class VikendicaDTO
 		//this.cena = 0;
 		//this.vlasnik = 0L;
 		this.linkSlike = "";
+		this.linkInterijera = "";
+		this.pravilaPonasanja ="";
+		this.dodatneUsluge = "";
 	}
 
 	@Override
@@ -90,6 +103,42 @@ public class VikendicaDTO
 		this.vlasnik = vlasnik.getID();
 		this.linkSlike = linkSlike;
 	}
+	
+	public VikendicaDTO(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, double cena,
+			Long vlasnik, String linkSlike, String linkSlikeInterijera, String dodatneUsluge, String pravilaPonasanja) {
+		super();
+		ID = iD;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.brojSoba = brojSoba;
+		this.brojKreveta = brojKreveta;
+		this.cena = cena;
+		this.vlasnik = vlasnik;
+		this.linkSlike = linkSlike;
+		this.linkInterijera = linkSlikeInterijera;
+		this.dodatneUsluge = dodatneUsluge;
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+	
+	
+	public VikendicaDTO(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, double cena,
+			Korisnik vlasnik, String linkSlike, String linkSlikeInterijera, String dodatneUsluge, String pravilaPonasanja) {
+		super();
+		ID = iD;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.brojSoba = brojSoba;
+		this.brojKreveta = brojKreveta;
+		this.cena = cena;
+		this.vlasnik = vlasnik.getID();
+		this.linkSlike = linkSlike;
+		this.linkInterijera = linkSlikeInterijera;
+		this.dodatneUsluge = dodatneUsluge;
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+	
 
 	public long getID() {
 		return ID;
@@ -164,6 +213,43 @@ public class VikendicaDTO
 	public void setLinkSlike(String linkSlike) {
 		this.linkSlike = linkSlike;
 	}
+
+
+
+	public String getLinkInterijera() {
+		return linkInterijera;
+	}
+
+
+
+	public void setLinkInterijera(String linkSlikeInterijera) {
+		this.linkInterijera = linkSlikeInterijera;
+	}
+
+
+
+	public String getDodatneUsluge() {
+		return dodatneUsluge;
+	}
+
+
+
+	public void setDodatneUsluge(String dodatneUsluge) {
+		this.dodatneUsluge = dodatneUsluge;
+	}
+
+
+
+	public String getPravilaPonasanja() {
+		return pravilaPonasanja;
+	}
+
+
+
+	public void setPravilaPonasanja(String pravilaPonasanja) {
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+	
 	
 	
 }

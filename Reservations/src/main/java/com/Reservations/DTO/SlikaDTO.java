@@ -13,16 +13,21 @@ public class SlikaDTO
 	
 	
 
-	public SlikaDTO(String putanja, String naziv, String komentari) {
+	public SlikaDTO(String putanja, String naziv) {
 
 		this.putanja = putanja;
 		this.nazivSlike = naziv;
 	}
 
+	public SlikaDTO(String putanja, String naziv, MultipartFile slika) {
+
+		this.putanja = putanja;
+		this.nazivSlike = naziv;
+		this.slika = slika;
+	}
 
 
-
-	public SlikaDTO(int iD, String fotograf, String putanja, String naziv, String komentari, MultipartFile slika) {
+	public SlikaDTO(int iD, String fotograf, String putanja, String naziv, MultipartFile slika) {
 		this.putanja = putanja;
 		this.nazivSlike = naziv;
 		this.slika = slika;

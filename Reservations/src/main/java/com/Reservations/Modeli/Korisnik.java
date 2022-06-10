@@ -58,6 +58,9 @@ public  class Korisnik implements UserDetails {
 	@Column
 	private boolean enabled;//TODO:progledati poslije
 	
+	@Column(name="link_slike")
+	private String linkSlike;
+	
 	public Korisnik()
 	{}
 	
@@ -78,6 +81,34 @@ public  class Korisnik implements UserDetails {
 		this.uloga = uloga;
 		this.uloge.add(uloga);
 	}
+	
+	public Korisnik(long iD, String korisnickoIme, String ime, String prezime, String email, String lozinka,
+			String adresa, String grad, String drzava, String brojTel, Uloga uloga, String linkSlike) {
+		super();
+		ID = iD;
+		this.korisnickoIme = korisnickoIme;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.adresa = adresa;
+		this.grad = grad;
+		this.drzava = drzava;
+		this.brojTel = brojTel;
+		this.uloga = uloga;
+		this.uloge.add(uloga);
+		this.linkSlike = linkSlike;
+	}
+
+	public String getLinkSlike() {
+		return linkSlike;
+	}
+
+
+	public void setLinkSlike(String linkSlike) {
+		this.linkSlike = linkSlike;
+	}
+
 
 	public long getID() {
 		return ID;

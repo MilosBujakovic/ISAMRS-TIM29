@@ -26,6 +26,8 @@ public class VlasnikVikendiceDTO
 	
 	private String brojTel;
 	
+	private String linkSlike;
+	
 	public VlasnikVikendiceDTO()
 	{}
 	
@@ -43,6 +45,23 @@ public class VlasnikVikendiceDTO
 		this.grad = grad;
 		this.drzava = drzava;
 		this.brojTel = brojTel;
+		this.linkSlike = "/img/avatar.png";
+	}
+	
+	public VlasnikVikendiceDTO(Long id, String korisnickoIme, String ime, String prezime, String email, String lozinka,
+			String adresa, String grad, String drzava, String brojTel, String linkSlike) {
+		super();
+		this.ID = id;
+		this.korisnickoIme = korisnickoIme;
+		this.ime = ime;
+		this.prezime = prezime;
+		this.email = email;
+		this.lozinka = lozinka;
+		this.adresa = adresa;
+		this.grad = grad;
+		this.drzava = drzava;
+		this.brojTel = brojTel;
+		this.linkSlike = linkSlike;
 	}
 
 
@@ -67,6 +86,7 @@ public class VlasnikVikendiceDTO
 		this.drzava = korisnik.getDrzava();
 		this.lozinka = korisnik.getLozinka();
 		this.korisnickoIme = korisnik.getKorisnickoIme();
+		this.linkSlike = korisnik.getLinkSlike();
 	}
 
 	
@@ -154,6 +174,16 @@ public class VlasnikVikendiceDTO
 	
 	
 
+	public String getLinkSlike() {
+		return linkSlike;
+	}
+
+
+	public void setLinkSlike(String linkSlike) {
+		this.linkSlike = linkSlike;
+	}
+
+
 	public Date getPoslednjiDatumPromeneLozinke() {
 		return null;
 	}
@@ -163,7 +193,7 @@ public class VlasnikVikendiceDTO
 	public String toString() {
 		return "VlasnikVikendiceDTO [ID=" + ID + ", korisnickoIme=" + korisnickoIme + ", ime=" + ime + ", prezime="
 				+ prezime + ", lozinka=" + lozinka + ", adresa=" + adresa + ", email=" + email + ", grad=" + grad
-				+ ", drzava=" + drzava + ", brojTel=" + brojTel + "]";
+				+ ", drzava=" + drzava + ", brojTel=" + brojTel + ", linkSlike=" + linkSlike + "]";
 	}
 
 

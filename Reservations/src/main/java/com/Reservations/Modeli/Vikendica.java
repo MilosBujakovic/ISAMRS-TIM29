@@ -45,6 +45,17 @@ public class Vikendica {
 	@Column(name="linkSlike")
 	private String linkSlike;
 	
+	@Column(name="link_interijera")
+	private String linkInterijera;
+	
+	@Column(name="pravila_ponasanja")
+	private String pravilaPonasanja;
+	
+	@Column(name="dodatne_usluge")
+	private String dodatneUsluge;
+	
+	//TODO: dodati termine zauzetosti
+	
 	public Vikendica() {
 
 	}
@@ -59,6 +70,21 @@ public class Vikendica {
 		this.brojKreveta = brojKreveta;
 		this.vlasnik = vlasnik;
 		this.linkSlike=linkSlike;
+	}
+	
+	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik,String linkSlike, String linkSlikeInterijera, String dodatneUsluge, String pravilaPonasanja) {
+		super();
+		ID = iD;
+		this.naziv = naziv;
+		this.adresa = adresa;
+		this.opis = opis;
+		this.brojSoba = brojSoba;
+		this.brojKreveta = brojKreveta;
+		this.vlasnik = vlasnik;
+		this.linkSlike=linkSlike;
+		this.pravilaPonasanja = pravilaPonasanja;
+		this.dodatneUsluge = dodatneUsluge;
+		this.linkInterijera = linkSlikeInterijera;
 	}
 
 	public long getID() {
@@ -137,10 +163,36 @@ public class Vikendica {
 		this.linkSlike = linkSlike;
 	}
 
+	public String getLinkInterijera() {
+		return linkInterijera;
+	}
+
+	public void setLinkInterijera(String linkSlikeInterijera) {
+		this.linkInterijera = linkSlikeInterijera;
+	}
+
+	public String getPravilaPonasanja() {
+		return pravilaPonasanja;
+	}
+
+	public void setPravilaPonasanja(String pravilaPonasanja) {
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+
+	public String getDodatneUsluge() {
+		return dodatneUsluge;
+	}
+
+	public void setDodatneUsluge(String dodatneUsluge) {
+		this.dodatneUsluge = dodatneUsluge;
+	}
+
 	@Override
 	public String toString() {
 		return "Vikendica [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", brojSoba="
-				+ brojSoba + ", brojKreveta=" + brojKreveta + ", cena=" + cena + ", vlasnik=" + vlasnik.toString() + "]";
+				+ brojSoba + ", brojKreveta=" + brojKreveta + ", cena=" + cena + ", vlasnik=" + vlasnik + ", linkSlike="
+				+ linkSlike + ", linkSlikeInterijera=" + linkInterijera + ", pravilaPonasanja=" + pravilaPonasanja
+				+ ", dodatneUsluge=" + dodatneUsluge + "]";
 	}
 
 

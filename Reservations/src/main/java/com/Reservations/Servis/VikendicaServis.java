@@ -60,6 +60,9 @@ public class VikendicaServis {
 			vikendica.setLinkSlike(novaVikendica.getLinkSlike());
 			vikendica.setNaziv(novaVikendica.getNaziv());
 			vikendica.setOpis(novaVikendica.getOpis());
+			vikendica.setLinkInterijera(novaVikendica.getLinkInterijera());
+			vikendica.setDodatneUsluge(novaVikendica.getDodatneUsluge());
+			vikendica.setPravilaPonasanja(novaVikendica.getPravilaPonasanja());
 			System.out.println(novaVikendica.getVlasnik());
 			Korisnik vlasnik = korisnikServis.findById(novaVikendica.getVlasnik());
 			vikendica.setVlasnik(vlasnik);
@@ -102,10 +105,19 @@ public class VikendicaServis {
 			staraVikendica.setBrojKreveta(novaVikendica.getBrojKreveta());
 			staraVikendica.setBrojSoba(novaVikendica.getBrojSoba());
 			staraVikendica.setCena(novaVikendica.getCena());
-			
-			if(novaVikendica.getLinkSlike()!=null || novaVikendica.getLinkSlike()!="")
+			staraVikendica.setPravilaPonasanja(novaVikendica.getPravilaPonasanja());
+			staraVikendica.setDodatneUsluge(novaVikendica.getDodatneUsluge());
+			System.out.println("prva slika: "+novaVikendica.getLinkSlike()+"\ndruga slika: "+novaVikendica.getLinkInterijera());
+			if(novaVikendica.getLinkSlike()!=null && !novaVikendica.getLinkSlike().trim().equals(""))
+			{			
+				System.out.println("Prva slika je: "+novaVikendica.getLinkSlike());
 				staraVikendica.setLinkSlike(novaVikendica.getLinkSlike());
-			
+			}
+			if(novaVikendica.getLinkInterijera()!=null && !novaVikendica.getLinkInterijera().trim().equals(""))
+			{
+				System.out.println("Druga slika je: "+novaVikendica.getLinkInterijera());
+				staraVikendica.setLinkInterijera(novaVikendica.getLinkInterijera());
+			}
 			staraVikendica.setNaziv(novaVikendica.getNaziv());
 			staraVikendica.setOpis(novaVikendica.getOpis());
 			System.out.println(novaVikendica.getVlasnik());

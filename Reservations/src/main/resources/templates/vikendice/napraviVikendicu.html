@@ -22,6 +22,20 @@
 	        
 	        
 	}
+	
+	function dobavi_putanju_slike2()
+	{
+			document.getElementById("naziv2").value = document.getElementById("filepicker2").value.substring(12);
+			document.getElementById("putanja2").value = document.getElementById("filepicker2").value;
+			console.log(document.getElementById("filepicker2").value.substring(12));
+			console.log(document.getElementById("filepicker2").value);
+			//console.log(document.getElementById("filepicker").value);
+			console.log(typeof(document.getElementById("filepicker2")));
+	        //console.log($(this).val()); // This will print out the file path
+            //console.log(e.target.files[0]);
+	        
+	        
+	}
 	</script>
 </head>
 <body>
@@ -37,10 +51,15 @@
             <div class="col-md-8"><label class="labels">Broj Soba</label><input type="text" class="form-control" placeholder="Unesite broj soba" th:value="${vikendica.brojSoba}" name="brojSoba"></input></div>
             <div class="col-md-8"><label class="labels">Broj Kreveta</label><input type="text" class="form-control" placeholder="Unesite broj kreveta" th:value="${vikendica.brojKreveta}" name="brojKreveta"></input></div>
             <div class="col-md-8"><label class="labels">Cijena</label><input type="text" class="form-control" placeholder="Unesite cijenu" th:value="${vikendica.cena}" name="cena"></input></div>
-            <div class="col-md-8"><label class="labels">Slika:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${vikendica.linkSlike}" name="slika" id="filepicker" onchange="dobavi_putanju_slike()" multiple="multiple"></input></div>
+            <div class="col-md-8"><label class="labels">Slika:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${vikendica.linkSlike}" name="slika" id="filepicker" onchange="dobavi_putanju_slike()" ></input></div>
+            <div class="col-md-8"><label class="labels">Slika unutrašnjosti:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${vikendica.linkInterijera}" name="slikaInterijera" id="filepicker2" onchange="dobavi_putanju_slike2()"></input></div>
+            <div class="col-md-8"><label class="labels">Pravila ponašanja</label><input type="text" class="form-control" placeholder="Unesite pravila ponasanja" th:value="${vikendica.pravilaPonasanja}" name="pravilaPonasanja"></input></div>
+            <div class="col-md-8"><label class="labels">Dodatne Usluge</label><input type="text" class="form-control" placeholder="Unesite dodatne usluge" th:value="${vikendica.dodatneUsluge}" name="dodatneUsluge"></input></div>
             <div class="col-md-8"><label class="labels">Opis</label><input type="text" class="form-control" placeholder="Opisite vikendicu" th:value="${vikendica.opis}" name="opis"></input></div>
        		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike" id="naziv"></input></div>
        		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" id="putanja"></input></div>
+       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike2" id="naziv2"></input></div>
+       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="putanja2" id="putanja2"></input></div>
 <div class="mt-5 text-left"><button class="btn btn-primary profile-button" th:formaction="@{/vikendice/napravi/}+${vlasnikVikendice.ID}" type="submit" value="0">Dodaj Vikendicu</button>
          </div>
     </div></form>
