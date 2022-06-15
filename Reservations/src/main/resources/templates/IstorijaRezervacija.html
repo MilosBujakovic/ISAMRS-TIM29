@@ -9,29 +9,30 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
     <title>Humburger Menu</title>
     <link rel="stylesheet" href="./style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+     <link id="u-theme-google-font" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
             font-family: "Arial", sans-serif;
         }
-        
+
         nav {
             background: red;
             color: #fff;
             display: flex;
             justify-content: space-between;
         }
-        
+
         nav .mainMenu {
             display: flex;
             list-style: none;
         }
-        
+
         nav .mainMenu li a {
             display: inline-block;
             padding: 15px;
@@ -40,47 +41,47 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
             color: #fff;
             font-size: 1.5rem;
         }
-        
+
         nav .mainMenu li a:hover {
             background: rgb(255, 94, 0);
         }
-        
+
         nav .openMenu {
             font-size: 2rem;
             margin: 20px;
             display: none;
             cursor: pointer;
         }
-        
+
         nav .mainMenu .closeMenu,
         .icons i {
             font-size: 2rem;
             display: none;
             cursor: pointer;
         }
-        
+
         .fa-facebook:hover {
             color: rgb(0, 110, 255);
         }
-        
+
         .fa-twitter:hover {
             color: rgb(86, 154, 243);
         }
-        
+
         .fa-instagram:hover {
             color: rgb(255, 0, 191);
         }
-        
+
         .fa-github:hover {
             color: rgb(255, 123, 0);
         }
-        
+
         nav .logo {
             margin: 6px;
             font-size: 25px;
             cursor: pointer;
         }
-        
+
         @media (max-width: 800px) {
             nav .mainMenu {
                 height: 100vh;
@@ -627,7 +628,7 @@ h2 {
   background-position: 0 0;
   transition: transform calc(var(--d) * 1.5) var(--e);
   pointer-events: none;
-  
+
 }
 .card:after {
   content: "";
@@ -648,7 +649,7 @@ h2 {
   background-repeat: no-repeat; /* Do not repeat the image */
   background-size: cover; /* Resize the background image to cover the entire container */
  /* background-color: #9b0052;*/
-  
+
 }
 .card:nth-child(3n+2):before {
   background-image: url("/img/slika3.jpg");
@@ -755,6 +756,166 @@ h2 {
 .card:focus-within .content > *:not(.title) {
     transition-duration: 0s;
   }
+  @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
+body {
+  background: #f29107;
+  color: #fff;
+  font-weight: 400;
+  font-size: 1em;
+  font-family: 'Lato', Arial, sans-serif;
+  margin:0;
+  padding:0;
+  padding-bottom:60px;
+}
+.ccheader {
+  margin: 0 auto;
+  padding: 2em;
+  text-align: center;
+}
+
+.ccheader h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 2.5em;
+  line-height: 1.3;
+}
+.ccheader {
+  margin: 0 auto;
+  padding: 2em;
+  text-align: center;
+}
+
+.ccheader h1 {
+  margin: 0;
+  font-weight: 300;
+  font-size: 2.5em;
+  line-height: 1.3;
+}
+
+/* Form CSS*/
+.ccform {
+   margin: 0 auto;
+    width: 800px;
+}
+.ccfield-prepend{
+  margin-bottom:10px;
+  width:100%;
+}
+
+.ccform-addon{
+  color:#f8ae45; 
+  float:left;
+  padding:8px;
+  width:8%;
+  background:#FFFFFF;
+  text-align:center;  
+}
+
+.ccformfield {
+  color:#000000; 
+  background:#FFFFFF;
+  border:none;
+  padding:15.5px;
+  width:91.9%;
+  display:block;
+  font-family: 'Lato',Arial,sans-serif;
+  font-size:14px;
+}
+
+.ccformfield {
+  font-family: 'Lato',Arial,sans-serif;
+}
+.ccbtn{
+  display:block;
+  border:none;
+  background:#f8ae45;
+  color:#FFFFFF;
+  padding:12px 25px;
+  cursor:pointer;
+  text-decoration:none;
+  font-weight:bold;
+}
+.ccbtn:hover{
+  background:#d8850e;
+
+}
+.credit {
+  color:#fff;
+  width: 800px;
+  clear:both;
+margin:0 auto;
+  line-height:25px;
+ padding: 25px 50px; 
+}
+.credit em{
+margin-right:5px;
+}
+.credit a {
+color: #0d2ed5;
+font-weight: bold;
+text-decoration: none;
+}
+body {
+    background:#F8F8FF
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #BA68C8
+}
+
+.profile-button {
+    background: rgb(99, 39, 120);
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background: #682773
+}
+
+.profile-button:focus {
+    background: #682773;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #682773;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #682773;
+    cursor: pointer
+}
+
+.labels {
+    font-size: 11px
+}
+
+.add-experience:hover {
+    background: #BA68C8;
+    color: #fff;
+    cursor: pointer;
+    border: solid 1px #BA68C8
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  color:black;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
     </style>
 </head>
 
@@ -762,18 +923,12 @@ h2 {
  <div class="hold">
   <div class="header" >
     <div class="container">
-      <div id="logo">
-      <img alt="logo" src="/img/avatar.png" height="90px" width="90px" style="margin-bottom:90px; ">
-	   <h3 style="float:right;">Klijent</h3>
-      </div>
-	  
+
+
       <ul class="nav">
-       
-        <li><a th:href="@{/azuriraj/}+${id}">Azuriraj podatke</a></li>
-        <li><a th:href="@{/mojeRez/}+${id}">Moje rezervacije</a></li>
+        <li><a href="#">Moje rezervacije</a></li>
          <li><a href="#">Pisanje zalbe</a></li>
-         <li><a th:href="@{/IstorijaRez/}+${id}">Istorija rezervacija</a></li>
-         <li><a th:href="@{/moji/}+${id}">Moji podaci</a></li>
+         <li><a href="#">Istorija rezervacija</a></li>
         <li><a th:href="@{/login}">Log out</a></li>
       </ul>
     </div>
@@ -781,52 +936,21 @@ h2 {
 </div>
 
 
-<br><br><br>
+<h2>HTML Table</h2>
 
-<div class="section">
-  <main class="page-content">
-  <div class="card">
-    <div class="content">
-      <h2 class="title">Vikendice</h2>
-      <p class="copy">Negde biste na godišnji odmor? Rezervišite smeštaj u prelepoj vikendici po povoljnoj ceni.</p>
-     <a th:href="@{/prikazVikendica/}+${id}"><button class="btn">Pogledajte ponude</button></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <h2 class="title">Brodovi</h2>
-      <p class="copy">Želite li da uživate u lepom danu na nekoj reci ili jezeru? Iznajmljivanje broda na dan nikad nije bilo lakše. </p>
-       <a th:href="@{/prikazBrodova/}+${id}"><button class="btn">Pogledajte ponude</button></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="content">
-      <h2 class="title">Instruktori pecanja</h2>
-      <p class="copy">Hteli biste da naučite da pecate? Možda biste u avanturu u prirodi? Rezervišite termin sa jednim od naših instruktora već danas.</p>
-     <a th:href="@{/prikazInstruktora/}+${id}"> <button class="btn">Pogledajte ponude</button></a>
-    </div>
-  </div>
-</main>
-</div>
-
-
-    <script>
-        // this is the script here
-        const mainMenu = document.querySelector(".mainMenu");
-        const closeMenu = document.querySelector(".closeMenu");
-        const openMenu = document.querySelector(".openMenu");
-
-        openMenu.addEventListener("click", show);
-        closeMenu.addEventListener("click", close);
-
-        function show() {
-            mainMenu.style.display = "flex";
-            mainMenu.style.top = "0";
-        }
-
-        function close() {
-            mainMenu.style.top = "-100%";
-        }
-    </script>
+<table >
+  <tr >
+    <th >Naziv</th>
+    <th>Datum</th>
+    <th>Cena</th>
+  </tr>
+  <tr th:each="rez:${pod}">
+    <td th:text="${rez.nazivEntiteta}"></td>
+    <td th:text="${rez.datum}" ></td>
+    <td th:text="${rez.cena}"></td>
+  </tr>
+  
+</table>
 </body>
+
 </html>
