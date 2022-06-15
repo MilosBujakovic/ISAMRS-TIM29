@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>Profil instruktora</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
+</head>
+<body>
+	<div class="hold">
+		<div class="header">
+			<div class="container">
+				<div id="logo">
+					<img alt="logo" src="/img/avatar.png" height="90px" width="90px"
+						style="margin-bottom: 90px;">
+					<h3 style="float: right;">Instruktor</h3>
+				</div>
+
+				<ul class="nav">
+					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj
+							profil</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
+							rezervacija</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji</a></li>
+
+					<li><a th:href="@{/login}">Log out</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="panel">
+			<h2>Moje usluge</h2>
+			<ul th:each="usluga : ${usluge}">
+				<li><img th:src="${usluga.linkSlike}" class="slika">
+					<div class="txt">
+						<h2 th:text="${usluga.naziv}">Naslov</h2>
+						<p th:text="${usluga.opis}">Opis usluge</p>
+						<p th:text="${usluga.adresa}">Adresa</p>
+					</div> <a th:href="@{/instruktor/}+${id+'/usluga/'}+${usluga.ID}"><img
+						src="/img/pencil.png" alt="promeni" class="edit"></a></li>
+			</ul>
+			<a th:href="@{/instruktor/}+${id+'/novaUsluga'}"><button
+					type="button"
+					style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Dodaj
+					uslugu</button></a>
+		</div>
+		<div class="panel">
+			<h2>Trenutne rezervacije</h2>
+			<ul th:each="rez : ${rezervacije}">
+				<li>
+					<div class="txt">
+						<h2 th:text="${rez.nazivEntiteta}">Naslov</h2>
+						<p th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}">Klijent</p>
+						<p th:text="${rez.datum}">Pocetni datum</p>
+						<p th:text="${rez.trajanje}">Trajanje</p>
+					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
+						class="edit"></a></li>
+			</ul>
+		</div>
+	</div>
+	<div class="panel important"></div>
+</body>
+</html>

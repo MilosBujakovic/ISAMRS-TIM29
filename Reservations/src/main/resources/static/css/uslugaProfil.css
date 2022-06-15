@@ -599,6 +599,10 @@ h4 {
 
 
 img {
+    border-radius: 100%;
+}
+
+.product img {
   max-width: 100%;
   height: auto;
   -o-object-fit: cover;
@@ -606,8 +610,6 @@ img {
      
     border-radius: 5%;
 }
-
-
 
 #highlight {
   color: #333;
@@ -742,4 +744,65 @@ img {
   to {
     opacity: 1;
   }
+}
+
+.hold {
+	height: 120px;
+}
+
+.header {
+	line-height: 120px;
+	width: 100%;
+	transition: line-height 0.2s linear, box-shadow 0.2s linear;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 100;
+	background: rgba(245, 245, 245, 0.97);
+}
+
+.header.small {
+	line-height: 50px;
+	box-shadow: 0px 1px 3px 0px rgba(50, 50, 50, 0.8);
+}
+
+.header.small>.container>#logo {
+	height: 40px;
+}
+
+#logo {
+	position: absolute;
+	top: 30%;
+	transform: translateY(-50%);
+	float: left;
+	height: 40px;
+	width: 160px;
+	margin-left: 5px;
+}
+
+ul.nav {
+	float: right;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.nav li {
+	float: left;
+	position: relative;
+}
+
+ul.nav li a {
+	transition: color 0.2s linear;
+	font-size: 18px;
+}
+
+ul.nav li:hover a {
+	color: red;
+}
+
+ul.nav li a {
+	padding: 21px;
+	color: initial;
+	text-decoration: initial;
 }
