@@ -85,7 +85,7 @@ public class AdminKontroler {
 		model.addAttribute("id", id);
 		model.addAttribute("zahtevi", zahteviR);
 		model.addAttribute("zahteviB", zahteviB);
-		return "adminProfile";
+		return "admin/adminPocetna";
 	}
 
 	@RequestMapping(value = "/zahtevReg/{rId}")
@@ -94,7 +94,7 @@ public class AdminKontroler {
 		Registracija reg = regServis.findById(rId);
 		model.addAttribute("id", id);
 		model.addAttribute("zahtev", reg);
-		return "adminRequest";
+		return "admin/adminZahtev";
 	}
 
 	@RequestMapping(value = "/zahtevReg/{rId}/submit")
@@ -130,7 +130,7 @@ public class AdminKontroler {
 		ZahtevZaBrisanje zb = bnServis.findById(rId);
 		model.addAttribute("id", id);
 		model.addAttribute("zahtev", zb);
-		return "adminDeleteRequest";
+		return "admin/adminZahtevBrisanje";
 	}
 
 	@RequestMapping(value = "/zahtevZB/{rId}/submit")
@@ -186,7 +186,7 @@ public class AdminKontroler {
 		model.addAttribute("vikendice", vikendice);
 		model.addAttribute("id", id);
 		System.out.println(model.toString());
-		return "adminList";
+		return "admin/adminLista";
 	}
 
 	@RequestMapping(value = "/profil")
@@ -195,7 +195,7 @@ public class AdminKontroler {
 		Korisnik admin = korisnikServis.findById(id);
 		model.addAttribute("admin", admin);
 		model.addAttribute("id", id);
-		return "adminMyData";
+		return "admin/adminProfil";
 	}
 
 	@RequestMapping(value = "/profil/azuriraj")
@@ -249,7 +249,7 @@ public class AdminKontroler {
 		}
 		model.addAttribute("prihodi", lista);
 		model.addAttribute("id", id);
-		return "adminRevenue";
+		return "admin/adminPrihodi";
 	}
 
 	@RequestMapping(value = "/prihodi/procenat")
@@ -280,7 +280,7 @@ public class AdminKontroler {
 	public String getReportsDates(@PathVariable Long id, Model model) {
 		System.out.println("Report page was called!");
 		model.addAttribute("id", id);
-		return "adminReports";
+		return "admin/adminIzvestaji";
 	}
 
 	@GetMapping("/izvestaji/print")

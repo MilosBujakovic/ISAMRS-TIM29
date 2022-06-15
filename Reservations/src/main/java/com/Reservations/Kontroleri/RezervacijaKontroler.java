@@ -32,6 +32,7 @@ import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
 
 @Controller
+@RequestMapping(value="/klijent/{klijent_id}")
 public class RezervacijaKontroler {
 	
 	
@@ -41,16 +42,16 @@ public class RezervacijaKontroler {
 	@Autowired
 	RezervacijaServis rez;
 	
-	@RequestMapping(value = "/rezervisiVik/{id}/{id2}")
-	public String registerOwner( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model) {
-	Korisnik k=userService.findById(id2);
+	@RequestMapping(value = "/rezervisiVik/{id}")
+	public String registerOwner( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) {
+	Korisnik k=userService.findById(klijent_id);
 		Rezervacija user=rez.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rez.save(regRequest,TipEntiteta.vikendica,id,TipRezervacije.obicna,id2);
+		this.rez.save(regRequest,TipEntiteta.vikendica,id,TipRezervacije.obicna,klijent_id);
 		try {
 			this.sendEmailToUser(TipEntiteta.vikendica,k.getEmail());
 		} catch (AddressException e) {
@@ -66,16 +67,16 @@ public class RezervacijaKontroler {
 		return "profilKorisnika";
 	}
 	
-	@RequestMapping(value = "/rezervisiBrod/{id}/{id2}")
-	public String rezerve( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model) {
-	Korisnik k=userService.findById(id2);
+	@RequestMapping(value = "/rezervisiBrod/{id}")
+	public String rezerve( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) {
+	Korisnik k=userService.findById(klijent_id);
 		Rezervacija user=rez.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rez.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,id2);
+		this.rez.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,klijent_id);
 		try {
 			this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
 		} catch (AddressException e) {
@@ -91,16 +92,16 @@ public class RezervacijaKontroler {
 		return "profilKorisnika";
 	}
 	
-	@RequestMapping(value = "/rezervisiUslugu/{id}/{id2}")
-	public String rezerv( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model) throws AddressException, MessagingException, IOException {
-	Korisnik k=userService.findById(id2);
+	@RequestMapping(value = "/rezervisiUslugu/{id}")
+	public String rezerv( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) throws AddressException, MessagingException, IOException {
+	Korisnik k=userService.findById(klijent_id);
 		Rezervacija user=rez.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rez.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,id2);
+		this.rez.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,klijent_id);
 		this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
 		return "profilKorisnika";
 	}
