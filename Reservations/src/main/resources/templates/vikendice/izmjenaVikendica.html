@@ -23,6 +23,7 @@
 	<div class="col md-5">
 	<div class="row justify-content-center">
 		<form align="center">
+		<button align="left" name="dodajVikendicu" th:formaction="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}">Dodaj Vikendicu</button><br></br>        
 		  <input type="text" id="search" placeholder="Unesite naziv mjesta"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
@@ -47,10 +48,9 @@
 	        </div>
 	
 	     
-	            <div class="h-bg-inner"></div>
+	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni</button>  <button class="btn btn-danger" th:formaction="@{/vikendicaVlasnik/obrisiVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Obriši</button></div>
 	          </div>
-	          	  <input type="text" readonly th:value="${vik.ID}"></input>
-	              <button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>
+	              
 
 	          <br></br>
 	              

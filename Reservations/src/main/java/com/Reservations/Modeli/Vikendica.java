@@ -54,6 +54,8 @@ public class Vikendica {
 	@Column(name="dodatne_usluge")
 	private String dodatneUsluge;
 	
+	
+	
 	//TODO: dodati termine zauzetosti
 	
 	public Vikendica() {

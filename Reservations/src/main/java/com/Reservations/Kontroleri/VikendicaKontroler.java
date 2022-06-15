@@ -21,6 +21,7 @@ import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
+import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.SnimanjeDatotekaServis;
 import com.Reservations.Servis.VikendicaServis;
@@ -40,6 +41,9 @@ public class VikendicaKontroler {
 	SnimanjeDatotekaServis snimanjeDatotekaServis;
 	
 	public String putanjaSlika = "/img/vikendice/";
+
+	@Autowired
+	private VikendicaRepozitorijum vikendicaRepozitorijum;
 	
 	@RequestMapping(value = "/klijent/vikendice/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id) {
@@ -66,6 +70,7 @@ public class VikendicaKontroler {
 	@RequestMapping(value = "/vikendice/napravi/{vlasnikID}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String napraviVikendicu(SlikaDTO slikaDTO, MultipartFile slikaInterijera, String putanja2, String nazivSlike2, Model model, @PathVariable Long vlasnikID, VikendicaDTO novaVikendica) throws IOException
 	{
+		String[] poruka = new String[2];
 		List<SlikaDTO> slikeDTO = new ArrayList<SlikaDTO>();
 		if(!slikaDTO.getNazivSlike().trim().equals(""))slikeDTO.add(slikaDTO);
 		if(!nazivSlike2.trim().equals(""))slikeDTO.add(new SlikaDTO(putanja2, nazivSlike2, slikaInterijera));
@@ -77,6 +82,7 @@ public class VikendicaKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		System.out.println("Usao u snimi");
 		File slika;
+		Vikendica duplikat = vikendicaRepozitorijum.findByNaziv(novaVikendica.getNaziv());
 		if(slikeDTO.size()>0)
 		{
 			for(int i=0; i<slikeDTO.size(); i++)
@@ -105,26 +111,29 @@ public class VikendicaKontroler {
 				catch(Exception e)
 				{
 					e.printStackTrace();
-					String poruka = "Doslo je do greske u dodavanju!";
+					poruka[0] = "Doslo je do greske u dodavanju!";
+					poruka[1] = "IO error";
 					model.addAttribute("poruka", poruka);
 					return "/vikendice/pogresnaPoruka";
 				}
 
 			}
-			String poruka = vikendicaServis.dodajVikendicu(novaVikendica);
-			model.addAttribute("poruka", poruka);
+			poruka = vikendicaServis.dodajVikendicu(novaVikendica);
+			model.addAttribute("poruka", poruka[0]);
 		}
 		else
 		{
-			String poruka = vikendicaServis.dodajVikendicu(novaVikendica);
-			model.addAttribute("poruka", poruka);
+			poruka = vikendicaServis.dodajVikendicu(novaVikendica);
+			model.addAttribute("poruka", poruka[0]);
 		}		
-		return "/vikendice/potvrdnaPoruka";
+		if(poruka[1].equalsIgnoreCase("success"))return "/vikendice/potvrdnaPoruka";
+		else return "/vikendice/pogresnaPoruka"; 
 	}
 	
 	@RequestMapping(value = "/vikendice/izmijeni/{vlasnikID}/{vikendicaID}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String izmijeniVikendicu(SlikaDTO slikaDTO, MultipartFile slikaInterijera, String putanja2, String nazivSlike2, Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID, VikendicaDTO novaVikendica) throws IOException
 	{	
+		String poruka[] = new String[2];
 		List<SlikaDTO> slikeDTO = new ArrayList<SlikaDTO>();
 		if(!slikaDTO.getNazivSlike().trim().equals(""))slikeDTO.add(slikaDTO);
 		if(!nazivSlike2.equals("")) slikeDTO.add(new SlikaDTO(putanja2, nazivSlike2, slikaInterijera));
@@ -140,7 +149,7 @@ public class VikendicaKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		
 		novaVikendica.setVlasnik(vlasnikID);
-		String poruka;
+		
 		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
 		for(int i =0; i<slikeDTO.size(); i++)if(slikaDTO.getNazivSlike()!=null && !slikaDTO.getNazivSlike().trim().equals(""))
 		{
@@ -196,10 +205,11 @@ public class VikendicaKontroler {
 		}
 		*/
 		poruka = vikendicaServis.izmijeniVikendicu(novaVikendica, staraVikendica);
-		model.addAttribute("poruka", poruka);
+		model.addAttribute("poruka", poruka[0]);
 		
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
-		return "/vikendice/potvrdnaPoruka";
+		if(poruka[1].equalsIgnoreCase("success")) return "/vikendice/potvrdnaPoruka";
+		else return "/vikendice/pogresnaPoruka";
 	}
 	
 	@RequestMapping(value = "/vikendice/obrisi/{vlasnikID}/{vikendicaID}")

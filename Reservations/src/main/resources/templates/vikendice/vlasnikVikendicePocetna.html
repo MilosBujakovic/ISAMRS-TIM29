@@ -21,7 +21,7 @@
 	  <div class="header" >
 	    <div class="container">
 	      <div id="logo">
-	      <img alt="logo" th:src="${vlasnikVikendice.linkSlike}" onerror="this.src='/img/avatar.png'" height="90px" width="90px" style="margin-bottom:90px; ">
+	      <img class="profilna" alt="logo" th:src="${vlasnikVikendice.linkSlike}" onerror="this.src='/img/avatar.png'" height="90px" width="90px" style="margin-bottom:90px; ">
 		   <h3 style="float:right;;transform:translateY(-200%)translateX(+10%)" th:text="${vlasnik.ime+' '+vlasnik.prezime}"></h3>
 	      </div>
 		  
@@ -47,10 +47,10 @@
 					
 					<li class=""><a th:href="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Dodaj Vikendicu
 					</a></li>
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/izmijeni/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Izmijeni Vikendicu
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/izmijeni/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Upravljanje Vikendicama
 							</a></li>
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Obriši Vikendicu
-					</a></li>
+					<!--<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Obriši Vikendicu
+					</a></li>-->
 					
 					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Periodi dostupnosti vikendica
 					</a></li>

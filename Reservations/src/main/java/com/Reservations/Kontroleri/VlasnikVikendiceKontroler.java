@@ -229,7 +229,22 @@ public class VlasnikVikendiceKontroler {
 	   return "/vikendice/obrisiVikendicu.html";
    }
 
-   
+   @RequestMapping(value ="/profilMojeVikendice/{vlasnikID}/{vikendicaID}")
+   public String profilMojeVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Profil vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
+	   System.out.println("Prikaz Slika1: "+staraVikendica.getLinkSlike());
+	   System.out.println("Prikaz Slika2: "+staraVikendica.getLinkInterijera());
+
+	   model.addAttribute("slika1", staraVikendica.getLinkSlike());
+	   model.addAttribute("slika2", staraVikendica.getLinkInterijera());
+	   model.addAttribute("vikendica", staraVikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   
+	   return "/vikendice/profilMojeVikendice.html";
+   }
    
    
 /*

@@ -42,14 +42,15 @@
 	             
 	              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
 	            </div>
-	           
+	           		
 	          </div>
+	          
 	        </div>
 	
 	     
-	            <div class="h-bg-inner"></div>
+	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/profilMojeVikendice/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Profil vikendice</button></div>
 	          </div>
-	              <button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>   <button class="btn btn-danger" th:formaction="@{/vikendicaVlasnik/obrisiVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Obriši vikendicu</button>
+	          
 
 	          <br></br>
 	              
@@ -70,6 +71,7 @@
 	  $('div img').hide();
 	  $('div img[alt*="' + $('#search').val() + '"]').show();
 	  $('div img[alt*="logo"]').show();
+	  
 	  
 	});
 	 $('form').submit(function(e) {
