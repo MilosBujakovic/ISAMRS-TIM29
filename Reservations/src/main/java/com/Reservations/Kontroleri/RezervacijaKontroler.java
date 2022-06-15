@@ -2,6 +2,7 @@ package com.Reservations.Kontroleri;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -22,10 +23,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
@@ -105,6 +104,28 @@ public class RezervacijaKontroler {
 		this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
 		return "profilKorisnika";
 	}
+	
+	@RequestMapping(value = "/mojeRez/{id}")
+	public String rezMoje(@PathVariable Long id,Model model){
+	
+	
+	 		System.out.println("AzurirajPodatke page was called!");
+	 		List<Rezervacija> user=rez.findByKlijent(id);
+	 		model.addAttribute("pod", user);
+	 		System.out.println(model.toString());
+	 		 return "MojeRezervacije";
+	 	  }
+	
+	@RequestMapping(value = "/IstorijaRez/{id}")
+	public String IstMoje(@PathVariable Long id,Model model){
+	
+	
+	 		System.out.println("AzurirajPodatke page was called!");
+	 		List<Rezervacija> user=rez.findByKlijentDate(id);
+	 		model.addAttribute("pod", user);
+	 		System.out.println(model.toString());
+	 		 return "IstorijaRezervacija";
+	 	  }
 	
 	private void sendEmailToUser(TipEntiteta rez,String mail ) throws AddressException, MessagingException, IOException {
 		Properties props = new Properties();
