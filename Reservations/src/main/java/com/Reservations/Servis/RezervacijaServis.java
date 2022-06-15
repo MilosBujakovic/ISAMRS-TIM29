@@ -1,5 +1,9 @@
 package com.Reservations.Servis;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,6 +29,9 @@ public class RezervacijaServis {
 	private UslugaServis usluga;
 	@Autowired
 	private BrodServis brd;
+	
+	@Autowired
+	private KorisnikServis usr;
 	
 	@Autowired
 	private KorisnikServis kor;
@@ -82,4 +89,34 @@ public class RezervacijaServis {
 		return this.rezRepozitorijum.findByNazivEntiteta(ime);
 
 		}
+	
+	public List<Rezervacija>findByKlijent(long id){
+		List<Rezervacija>li2=new ArrayList<Rezervacija>();
+		List<Rezervacija>li=rezRepozitorijum.findAll();
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		 LocalDate now = LocalDate.now();  
+		for(Rezervacija r: li) {
+			if(r.getKlijent().getID()==id) {
+				if(LocalDate.parse(r.getDatum(), dtf).isAfter(now))
+				li2.add(r);
+			
+			}
+		}
+		return li2;
+	
+	}
+	public List<Rezervacija>findByKlijentDate(long id){
+		List<Rezervacija>li2=new ArrayList<Rezervacija>();
+		List<Rezervacija>li=rezRepozitorijum.findAll();
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		 LocalDate now = LocalDate.now();  
+		for(Rezervacija r: li) {
+			if(r.getKlijent().getID()==id) {
+				if(LocalDate.parse(r.getDatum(), dtf).isBefore(now))
+				li2.add(r);
+			
+			}
+		}
+		return li2;
+	}
 }
