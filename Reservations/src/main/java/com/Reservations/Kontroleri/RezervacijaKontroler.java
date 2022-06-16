@@ -36,7 +36,7 @@ import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.VikendicaServis;
 
 @Controller
-@RequestMapping(value="/klijent/{klijent_id}")
+@RequestMapping(value = "/rezervacije")
 public class RezervacijaKontroler {
 	
 	
@@ -168,7 +168,7 @@ public class RezervacijaKontroler {
 		Transport.send(msg);
 	}
 	
-	   @RequestMapping(value="/rezervacije"+"/rezervacijeMojihVikendica/{vlasnikID}")
+	   @RequestMapping(value="/rezervacijeMojihVikendica/{vlasnikID}")
 	   public String rezervacijeMojihVikendica(Model model, @PathVariable Long vlasnikID)
 	   {
 		   
@@ -187,7 +187,7 @@ public class RezervacijaKontroler {
 		   return "/vikendice/spisakRezervacija.html";
 	   }
 	   
-	   @RequestMapping(value="/rezervacije"+"/{vlasnikID}/profil-klijenta/{klijentID}")
+	   @RequestMapping(value="/{vlasnikID}/profil-klijenta/{klijentID}")
 	   public String osnovniProfilKlijenta(Model model, @PathVariable Long vlasnikID, @PathVariable Long klijentID)
 	   {
 		   System.out.println("Vlasnik ID: "+vlasnikID);

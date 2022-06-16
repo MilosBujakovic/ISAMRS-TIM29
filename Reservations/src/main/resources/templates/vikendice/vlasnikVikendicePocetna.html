@@ -28,7 +28,7 @@
 	      <ul class="nav">
 	        <li><a th:href="@{/vikendicaVlasnik/profil/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moj profil</a></li>
 	        <li><a th:href="@{/vikendicaVlasnik/prikaziVikendice/prikazi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moje vikendice</a></li>
-	         <li><a href="#" target="glavni_prikaz">Moji klijenti</a></li>
+	         <li><a href="@{/vikendicaVlasnik/moji-klijenti/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moji klijenti</a></li>
 	         <li><a href="#" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
 	        <li><a th:href="@{/login}">Log out</a></li>
 	      </ul>

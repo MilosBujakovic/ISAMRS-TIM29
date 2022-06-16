@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
+import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
 import com.Reservations.Servis.VikendicaServis;
 
@@ -44,9 +49,12 @@ public class VlasnikVikendiceKontroler {
 	@Autowired
 	UlogaServis ulogaServis;
 
+	@Autowired
+	RezervacijaServis rezervacijaServis;
 	
 	@Autowired
 	VikendicaServis vikendicaServis;
+
 
 	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
 	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
@@ -251,7 +259,20 @@ public class VlasnikVikendiceKontroler {
    }
    
 
-   
+   @RequestMapping(value="/moji-klijenti/{vlasnikID}")
+   public String mojiKlijenti(Model model, @PathVariable Long vlasnikID)
+   {
+	   System.out.println("Prikaz mojih klijenata!");
+	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   
+
+	   model.addAttribute("vlasnikVikendice", vlasnik);
+	   model.addAllAttributes(mojiKlijenti);
+	   
+	   return "";
+	   
+   }
    
 /*
 	@RequestMapping(value = "/admin/reports")

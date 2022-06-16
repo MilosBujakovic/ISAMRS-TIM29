@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
@@ -208,5 +209,33 @@ public class RezervacijaServis {
 
 		}
 		return rez;
+	}
+
+	public List<KlijentSpisakDTO> nadjiKlijenteVlasnika(Korisnik vlasnik) 
+	{
+	   
+	   List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
+	   List<Korisnik> korisnici = korisnikServis.listAll();
+	   List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
+	   
+	   Long brojRezervacija;
+	   for(int i = 0; i<korisnici.size(); i++)
+	   {
+		   brojRezervacija = 0L;
+		   for(Rezervacija rezervacija : mojeRezervacije)
+		   {
+			   if(rezervacija.getKlijent().equals(korisnici.get(i) ) )
+			   {
+				   System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
+			   brojRezervacija++;
+		   }
+	   }
+	   if(brojRezervacija>0)
+	   {
+		   System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
+			   mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija) );
+		   }
+	   }
+	   return mojiKlijenti;
 	}
 }
