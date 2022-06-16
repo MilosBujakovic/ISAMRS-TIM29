@@ -23,13 +23,15 @@
 	<div class="col md-5">
 	<div class="row justify-content-center">
 		<form align="center">
-		  <input type="text" id="search" placeholder="Unesite naziv mesta"></input>
+		<button align="left" name="dodajVikendicu" th:formaction="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}">Dodaj Vikendicu</button><br></br>        
+		  <input type="text" id="search" placeholder="Unesite naziv mjesta"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
 	</div>
 	<br></br>
-	<div class="row">
+	<form>
 	<div align="center" class="column" th:each="vik:${vikendice}">
+	<div class="row">
 	<input type="hidden" id="vikendicaID" name="vikendicaID" th:value="${vik.ID}"></input>
 	<div class="container page-wrapper">
 	  <div class="page-inner">
@@ -38,27 +40,22 @@
 	          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}"></img>
 	          <div class="img-info">
 	            <div class="info-inner">
-	             
 	              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
 	            </div>
-	           
 	          </div>
 	        </div>
-	
-	     
-	            <div class="h-bg-inner"></div>
+	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni</button>  <button class="btn btn-danger" th:formaction="@{/vikendicaVlasnik/obrisiVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Obriši</button></div>
 	          </div>
-	              <button class="btn btn-primary" th:href="@{/vikendicaVlasnik/izmijeniVikendicu/{vlasnikVikendice.ID}/{vik.ID}" target="glavni_prikaz">Izmijeni vikendicu</button>
-	              
-	          <br></br>
-	              
 	        </div>
 	      </div>
+	      <br></br>
 	     </div>
 	    </div>
+	</form>
 	  </div>
 	</div>
 	</div>
+	  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	
 <script th:inline="javascript">
  function myFunction() {

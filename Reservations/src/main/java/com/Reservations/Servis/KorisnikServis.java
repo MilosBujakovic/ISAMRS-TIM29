@@ -56,7 +56,7 @@ public class KorisnikServis
 
 		
 		u.setKorisnickoIme(userRequest.getUsername());
-		
+		u.setLinkSlike("/img/avatar.png");
 		u.setLozinka(userRequest.getPassword());
 
 		
@@ -184,6 +184,7 @@ public class KorisnikServis
 			korisnik.setIme(vlasnik.getIme());
 			korisnik.setKorisnickoIme(vlasnik.getKorisnickoIme());
 			korisnik.setPrezime(vlasnik.getPrezime());
+			korisnik.setLinkSlike(vlasnik.getLinkSlike());
 		}
 		return this.korisnikRepozitorijum.save(korisnik);
 	}

@@ -61,6 +61,14 @@ public class Brod {
 	
 	@Column(name="linkSlike")
 	private String linkSlike;
+	
+	@Column(name="pravila_ponasanja")
+	private String pravilaPonasanja;
+	
+	@Column(name="link_kabine")
+	private String linkKabine;
+	
+	
 	public Brod() {
 		
 	}
@@ -69,7 +77,7 @@ public class Brod {
 			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
 			String opis, Korisnik vlasnik,String linkSlike) {
 		super();
-		ID = iD;
+		this.ID = iD;
 		this.cena = cena;
 		this.maxBrzina = maxBrzina;
 		this.adresa = adresa;
@@ -84,6 +92,52 @@ public class Brod {
 		this.opis = opis;
 		this.vlasnik = vlasnik;
 		this.linkSlike=linkSlike;
+	}
+	
+	
+	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
+			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
+			String opis, Korisnik vlasnik,String linkSlike, String pravilaPonasanja) {
+		super();
+		this.ID = iD;
+		this.cena = cena;
+		this.maxBrzina = maxBrzina;
+		this.adresa = adresa;
+		this.tip = tip;
+		this.navigacionaOprema = navigacionaOprema;
+		this.brojMotora = brojMotora;
+		this.naziv = naziv;
+		this.snaga = snaga;
+		this.kapacitet = kapacitet;
+		this.pecaroskaOprema = pecaroskaOprema;
+		this.duzina = duzina;
+		this.opis = opis;
+		this.vlasnik = vlasnik;
+		this.linkSlike=linkSlike;
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+	
+	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
+			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, double duzina,
+			String opis, Korisnik vlasnik,String linkSlike, String linkKabine, String pravilaPonasanja) {
+		super();
+		this.ID = iD;
+		this.cena = cena;
+		this.maxBrzina = maxBrzina;
+		this.adresa = adresa;
+		this.tip = tip;
+		this.navigacionaOprema = navigacionaOprema;
+		this.brojMotora = brojMotora;
+		this.naziv = naziv;
+		this.snaga = snaga;
+		this.kapacitet = kapacitet;
+		this.pecaroskaOprema = pecaroskaOprema;
+		this.duzina = duzina;
+		this.opis = opis;
+		this.vlasnik = vlasnik;
+		this.linkSlike=linkSlike;
+		this.linkKabine=linkKabine;
+		this.pravilaPonasanja=pravilaPonasanja;
 	}
 
 	public long getID() {
@@ -206,13 +260,32 @@ public class Brod {
 	public void setLinkSlike(String linkSlike) {
 		this.linkSlike = linkSlike;
 	}
+	
+	
+
+	public String getPravilaPonasanja() {
+		return pravilaPonasanja;
+	}
+
+	public void setPravilaPonasanja(String pravilaPonasanja) {
+		this.pravilaPonasanja = pravilaPonasanja;
+	}
+
+	public String getLinkKabine() {
+		return linkKabine;
+	}
+
+	public void setLinkKabine(String linkKabine) {
+		this.linkKabine = linkKabine;
+	}
 
 	@Override
 	public String toString() {
 		return "Brod [ID=" + ID + ", naziv=" + naziv + ", tip=" + tip + ", duzina=" + duzina + ", brojMotora="
 				+ brojMotora + ", snaga=" + snaga + ", maxBrzina=" + maxBrzina + ", adresa=" + adresa + ", opis=" + opis
 				+ ", cena=" + cena + ", navigacionaOprema=" + navigacionaOprema + ", kapacitet=" + kapacitet
-				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnik=" + vlasnik + "]";
+				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnik=" + vlasnik + ", linkSlike=" + linkSlike
+				+ ", pravilaPonasanja=" + pravilaPonasanja + ", linkKabine=" + linkKabine + "]";
 	}
 	
 
