@@ -27,7 +27,8 @@ import com.Reservations.Servis.SnimanjeDatotekaServis;
 import com.Reservations.Servis.VikendicaServis;
 
 @Controller
-public class VikendicaKontroler {
+public class VikendicaKontroler 
+{
 	@Autowired
 	VikendicaServis vikendicaServis;
 
@@ -231,7 +232,8 @@ public class VikendicaKontroler {
 	}
 
 	@RequestMapping(value = "/Regvikendice/{id}/{id2}")
-	public String getAuthServicePage(Model model, @PathVariable Long id,@PathVariable Long id2) {
+	public String getAuthServicePage(Model model, @PathVariable Long id,@PathVariable Long id2) 
+	{
 		System.out.println("ProfilVikendice page was called!");
 		Korisnik k=korisnikServis.findById(id2);
 		Vikendica usluga = vikendicaServis.findById(id);
@@ -242,5 +244,16 @@ public class VikendicaKontroler {
 		
 		return "ProfilVikendica";
 
+	}
+	
+	@RequestMapping(value="/vikendice"+"/brze-rezervacije/{vlasnikID}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long vlasnikID)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		model.addAttribute("vikendice", mojeVikendice);
+		return "/vikendice/brzeRezervacije.html";
 	}
 }

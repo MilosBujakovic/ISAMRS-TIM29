@@ -98,6 +98,7 @@ public class VlasnikVikendiceKontroler {
 	{
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		if(vlasnikVikendice.getLinkSlike()==null || vlasnikVikendice.getLinkSlike().equals("") ) vlasnikVikendice.setLinkSlike("/img/avatar.png");
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "/vikendice/profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
 	}
@@ -107,6 +108,8 @@ public class VlasnikVikendiceKontroler {
 	{
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		System.out.println("slika profila: "+vlasnikVikendice.getLinkSlike());
+		if(vlasnikVikendice.getLinkSlike()==null || vlasnikVikendice.getLinkSlike().equals("") ) vlasnikVikendice.setLinkSlike("/img/avatar.png");
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "/vikendice/vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
@@ -116,7 +119,7 @@ public class VlasnikVikendiceKontroler {
 	  		System.out.println("AzurirajPodatke page was called!");
 	  		Korisnik korisnik=korisnikServis.findById(vlasnikID);
 	  		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
-	  		System.out.println(vlasnik);
+	  		
 	  		if(vlasnik.getLinkSlike()==null || vlasnik.getLinkSlike().trim().equals("")) vlasnik.setLinkSlike("/img/avatar.png");
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		System.out.println("VLASNIK ID: "+vlasnik.getId());
@@ -127,7 +130,8 @@ public class VlasnikVikendiceKontroler {
 	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String izmijeniPodatke(@PathVariable Long idVlasnika, SlikaDTO slikaDTO, Model model, VlasnikVikendiceDTO vlasnikVikendice) throws IOException
 	{		String poruka;
-	 		if(!slikaDTO.getNazivSlike().trim().equals(""))
+			System.out.println("slika naziv: "+slikaDTO.getNazivSlike());
+	 		if(slikaDTO.getNazivSlike()!=null || !slikaDTO.getNazivSlike().trim().equals(""))
 	 		{
 				String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
 				File slika = new File(apsolutnaPutanja+this.putanjaSlikaKorisnika+slikaDTO.getNazivSlike());
@@ -245,6 +249,8 @@ public class VlasnikVikendiceKontroler {
 	   
 	   return "/vikendice/profilMojeVikendice.html";
    }
+   
+
    
    
 /*

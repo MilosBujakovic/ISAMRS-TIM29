@@ -12,17 +12,20 @@ import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Brod;
+import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
+import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
+import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 @Service
 public class RezervacijaServis {
 
 	@Autowired
-	private RezervacijaRepozitorijum rezRepozitorijum;
+	private RezervacijaRepozitorijum rezervacijaRepozitorijum;
 	@Autowired
 	private VikendicaServis vik;
 	@Autowired
@@ -31,13 +34,19 @@ public class RezervacijaServis {
 	private BrodServis brd;
 	
 	@Autowired
-	private KorisnikServis usr;
+	private KorisnikServis korisnikServis;
+	
+	@Autowired 
+	VikendicaServis vikendicaServis;
+	
+	@Autowired
+	BrodServis brodServis;
 	
 	@Autowired
 	private KorisnikServis kor;
 	public Rezervacija findById(Long id) {
 		try {
-			return rezRepozitorijum.findById(id).get();
+			return rezervacijaRepozitorijum.findById(id).get();
 		} catch (NoSuchElementException e) {
 			return null;
 		}
@@ -75,24 +84,24 @@ public class RezervacijaServis {
 		
 		
 		
-		return this.rezRepozitorijum.save(r);// TODO Auto-generated method stub
+		return this.rezervacijaRepozitorijum.save(r);// TODO Auto-generated method stub
 	}
 
 	public List<Rezervacija> listAll() {
-		return this.rezRepozitorijum.findAll();
+		return this.rezervacijaRepozitorijum.findAll();
 	}
 	
 	public void delete(long id) {
-		this.rezRepozitorijum.deleteById(id);
+		this.rezervacijaRepozitorijum.deleteById(id);
 	}
 	public Rezervacija findByIme(String ime){
-		return this.rezRepozitorijum.findByNazivEntiteta(ime);
+		return this.rezervacijaRepozitorijum.findByNazivEntiteta(ime);
 
 		}
 	
 	public List<Rezervacija>findByKlijent(long id){
 		List<Rezervacija>li2=new ArrayList<Rezervacija>();
-		List<Rezervacija>li=rezRepozitorijum.findAll();
+		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
 		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
 		 LocalDate now = LocalDate.now();  
 		for(Rezervacija r: li) {
@@ -107,7 +116,7 @@ public class RezervacijaServis {
 	}
 	public List<Rezervacija>findByKlijentDate(long id){
 		List<Rezervacija>li2=new ArrayList<Rezervacija>();
-		List<Rezervacija>li=rezRepozitorijum.findAll();
+		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
 		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
 		 LocalDate now = LocalDate.now();  
 		for(Rezervacija r: li) {
@@ -118,5 +127,42 @@ public class RezervacijaServis {
 			}
 		}
 		return li2;
+	}
+	
+	public List<Rezervacija> nadjiRezervacijeVikendica()
+	{
+		return rezervacijaRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
+	}
+
+	public List<Rezervacija> pronadjiRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) 
+	{
+		List<Rezervacija> mojeRezervacije = new ArrayList<Rezervacija>();
+		System.out.println("TipoviEntiteta jednaki: "+tipEntiteta.equals(TipEntiteta.vikendica));
+		if(tipEntiteta.equals(TipEntiteta.vikendica))
+		{
+			List<Rezervacija> rezervacijeVikendica = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
+			List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
+			for(int rezID = 0; rezID<rezervacijeVikendica.size(); rezID++)
+			{
+				for(int vikID = 0; vikID<mojeVikendice.size(); vikID++)
+				{
+					System.out.println("ID iz rezervacije: "+rezervacijeVikendica.get(rezID).getEntitetId());
+					System.out.println("ID iz vikendice:"+mojeVikendice.get(vikID).getID());
+					if(rezervacijeVikendica.get(rezID).getEntitetId()==mojeVikendice.get(vikID).getID())
+					{
+						
+						mojeRezervacije.add(rezervacijeVikendica.get(rezID));
+						System.out.println("Ubacen!");
+						break;
+					}
+				}
+			}
+		}
+		else if(tipEntiteta.equals(TipEntiteta.brod))
+		{
+			
+		}
+		else System.out.println("Not Implemented");
+		return mojeRezervacije;
 	}
 }

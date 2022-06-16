@@ -175,5 +175,22 @@ public class VikendicaServis {
 		}
 		else return "Doslo je do greske, vikendica je vec rezervisana!";
 	}
+	public List<Vikendica> nadjiVikendicePoVlasniku(Korisnik vlasnik) {
+		List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();
+		for(Vikendica vikendica : vikendice)
+		{
+			
+			System.out.println("Naziv: "+ vikendica.getNaziv());
+			System.out.println("Vlasnik: "+vikendica.getVlasnik().getKorisnickoIme());
+			System.out.println(" Trazim: "+vlasnik.getKorisnickoIme());
+			if(!vikendica.getVlasnik().equals(vlasnik))
+			{
+				vikendice.remove(vikendica);
+				System.out.println("Izbacena!");
+			}
+			else System.out.println("Zadrzana!");
+		}
+		return vikendice;
+	}
 
 }

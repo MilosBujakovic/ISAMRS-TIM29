@@ -30,8 +30,8 @@
 	</div>
 	<br></br>
 	<form>
-	<div class="row">
 	<div align="center" class="column" th:each="vik:${vikendice}">
+	<div class="row">
 	<input type="hidden" id="vikendicaID" name="vikendicaID" th:value="${vik.ID}"></input>
 	<div class="container page-wrapper">
 	  <div class="page-inner">
@@ -40,22 +40,15 @@
 	          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}"></img>
 	          <div class="img-info">
 	            <div class="info-inner">
-	             
 	              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
 	            </div>
-	           
 	          </div>
 	        </div>
-	
-	     
 	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Izmijeni</button>  <button class="btn btn-danger" th:formaction="@{/vikendicaVlasnik/obrisiVikendicu/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Obriši</button></div>
 	          </div>
-	              
-
-	          <br></br>
-	              
 	        </div>
 	      </div>
+	      <br></br>
 	     </div>
 	    </div>
 	</form>
