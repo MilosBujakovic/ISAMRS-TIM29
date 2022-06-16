@@ -134,11 +134,20 @@ public class Usluga {
 	}
 	
 
-	public Korisnik getInstruktorID() {
+	public TipoviUsluga getTip() {
+		return tip;
+	}
+
+	public void setTip(TipoviUsluga tip) {
+		this.tip = tip;
+	}
+
+
+	public Korisnik getInstruktor() {
 		return instruktor;
 	}
 
-	public void setInstruktorID(Korisnik instruktor) {
+	public void setInstruktor(Korisnik instruktor) {
 		this.instruktor = instruktor;
 	}
 
