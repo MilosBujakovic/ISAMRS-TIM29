@@ -11,4 +11,7 @@ public interface BrodRepozitorijum extends JpaRepository<Brod, Long>
 	Brod findByNaziv(String name);
 	List<Brod> findAll();
 
+
+	Brod findByAdresa(String adres);
+	Brod findByCena(Double cena);
 }

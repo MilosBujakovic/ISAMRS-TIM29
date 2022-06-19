@@ -9,7 +9,10 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Sort;
+
 import com.Reservations.DTO.KlijentSpisakDTO;
+
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
@@ -21,7 +24,9 @@ import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 
+
 import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
+
 
 @Service
 public class RezervacijaServis {
@@ -108,21 +113,81 @@ public class RezervacijaServis {
 
 		}
 	
-	public List<Rezervacija>findByKlijent(long id){
+	public List<Rezervacija>findByKlijent(long id,Sort sort){
 		List<Rezervacija>li2=new ArrayList<Rezervacija>();
 		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
 		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
 		 LocalDate now = LocalDate.now();  
 		for(Rezervacija r: li) {
 			if(r.getKlijent().getID()==id) {
+
+			
+				if(LocalDate.parse(r.getDatum(), dtf).isAfter(now))
+			
+				li2.add(r);
+				
+			  
+
 				if(LocalDate.parse(r.getDatum(), dtf).isAfter(now))
 				li2.add(r);
+
 			}
 		}
 		return li2;
 
 	}
 
+	
+	
+	
+	public List<Rezervacija>findByKlijentDateBrod(long id){
+		List<Rezervacija>li2=new ArrayList<Rezervacija>();
+		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		 LocalDate now = LocalDate.now();  
+		for(Rezervacija r: li) {
+			if(r.getKlijent().getID()==id) {
+				if(LocalDate.parse(r.getDatum(), dtf).isBefore(now))
+					if(r.getTipEntiteta().ordinal()==1) 
+				li2.add(r);
+				
+			}
+		}
+		return li2;
+		
+	}	public List<Rezervacija>findByKlijentDateVik(long id){
+		List<Rezervacija>li2=new ArrayList<Rezervacija>();
+		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		 LocalDate now = LocalDate.now();  
+		for(Rezervacija r: li) {
+			if(r.getKlijent().getID()==id) {
+				if(LocalDate.parse(r.getDatum(), dtf).isBefore(now))
+					if(r.getTipEntiteta().ordinal()==0) 
+				li2.add(r);
+				
+			}
+		}
+		return li2;
+	}	public List<Rezervacija>findByKlijentDateUsluga(long id){
+		List<Rezervacija>li2=new ArrayList<Rezervacija>();
+		List<Rezervacija>li=rezervacijaRepozitorijum.findAll();
+		  DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		 LocalDate now = LocalDate.now();  
+		for(Rezervacija r: li) {
+			if(r.getKlijent().getID()==id) {
+				if(LocalDate.parse(r.getDatum(), dtf).isBefore(now))
+					if(r.getTipEntiteta().ordinal()==2) 
+				li2.add(r);
+				
+			}
+		}
+		return li2;
+	}
+	
+	
+	
+	
 	public List<Rezervacija> findByKlijentDate(long id) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
 		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
@@ -132,6 +197,7 @@ public class RezervacijaServis {
 			if (r.getKlijent().getID() == id) {
 				if (LocalDate.parse(r.getDatum(), dtf).isBefore(now))
 					li2.add(r);
+
 
 			}
 		}

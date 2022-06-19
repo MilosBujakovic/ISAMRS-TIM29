@@ -1148,8 +1148,10 @@ footer {
 	 
       <ul class="nav">
       
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Kontakt</a></li>
+        <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
+        <li><a href="#" onclick="sort2()"> Sort po nazivu</a></li>
+        <li><a href="#" onclick="sort3()"> Sort po adresi</a></li>
+        
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
@@ -1157,29 +1159,38 @@ footer {
 </div>
 
 <br><br><br><br><br>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <form align="center">
   
     <div class="search-box" align="center">
-    <button class="btn-search" id="go"  th:onclick="myFunction()"><i class="fas fa-search"></i></button>
-    <input type="text" id="search" class="input-search" placeholder="Type to Search...">
+    <button class="btn-search" id="go" th:formaction="@{/Pretraga/}+${kor.ID}"><i class="fas fa-search"></i></button>
+    <input type="text" id="search" name="s"  class="input-search" placeholder="Type to Search...">
   </div>
   
-  
+ 
+
 </form>
+
+
+ <button   th:onclick="@{/Filter/}+${kor.ID}">Filter po camcu</button>
 <br><br><br>
-<div class="column" th:each="brod:${brodovi}">
+<div id="unsorted">
+<div class="column"  th:each="brod:${brodovi}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper" th:alt="${brod.tip.toLowerCase()}">
-        <div class="box-up" th:alt="${brod.tip.toLowerCase()}">
-          <img class="img1"  th:src="${brod.linkSlike}" th:alt="${brod.tip.toLowerCase()}">
+    <div class="row" th:alt="${brod.tip.toLowerCase()}">
+      <div class="el-wrapper" id="s" th:alt="${brod.adresa.toLowerCase()}">
+        <div class="box-up" >
+          <img class="img1"  th:src="${brod.linkSlike}" >
           <div class="img-info">
             <div class="info-inner">
              
-              <span class="p-company"  th:text="${brod.tip}">Zlatibor</span>
+              <span class="p-company" th:alt="${brod.tip.toLowerCase()}" th:text="${brod.tip}">Zlatibor</span>
+          
+               <span class="p-company"   th:alt="${brod.adresa.toLowerCase()}" th:text="${brod.adresa}">Zlatibor</span>
             </div>
            
           </div>
@@ -1203,15 +1214,139 @@ footer {
 </div>
 </div>
 </div>
+</div>
+
+<div id="sorted" style="display:none">
+
+<div class="column" th:each="brd:${sortbrodovi}" >
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" id="s" th:alt="${brd.tip.toLowerCase()}">
+        <div class="box-up" th:alt="${brd.tip.toLowerCase()}">
+          <img class="img1"  th:src="${brd.linkSlike}" th:alt="${brd.tip.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <span class="p-company"  th:text="${brd.tip}">Zlatibor</span>
+        
+               <span class="p-company"  th:text="${brd.adresa}">Zlatibor</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/brod/}+${brd.ID+'/'}+${kor.ID}">
+            <span class="price"  th:text="${brd.cena}" th:alt="${brd.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi Profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
 
 
+<div id="sorted2" style="display:none">
+
+<div class="column" th:each="brd:${sortbrodovinaziv}" >
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" id="s" th:alt="${brd.tip.toLowerCase()}">
+        <div class="box-up" th:alt="${brd.tip.toLowerCase()}">
+          <img class="img1"  th:src="${brd.linkSlike}" th:alt="${brd.tip.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <p class="p-company"  th:text="${brd.tip}">Zlatibor</p>
+             
+               <p class="p-company"  th:text="${brd.adresa}">Zlatibor</p>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/brod/}+${brd.ID+'/'}+${kor.ID}">
+            <span class="price"  th:text="${brd.cena}" th:alt="${brd.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi Profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="sorted3" style="display:none">
+
+<div class="column" th:each="brd:${sortbrdadresa}" >
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" id="s" th:alt="${brd.tip.toLowerCase()}">
+        <div class="box-up" th:alt="${brd.tip.toLowerCase()}">
+          <img class="img1"  th:src="${brd.linkSlike}" th:alt="${brd.tip.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <span class="p-company"  th:text="${brd.tip}">Zlatibor</span>
+               
+               <span class="p-company"  th:text="${brd.adresa}">Zlatibor</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/brod/}+${brd.ID+'/'}+${kor.ID}">
+            <span class="price"  th:text="${brd.cena}" th:alt="${brd.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi Profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
 <script th:inline="javascript">
  function myFunction() {
 	  $('form').submit(function(e) {
 	  e.preventDefault(); 
-	  $('div img').hide();
-	  $('div img[alt*="' + $('#search').val() + '"]').show();
-	  $('div img[alt*="logo"]').show();
+	  $('div p').hide();
+	  $('div p[alt*="' + $('#search').val() + '"]').show();
+	  $('div p[alt*="logo"]').show();
 	  
 	});
 	 $('form').submit(function(e) {
@@ -1219,8 +1354,30 @@ footer {
 	  $('.el-wrapper').hide();
 	  $('.el-wrapper[alt*="' + $('#search').val().toLowerCase() + '"]').show();
 	  
+	  
 	});
+	 
+	 
 	}
+ 
+ function sort(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="block";
+ 
+ }
+ function sort2(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="block";
+ }
+ 
+ function sort3(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="none";
+	 document.getElementById("sorted3").style.display="block";
+ }
+ 
     </script>
 </body>
 
