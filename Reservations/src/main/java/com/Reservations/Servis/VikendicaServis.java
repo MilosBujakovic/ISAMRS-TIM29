@@ -1,5 +1,6 @@
 package com.Reservations.Servis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -40,7 +41,10 @@ public class VikendicaServis {
 	}
 	public List<Vikendica> findByVlasnik(long id) {
 		List<Vikendica> lista = vikendicaRepozitorijum.findAll();
-		for(Vikendica u : lista) {
+		System.out.println("broj vikendica: "+lista.size());
+		if(lista!=null)for(Vikendica u : lista) 
+		{
+			System.out.println("Compare: "+u.getVlasnik().getID()+" - "+id);
 			if (u.getVlasnik().getID() != id) lista.remove(u);
 		}
 		return lista;
@@ -71,7 +75,7 @@ public class VikendicaServis {
 				System.out.println(novaVikendica.getVlasnik());
 				Korisnik vlasnik = korisnikServis.findById(novaVikendica.getVlasnik());
 				vikendica.setVlasnik(vlasnik);
-			
+			/*
 				List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();
 				Long ID = 0L;
 				for(Vikendica vik : vikendice)
@@ -81,7 +85,9 @@ public class VikendicaServis {
 						ID++;
 					}
 				}
-				vikendica.setID(ID);
+				//vikendica.setID(ID);
+				 
+				 */
 				vikendicaRepozitorijum.save(vikendica);
 				poruka[0] = "Vikendica je uspjesno dodata!";
 				poruka[1] = "success";
@@ -175,22 +181,24 @@ public class VikendicaServis {
 		}
 		else return "Doslo je do greske, vikendica je vec rezervisana!";
 	}
-	public List<Vikendica> nadjiVikendicePoVlasniku(Korisnik vlasnik) {
+	public List<Vikendica> nadjiVikendicePoVlasniku(Korisnik vlasnik) 
+	{
 		List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();
+		List<Vikendica> mojeVikendice = new ArrayList<Vikendica>();
 		for(Vikendica vikendica : vikendice)
 		{
 			
 			System.out.println("Naziv: "+ vikendica.getNaziv());
 			System.out.println("Vlasnik: "+vikendica.getVlasnik().getKorisnickoIme());
 			System.out.println(" Trazim: "+vlasnik.getKorisnickoIme());
-			if(!vikendica.getVlasnik().equals(vlasnik))
+			if(vikendica.getVlasnik().equals(vlasnik))
 			{
-				vikendice.remove(vikendica);
-				System.out.println("Izbacena!");
+				mojeVikendice.add(vikendica);
+				System.out.println("Dodata!");
 			}
-			else System.out.println("Zadrzana!");
+			else System.out.println("Odbacena!");
 		}
-		return vikendice;
+		return mojeVikendice;
 	}
 
 }

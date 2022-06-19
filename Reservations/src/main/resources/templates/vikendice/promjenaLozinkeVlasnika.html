@@ -21,10 +21,10 @@
             <div class="col-md-4"><label class="labels">Prezime</label><input readonly type="text" class="form-control" placeholder="Unesite prezime" th:value="${vlasnikVikendice.prezime}" name="prezime"></input></div>
             <div class="col-md-8"><label class="labels">Korisničko ime</label><input readonly type="text" class="form-control" placeholder="Unesite korisničko ime" th:value="${vlasnikVikendice.korisnickoIme}" name="korisnickoIme"></input></div>
             <div class="col-md-8"><label class="labels">Stara Lozinka:</label><input required type="text" class="form-control" placeholder="Unesite staru lozinku:" th:value="${lozinke.staraLozinka}" name="staraLozinka" id="staraLozinka"></input></div>
-            <div class="col-md-8"><label class="labels">Nova Lozinka:</label><input required type="password" class="form-control" placeholder="Unesite novu lozinku" th:value="${lozinke.novaLozinka}" name="novaLozinka" id="novaLozinka"></input></div>
+            <div class="col-md-8"><label class="labels">Nova Lozinka:</label><input required type="password" class="form-control" placeholder="Unesite novu lozinku"  th:value="${lozinke.novaLozinka}" name="novaLozinka" id="novaLozinka"></input></div>
             <div class="col-md-8"><label class="labels">Ponovi novu lozinku:</label><input required type="password" class="form-control" placeholder="Ponovite novu lozinku" th:value="${lozinke.novaPonovo}" name="novaPonovo" id="novaPonovo"></input></div>
 <div class="mt-5 text-left"><button class="btn btn-primary profile-button" th:formaction="@{/vikendicaVlasnik/promijeniLozinku/}+${vlasnikVikendice.ID}" type="submit" id="promijeniLozinku">Promijeni lozinku</button>
-         <button class="btn btn-primary profile-button" type="submit" th:formaction="@{/vlasnikVikendicePocetna}">Nazad na početnu</button></div>
+         </div>
     </div></form>
    </div>
 </body>

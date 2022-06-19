@@ -66,17 +66,21 @@ public class RezervacijaServis {
 		r.setEntitetId(id);
 		r.setTipEntiteta(e);
 		r.setKlijent(kor.findById(id2));
+		System.out.println("Tip entiteta je: "+e.toString());
 		if (e.equals(TipEntiteta.vikendica)) {
+			System.out.println("Rezervacija vikendice: ");
 			Vikendica v = vik.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
 		}
 		if (e.equals(TipEntiteta.brod)) {
+			System.out.println("Rezervacija broda: ");
 			Brod v = brd.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
 		}
 		if (e.equals(TipEntiteta.usluga)) {
+			System.out.println("Rezervacija usluge: ");
 			Usluga v = usluga.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
@@ -226,13 +230,13 @@ public class RezervacijaServis {
 		   {
 			   if(rezervacija.getKlijent().equals(korisnici.get(i) ) )
 			   {
-				   System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
+				   //System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
 			   brojRezervacija++;
+			   }
 		   }
-	   }
-	   if(brojRezervacija>0)
-	   {
-		   System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
+		   if(brojRezervacija>0)
+		   {
+			   //System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
 			   mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija) );
 		   }
 	   }

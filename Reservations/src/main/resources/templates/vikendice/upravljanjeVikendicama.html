@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<title>Moje Vikendice</title>
+	<title>Upravljanje Vikendicama</title>
 	<link rel="stylesheet" th:href="@{/css/pocetna.css}"
 	href="/css/pocetna.css"></link>
 	
@@ -24,7 +24,7 @@
 	<div class="row justify-content-center">
 		<form align="center">
 		<button align="left" name="dodajVikendicu" th:formaction="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}">Dodaj Vikendicu</button><br></br>        
-		  <input type="text" id="search" placeholder="Unesite naziv mjesta"></input>
+		  <input type="text" id="search" placeholder="Unesite naziv vikendice"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
 	</div>

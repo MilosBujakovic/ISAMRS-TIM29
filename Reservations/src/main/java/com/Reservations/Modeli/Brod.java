@@ -16,51 +16,51 @@ public class Brod {
 	@Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long ID;
+    private long ID;
 	
 	@Column(name="naziv")
-	private String naziv;
+    private String naziv;
 	
 	@Column(name="tip")
-	private String tip;
+    private String tip;
 	
 	@Column(name="duzina")
-	private double duzina;
+    private double duzina;
 	
 	@Column(name="brojMotora")
-	private String brojMotora;
+    private String brojMotora;
 	
-	@Column(name="snaga")
-	private int snaga;
+    @Column(name="snaga")
+    private int snaga;
 	
-	@Column(name="maxBrzina")
-	private double maxBrzina;
+    @Column(name="maxBrzina")
+    private double maxBrzina;
 	
-	@Column(name="adresa")
-	private String adresa;
+    @Column(name="adresa")
+    private String adresa;
 	
-	@Column(name="opis")
-	private String opis;
+    @Column(name="opis")
+    private String opis;
 	
-	@Column(name="cena")
-	private double cena;
+    @Column(name="cena")
+    private double cena;
 	
-	@Column(name="navigacionaOprema")
-	private String navigacionaOprema;
+    @Column(name="navigacionaOprema")
+    private String navigacionaOprema;
 	
-	@Column(name="kapacitet")
-	private String kapacitet;
+    @Column(name="kapacitet")
+    private String kapacitet;
 	
-	@Column(name="pecaroskaOprema")
-	private String pecaroskaOprema;
+    @Column(name="pecaroskaOprema")
+    private String pecaroskaOprema;
 	
-	@ManyToOne
-	@JoinColumn(name="vlasnik_id")
-	private Korisnik vlasnik;
+    @ManyToOne
+    @JoinColumn(name="vlasnik_id")
+    private Korisnik vlasnik;
 	
 	
-	@Column(name="linkSlike")
-	private String linkSlike;
+    @Column(name="linkSlike")
+    private String linkSlike;
 	
 	@Column(name="pravila_ponasanja")
 	private String pravilaPonasanja;

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,25 +14,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.BrodDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
-import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
-import com.Reservations.Servis.VikendicaServis;
 
 @Controller
-@RequestMapping(value = "/vikendicaVlasnik")
-public class VlasnikVikendiceKontroler {
+@RequestMapping(value = "/brodVlasnik")
+public class VlasnikBrodaKontroler 
+{
 
 	public String putanjaSlikaKorisnika = "/img/korisnici/";
 	
@@ -53,42 +53,42 @@ public class VlasnikVikendiceKontroler {
 	RezervacijaServis rezervacijaServis;
 	
 	@Autowired
-	VikendicaServis vikendicaServis;
-
-
+	BrodServis brodServis;
+	
 	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
 	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
 	{
 		System.out.println("prikaziPocetnu: "+korisnickoIme);
 		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
 		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
-		model.addAttribute("vlasnikVikendice", vlasnik);
-		return "/vikendice/vlasnikVikendicePocetna.html";
+		model.addAttribute("vlasnikBroda", vlasnik);
+		return "/brodovi/vlasnikBrodovaPocetna.html";
 	}
-
 	
-	@RequestMapping(value = "/prikaziVikendice/{vrstaPrikaza}/{vlasnikID}", method = RequestMethod.GET)
+
+		
+	@RequestMapping(value = "/prikaziBrodove/{vrstaPrikaza}/{vlasnikID}", method = RequestMethod.GET)
 	public String getEntitiesPage(Model model, @PathVariable String vrstaPrikaza, @PathVariable Long vlasnikID) 
 	{
-		System.out.println("Pregled Vikendica page was called!");
+		System.out.println("Pregled brodova page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
 		Korisnik vlasnik= korisnikServis.findById(vlasnikID);
 		if(vlasnik!=null)
 		{
-			System.out.println("Ubacujem vikendice");
-			List<Vikendica> vikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
-			model.addAttribute("vikendice", vikendice);
+			System.out.println("Ubacujem brodove");
+			List<Brod> brodovi = brodServis.nadjiBrodovePoVlasniku(vlasnik);
+			model.addAttribute("brodovi", brodovi);
 			
 		}
 		else
 		{
-			System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
+			System.out.println("Vlasnik broda nije pronadjen ili je doslo do greske!");
 			return "/loginFaiulure";
 		}
 		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(vlasnik);
-		model.addAttribute("vlasnikVikendice", vlasnikV);
+		model.addAttribute("vlasnikBroda", vlasnikV);
 		System.out.println(model.toString());
-		if(vrstaPrikaza.equals("upravljanje"))return "/vikendice/upravljanjeVikendicama.html";
+		if(vrstaPrikaza.equals("upravljanje"))return "/brodovi/upravljanjeBrodovima.html";
 		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
 		else return "/vikendice/mojeVikendice";
 	}
@@ -178,64 +178,63 @@ public class VlasnikVikendiceKontroler {
 	@RequestMapping(value ="/promijeniLozinku/{ID}")
 	 public String promijeniLozinku(Model model, @PathVariable Long ID, String ime, String prezime, String korisnickoIme, PromenaLozinkeDTO lozinke )
 	{
- 		System.out.println("PromijeniLozinku page was called!");
- 		Korisnik korisnik=korisnikServis.findById(ID);
- 		model.addAttribute("vlasnikVikendice", korisnik);
- 		
- 		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
- 		{
- 			model.addAttribute("poruka", "Pogrešan unos stare lozinke!");
- 			return "/promjenaLozinkeNeuspjesna";
- 		}
- 		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
- 		{
- 			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
- 	  		return "/vikendice/azurirajPodatkeVlasnika";
- 		}
- 		else 
- 		{
- 			model.addAttribute("poruka", "Došlo je do greške kod unosa nove lozinke!");
- 			return "/promjenaLozinkeNeuspjesna";
- 		}
- 		
- 	  }
+  		System.out.println("PromijeniLozinku page was called!");
+  		Korisnik korisnik=korisnikServis.findById(ID);
+  		model.addAttribute("vlasnikBroda", korisnik);
+  		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
+  		{
+  			model.addAttribute("poruka", "Pogrešan unos stare lozinke!");
+  			return "/promjenaLozinkeNeuspjesna";
+  		}
+  		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
+  		{
+  			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
+  	  		return "/vikendice/azurirajPodatkeVlasnika.html";
+  		}
+  		else 
+  		{
+  			model.addAttribute("poruka", "Došlo je do greške kod unosa nove lozinke!");
+  			return "/promjenaLozinkeNeuspjesna";
+  		}
+  		
+  	  }
 	
-   @RequestMapping(value ="/napraviVikendicu/{ID}")
-   public String napraviVikendicu(Model model, @PathVariable Long ID)
+   @RequestMapping(value ="/napraviBrod/{ID}")
+   public String napraviBrod(Model model, @PathVariable Long ID)
    {
-	   System.out.println("Pravljenje vikendice was called!");
-	   Korisnik k = korisnikServis.findById(ID);
-	   VikendicaDTO vikendica = new VikendicaDTO();
-	   model.addAttribute("vikendica", vikendica);
-	   model.addAttribute("vlasnikVikendice", k);
-	   return "/vikendice/napraviVikendicu";
+	   System.out.println("Pravljenje broda was called!");
+	   Korisnik vlasnik = korisnikServis.findById(ID);
+	   BrodDTO brod = new BrodDTO();
+	   model.addAttribute("brod", brod);
+	   model.addAttribute("vlasnikBroda", vlasnik);
+	   return "/brodovi/napraviBrod.html";
    }
    
-   @RequestMapping(value ="/izmijeniVikendicu/{vlasnikID}/{vikendicaID}")
-   public String izmijeniVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   @RequestMapping(value ="/izmijeniBrod/{vlasnikID}/{brodID}")
+   public String izmijeniBrod(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
    {
-	   System.out.println("Izmjena vikendice was called!");
-	   Korisnik k = korisnikServis.findById(vlasnikID);
-	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
-	   System.out.println("Prikaz Slika1: "+staraVikendica.getLinkSlike());
-	   System.out.println("Prikaz Slika2: "+staraVikendica.getLinkInterijera());
+	   System.out.println("Izmjena broda was called!");
+	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+	   Brod stariBrod = brodServis.findById(brodID);
+	   System.out.println("Prikaz Slika1: "+stariBrod.getLinkSlike());
+	   System.out.println("Prikaz Slika2: "+stariBrod.getLinkKabine());
 
-	   model.addAttribute("slika1", staraVikendica.getLinkSlike());
-	   model.addAttribute("slika2", staraVikendica.getLinkInterijera());
-	   model.addAttribute("vikendica", staraVikendica);
-	   model.addAttribute("vlasnikVikendice", k);
+	   model.addAttribute("slika1", stariBrod.getLinkSlike());
+	   model.addAttribute("slika2", stariBrod.getLinkKabine());
+	   model.addAttribute("brod", stariBrod);
+	   model.addAttribute("vlasnikBroda", vlasnik);
 	   
-	   return "/vikendice/izmijeniVikendicu.html";
+	   return "/brodovi/izmijeniBrod.html";
    }
    
-   @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{vikendicaID}")
-   public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{brodID}")
+   public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
    {
 	   System.out.println("Brisanje vikendice was called!");
-	   Korisnik k = korisnikServis.findById(vlasnikID);
-	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
-	   model.addAttribute("vikendica", vikendica);
-	   model.addAttribute("vlasnikVikendice", k);
+	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+	   Brod brod = brodServis.findById(brodID);
+	   model.addAttribute("brod", brod);
+	   model.addAttribute("vlasnikbroda", vlasnik);
 	   return "/vikendice/obrisiVikendicu.html";
    }
 
@@ -243,17 +242,17 @@ public class VlasnikVikendiceKontroler {
    public String profilMojeVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
    {
 	   System.out.println("Profil vikendice was called!");
-	   Korisnik k = korisnikServis.findById(vlasnikID);
-	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
-	   System.out.println("Prikaz Slika1: "+staraVikendica.getLinkSlike());
-	   System.out.println("Prikaz Slika2: "+staraVikendica.getLinkInterijera());
+	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+	   Brod brod = brodServis.findById(vikendicaID);
+	   System.out.println("Prikaz Slika1: "+brod.getLinkSlike());
+	   System.out.println("Prikaz Slika2: "+brod.getLinkKabine());
 
-	   model.addAttribute("slika1", staraVikendica.getLinkSlike());
-	   model.addAttribute("slika2", staraVikendica.getLinkInterijera());
-	   model.addAttribute("vikendica", staraVikendica);
-	   model.addAttribute("vlasnikVikendice", k);
+	   model.addAttribute("slika1", brod.getLinkSlike());
+	   model.addAttribute("slika2", brod.getLinkKabine());
+	   model.addAttribute("brod", brod);
+	   model.addAttribute("vlasnikBroda", vlasnik);
 	   
-	   return "/vikendice/profilMojeVikendice.html";
+	   return "/vikendice/profilMogBroda.html";
    }
    
 

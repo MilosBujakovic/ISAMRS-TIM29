@@ -57,6 +57,10 @@ public class PrijavaKontroler
 				{
 					return "redirect:/vikendicaVlasnik/pocetna/"+username;
 				}
+				else if(existUser.getUloga().getIme().equals("BrodVlasnik"))
+				{
+					return "redirect:/brodVlasnik/pocetna/"+username;
+				}
 				else if(existUser.getUloga().getIme().equals("Instruktor")) 
 				{
 					return "redirect:/instruktor/" + String.valueOf(existUser.getID());
