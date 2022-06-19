@@ -1,22 +1,33 @@
 package com.Reservations.Kontroleri;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
+import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
+import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
 import com.Reservations.Servis.VikendicaServis;
 
@@ -24,6 +35,8 @@ import com.Reservations.Servis.VikendicaServis;
 @RequestMapping(value = "/vikendicaVlasnik")
 public class VlasnikVikendiceKontroler {
 
+	public String putanjaSlikaKorisnika = "/img/korisnici/";
+	
 	@Autowired
 	PrihodServis prihodServis;
 	
@@ -37,7 +50,11 @@ public class VlasnikVikendiceKontroler {
 	UlogaServis ulogaServis;
 
 	@Autowired
+	RezervacijaServis rezervacijaServis;
+	
+	@Autowired
 	VikendicaServis vikendicaServis;
+
 
 	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
 	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
@@ -46,19 +63,12 @@ public class VlasnikVikendiceKontroler {
 		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
 		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
-		return "/vlasnikVikendicePocetna.html";
+		return "/vikendice/vlasnikVikendicePocetna.html";
 	}
-	/*
-    @RequestMapping(value = "/getClinicAndDoctor", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ClinicDoctorNameDTO> getClinicAndDoctor(@RequestParam String clinicId, @RequestParam String doctorId){
-        System.out.println("prikaziPocetnu");
-        ClinicDoctorNameDTO clinicDoctorNameDTO = doctorService.getClinicAndDoctor(clinicId,doctorId);
-        return new ResponseEntity<ClinicDoctorNameDTO>(clinicDoctorNameDTO, HttpStatus.OK);
-    }
-	*/
+
 	
-	@RequestMapping(value = "/prikaziVikendice/{korisnickoIme}", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model, @PathVariable String korisnickoIme) 
+	@RequestMapping(value = "/prikaziVikendice/{vrstaPrikaza}/{korisnickoIme}", method = RequestMethod.GET)
+	public String getEntitiesPage(Model model, @PathVariable String vrstaPrikaza, @PathVariable String korisnickoIme) 
 	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
@@ -78,11 +88,17 @@ public class VlasnikVikendiceKontroler {
 			model.addAttribute("vikendice", vikendice);
 			
 		}
-		else System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
-		VlasnikVikendiceDTO vlasnikV= new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
+		else
+		{
+			System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
+			return "/loginFaiulure";
+		}
+		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		return "mojeVikendice";
+		if(vrstaPrikaza.equals("izmijeni"))return "/vikendice/izmjenaVikendica.html";
+		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else return "/vikendice/mojeVikendice";
 	}
 	
 	@RequestMapping(value = "/profil/{korisnickoIme}")
@@ -90,8 +106,9 @@ public class VlasnikVikendiceKontroler {
 	{
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		if(vlasnikVikendice.getLinkSlike()==null || vlasnikVikendice.getLinkSlike().equals("") ) vlasnikVikendice.setLinkSlike("/img/avatar.png");
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
-		return "profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
+		return "/vikendice/profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
 	}
 
 	@RequestMapping(value = "/moj-profil/{korisnickoIme}")
@@ -99,31 +116,58 @@ public class VlasnikVikendiceKontroler {
 	{
 		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
 		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		System.out.println("slika profila: "+vlasnikVikendice.getLinkSlike());
+		if(vlasnikVikendice.getLinkSlike()==null || vlasnikVikendice.getLinkSlike().equals("") ) vlasnikVikendice.setLinkSlike("/img/avatar.png");
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
-		return "vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
+		return "/vikendice/vlasnikVikendicePodaci";//TODO:vlasnikVikendiceMyData
 	}
 	
-	@RequestMapping(value = "/azuriraj-podatke/{korisnickoIme}")
-	 public String prikupiPodatke(Model model, @PathVariable String korisnickoIme){
+	@RequestMapping(value = "/azuriraj-podatke/{vlasnikID}")
+	 public String prikupiPodatke(Model model, @PathVariable Long vlasnikID){
 	  		System.out.println("AzurirajPodatke page was called!");
-	  		Korisnik korisnik=korisnikServis.findByUsername(korisnickoIme);
+	  		Korisnik korisnik=korisnikServis.findById(vlasnikID);
 	  		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
-	  		System.out.println(vlasnik);
+	  		
+	  		if(vlasnik.getLinkSlike()==null || vlasnik.getLinkSlike().trim().equals("")) vlasnik.setLinkSlike("/img/avatar.png");
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		System.out.println("VLASNIK ID: "+vlasnik.getId());
 	  		System.out.println(model.toString());
-	  		 return "azurirajPodatkeVlasnika";
+	  		 return "/vikendice/azurirajPodatkeVlasnika";
 	  	  }
 	
-	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}")
-	public String izmijeniPodatke(@PathVariable Long idVlasnika, Model model, VlasnikVikendiceDTO vlasnikVikendice)
-	{		
-	 		System.out.println("Azuriranje Podataka page was called!");
+	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+	public String izmijeniPodatke(@PathVariable Long idVlasnika, SlikaDTO slikaDTO, Model model, VlasnikVikendiceDTO vlasnikVikendice) throws IOException
+	{		String poruka;
+			System.out.println("slika naziv: "+slikaDTO.getNazivSlike());
+	 		if(slikaDTO.getNazivSlike()!=null || !slikaDTO.getNazivSlike().trim().equals(""))
+	 		{
+				String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
+				File slika = new File(apsolutnaPutanja+this.putanjaSlikaKorisnika+slikaDTO.getNazivSlike());
+				System.out.println(slika.getAbsolutePath());
+				slika.createNewFile();
+				//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+				try(OutputStream os = new FileOutputStream(slika))
+				{
+					os.write(slikaDTO.getSlika().getBytes());
+					os.close();
+					System.out.println("Ucitana slika korisnika: "+slikaDTO.getPutanja()+slikaDTO.getNazivSlike());
+					vlasnikVikendice.setLinkSlike(putanjaSlikaKorisnika+slikaDTO.getNazivSlike());
+				}
+				catch(Exception e)
+				{
+					poruka = "Doslo je do greške kod učitavanja slike";
+					model.addAttribute("poruka", poruka);
+					return "/vikendice/pogresnaPoruka";
+				}
+	 		}
+			System.out.println("Azuriranje Podataka page was called!");
 	 		System.out.println(vlasnikVikendice);
 	 		Korisnik podaci=korisnikServis.azurirajPodatkeVlasnika(vlasnikVikendice);
 	 		model.addAttribute("vlasnikVikendice", podaci);
 	 		System.out.println(model.toString());
-	 		 return "azurirajPodatkeVlasnika";		
+	 		poruka = "Uspjesno azurirani podaci korisnika";
+	 		model.addAttribute("poruka", poruka);
+	 		return "/vikendice/potvrdnaPoruka";		
 	 	  }
 	
 	@RequestMapping(value = "/promjenaLozinke/{ID}")
@@ -136,7 +180,7 @@ public class VlasnikVikendiceKontroler {
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		model.addAttribute("lozinke", lozinke);
 	  		System.out.println(model.toString());
-	  		 return "promjenaLozinkeVlasnika";
+	  		 return "/vikendice/promjenaLozinkeVlasnika";
 	  	  }
 	
 	@RequestMapping(value ="/promijeniLozinku/{ID}")
@@ -144,16 +188,17 @@ public class VlasnikVikendiceKontroler {
 	{
   		System.out.println("PromijeniLozinku page was called!");
   		Korisnik korisnik=korisnikServis.findById(ID);
+  		model.addAttribute("vlasnikVikendice", korisnik);
   		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
   		{
-  			return "promjenaLozinkeNeuspjesna";
+  			return "/promjenaLozinkeNeuspjesna";
   		}
   		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
   		{
   			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
   	  		return "azurirajPodatkeVlasnika";
   		}
-  		else return "promjenaLozinkeNeuspjesna";
+  		else return "/promjenaLozinkeNeuspjesna";
   		
   	  }
 	
@@ -165,8 +210,70 @@ public class VlasnikVikendiceKontroler {
 	   VikendicaDTO vikendica = new VikendicaDTO();
 	   model.addAttribute("vikendica", vikendica);
 	   model.addAttribute("vlasnikVikendice", k);
-	   return "napraviVikendicu";
+	   return "/vikendice/napraviVikendicu";
    }
+   
+   @RequestMapping(value ="/izmijeniVikendicu/{vlasnikID}/{vikendicaID}")
+   public String izmijeniVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Izmjena vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
+	   System.out.println("Prikaz Slika1: "+staraVikendica.getLinkSlike());
+	   System.out.println("Prikaz Slika2: "+staraVikendica.getLinkInterijera());
+
+	   model.addAttribute("slika1", staraVikendica.getLinkSlike());
+	   model.addAttribute("slika2", staraVikendica.getLinkInterijera());
+	   model.addAttribute("vikendica", staraVikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   
+	   return "/vikendice/izmijeniVikendicu.html";
+   }
+   
+   @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{vikendicaID}")
+   public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Brisanje vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica vikendica = vikendicaServis.findById(vikendicaID);
+	   model.addAttribute("vikendica", vikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   return "/vikendice/obrisiVikendicu.html";
+   }
+
+   @RequestMapping(value ="/profilMojeVikendice/{vlasnikID}/{vikendicaID}")
+   public String profilMojeVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   {
+	   System.out.println("Profil vikendice was called!");
+	   Korisnik k = korisnikServis.findById(vlasnikID);
+	   Vikendica staraVikendica = vikendicaServis.findById(vikendicaID);
+	   System.out.println("Prikaz Slika1: "+staraVikendica.getLinkSlike());
+	   System.out.println("Prikaz Slika2: "+staraVikendica.getLinkInterijera());
+
+	   model.addAttribute("slika1", staraVikendica.getLinkSlike());
+	   model.addAttribute("slika2", staraVikendica.getLinkInterijera());
+	   model.addAttribute("vikendica", staraVikendica);
+	   model.addAttribute("vlasnikVikendice", k);
+	   
+	   return "/vikendice/profilMojeVikendice.html";
+   }
+   
+
+   @RequestMapping(value="/moji-klijenti/{vlasnikID}")
+   public String mojiKlijenti(Model model, @PathVariable Long vlasnikID)
+   {
+	   System.out.println("Prikaz mojih klijenata!");
+	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   
+
+	   model.addAttribute("vlasnikVikendice", vlasnik);
+	   model.addAllAttributes(mojiKlijenti);
+	   
+	   return "";
+	   
+   }
+   
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 
