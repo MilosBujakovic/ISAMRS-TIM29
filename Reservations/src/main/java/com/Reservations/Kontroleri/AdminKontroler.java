@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Reservations.DTO.AdminDTO;
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.GVarijablaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
@@ -123,7 +124,7 @@ public class AdminKontroler {
 		}
 		return "redirect:/admin/" + String.valueOf(id);
 	}
-	
+
 	@RequestMapping(value = "/zahtevZB/{rId}")
 	public String viewDeleteRequest(Model model, @PathVariable Long rId, @PathVariable Long id) {
 		System.out.println("Request " + String.valueOf(rId) + " was opened!");
@@ -135,8 +136,7 @@ public class AdminKontroler {
 
 	@RequestMapping(value = "/zahtevZB/{rId}/submit")
 	public String sendBackDeleteRequest(Model model, @PathVariable Long rId, @PathVariable Long id,
-			@RequestParam String radio)
-			throws AddressException, MessagingException, IOException {
+			@RequestParam String radio) throws AddressException, MessagingException, IOException {
 		System.out.println("Request was processed!");
 		model.addAttribute("id", id);
 		ZahtevZaBrisanje zb = bnServis.findById(rId);
@@ -226,7 +226,7 @@ public class AdminKontroler {
 		System.out.println("Brisi page was called!");
 		Korisnik k = korisnikServis.findById(id);
 		ZahtevZaBrisanje zb = bnServis.findByKorisnickoIme(k.getKorisnickoIme());
-		if(!zb.equals(null))
+		if (!zb.equals(null))
 			throw new ResourceConflictException(id, "Zahtev vec postoji!");
 		bnServis.save(k, razlog);
 		return "redirect:/admin/" + String.valueOf(id) + "/profil";
@@ -274,6 +274,30 @@ public class AdminKontroler {
 			gvServis.update(gvDTO);
 		}
 		return "redirect:/admin/" + String.valueOf(id) + "/prihodi";
+	}
+
+	@RequestMapping(value = "/administratori")
+	public String getAdministrators(@PathVariable Long id, Model model) {
+		System.out.println("Admin page was called!");
+		List<Korisnik> admini = korisnikServis.findByUloga("Admin");
+		model.addAttribute("id", id);
+		model.addAttribute("admini", admini);
+		return "admin/adminNoviAdmin";
+	}
+
+	@RequestMapping(value = "/dodajAdmina")
+	public String addAdmin(@PathVariable Long id, Model model, AdminDTO admin) {
+		System.out.println("Admin page was called!");
+		model.addAttribute("id", id);
+		String lozinka = korisnikServis.save(admin);
+		Korisnik k = korisnikServis.findByUsername(admin.getKorisnickoIme());
+		try {
+			this.sendEmailToNewAdmin(k.getEmail(), lozinka);
+		} catch (MessagingException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/admin/" + String.valueOf(id) + "/administratori";
 	}
 
 	@RequestMapping(value = "/izvestaji")
@@ -342,6 +366,41 @@ public class AdminKontroler {
 			multipart.addBodyPart(messageAccept);
 			multipart.addBodyPart(messageDenyReason);
 		}
+
+		msg.setContent(multipart);
+
+		Transport.send(msg);
+	}
+
+	private void sendEmailToNewAdmin(String mail, String lozinka)
+			throws AddressException, MessagingException, IOException {
+		Properties props = new Properties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.starttls.enable", "true");
+		props.put("mail.smtp.host", "smtp-mail.outlook.com");
+		props.put("mail.smtp.port", "587");
+
+		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication("mrs.isa.test@outlook.com", "123456789mrs.");
+			}
+		});
+		Message msg = new MimeMessage(session);
+		msg.setFrom(new InternetAddress("mrs.isa.test@outlook.com", false));
+
+		msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mail));
+		msg.setSubject("Napravljen administratorski nalog!");
+		msg.setContent("Napravljen administratorski nalog", "text/html");
+		msg.setSentDate(new Date());
+		MimeBodyPart message = new MimeBodyPart();
+		Multipart multipart = new MimeMultipart();
+
+		message.setContent(
+				"Cestitamo! Vas administratorski nalog je napravljen! Mozete se ulogovati vec danas.\nVasa privremena lozinka je: "
+						+ lozinka + "\nObavezno promenite lozinku!",
+				"text/html");
+
+		multipart.addBodyPart(message);
 
 		msg.setContent(multipart);
 

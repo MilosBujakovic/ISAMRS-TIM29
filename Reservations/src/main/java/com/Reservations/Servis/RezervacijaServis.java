@@ -21,7 +21,6 @@ import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
-import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 
 
@@ -34,26 +33,16 @@ public class RezervacijaServis {
 	@Autowired
 	private RezervacijaRepozitorijum rezervacijaRepozitorijum;
 	@Autowired
-	private VikendicaServis vik;
-	@Autowired
 	private UslugaServis usluga;
-	@Autowired
-	private BrodServis brd;
 
 	@Autowired
 	private KorisnikServis korisnikServis;
-	
-	@Autowired 
-	VikendicaServis vikendicaServis;
-	
-	@Autowired
-	BrodServis brodServis;
-	
-	@Autowired
-	private KorisnikServis usr;
 
 	@Autowired
-	private KorisnikServis kor;
+	VikendicaServis vikendicaServis;
+
+	@Autowired
+	BrodServis brodServis;
 
 	public Rezervacija findById(Long id) {
 		try {
@@ -70,17 +59,16 @@ public class RezervacijaServis {
 		r.setTip(tip);
 		r.setEntitetId(id);
 		r.setTipEntiteta(e);
-		r.setKlijent(kor.findById(id2));
-		System.out.println("Tip entiteta je: "+e.toString());
+
+		r.setKlijent(korisnikServis.findById(id2));
 		if (e.equals(TipEntiteta.vikendica)) {
-			System.out.println("Rezervacija vikendice: ");
-			Vikendica v = vik.findById(id);
+			Vikendica v = vikendicaServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
 		}
 		if (e.equals(TipEntiteta.brod)) {
 			System.out.println("Rezervacija broda: ");
-			Brod v = brd.findById(id);
+			Brod v = brodServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
 		}
@@ -94,10 +82,8 @@ public class RezervacijaServis {
 		r.setVreme(regRequest.getVreme());
 		r.setTrajanje(regRequest.getTrajanje());
 		r.setMaxOsoba(regRequest.getMaxOsoba());
-	
+
 		return this.rezervacijaRepozitorijum.save(r);// TODO Auto-generated method stub
-
-
 
 	}
 
@@ -108,7 +94,8 @@ public class RezervacijaServis {
 	public void delete(long id) {
 		this.rezervacijaRepozitorijum.deleteById(id);
 	}
-	public Rezervacija findByIme(String ime){
+
+	public Rezervacija findByIme(String ime) {
 		return this.rezervacijaRepozitorijum.findByNazivEntiteta(ime);
 
 		}
@@ -203,46 +190,37 @@ public class RezervacijaServis {
 		}
 		return li2;
 	}
-	
-	public List<Rezervacija> nadjiRezervacijeVikendica()
-	{
+
+	public List<Rezervacija> nadjiRezervacijeVikendica() {
 		return rezervacijaRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
 	}
 
-	public List<Rezervacija> pronadjiRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) 
-	{
+	public List<Rezervacija> pronadjiRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) {
 		List<Rezervacija> mojeRezervacije = new ArrayList<Rezervacija>();
-		System.out.println("TipoviEntiteta jednaki: "+tipEntiteta.equals(TipEntiteta.vikendica));
-		if(tipEntiteta.equals(TipEntiteta.vikendica))
-		{
+		System.out.println("TipoviEntiteta jednaki: " + tipEntiteta.equals(TipEntiteta.vikendica));
+		if (tipEntiteta.equals(TipEntiteta.vikendica)) {
 			List<Rezervacija> rezervacijeVikendica = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
 			List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
-			for(int rezID = 0; rezID<rezervacijeVikendica.size(); rezID++)
-			{
-				for(int vikID = 0; vikID<mojeVikendice.size(); vikID++)
-				{
-					System.out.println("ID iz rezervacije: "+rezervacijeVikendica.get(rezID).getEntitetId());
-					System.out.println("ID iz vikendice:"+mojeVikendice.get(vikID).getID());
-					if(rezervacijeVikendica.get(rezID).getEntitetId()==mojeVikendice.get(vikID).getID())
-					{
-						
+			for (int rezID = 0; rezID < rezervacijeVikendica.size(); rezID++) {
+				for (int vikID = 0; vikID < mojeVikendice.size(); vikID++) {
+					System.out.println("ID iz rezervacije: " + rezervacijeVikendica.get(rezID).getEntitetId());
+					System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
+					if (rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
+
 						mojeRezervacije.add(rezervacijeVikendica.get(rezID));
 						System.out.println("Ubacen!");
 						break;
 					}
 				}
 			}
-		}
-		else if(tipEntiteta.equals(TipEntiteta.brod))
-		{
-			
-		}
-		else System.out.println("Not Implemented");
+		} else if (tipEntiteta.equals(TipEntiteta.brod)) {
+
+		} else
+			System.out.println("Not Implemented");
 		return mojeRezervacije;
 	}
-	
-	public List<Rezervacija> findByVlasnikInst(long id, boolean before) 
-	{
+
+	public List<Rezervacija> findByVlasnikInst(long id, boolean before) {
 		List<Rezervacija> lista = rezervacijaRepozitorijum.findAll();
 		List<Rezervacija> rez = new ArrayList<Rezervacija>();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -252,7 +230,7 @@ public class RezervacijaServis {
 		Usluga u = new Usluga();
 		for (Rezervacija r : lista) {
 			if (r.getTipEntiteta().equals(TipEntiteta.vikendica)) {
-				v = vik.findById(r.getEntitetId());
+				v = vikendicaServis.findById(r.getEntitetId());
 				if (v.getVlasnik().getID() == id) {
 					if (LocalDate.parse(r.getDatum(), dtf).isBefore(now) && before)
 						rez.add(r);
@@ -260,8 +238,8 @@ public class RezervacijaServis {
 						rez.add(r);
 				}
 			} else if (r.getTipEntiteta().equals(TipEntiteta.brod)) {
-				b = brd.findById(r.getEntitetId());
-				if (b.getVlasnik().getID() == id){
+				b = brodServis.findById(r.getEntitetId());
+				if (b.getVlasnik().getID() == id) {
 					if (LocalDate.parse(r.getDatum(), dtf).isBefore(now) && before)
 						rez.add(r);
 					else if (LocalDate.parse(r.getDatum(), dtf).isAfter(now) && !before)
@@ -269,7 +247,7 @@ public class RezervacijaServis {
 				}
 			} else if (r.getTipEntiteta().equals(TipEntiteta.usluga)) {
 				u = usluga.findById(r.getEntitetId());
-				if (u.getInstruktor().getID() == id){
+				if (u.getInstruktor().getID() == id) {
 					if (LocalDate.parse(r.getDatum(), dtf).isBefore(now) && before)
 						rez.add(r);
 					else if (LocalDate.parse(r.getDatum(), dtf).isAfter(now) && !before)
@@ -289,7 +267,7 @@ public class RezervacijaServis {
 	   List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
 	   
 	   Long brojRezervacija;
-	   for(int i = 0; i<korisnici.size(); i++)
+	   for(int i = 0; i < korisnici.size(); i++)
 	   {
 		   brojRezervacija = 0L;
 		   for(Rezervacija rezervacija : mojeRezervacije)
@@ -307,5 +285,6 @@ public class RezervacijaServis {
 		   }
 	   }
 	   return mojiKlijenti;
+	
 	}
 }
