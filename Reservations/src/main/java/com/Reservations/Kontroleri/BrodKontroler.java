@@ -18,10 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Reservations.DTO.BrodDTO;
 import com.Reservations.DTO.SlikaDTO;
-import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
 @Controller
@@ -88,7 +86,7 @@ public class BrodKontroler {
 					System.out.println(slika.getAbsolutePath());
 					slika.createNewFile();
 					
-					System.out.println("Vikendica:" + noviBrod);
+					System.out.println("brod: " + noviBrod);
 					
 					//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 					try(OutputStream os = new FileOutputStream(slika))
@@ -98,7 +96,7 @@ public class BrodKontroler {
 						noviBrod.setVlasnik(vlasnikID);
 						if(i==0)noviBrod.setLinkSlike(this.putanjaSlikaBrodova+slikaDTO.getNazivSlike());
 						if(i==1)noviBrod.setLinkKabine(this.putanjaSlikaBrodova+slikeDTO.get(i).getNazivSlike());
-						System.out.println("Vikendica:" + noviBrod);
+						System.out.println("Pravim brod:" + noviBrod);
 						
 						//TODO: Snimi sliku u bazu?
 						
@@ -186,4 +184,26 @@ public class BrodKontroler {
 		else return "/vikendice/pogresnaPoruka";
 	}
 	
+	@RequestMapping(value = "/brodovi"+"/obrisi/{vlasnikID}/{brodID}")
+	public String obrisiBrod(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID) throws IOException
+	{		
+		System.out.println("Obrisi Brod called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		System.out.println("Usao u snimi");
+		//TODO: zastita od brisanja ukoliko postoje rezervacije?s
+		
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		String poruka[] = brodServis.obrisiBrod(vlasnikID, brodID);
+		
+		model.addAttribute("poruka", poruka[0]);
+		if(poruka[1].toLowerCase().equals("success"))
+		{
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else return "/vikendice/pogresnaPoruka.html";
+		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+		
+		
+	}
 }

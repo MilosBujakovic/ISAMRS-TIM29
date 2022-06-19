@@ -12,6 +12,7 @@ import com.Reservations.DTO.BrodDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
@@ -42,10 +43,11 @@ public class BrodServis
 	
 	public List<Brod> findByVlasnik(long id) {
 		List<Brod> lista = brodRepozitorijum.findAll();
+		List<Brod> brodoviVlasnika = new ArrayList<Brod>();
 		for(Brod u : lista) {
-			if (u.getVlasnik().getID() != id) lista.remove(u);
+			if (u.getVlasnik().getID() == id) brodoviVlasnika.add(u);
 		}
-		return lista;
+		return brodoviVlasnika;
 	}
 
 	public List<Brod> nadjiBrodovePoVlasniku(Korisnik vlasnik) {
@@ -139,26 +141,19 @@ public class BrodServis
 	public String[] izmijeniBrod(BrodDTO noviBrod, Brod stariBrod) {
 		String[] poruka = new String[2];
 		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(stariBrod.getID());
+		List<Rezervacija> rezervacijeBroda = new ArrayList<Rezervacija>();
 		for(Rezervacija rez : rezervacije)
 		{
 			System.out.println("ID rezervacije: "+rez.getID());
 			System.out.println("Trazi se brod: "+stariBrod.getID());
 			System.out.println("ID entiteta: "+rez.getEntitetId()+" Tip: "+rez.getTipEntiteta() );
-			if(stariBrod.getID()!=rez.getEntitetId())
+			if(stariBrod.getID()==rez.getEntitetId() && rez.getTipEntiteta().equals(TipEntiteta.brod))
 			{
-				rezervacije.remove(rez);
-				System.out.println("Izbacena po ID!");
-				continue;
-			}
-			if(rez.getTipEntiteta()!=TipEntiteta.brod)
-			{
-				rezervacije.remove(rez);
-				System.out.println("Izbacena po tipu!");
-				continue;
+				rezervacijeBroda.add(rez);
 			}
 				
 		}
-		if(rezervacije==null || rezervacije.isEmpty())
+		if(rezervacijeBroda==null || rezervacijeBroda.isEmpty())
 		{
 			System.out.println("Izmjena vikendice servis!");
 			Brod brodProvjere = brodRepozitorijum.findByNaziv(noviBrod.getNaziv());
@@ -265,5 +260,36 @@ public class BrodServis
 	            .filter(o -> !o.getTip().equals("camac")) != null
 	        ? li2 : null;
 		}
-
+		
+	public String[] obrisiBrod(Long vlasnikID, Long brodID) 
+	{
+		String poruka[] = new String[2];
+		Brod stariBrod = this.findById(brodID);
+		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(stariBrod.getID());
+		List<Rezervacija> rezervacijeBroda = new ArrayList<Rezervacija>();
+		
+		for(Rezervacija rez : rezervacije)
+		{
+			System.out.println("ID rezervacije: "+rez.getID());
+			System.out.println("Trazi se brod: "+stariBrod.getID());
+			System.out.println("ID entiteta: "+rez.getEntitetId()+" Tip: "+rez.getTipEntiteta() );
+			if(stariBrod.getID()==rez.getEntitetId() && rez.getTipEntiteta().equals(TipEntiteta.brod))
+			{
+				rezervacijeBroda.add(rez);
+			}
+				
+		}
+		if(rezervacijeBroda==null || rezervacijeBroda.isEmpty())
+		{	
+			brodRepozitorijum.delete(stariBrod);
+			poruka[0] = "Brisanje broda je uspjesno!";
+			poruka[1] = "success";
+		}
+		else 
+		{
+			poruka[0] =  "Doslo je do greske, brod je vec rezervisan!";
+			poruka[1] = "reserved";
+		}
+		return poruka;
+	}
 }

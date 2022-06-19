@@ -42,13 +42,14 @@ public class VikendicaServis {
 	}
 	public List<Vikendica> findByVlasnik(long id) {
 		List<Vikendica> lista = vikendicaRepozitorijum.findAll();
+		List<Vikendica> vikendiceVlasnika = new ArrayList<Vikendica>();
 		System.out.println("broj vikendica: "+lista.size());
 		if(lista!=null)for(Vikendica u : lista) 
 		{
 			System.out.println("Compare: "+u.getVlasnik().getID()+" - "+id);
-			if (u.getVlasnik().getID() != id) lista.remove(u);
+			if (u.getVlasnik().getID() == id) vikendiceVlasnika.add(u);
 		}
-		return lista;
+		return vikendiceVlasnika;
 	}
 	
 	
@@ -114,14 +115,19 @@ public class VikendicaServis {
 	public String[] izmijeniVikendicu(VikendicaDTO novaVikendica, Vikendica staraVikendica) {
 		String[] poruka = new String[2];
 		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(staraVikendica.getID());
+		List<Rezervacija> rezervacijeVikendice = new ArrayList<Rezervacija>();
 		for(Rezervacija rez : rezervacije)
 		{
-			if(staraVikendica.getNaziv()!=rez.getNazivEntiteta())
-				rezervacije.remove(rez);
-			if(rez.getTipEntiteta()!=TipEntiteta.vikendica)
-				rezervacije.remove(rez);
+			System.out.println("ID rezervacije: "+rez.getID());
+			System.out.println("Trazi se brod: "+staraVikendica.getID());
+			System.out.println("ID entiteta: "+rez.getEntitetId()+" Tip: "+rez.getTipEntiteta() );
+			if(staraVikendica.getID()==rez.getEntitetId() && rez.getTipEntiteta().equals(TipEntiteta.vikendica))
+			{
+				rezervacijeVikendice.add(rez);
+			}
+				
 		}
-		if(rezervacije==null || rezervacije.isEmpty())
+		if(rezervacijeVikendice==null || rezervacijeVikendice.isEmpty())
 		{
 			System.out.println("Izmjena vikendice servis!");
 			Vikendica vikendicaProvjere = vikendicaRepozitorijum.findByNaziv(novaVikendica.getNaziv());
@@ -168,22 +174,37 @@ public class VikendicaServis {
 			
 	}
 	
-	public String obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
+	public String[] obrisiVikendicu(Long vlasnikID, Long vikendicaID) 
 	{
+		String[] poruka = new String[2];
 		Vikendica staraVikendica = this.findById(vikendicaID);
 		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(staraVikendica.getID());
+		List<Rezervacija> rezervacijeVikendice = new ArrayList<Rezervacija>();
+		
 		for(Rezervacija rez : rezervacije)
 		{
-			if(staraVikendica.getNaziv()!=rez.getNazivEntiteta())
-				rezervacije.remove(rez);
+			System.out.println("ID rezervacije: "+rez.getID());
+			System.out.println("Trazi se vikendica: "+staraVikendica.getID());
+			System.out.println("ID entiteta: "+rez.getEntitetId()+" Tip: "+rez.getTipEntiteta() );
+			if(staraVikendica.getID()==rez.getEntitetId() && rez.getTipEntiteta().equals(TipEntiteta.vikendica))
+			{
+				rezervacijeVikendice.add(rez);
+			}
+				
 		}
-		if(rezervacije==null || rezervacije.isEmpty())
-		{	
+		if(rezervacijeVikendice==null || rezervacijeVikendice.isEmpty()){	
 			vikendicaRepozitorijum.delete(staraVikendica);
-			return "Brisanje vikendice je uspjesno!";
+			poruka[0] = "Brisanje vikendice je uspjesno!";
+			poruka[1] = "success";
 		}
-		else return "Doslo je do greske, vikendica je vec rezervisana!";
+		else 
+		{
+			poruka[0] = "Došlo je do greške, vikendica je vec rezervisana!";
+			poruka[1] = "reserved";
+		}
+		return poruka;
 	}
+	
 	public List<Vikendica> nadjiVikendicePoVlasniku(Korisnik vlasnik) 
 	{
 		List<Vikendica> vikendice = vikendicaRepozitorijum.findAll();

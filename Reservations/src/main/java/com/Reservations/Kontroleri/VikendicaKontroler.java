@@ -231,9 +231,14 @@ public class VikendicaKontroler
 		
 		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 		model.addAttribute("vlasnikVikendice", vlasnik);
-		String poruka = vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
-		model.addAttribute("poruka", poruka);
-		return "/vikendice/potvrdnaPoruka";
+		String poruka[] = vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
+		
+		model.addAttribute("poruka", poruka[0]);
+		if(poruka[1].toLowerCase().equals("success"))
+		{
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else return "/vikendice/pogresnaPoruka.html";
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 		
 		
