@@ -8,8 +8,9 @@
 <title>Profil instruktora</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+		<script
+src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+</script>
 </head>
 <body>
 	<div class="hold">
@@ -25,26 +26,43 @@
 					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj
 							profil</a></li>
-					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
+							rezervacija</a></li>
+
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
+			
+
 	<div class="panel important">
-		<h2>Prošle rezervacije</h2>
-		<ul th:each="rez : ${rezervacije}">
-			<li>
-				<div class="txt">
-					<h2 th:text="${rez.nazivEntiteta}">Naslov</h2>
-					<p th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}">Klijent</p>
-					<p th:text="${rez.datum}">Pocetni datum</p>
-					<p th:text="${rez.trajanje}">Trajanje</p>
-				</div>
-			</li>
-		</ul>
+	<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
 
-	</div>
+<script>
+var xValues = [50,60,70,80,90,100,110,120,130,140,150];
+var yValues = [7,8,8,9,9,9,10,11,14,14,15];
 
+new Chart("myChart", {
+  type: "line",
+  data: {
+    labels: xValues,
+    datasets: [{
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.1)",
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    scales: {
+      yAxes: [{ticks: {min: 6, max:16}}],
+    }
+  }
+});
+</script>
+</div>
 </body>
 </html>
