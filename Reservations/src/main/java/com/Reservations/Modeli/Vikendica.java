@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Vikendica")
 public class Vikendica {
-	@Id
 	
+	@Id
     @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long ID;

@@ -6,7 +6,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
 <meta charset="UTF-8">
-<title>Vlasnik vikendice pocetna</title>
+<title>Vlasnik brodova pocetna</title>
 </head>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/pocetna.css}"
@@ -17,18 +17,18 @@
 <body>
 	<section class=top>
 	<header role="banner">
-	<div class="hold"  th:each="vlasnik:${vlasnikVikendice}">
+	<div class="hold"  th:each="vlasnik:${vlasnikBroda}">
 	  <div class="header" >
 	    <div class="container">
 	      <div id="logo">
-	      <img class="profilna" alt="logo" th:src="${vlasnikVikendice.linkSlike}" onerror="this.src='/img/avatar.png'" height="90px" width="90px" style="margin-bottom:90px; ">
+	      <img class="profilna" alt="logo" th:src="${vlasnikBroda.linkSlike}" onerror="this.src='/img/avatar.png'" height="90px" width="90px" style="margin-bottom:90px; ">
 		   <h3 style="float:right;;transform:translateY(-200%)translateX(+10%)" th:text="${vlasnik.ime+' '+vlasnik.prezime}"></h3>
 	      </div>
 		  
 	      <ul class="nav">
-	        <li><a th:href="@{/vikendicaVlasnik/profil/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moj profil</a></li>
-	        <li><a th:href="@{/vikendicaVlasnik/prikaziVikendice/prikazi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moje vikendice</a></li>
-	         <li><a th:href="@{/vikendicaVlasnik/moji-klijenti/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moji klijenti</a></li>
+	        <li><a th:href="@{/brodVlasnik/profil/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moj profil</a></li>
+	        <li><a th:href="@{/brodVlasnik/prikaziBrodove/prikazi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moji brodovi</a></li>
+	         <li><a th:href="@{/vikendicaVlasnik/moji-klijenti/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moji klijenti</a></li>
 	         <li><a href="#" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
 	        <li><a th:href="@{/login}">Log out</a></li>
 	      </ul>
@@ -45,23 +45,23 @@
 			<nav class="mainMenu">
 				<ul class="mainMenu">
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Dodaj Vikendicu
+					<li class=""><a th:href="@{/brodVlasnik/napraviBrod/}+${vlasnikBroda.ID}" target="glavni_prikaz">Dodaj Brod
 					</a></li>
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/upravljanje/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Upravljanje Vikendicama
+					<li class=""><a th:href="@{/brodVlasnik/prikaziBrodove/upravljanje/}+${vlasnikBroda.ID}" target="glavni_prikaz">Upravljanje Brodovima
 							</a></li>
-					<!--<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Obriši Vikendicu
+					<!--<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.korisnickoIme}" target="glavni_prikaz">Obriši Vikendicu
 					</a></li>-->
 					
-					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihVikendica/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Spisak rezervacija
+					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihVikendica/}+${vlasnikBroda.ID}" target="glavni_prikaz">Spisak rezervacija
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi dostupnosti vikendica
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Periodi dostupnosti vikendica
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Brze rezervacije
+					<li class=""><a th:href="@{/vikendice/brze-rezervacije/}+${vlasnikBroda.ID}" target="glavni_prikaz">Brze rezervacije
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Kalendar zauzetosti
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Kalendar zauzetosti
 					</a></li>
 					
 					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Napiši izvještaj

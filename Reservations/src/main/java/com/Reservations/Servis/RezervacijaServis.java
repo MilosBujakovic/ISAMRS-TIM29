@@ -59,6 +59,7 @@ public class RezervacijaServis {
 		r.setTip(tip);
 		r.setEntitetId(id);
 		r.setTipEntiteta(e);
+
 		r.setKlijent(korisnikServis.findById(id2));
 		if (e.equals(TipEntiteta.vikendica)) {
 			Vikendica v = vikendicaServis.findById(id);
@@ -66,11 +67,13 @@ public class RezervacijaServis {
 			r.setCena(v.getCena());
 		}
 		if (e.equals(TipEntiteta.brod)) {
+			System.out.println("Rezervacija broda: ");
 			Brod v = brodServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
 		}
 		if (e.equals(TipEntiteta.usluga)) {
+			System.out.println("Rezervacija usluge: ");
 			Usluga v = usluga.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
@@ -256,26 +259,32 @@ public class RezervacijaServis {
 		return rez;
 	}
 
-	public List<KlijentSpisakDTO> nadjiKlijenteVlasnika(Korisnik vlasnik) {
-
-		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
-		List<Korisnik> korisnici = korisnikServis.listAll();
-		List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
-
-		Long brojRezervacija;
-		for (int i = 0; i < korisnici.size(); i++) {
-			brojRezervacija = 0L;
-			for (Rezervacija rezervacija : mojeRezervacije) {
-				if (rezervacija.getKlijent().equals(korisnici.get(i))) {
-					System.out.println("Pronadjen klijent: " + korisnici.get(i).getKorisnickoIme());
-					brojRezervacija++;
-				}
-			}
-			if (brojRezervacija > 0) {
-				System.out.println("Ubacen " + korisnici.get(i).getKorisnickoIme() + " u listu!");
-				mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija));
-			}
-		}
-		return mojiKlijenti;
+	public List<KlijentSpisakDTO> nadjiKlijenteVlasnika(Korisnik vlasnik) 
+	{
+	   
+	   List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
+	   List<Korisnik> korisnici = korisnikServis.listAll();
+	   List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
+	   
+	   Long brojRezervacija;
+	   for(int i = 0; i < korisnici.size(); i++)
+	   {
+		   brojRezervacija = 0L;
+		   for(Rezervacija rezervacija : mojeRezervacije)
+		   {
+			   if(rezervacija.getKlijent().equals(korisnici.get(i) ) )
+			   {
+				   //System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
+			   brojRezervacija++;
+			   }
+		   }
+		   if(brojRezervacija>0)
+		   {
+			   //System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
+			   mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija) );
+		   }
+	   }
+	   return mojiKlijenti;
+	
 	}
 }

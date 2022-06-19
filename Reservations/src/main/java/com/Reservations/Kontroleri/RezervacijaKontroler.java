@@ -75,6 +75,8 @@ public class RezervacijaKontroler {
 	}
 	
 
+
+
 	@RequestMapping(value = "/rezervisiBrod/{id}/{id2}")
 	public String rezerve( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model)
 	{
