@@ -100,6 +100,6 @@ public class InstruktorKontroler {
 		System.out.println("Instruktor page was called!");
 		List<Usluga> lista = uslugaServis.findByInstruktor(id);
 		model.addAttribute("usluge", lista);
-		return "instruktor/instruktorPocetna";
+		return "instruktor/instruktorIzvestaji";
 	}
 }
