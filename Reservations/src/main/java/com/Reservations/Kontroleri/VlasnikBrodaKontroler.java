@@ -90,7 +90,7 @@ public class VlasnikBrodaKontroler
 		System.out.println(model.toString());
 		if(vrstaPrikaza.equals("upravljanje"))return "/brodovi/upravljanjeBrodovima.html";
 		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
-		else return "/vikendice/mojeVikendice";
+		else return "/brodovi/mojiBrodovi";
 	}
 	
 	@RequestMapping(value = "/profil/{vlasnikID}")
@@ -227,23 +227,23 @@ public class VlasnikBrodaKontroler
 	   return "/brodovi/izmijeniBrod.html";
    }
    
-   @RequestMapping(value ="/obrisiVikendicu/{vlasnikID}/{brodID}")
+   @RequestMapping(value ="/obrisiBrod/{vlasnikID}/{brodID}")
    public String obrisiVikendicu(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
    {
 	   System.out.println("Brisanje vikendice was called!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 	   Brod brod = brodServis.findById(brodID);
 	   model.addAttribute("brod", brod);
-	   model.addAttribute("vlasnikbroda", vlasnik);
-	   return "/vikendice/obrisiVikendicu.html";
+	   model.addAttribute("vlasnikBroda", vlasnik);
+	   return "/brodovi/obrisiBrod.html";
    }
 
-   @RequestMapping(value ="/profilMojeVikendice/{vlasnikID}/{vikendicaID}")
-   public String profilMojeVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+   @RequestMapping(value ="/profilMogBroda/{vlasnikID}/{brodID}")
+   public String profilMogBroda(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
    {
-	   System.out.println("Profil vikendice was called!");
+	   System.out.println("Profil broda was called!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-	   Brod brod = brodServis.findById(vikendicaID);
+	   Brod brod = brodServis.findById(brodID);
 	   System.out.println("Prikaz Slika1: "+brod.getLinkSlike());
 	   System.out.println("Prikaz Slika2: "+brod.getLinkKabine());
 
@@ -252,7 +252,7 @@ public class VlasnikBrodaKontroler
 	   model.addAttribute("brod", brod);
 	   model.addAttribute("vlasnikBroda", vlasnik);
 	   
-	   return "/vikendice/profilMogBroda.html";
+	   return "/brodovi/profilMogBroda.html";
    }
    
 

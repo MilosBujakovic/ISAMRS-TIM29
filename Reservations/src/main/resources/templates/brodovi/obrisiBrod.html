@@ -203,33 +203,27 @@
 <body>
     <div class="p-3 py-5">
        <div class="d-flex align-items-center mb-3">
-           <h4 class="text-left">Izmijeni Brod</h4>
+           <h4 class="text-left">Obriši Brod</h4>
        </div>
         <form enctype="multipart/form-data" th:object="${slika}" method="post" name="unos">
         <div class="row mt-3 ">
         <div class="col-md-7"><input readonly type="hidden" class="form-control" placeholder="Unesite ime" th:value="${vlasnikBroda.ID}" name="ID"></input></div>
         <div class="col-md-8"><img height=200px class="img2" th:src="${brod.linkSlike}"></img>
-        	<img height=200px class="img2" th:src="${brod.linkKabine}"></img></div>
-            <div class="col-md-8"><label class="labels">Naziv</label><input type="text" class="form-control" placeholder="Unesite naziv" th:value="${brod.naziv}" name="naziv" required></input></div>
-            <div class="col-md-8"><label class="labels">Adresa</label><input type="text" class="form-control" placeholder="Unesite adresu" th:value="${brod.adresa}" name="adresa"></input></div>
-            <div class="col-md-8"><label class="labels">Tip broda</label><input type="text" class="form-control" placeholder="Unesite tip broda" th:value="${brod.tip}" name="tip"></input></div>
-            <div class="col-md-8"><label class="labels">Kapacitet broda</label><input type="text" class="form-control" placeholder="Unesite kapacitet broda" th:value="${brod.kapacitet}" name="kapacitet" onchange="provjera_kapaciteta()"></input></div>
-            <div class="col-md-8"><label class="labels">Broj motora</label><input type="text" class="form-control" placeholder="Unesite broj motora" th:value="${brod.brojMotora}" name="brojMotora" onchange="provjera_brojaMotora()"></input></div>
-            <div class="col-md-8"><label class="labels">Dužina broda</label><input type="text" class="form-control" placeholder="Unesite duzinu broda" th:value="${brod.duzina}" name="duzina" onchange="provjera_duzine()"></input></div>
-            <div class="col-md-8"><label class="labels">Snaga motora</label><input type="text" class="form-control" placeholder="Unesite snagu motora" th:value="${brod.snaga}" name="snaga" onchange="provjera_Snage()"></input></div>
-            <div class="col-md-8"><label class="labels">Najveća moguća brzina</label><input type="text" class="form-control" placeholder="Unesite maksimalnu brzinu broda" th:value="${brod.maxBrzina}" name="maxBrzina" onchange="provjera_maxBrzine()"></input></div>
-            <div class="col-md-8"><label class="labels">Cijena</label><input type="text" class="form-control" placeholder="Unesite cijenu" th:value="${brod.cena}" name="cena" onchange="provjera_cijene()"></input></div>
-            <div class="col-md-8"><label class="labels">Slika:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${brod.linkSlike}" name="slika" id="filepicker" onchange="dobavi_putanju_slike()" ></input></div>
-            <div class="col-md-8"><label class="labels">Slika kabine:</label><input type="file" class="form-control" placeholder="Unesite sliku" th:value="${brod.linkKabine}" name="slikaInterijera" id="filepicker2" onchange="dobavi_putanju_slike2()"></input></div>
-            <div class="col-md-8"><label class="labels">Pravila ponašanja</label><input type="text" class="form-control" placeholder="Unesite pravila ponasanja" th:value="${brod.pravilaPonasanja}" name="pravilaPonasanja"></input></div>
-            <div class="col-md-8"><label class="labels">Navigaciona oprema</label><input type="text" class="form-control" placeholder="Unesite spisak navigacione opreme" th:value="${brod.navigacionaOprema}" name="navigacionaOprema"></input></div>
-            <div class="col-md-8"><label class="labels">Pecaroška oprema</label><input type="text" class="form-control" placeholder="Unesite spisak pecaroške opreme" th:value="${brod.pecaroskaOprema}" name="pecaroskaOprema"></input></div>
-            <div class="col-md-8"><label class="labels">Opis</label><input type="text" class="form-control" placeholder="Opisite brod" th:value="${brod.opis}" name="opis"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike" id="naziv"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" id="putanja"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike2" id="naziv2"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="putanja2" id="putanja2"></input></div>
-<div class="mt-5 text-left"><button class="btn btn-primary profile-button" th:formaction="@{/brodovi/izmijeni/}+${vlasnikBroda.ID+'/'}+${brod.ID}" type="submit" name="izmijeni-dugme">Izmijeni Brod</button>
+       	<img height=200px class="img2" th:src="${brod.linkKabine}"></img></div>
+        <div class="col-md-8"><label class="labels">Naziv</label><input readonly type="text"  class="form-control" placeholder="Unesite naziv" th:value="${brod.naziv}" name="naziv" required></input></div>
+        <div class="col-md-8"><label class="labels">Adresa</label><input readonly type="text" class="form-control" placeholder="Unesite adresu" th:value="${brod.adresa}" name="adresa"></input></div>
+        <div class="col-md-8"><label class="labels">Tip broda</label><input readonly type="text" class="form-control" placeholder="Unesite tip broda" th:value="${brod.tip}" name="tip"></input></div>
+        <div class="col-md-8"><label class="labels">Kapacitet broda</label><input readonly type="text" class="form-control" placeholder="Unesite kapacitet broda" th:value="${brod.kapacitet}" name="kapacitet" onchange="provjera_kapaciteta()"></input></div>
+        <div class="col-md-8"><label class="labels">Cijena</label><input readonly type="text" class="form-control" placeholder="Unesite cijenu" th:value="${brod.cena}" name="cena" onchange="provjera_cijene()"></input></div>
+        <div class="col-md-8"><label class="labels">Pravila ponašanja</label><input readonly type="text" class="form-control" placeholder="Unesite pravila ponasanja" th:value="${brod.pravilaPonasanja}" name="pravilaPonasanja"></input></div>
+        <div class="col-md-8"><label class="labels">Navigaciona oprema</label><input readonly type="text" class="form-control" placeholder="Unesite spisak navigacione opreme" th:value="${brod.navigacionaOprema}" name="navigacionaOprema"></input></div>
+        <div class="col-md-8"><label class="labels">Pecaroška oprema</label><input readonly type="text" class="form-control" placeholder="Unesite spisak pecaroške opreme" th:value="${brod.pecaroskaOprema}" name="pecaroskaOprema"></input></div>
+        <div class="col-md-8"><label class="labels">Opis</label><input readonly type="text" class="form-control" placeholder="Opisite brod" th:value="${brod.opis}" name="opis"></input></div>
+  		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike" id="naziv"></input></div>
+  		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" id="putanja"></input></div>
+  		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike2" id="naziv2"></input></div>
+  		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="putanja2" id="putanja2"></input></div>
+	<div class="mt-5 text-left"><button class="btn btn-primary profile-button" th:formaction="@{/brodovi/obrisi/}+${vlasnikBroda.ID+'/'}+${brod.ID}" type="submit" name="izmijeni-dugme">Obriši Brod</button>
          </div>
     </div></form>
    </div>

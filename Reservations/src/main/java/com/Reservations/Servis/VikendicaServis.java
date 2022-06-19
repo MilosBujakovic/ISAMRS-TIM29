@@ -11,6 +11,7 @@ import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 
@@ -116,6 +117,8 @@ public class VikendicaServis {
 		for(Rezervacija rez : rezervacije)
 		{
 			if(staraVikendica.getNaziv()!=rez.getNazivEntiteta())
+				rezervacije.remove(rez);
+			if(rez.getTipEntiteta()!=TipEntiteta.vikendica)
 				rezervacije.remove(rez);
 		}
 		if(rezervacije==null || rezervacije.isEmpty())

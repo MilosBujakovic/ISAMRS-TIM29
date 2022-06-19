@@ -76,51 +76,60 @@ public class BrodKontroler {
 		System.out.println("Usao u snimi");
 		File slika;
 		Brod duplikat = brodServis.pronadjiPoNazivu(noviBrod.getNaziv());
-		if(slikeDTO.size()>0)
+		if(duplikat==null)
 		{
-			for(int i=0; i<slikeDTO.size(); i++)
+			noviBrod.setVlasnik(vlasnikID);
+			if(slikeDTO.size()>0)
 			{
-				String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
-				slika = new File(apsolutnaPutanja+this.putanjaSlikaBrodova+slikeDTO.get(i).getNazivSlike());
-				System.out.println(slika.getAbsolutePath());
-				slika.createNewFile();
-				noviBrod.setVlasnik(vlasnikID);
-				System.out.println("Vikendica:" + noviBrod);
-				
-				//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
-				try(OutputStream os = new FileOutputStream(slika))
+				for(int i=0; i<slikeDTO.size(); i++)
 				{
-					os.write(slikeDTO.get(i).getSlika().getBytes());
-					os.close();
-					noviBrod.setVlasnik(vlasnikID);
-					if(i==0)noviBrod.setLinkSlike(this.putanjaSlikaBrodova+slikaDTO.getNazivSlike());
-					if(i==1)noviBrod.setLinkKabine(this.putanjaSlikaBrodova+slikeDTO.get(i).getNazivSlike());
+					String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
+					slika = new File(apsolutnaPutanja+this.putanjaSlikaBrodova+slikeDTO.get(i).getNazivSlike());
+					System.out.println(slika.getAbsolutePath());
+					slika.createNewFile();
+					
 					System.out.println("Vikendica:" + noviBrod);
 					
-					//TODO: Snimi sliku u bazu?
-					
-					
+					//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+					try(OutputStream os = new FileOutputStream(slika))
+					{
+						os.write(slikeDTO.get(i).getSlika().getBytes());
+						os.close();
+						noviBrod.setVlasnik(vlasnikID);
+						if(i==0)noviBrod.setLinkSlike(this.putanjaSlikaBrodova+slikaDTO.getNazivSlike());
+						if(i==1)noviBrod.setLinkKabine(this.putanjaSlikaBrodova+slikeDTO.get(i).getNazivSlike());
+						System.out.println("Vikendica:" + noviBrod);
+						
+						//TODO: Snimi sliku u bazu?
+						
+						
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+						poruka[0] = "Doslo je do greske u dodavanju!";
+						poruka[1] = "IO error";
+						model.addAttribute("poruka", poruka[0]);
+						return "/vikendice/pogresnaPoruka";
+					}
+	
 				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-					poruka[0] = "Doslo je do greske u dodavanju!";
-					poruka[1] = "IO error";
-					model.addAttribute("poruka", poruka);
-					return "/vikendice/pogresnaPoruka";
-				}
-
 			}
-			poruka = brodServis.dodajBrod(noviBrod);
-			model.addAttribute("poruka", poruka[0]);
+
+		
+		poruka = brodServis.dodajBrod(noviBrod);
+		model.addAttribute("poruka", poruka[0]);	
+		
+		if(poruka[1].equalsIgnoreCase("success"))return "/vikendice/potvrdnaPoruka";
+		else return "/vikendice/pogresnaPoruka"; 
 		}
 		else
 		{
-			poruka = brodServis.dodajBrod(noviBrod);
+			poruka[0] = "Brod sa tim nazivom već postoji!";
+			poruka[1] = "duplicate";
 			model.addAttribute("poruka", poruka[0]);
-		}		
-		if(poruka[1].equalsIgnoreCase("success"))return "/vikendice/potvrdnaPoruka";
-		else return "/vikendice/pogresnaPoruka"; 
+			return "/vikendice/pogresnaPoruka";
+		}
 	}
 	
 	@RequestMapping(value = "/brodovi"+"/izmijeni/{vlasnikID}/{brodID}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -164,7 +173,7 @@ public class BrodKontroler {
 			catch(Exception e)
 			{
 				e.printStackTrace();
-				model.addAttribute("poruka", "Doslo je do greske sa slikom vikendice!");
+				model.addAttribute("poruka", "Doslo je do greske sa slikom broda!");
 				return "/vikendice/pogresnaPoruka";
 			}
 

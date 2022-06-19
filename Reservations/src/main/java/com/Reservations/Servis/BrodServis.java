@@ -13,6 +13,7 @@ import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 
@@ -141,8 +142,22 @@ public class BrodServis
 		List<Rezervacija> rezervacije = rezervacijaRepozitorijum.findByEntitetId(stariBrod.getID());
 		for(Rezervacija rez : rezervacije)
 		{
-			if(stariBrod.getNaziv()!=rez.getNazivEntiteta())
+			System.out.println("ID rezervacije: "+rez.getID());
+			System.out.println("Trazi se brod: "+stariBrod.getID());
+			System.out.println("ID entiteta: "+rez.getEntitetId()+" Tip: "+rez.getTipEntiteta() );
+			if(stariBrod.getID()!=rez.getEntitetId())
+			{
 				rezervacije.remove(rez);
+				System.out.println("Izbacena po ID!");
+				continue;
+			}
+			if(rez.getTipEntiteta()!=TipEntiteta.brod)
+			{
+				rezervacije.remove(rez);
+				System.out.println("Izbacena po tipu!");
+				continue;
+			}
+				
 		}
 		if(rezervacije==null || rezervacije.isEmpty())
 		{
