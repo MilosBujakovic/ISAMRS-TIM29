@@ -30,6 +30,11 @@ public class KlijentKontroler {
 	      return "profilKorisnika";
 	  }
 	
+	@RequestMapping(value = "/Profil")
+	  public String getTesPage(){
+		System.out.println("ProfilKorisnika page was called!");
+	      return "profilKorisnika";
+	  }
 	@RequestMapping(value = "/azuriraj/{id}")
 	 public String getPodaciPage(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id){
 	  		System.out.println("AzurirajPodatke page was called!");

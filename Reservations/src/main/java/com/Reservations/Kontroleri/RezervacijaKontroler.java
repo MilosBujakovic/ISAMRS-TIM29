@@ -121,23 +121,63 @@ public class RezervacijaKontroler {
 	
 	
 	 		System.out.println("AzurirajPodatke page was called!");
-	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id);
+
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
+
+	 		
+
 	 		model.addAttribute("pod", user);
 	 		System.out.println(model.toString());
 	 		 return "MojeRezervacije";
 	 	  }
-	
 	@RequestMapping(value = "/IstorijaRez/{id}")
-	public String IstMoje(@PathVariable Long id,Model model){
+	public String rezMojeaa(@PathVariable Long id,Model model){
 	
 	
 	 		System.out.println("AzurirajPodatke page was called!");
-	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDate(id);
+
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
+
+	 		
+
 	 		model.addAttribute("pod", user);
 	 		System.out.println(model.toString());
 	 		 return "IstorijaRezervacija";
 	 	  }
 	
+	@RequestMapping(value = "/IstorijaRezVik/{id}")
+	public String IstMoje(@PathVariable Long id,Model model){
+	
+	
+	 		System.out.println("AzurirajPodatke page was called!");
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateVik(id);
+	 		model.addAttribute("pod", user);
+	 		System.out.println(model.toString());
+	 		 return "IstorijaRezEntiteta";
+	 	  }
+	
+	@RequestMapping(value = "/IstorijaRezBrd/{id}")
+	public String IstMojebrd(@PathVariable Long id,Model model){
+	
+	
+	 		System.out.println("AzurirajPodatke page was called!");
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateBrod(id);
+	 		model.addAttribute("pod", user);
+	 		System.out.println(model.toString());
+	 		 return "IstorijaRezEntiteta";
+	 	  }
+	@RequestMapping(value = "/IstorijaRezUsl/{id}")
+	public String IstMojeUsl(@PathVariable Long id,Model model){
+	
+	
+	 		System.out.println("AzurirajPodatke page was called!");
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateUsluga(id);
+	 		model.addAttribute("pod", user);
+	 		System.out.println(model.toString());
+	 		 return "IstorijaRezEntiteta";
+	 	  }
+	
+
 	private void sendEmailToUser(TipEntiteta rez,String mail ) throws AddressException, MessagingException, IOException {
 		Properties props = new Properties();
 		props.put("mail.smtp.auth", "true");

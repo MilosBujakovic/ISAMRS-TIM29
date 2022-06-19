@@ -7,4 +7,6 @@ import com.Reservations.Modeli.Brod;
 public interface BrodRepozitorijum extends JpaRepository<Brod, Long>
 {
 	Brod findByNaziv(String name);
+	Brod findByAdresa(String adres);
+	Brod findByCena(Double cena);
 }

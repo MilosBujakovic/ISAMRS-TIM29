@@ -936,21 +936,34 @@ tr:nth-child(even) {
 </div>
 
 
-<h2>HTML Table</h2>
 
-<table >
-  <tr >
-    <th >Naziv</th>
-    <th>Datum</th>
-    <th>Cena</th>
-  </tr>
-  <tr th:each="rez:${pod}">
-    <td th:text="${rez.nazivEntiteta}"></td>
-    <td th:text="${rez.datum}" ></td>
-    <td th:text="${rez.cena}"></td>
-  </tr>
-  
-</table>
+
+
+<div class="section">
+  <main class="page-content">
+  <div class="card">
+    <div class="content">
+      <h2 class="title">Istorija rezervacija vikendica</h2>
+      <p class="copy">Pogledajte vase rezervacije</p>
+     <a th:href="@{/IstorijaRezVik/}+${id}"><button class="btn">Prikazi</button></a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <h2 class="title">Istorija rezervacija brodova</h2>
+      <p class="copy">Pogledajte vase rezervacije </p>
+       <a th:href="@{/IstorijaRezBrd/}+${id}"><button class="btn">Prikazi</button></a>
+    </div>
+  </div>
+  <div class="card">
+    <div class="content">
+      <h2 class="title">Istorija rezervacija vikendica</h2>
+      <p class="copy">Pogledajte vase rezervacije pecanja</p>
+     <a th:href="@{/IstorijaRezUsl/}+${id}"> <button class="btn">Prikazi</button></a>
+    </div>
+  </div>
+</main>
+</div>
 </body>
 
 </html>

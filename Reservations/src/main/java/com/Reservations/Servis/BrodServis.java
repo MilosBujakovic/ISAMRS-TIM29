@@ -1,12 +1,15 @@
 package com.Reservations.Servis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.Modeli.Brod;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 
@@ -34,4 +37,57 @@ public class BrodServis
 		}
 		return lista;
 	}
+	
+	public List<Brod>BrodSortCena(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Brod>li=brodRepozitorijum.findAll(Sort.by(Sort.Direction.DESC, "cena"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Brod>BrodSortNaziv(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Brod>li=brodRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "tip"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Brod>BrodSortAdresa(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Brod>li=brodRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "adresa"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Brod>BrodPretraga(String pretraga){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Brod>li=new ArrayList<Brod>();
+		List<Brod>li2=brodRepozitorijum.findAll();
+		for (Brod e : li2) {
+			if(e.getAdresa().toLowerCase().contains(pretraga.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(e.getTip().toLowerCase().contains(pretraga.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(String.valueOf(e.getCena()).contains(pretraga)) {
+				li.add(e);
+				continue;
+			}
+		}
+		return li;
+		}
+	
+	public List<Brod>BrodFilter(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		
+		List<Brod>li2=brodRepozitorijum.findAll();
+		
+		 return li2.stream()
+	            .filter(o -> !o.getTip().equals("camac")) != null
+	        ? li2 : null;
+		}
+
 }

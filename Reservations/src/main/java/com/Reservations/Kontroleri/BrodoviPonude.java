@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
@@ -27,7 +28,21 @@ public class BrodoviPonude {
 		model.addAttribute("kor", k);
 		model.addAttribute("brodovi", brodovi);
 		System.out.println(model.toString());
+		List<Brod>brod=brodServis.BrodSortCena();
+		List<Brod>brod2=brodServis.BrodSortNaziv();
+		List<Brod>brod3=brodServis.BrodSortAdresa();
+		
+		model.addAttribute("sortbrodovi", brod);
+		model.addAttribute("sortbrodovinaziv", brod2);
+		model.addAttribute("sortbrdadresa",brod3);
+		for(Brod b:brod) {
+			System.out.println(b.getCena());
+		}
+		
+		
 	      return "prikazBrodova";
+	      
+	      
 	  }
 
 	@RequestMapping(value = "/OsnovniprikazBrodova")
@@ -38,6 +53,45 @@ public class BrodoviPonude {
 		
 	      return "OsnovniPodaciBrod";
 	  }
+
+	@RequestMapping(value = "/Pretraga/{id}")
+	  public String getOsPage(Model model,@PathVariable Long id,@RequestParam String s){
+		System.out.println("PrikazBrodova page was called!");
+		List<Brod>brodovi=brodServis.BrodPretraga(s);
+		Korisnik k=korServis.findById(id);
+		model.addAttribute("kor", k);
+		model.addAttribute("brodovi", brodovi);
+		System.out.println(model.toString());
+		List<Brod>brod=brodServis.BrodSortCena();
+		List<Brod>brod2=brodServis.BrodSortNaziv();
+		List<Brod>brod3=brodServis.BrodSortAdresa();
+		
+		model.addAttribute("sortbrodovi", brod);
+		model.addAttribute("sortbrodovinaziv", brod2);
+		model.addAttribute("sortbrdadresa",brod3);
+		
+	      return "prikazBrodova";
+	  }
+	@RequestMapping(value = "/Filter/{id}")
+	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String s){
+		System.out.println("PrikazBrodova page was called!");
+		List<Brod>br=brodServis.BrodFilter();
+		List<Brod>brodovi=brodServis.BrodPretraga(s);
+		Korisnik k=korServis.findById(id);
+		model.addAttribute("kor", k);
+		model.addAttribute("brodovi", brodovi);
+		System.out.println(model.toString());
+		List<Brod>brod=brodServis.BrodSortCena();
+		List<Brod>brod2=brodServis.BrodSortNaziv();
+		List<Brod>brod3=brodServis.BrodSortAdresa();
+		
+		model.addAttribute("sortbrodovi", brod);
+		model.addAttribute("sortbrodovinaziv", brod2);
+		model.addAttribute("sortbrdadresa",brod3);
+		
+	      return "prikazBrodova";
+	  }
+	
 	
 	
 }
