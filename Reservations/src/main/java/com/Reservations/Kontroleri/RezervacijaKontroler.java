@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.DTO.RezervacijaSpisakDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
+import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.VikendicaServis;
@@ -48,6 +50,9 @@ public class RezervacijaKontroler {
 
 	 @Autowired
 	 VikendicaServis vikendicaServis;
+	 
+	 @Autowired
+	 BrodServis brodServis;
 	
 	@RequestMapping(value = "/rezervisiVik/{id}/{klijent_id}")
 	public String registerOwner( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) {
@@ -75,6 +80,8 @@ public class RezervacijaKontroler {
 	}
 	
 
+
+
 	@RequestMapping(value = "/rezervisiBrod/{id}/{id2}")
 	public String rezerve( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model)
 	{
@@ -88,7 +95,7 @@ public class RezervacijaKontroler {
 		
 		this.rezervacijaServis.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,id2);
 		try {
-			this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
+			this.sendEmailToUser(TipEntiteta.brod,k.getEmail());
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -237,11 +244,11 @@ public class RezervacijaKontroler {
 		   model.addAttribute("vlasnikVikendice", vlasnik);
 		   model.addAttribute("rezervacije", mojeRezervacije);
 		   model.addAttribute("vikendice", mojeVikendice);
-		   return "/vikendice/spisakRezervacija.html";
+		   return "/vikendice/spisakRezervacijaVikendica.html";
 	   }
 	   
-	   @RequestMapping(value="/{vlasnikID}/profil-klijenta/{klijentID}")
-	   public String osnovniProfilKlijenta(Model model, @PathVariable Long vlasnikID, @PathVariable Long klijentID)
+	   @RequestMapping(value="/vlasnikVikendice/{vlasnikID}/profil-klijenta/{klijentID}")
+	   public String osnovniProfilKlijentaVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long klijentID)
 	   {
 		   System.out.println("Vlasnik ID: "+vlasnikID);
 		   System.out.println("Klijent ID: "+klijentID);
@@ -254,5 +261,52 @@ public class RezervacijaKontroler {
 		   return "/vikendice/osnovniProfilKlijenta.html";
 	   }
 	   
+	   @RequestMapping(value="/vlasnikBroda/{vlasnikID}/profil-klijenta/{klijentID}")
+	   public String osnovniProfilKlijentaBrodovi(Model model, @PathVariable Long vlasnikID, @PathVariable Long klijentID)
+	   {
+		   System.out.println("Vlasnik ID: "+vlasnikID);
+		   System.out.println("Klijent ID: "+klijentID);
+		   Korisnik klijent = korisnikServis.findById(klijentID);
+		   if(klijent.getLinkSlike()==null || klijent.getLinkSlike().equals(""))
+			   klijent.setLinkSlike("/img/avatar.png");
+		   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		   model.addAttribute("klijent", klijent);
+		   model.addAttribute("vlasnikBroda", vlasnik);
+		   return "/brodovi/osnovniProfilKlijenta.html";
+	   }
 	   
+	   @RequestMapping(value="/rezervacijeMojihBrodova/{vlasnikID}")
+	   public String rezervacijeMojihBrodova(Model model, @PathVariable Long vlasnikID)
+	   {
+		   
+		   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		   
+		   
+		   List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
+		   for(Rezervacija rez : rezervacije)
+		   {
+			   System.out.println("Moja rezervacija: "+ rez);
+		   }
+		   List<Brod> mojiBrodovi = brodServis.nadjiBrodovePoVlasniku(vlasnik);
+		   for(Brod brod : mojiBrodovi)
+		   {
+			   System.out.println("Moj brod: "+brod);
+		   }
+		   System.out.println("Rezervacije po vlansiku broda! " + mojiBrodovi.size());
+		   //private TipEntiteta tipEntiteta;
+		   //private long entitet_id;
+		   List<RezervacijaSpisakDTO> mojeRezervacije = new ArrayList<RezervacijaSpisakDTO>();
+		   for(Rezervacija rez : rezervacije)
+		   {
+			   mojeRezervacije.add(new RezervacijaSpisakDTO(rez));
+		   }
+		   for(int i = 0; i< mojeRezervacije.size(); i++)
+		   {
+			   System.out.println("Moja konacna rezervacija: "+mojeRezervacije.get(i) );
+		   }
+		   model.addAttribute("vlasnikBroda", vlasnik);
+		   model.addAttribute("rezervacije", mojeRezervacije);
+		   model.addAttribute("brodovi", mojiBrodovi);
+		   return "/brodovi/spisakRezervacijaBrodova.html";
+	   }
 }

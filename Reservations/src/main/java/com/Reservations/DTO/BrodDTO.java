@@ -5,21 +5,22 @@ import com.Reservations.Modeli.Brod;
 public class BrodDTO 
 {
 	private Long ID;
-	private double cena;
-	private double maxBrzina;
-	private String adresa;
-	private String tip;
+	private double cena; //ima-ima
+	private double maxBrzina; //ima-ima
+	private String adresa; //ima
+	private String tip; //ima
 	private String navigacionaOprema;
-	private String brojMotora;
-	private String naziv;
-	private int snaga;
-	private String kapacitet;
-	private String pecaroskaOprema;
-	private String opis;
-	private Long vlasnik;
-	private String linkSlike;
-	private String linkKabine;
-	private String pravilaPonasanja;
+	private String brojMotora; //ima-ima
+	private String naziv; //ima
+	private int snaga; //ima-ima
+	private double duzina; //ima-ima
+	private String kapacitet; //ima-ima
+	private String pecaroskaOprema; //ima
+	private String opis; //ima
+	private Long vlasnik; //ima
+	private String linkSlike; //ima
+	private String linkKabine; //ima
+	private String pravilaPonasanja; //ima
 	
 	public BrodDTO() {}
 	
@@ -31,20 +32,23 @@ public class BrodDTO
 		this.adresa = brod.getAdresa();
 		this.tip = brod.getTip();
 		this.navigacionaOprema = brod.getNavigacionaOprema();
-		this.brojMotora = brod.getBrojMotora();
+		
 		this.naziv = brod.getNaziv();
 		this.snaga = brod.getSnaga();
-		this.kapacitet = brod.getKapacitet();
+		this.duzina = brod.getDuzina();
 		this.pecaroskaOprema = brod.getPecaroskaOprema();
 		this.opis = brod.getOpis();
 		this.vlasnik = brod.getVlasnik().getID();
 		this.linkSlike = brod.getLinkSlike();
 		this.linkKabine = brod.getLinkKabine();
 		this.pravilaPonasanja = brod.getPravilaPonasanja();
+		//TODO: String - Integer?
+		this.brojMotora = brod.getBrojMotora();
+		this.kapacitet = brod.getKapacitet();
 	}
 
 	public BrodDTO(Long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
-			String brojMotora, String naziv, int snaga, String kapacitet, String pecaroskaOprema, String opis,
+			String brojMotora, String naziv, int snaga, double duzina, String kapacitet, String pecaroskaOprema, String opis,
 			Long vlasnik, String linkSlike, String linkKabine, String pravilaPonasanja) {
 		super();
 		ID = iD;
@@ -56,6 +60,7 @@ public class BrodDTO
 		this.brojMotora = brojMotora;
 		this.naziv = naziv;
 		this.snaga = snaga;
+		this.duzina = duzina;
 		this.kapacitet = kapacitet;
 		this.pecaroskaOprema = pecaroskaOprema;
 		this.opis = opis;
@@ -191,6 +196,14 @@ public class BrodDTO
 
 	public void setPravilaPonasanja(String pravilaPonasanja) {
 		this.pravilaPonasanja = pravilaPonasanja;
+	}
+
+	public double getDuzina() {
+		return duzina;
+	}
+
+	public void setDuzina(double duzina) {
+		this.duzina = duzina;
 	}
 	
 	

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
@@ -67,24 +68,16 @@ public class VlasnikVikendiceKontroler {
 	}
 
 	
-	@RequestMapping(value = "/prikaziVikendice/{vrstaPrikaza}/{korisnickoIme}", method = RequestMethod.GET)
-	public String getEntitiesPage(Model model, @PathVariable String vrstaPrikaza, @PathVariable String korisnickoIme) 
+	@RequestMapping(value = "/prikaziVikendice/{vrstaPrikaza}/{vlasnikID}", method = RequestMethod.GET)
+	public String getEntitiesPage(Model model, @PathVariable String vrstaPrikaza, @PathVariable Long vlasnikID) 
 	{
 		System.out.println("Pregled Vikendica page was called!");
 		List<Korisnik> korisnici = korisnikServis.listAll();
-		Korisnik vlasnik=null;
-		for (Korisnik kor : korisnici) {
-			if (kor.getUloga().getIme().equals("VikendicaVlasnik"))
-			{
-				System.out.println("Pronasao sam vlasnika vikendice!");
-				vlasnik = kor;
-				break;
-			}
-		}
+		Korisnik vlasnik= korisnikServis.findById(vlasnikID);
 		if(vlasnik!=null)
 		{
 			System.out.println("Ubacujem vikendice");
-			List<Vikendica> vikendice = vikendicaServis.findByVlasnik(vlasnik.getID());
+			List<Vikendica> vikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
 			model.addAttribute("vikendice", vikendice);
 			
 		}
@@ -93,19 +86,19 @@ public class VlasnikVikendiceKontroler {
 			System.out.println("Vlasnik vikendice nije pronadjen ili je doslo do greske!");
 			return "/loginFaiulure";
 		}
-		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));
+		VlasnikVikendiceDTO vlasnikV = new VlasnikVikendiceDTO(vlasnik);
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
-		if(vrstaPrikaza.equals("izmijeni"))return "/vikendice/izmjenaVikendica.html";
+		if(vrstaPrikaza.equals("upravljanje"))return "/vikendice/upravljanjeVikendicama.html";
 		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
 		else return "/vikendice/mojeVikendice";
 	}
 	
-	@RequestMapping(value = "/profil/{korisnickoIme}")
-	public String moj_profil(Model model, @PathVariable String korisnickoIme) 
+	@RequestMapping(value = "/profil/{vlasnikID}")
+	public String moj_profil(Model model, @PathVariable Long vlasnikID) 
 	{
-		System.out.println("Pozvan profil od: "+korisnickoIme+" !");
-		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findByUsername(korisnickoIme));//TODO:dodati ID iz tokena
+		VlasnikVikendiceDTO vlasnikVikendice = new VlasnikVikendiceDTO(korisnikServis.findById(vlasnikID));//TODO:dodati ID iz tokena
+		System.out.println("Pozvan profil od: "+vlasnikVikendice.getKorisnickoIme()+" !");
 		if(vlasnikVikendice.getLinkSlike()==null || vlasnikVikendice.getLinkSlike().equals("") ) vlasnikVikendice.setLinkSlike("/img/avatar.png");
 		model.addAttribute("vlasnikVikendice", vlasnikVikendice);
 		return "/vikendice/profilVlasnikaVikendice";//TODO:vlasnikVikendiceMyData
@@ -132,7 +125,7 @@ public class VlasnikVikendiceKontroler {
 	  		model.addAttribute("vlasnikVikendice", vlasnik);
 	  		System.out.println("VLASNIK ID: "+vlasnik.getId());
 	  		System.out.println(model.toString());
-	  		 return "/vikendice/azurirajPodatkeVlasnika";
+	  		 return "/vikendice/azurirajPodatkeVlasnika.html";
 	  	  }
 	
 	@RequestMapping(value = "/azuriranje-podataka/{idVlasnika}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -186,21 +179,27 @@ public class VlasnikVikendiceKontroler {
 	@RequestMapping(value ="/promijeniLozinku/{ID}")
 	 public String promijeniLozinku(Model model, @PathVariable Long ID, String ime, String prezime, String korisnickoIme, PromenaLozinkeDTO lozinke )
 	{
-  		System.out.println("PromijeniLozinku page was called!");
-  		Korisnik korisnik=korisnikServis.findById(ID);
-  		model.addAttribute("vlasnikVikendice", korisnik);
-  		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
-  		{
-  			return "/promjenaLozinkeNeuspjesna";
-  		}
-  		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
-  		{
-  			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
-  	  		return "azurirajPodatkeVlasnika";
-  		}
-  		else return "/promjenaLozinkeNeuspjesna";
-  		
-  	  }
+ 		System.out.println("PromijeniLozinku page was called!");
+ 		Korisnik korisnik=korisnikServis.findById(ID);
+ 		model.addAttribute("vlasnikVikendice", korisnik);
+ 		
+ 		if(!lozinke.getStaraLozinka().equals(korisnik.getLozinka()))
+ 		{
+ 			model.addAttribute("poruka", "Pogrešan unos stare lozinke!");
+ 			return "/promjenaLozinkeNeuspjesna";
+ 		}
+ 		else if(lozinke.getNovaLozinka().equals(lozinke.getNovaPonovo()))
+ 		{
+ 			korisnikServis.changePassword(korisnik.getID(), lozinke.getStaraLozinka(), lozinke.getNovaLozinka());
+ 	  		return "/vikendice/azurirajPodatkeVlasnika";
+ 		}
+ 		else 
+ 		{
+ 			model.addAttribute("poruka", "Došlo je do greške kod unosa nove lozinke!");
+ 			return "/promjenaLozinkeNeuspjesna";
+ 		}
+ 		
+ 	  }
 	
    @RequestMapping(value ="/napraviVikendicu/{ID}")
    public String napraviVikendicu(Model model, @PathVariable Long ID)
@@ -264,24 +263,50 @@ public class VlasnikVikendiceKontroler {
    {
 	   System.out.println("Prikaz mojih klijenata!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnikaVikendice(vlasnik);
 	   
 
 	   model.addAttribute("vlasnikVikendice", vlasnik);
-	   model.addAllAttributes(mojiKlijenti);
+	   model.addAttribute("mojiKlijenti", mojiKlijenti);
 	   
-	   return "";
+	   return "/vikendice/klijentiMojihVikendica.html";
 	   
    }
    
-/*
-	@RequestMapping(value = "/admin/reports")
-	public String getReportsDates() 
-	{
-		System.out.println("Report page was called!");
-		return "adminReports";
-	}
 
+	@RequestMapping(value = "/izvjestajiPoslovanja/{vlasnikID}")
+	public String izvjestajiPoslovanja(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Izvjestaji poslovanja page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = vikendicaServis.izracunajSedmicnaPoslovanjaVikendica(vlasnik);
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = vikendicaServis.izracunajMjesecnaPoslovanjaVikendica(vlasnik);
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = vikendicaServis.izracunajGodisnjaPoslovanjaVikendica(vlasnik);
+		model.addAttribute("sedmicnaPoslovanja", sedmicnaPoslovanja);
+		model.addAttribute("mjesecnaPoslovanja", mjesecnaPoslovanja);
+		model.addAttribute("godisnjaPoslovanja", godisnjaPoslovanja);
+		return "/vikendice/izvjestajiOposlovanjuVikendice.html";
+	}
+	
+	@RequestMapping(value = "/izvjestajPoslovanjaPeriod/{vlasnikID}")
+	public String izvjestajPoslovanjaPeriod(Model model, @PathVariable Long vlasnikID, PoslovanjeEntitetaDTO poslovanje) 
+	{
+		System.out.println("Izvjestaji poslovanja period page was called!");
+		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
+		System.out.println("kraj: "+poslovanje.getKrajnjiDatum());
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		poslovanje.srediDatume();
+		List<PoslovanjeEntitetaDTO> poslovanjaVikendica = vikendicaServis.poslovanjeVikendicaPeriod(poslovanje, vlasnik);
+		model.addAttribute("poslovanja", poslovanjaVikendica);
+		model.addAttribute("period", poslovanje);
+		for(int i = 0; i< poslovanjaVikendica.size(); i++) System.out.println(poslovanjaVikendica.get(i));
+		return "/vikendice/izvjestajPoslovanjaPeriod.html";
+	}
+	
+/*
 	@GetMapping("/admin/reports/print")
     public void exportToPDF(HttpServletResponse response, @RequestParam String pocDatum, @RequestParam String krajDatum) throws DocumentException, IOException, ParseException 
 	{

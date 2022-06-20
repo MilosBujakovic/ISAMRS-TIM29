@@ -24,12 +24,12 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	<link rel="stylesheet" href="/css/spisak_rezervacija.css"/>
 </head>
 <body>
-	<h1 class="naslov">Spisak rezervacija</h1>
+	<h1 class="naslov">Spisak rezervacija mojih brodova</h1>
 	<form>
-	<input type="hidden" readonly th:value="${vlasnikVikendice.ID}" name="vlasnikID"></input>
+	<input type="hidden" readonly th:value="${vlasnikBroda.ID}" name="vlasnikID"></input>
 	<table >
 	  <tr >
-	    <th >Naziv vikendice</th>
+	    <th >Naziv broda</th>
 	    <th>Datum</th>
 	    <th>Vreme</th>
 	    <th>Cena</th>
@@ -40,11 +40,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	    <td th:text="${rez.datum}" ></td>
 	    <td th:text="${rez.vreme}" ></td>
 	    <td th:text="${rez.cena}"></td>
-	    <td><a th:href="@{/rezervacije/}+${vlasnikVikendice.ID}+'/profil-klijenta/'+${rez.klijentID}" th:text="${rez.klijent}"></a></td>
+	    <td><a th:href="@{/rezervacije/vlasnikBroda/}+${vlasnikBroda.ID}+'/profil-klijenta/'+${rez.klijentID}" th:text="${rez.klijent}"></a></td>
 	  </tr>
 	  
 	</table>
-		<button class="btn btn-primary"th:formaction="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}">Brze rezervacije</button>
+		<button class="btn btn-primary"th:formaction="@{/brodovi/brze-rezervacije/}+${vlasnikBroda.ID}">Brze rezervacije</button>
 	</form>
 </body>
 

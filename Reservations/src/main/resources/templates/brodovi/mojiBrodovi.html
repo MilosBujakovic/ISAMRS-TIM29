@@ -4,7 +4,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
-	<title>Moje Vikendice</title>
+	<title>Moji Brodovi</title>
 	<link rel="stylesheet" th:href="@{/css/pocetna.css}"
 	href="/css/pocetna.css"></link>
 	
@@ -18,32 +18,32 @@
 
 <div class="container rounded bg-white mt-1 mb-5 ml-0">
 <div class="row justify-content-start">      
-	<input type="hidden" id="vlasnikID" name="vlasnikID" th:value="${vlasnikVikendice.ID}"></input>
+	<input type="hidden" id="vlasnikID" name="vlasnikID" th:value="${vlasnikBroda.ID}"></input>
 	<br></br><br></br>
 	<div class="col md-5">
 	<div class="row justify-content-center">
 		<form align="center">
-		  <input type="text" id="search" placeholder="Unesite naziv mjesta"></input>
+		  <input type="text" id="search" placeholder="Unesite naziv broda"></input>
 		  <button id="go"  th:onclick="myFunction()" > Search</button>
 		</form>	
 	</div>
 	<br></br>
 	<form>
-	<div align="center" class="column" th:each="vik:${vikendice}">
+	<div align="center" class="column" th:each="brod:${brodovi}">
 	<div class="row">
-	<input type="hidden" id="vikendicaID" name="vikendicaID" th:value="${vik.ID}"></input>
+	<input type="hidden" id="brodID" name="brodID" th:value="${brod.ID}"></input>
 	<div class="container page-wrapper">
 	  <div class="page-inner">
-	      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
-	        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
-	          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}"></img>
+	      <div class="el-wrapper" th:alt="${brod.naziv.toLowerCase()}">
+	        <div class="box-up" th:alt="${brod.naziv.toLowerCase()}">
+	          <img class="img1"  th:src="${brod.linkSlike}" th:alt="${brod.naziv.toLowerCase()}"></img>
 	          <div class="img-info">
 	            <div class="info-inner">
-	              <span class="p-company"  th:text="${vik.naziv.toUpperCase()}">Zlatibor</span>
+	              <span class="p-company"  th:text="${brod.naziv}">Zlatibor</span>
 	            </div>
 	          </div>
 	        </div>
-	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/vikendice/brza-rezervacija/}+${vlasnikVikendice.ID+'/'}+${vik.ID}" target="glavni_prikaz">Brza rezervacija</button></div>
+	            <div class="h-bg-inner"><button class="btn btn-primary" th:formaction="@{/brodVlasnik/profilMogBroda/}+${vlasnikBroda.ID+'/'}+${brod.ID}" target="glavni_prikaz">Profil broda</button></div>
 	          </div>
 	        </div>
 	      </div>

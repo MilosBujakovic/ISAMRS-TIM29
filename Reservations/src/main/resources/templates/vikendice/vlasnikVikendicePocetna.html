@@ -26,10 +26,10 @@
 	      </div>
 		  
 	      <ul class="nav">
-	        <li><a th:href="@{/vikendicaVlasnik/profil/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moj profil</a></li>
-	        <li><a th:href="@{/vikendicaVlasnik/prikaziVikendice/prikazi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Moje vikendice</a></li>
-	         <li><a href="@{/vikendicaVlasnik/moji-klijenti/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moji klijenti</a></li>
-	         <li><a href="#" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
+	        <li><a th:href="@{/vikendicaVlasnik/profil/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moj profil</a></li>
+	        <li><a th:href="@{/vikendicaVlasnik/prikaziVikendice/prikazi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moje vikendice</a></li>
+	         <li><a th:href="@{/vikendicaVlasnik/moji-klijenti/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Moji klijenti</a></li>
+	         <li><a th:href="@{/vikendicaVlasnik/izvjestajiPoslovanja/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
 	        <li><a th:href="@{/login}">Log out</a></li>
 	      </ul>
 	    </div>
@@ -47,23 +47,24 @@
 					
 					<li class=""><a th:href="@{/vikendicaVlasnik/napraviVikendicu/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Dodaj Vikendicu
 					</a></li>
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/izmijeni/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Upravljanje Vikendicama
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/upravljanje/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Upravljanje Vikendicama
 							</a></li>
 					<!--<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Obriši Vikendicu
 					</a></li>-->
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Periodi dostupnosti vikendica
-					</a></li>
 					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihVikendica/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Spisak rezervacija
+					</a></li>
+					
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi dostupnosti vikendica
 					</a></li>
 					
 					<li class=""><a th:href="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Brze rezervacije
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.korisnickoIme}" target="glavni_prikaz">Kalendar zauzetosti
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Kalendar zauzetosti
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Napiši izvještaj
+					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestajiPoslovanja/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Izvještaji o rezervacijama
 							</a></li>
 					<li class="delete"><a class="delete" th:href="@{/vikendicaVlasnik/brisanjeNaloga}" target="glavni_prikaz">Obriši nalog
 							</a></li>

@@ -6,7 +6,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spisak rezervacija</title>
+    <title>Moji Klijenti</title>
 		<style>
 			.naslov
 			{
@@ -26,7 +26,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <body>
 	<h1 class="naslov">Spisak mojih klijenata</h1>
 	<form>
-	<input type="hidden" readonly th:value="${vlasnikVikendice.ID}" name="vlasnikID"></input>
+	<input type="hidden" readonly th:value="${vlasnikBroda.ID}" name="vlasnikID"></input>
 	<table >
 	  <tr >
 	    <th >Ime klijenta:</th>
@@ -40,11 +40,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	    <td th:text="${klijent.grad}" ></td>
 	    <td th:text="${klijent.drzava}" ></td>
 	    <td th:text="${klijent.brojRezervacija}"></td>
-	    <td><a th:href="@{/rezervacije/}+${vlasnikVikendice.ID}+'/profil-klijenta/'+${klijent.klijentID}" >Prikaži</a></td>
+	    <td><a th:href="@{/rezervacije/vlasnikBroda/}+${vlasnikBroda.ID}+'/profil-klijenta/'+${klijent.klijentID}" >Prikaži</a></td>
 	  </tr>
 	  
 	</table>
-		<button class="btn btn-primary"th:formaction="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}">Brze rezervacije</button>
+		<button class="btn btn-primary"th:formaction="@{/brodovi/brze-rezervacije/}+${vlasnikBroda.ID}">Brze rezervacije</button>
 	</form>
 </body>
 

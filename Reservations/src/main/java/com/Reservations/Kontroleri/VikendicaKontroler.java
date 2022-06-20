@@ -84,51 +84,59 @@ public class VikendicaKontroler
 		System.out.println("Usao u snimi");
 		File slika;
 		Vikendica duplikat = vikendicaRepozitorijum.findByNaziv(novaVikendica.getNaziv());
-		if(slikeDTO.size()>0)
+		if(duplikat==null)
 		{
-			for(int i=0; i<slikeDTO.size(); i++)
+			novaVikendica.setVlasnik(vlasnikID);
+			if(slikeDTO.size()>0)
 			{
-				String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
-				slika = new File(apsolutnaPutanja+this.putanjaSlika+slikeDTO.get(i).getNazivSlike());
-				System.out.println(slika.getAbsolutePath());
-				slika.createNewFile();
-				novaVikendica.setVlasnik(vlasnikID);
-				System.out.println("Vikendica:" + novaVikendica);
-				
-				//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
-				try(OutputStream os = new FileOutputStream(slika))
+				for(int i=0; i<slikeDTO.size(); i++)
 				{
-					os.write(slikeDTO.get(i).getSlika().getBytes());
-					os.close();
-					novaVikendica.setVlasnik(vlasnikID);
-					if(i==0)novaVikendica.setLinkSlike(this.putanjaSlika+slikaDTO.getNazivSlike());
-					if(i==1)novaVikendica.setLinkInterijera(this.putanjaSlika+slikeDTO.get(i).getNazivSlike());
+					String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
+					slika = new File(apsolutnaPutanja+this.putanjaSlika+slikeDTO.get(i).getNazivSlike());
+					System.out.println(slika.getAbsolutePath());
+					slika.createNewFile();
+					
 					System.out.println("Vikendica:" + novaVikendica);
 					
-					//TODO: Snimi sliku u bazu?
-					
-					
+					//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+					try(OutputStream os = new FileOutputStream(slika))
+					{
+						os.write(slikeDTO.get(i).getSlika().getBytes());
+						os.close();
+						novaVikendica.setVlasnik(vlasnikID);
+						if(i==0)novaVikendica.setLinkSlike(this.putanjaSlika+slikaDTO.getNazivSlike());
+						if(i==1)novaVikendica.setLinkInterijera(this.putanjaSlika+slikeDTO.get(i).getNazivSlike());
+						System.out.println("Vikendica:" + novaVikendica);
+						
+						//TODO: Snimi sliku u bazu?
+						
+						
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+						poruka[0] = "Doslo je do greske u dodavanju!";
+						poruka[1] = "IO error";
+						model.addAttribute("poruka", poruka);
+						return "/vikendice/pogresnaPoruka";
+					}
+	
 				}
-				catch(Exception e)
-				{
-					e.printStackTrace();
-					poruka[0] = "Doslo je do greske u dodavanju!";
-					poruka[1] = "IO error";
-					model.addAttribute("poruka", poruka);
-					return "/vikendice/pogresnaPoruka";
-				}
-
 			}
+			
 			poruka = vikendicaServis.dodajVikendicu(novaVikendica);
-			model.addAttribute("poruka", poruka[0]);
+			model.addAttribute("poruka", poruka[0]);	
+			
+			if(poruka[1].equalsIgnoreCase("success"))return "/vikendice/potvrdnaPoruka";
+			else return "/vikendice/pogresnaPoruka"; 
 		}
 		else
 		{
-			poruka = vikendicaServis.dodajVikendicu(novaVikendica);
+			poruka[0] = "Vikendica sa tim nazivom već postoji!";
+			poruka[1] = "duplicate";
 			model.addAttribute("poruka", poruka[0]);
-		}		
-		if(poruka[1].equalsIgnoreCase("success"))return "/vikendice/potvrdnaPoruka";
-		else return "/vikendice/pogresnaPoruka"; 
+			return "/vikendice/pogresnaPoruka";
+		}
 	}
 	
 	@RequestMapping(value = "/vikendice/izmijeni/{vlasnikID}/{vikendicaID}", method=RequestMethod.POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
@@ -223,9 +231,14 @@ public class VikendicaKontroler
 		
 		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 		model.addAttribute("vlasnikVikendice", vlasnik);
-		String poruka = vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
-		model.addAttribute("poruka", poruka);
-		return "/vikendice/potvrdnaPoruka";
+		String poruka[] = vikendicaServis.obrisiVikendicu(vlasnikID, vikendicaID);
+		
+		model.addAttribute("poruka", poruka[0]);
+		if(poruka[1].toLowerCase().equals("success"))
+		{
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else return "/vikendice/pogresnaPoruka.html";
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 		
 		
@@ -254,6 +267,6 @@ public class VikendicaKontroler
 		List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		model.addAttribute("vikendice", mojeVikendice);
-		return "/vikendice/brzeRezervacije.html";
+		return "/vikendice/brzeRezervacijeVikendica.html";
 	}
 }

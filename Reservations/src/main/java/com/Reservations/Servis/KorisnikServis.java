@@ -1,11 +1,14 @@
 package com.Reservations.Servis;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.AdminDTO;
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
@@ -16,28 +19,25 @@ import com.Reservations.Modeli.Uloga;
 import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
-
 @Service
-public class KorisnikServis 
-{
+public class KorisnikServis {
 	@Autowired
 	CustomUserDetailsService cuds;
 
 	@Autowired
 	private KorisnikRepozitorijum korisnikRepozitorijum;
-	
+
 	@Autowired
 	private UlogaServis ulogaServis;
 
-	
 	public Korisnik findByUsername(String username) {
 		return korisnikRepozitorijum.findByKorisnickoIme(username);
 	}
-	
+
 	public void delete(long id) {
 		this.korisnikRepozitorijum.deleteById(id);
 	}
-	
+
 	public List<Korisnik> listAll() {
 		return korisnikRepozitorijum.findAll();
 	}
@@ -50,37 +50,35 @@ public class KorisnikServis
 		}
 	}
 
-
 	public Korisnik save(RegistracijaKorisnikaDTO userRequest) {
 		Korisnik u = new Korisnik();
 
-		
 		u.setKorisnickoIme(userRequest.getUsername());
 		u.setLinkSlike("/img/avatar.png");
 		u.setLozinka(userRequest.getPassword());
 
-		
 		u.setIme(userRequest.getFirstName());
 		u.setPrezime(userRequest.getLastName());
 		u.setAdresa(userRequest.getAddress());
 		u.setGrad(userRequest.getCity());
 		u.setDrzava(userRequest.getCountry());
 		u.setBrojTel(userRequest.getPhone());
-		//u.setEnabled(true);
+		// u.setEnabled(true);
 		u.setEmail(userRequest.getEmail());
 
-		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
+		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i
+		// dodeljuje samo rola USER
 		Uloga role = ulogaServis.findByName("Klijent");
 		u.setUloga(role);
-		
+
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
-	
+
 	public Korisnik save(Registracija reg) {
 		Korisnik u = new Korisnik();
 
 		u.setKorisnickoIme(reg.getKorisnickoIme());
-		
+
 		u.setLozinka(reg.getLozinka());
 
 		u.setIme(reg.getIme());
@@ -89,74 +87,61 @@ public class KorisnikServis
 		u.setGrad(reg.getGrad());
 		u.setDrzava(reg.getDrzava());
 		u.setBrojTel(reg.getBrojTel());
-		//u.setEnabled(true);
+		// u.setEnabled(true);
 		u.setEmail(reg.getEmail());
 
-		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
+		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i
+		// dodeljuje samo rola USER
 		Uloga role = new Uloga();
-		if(reg.getTipRegistracije().equals(TipRegistracije.VikendicaVlasnik)) {
+		if (reg.getTipRegistracije().equals(TipRegistracije.VikendicaVlasnik)) {
 			role = ulogaServis.findByName("VikendicaVlasnik");
-		}
-		else if(reg.getTipRegistracije().equals(TipRegistracije.BrodVlasnik)) {
+		} else if (reg.getTipRegistracije().equals(TipRegistracije.BrodVlasnik)) {
 			role = ulogaServis.findByName("BrodVlasnik");
-		}
-		else if(reg.getTipRegistracije().equals(TipRegistracije.InstruktorPecanja)) {
+		} else if (reg.getTipRegistracije().equals(TipRegistracije.InstruktorPecanja)) {
 			role = ulogaServis.findByName("Instruktor");
 		}
-			
+
 		u.setUloga(role);
 		u.setEnabled(true);
-		
+
 		return this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
 	}
-	
-	public Korisnik update(ZahtevZaBrisanjeDTO regRequest) {
-		Korisnik r =korisnikRepozitorijum.findByKorisnickoIme(regRequest.getUsername());
-		r.setKorisnickoIme(regRequest.getUsername());
-		
 
-	
+	public Korisnik update(ZahtevZaBrisanjeDTO regRequest) {
+		Korisnik r = korisnikRepozitorijum.findByKorisnickoIme(regRequest.getUsername());
+		r.setKorisnickoIme(regRequest.getUsername());
+
 		r.setIme(regRequest.getFirstName());
 		r.setPrezime(regRequest.getLastName());
 		r.setAdresa(regRequest.getAddress());
 		r.setGrad(regRequest.getCity());
 		r.setDrzava(regRequest.getCountry());
 		r.setBrojTel(regRequest.getPhone());
-		
-		
-		
-		
+
 		return this.korisnikRepozitorijum.save(r);// TODO Auto-generated method stub
 	}
 
 	public Korisnik update(AzuriranjeInstruktoraDTO userRequest) {
-		Korisnik k= this.findById(userRequest.getId());
-		if(!userRequest.getAdresa().equals(""))
-		{
+		Korisnik k = this.findById(userRequest.getId());
+		if (!userRequest.getAdresa().equals("")) {
 			k.setAdresa(userRequest.getAdresa());
 		}
-		if(!userRequest.getBrojTel().equals(""))
-		{
+		if (!userRequest.getBrojTel().equals("")) {
 			k.setBrojTel(userRequest.getBrojTel());
 		}
-		if(!userRequest.getDrzava().equals(""))
-		{
+		if (!userRequest.getDrzava().equals("")) {
 			k.setDrzava(userRequest.getDrzava());
 		}
-		if(!userRequest.getGrad().equals(""))
-		{
+		if (!userRequest.getGrad().equals("")) {
 			k.setGrad(userRequest.getGrad());
 		}
-		if(!userRequest.getKorisnickoIme().equals(""))
-		{
+		if (!userRequest.getKorisnickoIme().equals("")) {
 			k.setKorisnickoIme(userRequest.getKorisnickoIme());
 		}
-		if(!userRequest.getIme().equals(""))
-		{
+		if (!userRequest.getIme().equals("")) {
 			k.setIme(userRequest.getIme());
 		}
-		if(!userRequest.getPrezime().equals(""))
-		{
+		if (!userRequest.getPrezime().equals("")) {
 			k.setPrezime(userRequest.getPrezime());
 		}
 		System.out.println(k.toString());
@@ -164,18 +149,16 @@ public class KorisnikServis
 	}
 
 	public Korisnik changePassword(Long id, String staraLozinka, String novaLozinka) {
-		Korisnik k= this.findById(id);
+		Korisnik k = this.findById(id);
 		k.setLozinka(novaLozinka);
-		//cuds.changePassword(staraLozinka, novaLozinka);
+		// cuds.changePassword(staraLozinka, novaLozinka);
 		return this.korisnikRepozitorijum.save(k);
-		
+
 	}
-	
-	public Korisnik azurirajPodatkeVlasnika(VlasnikVikendiceDTO vlasnik)
-	{
+
+	public Korisnik azurirajPodatkeVlasnika(VlasnikVikendiceDTO vlasnik) {
 		Korisnik korisnik = this.findById(vlasnik.getId());
-		if(korisnik!=null)
-		{
+		if (korisnik != null) {
 			korisnik.setAdresa(vlasnik.getAdresa());
 			korisnik.setBrojTel(vlasnik.getBrojTel());
 			korisnik.setDrzava(vlasnik.getDrzava());
@@ -187,6 +170,48 @@ public class KorisnikServis
 			korisnik.setLinkSlike(vlasnik.getLinkSlike());
 		}
 		return this.korisnikRepozitorijum.save(korisnik);
+	}
+
+	public String save(AdminDTO admin) {
+		Korisnik u = new Korisnik();
+
+		u.setKorisnickoIme(admin.getKorisnickoIme());
+		u.setLinkSlike("/img/avatar.png");
+	    final String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	    String lozinka = RandomStringUtils.random(6, chars);
+		u.setLozinka(lozinka);
+		u.setIme(admin.getIme());
+		u.setPrezime(admin.getPrezime());
+		u.setAdresa(admin.getAdresa());
+		u.setGrad(admin.getGrad());
+		u.setDrzava(admin.getDrzava());
+		u.setBrojTel(admin.getBrojTel());
+		//u.setEnabled(true);
+		u.setEmail(admin.getEmail());
+		// u primeru se registruju samo obicni korisnici i u skladu sa tim im se i dodeljuje samo rola USER
+		Uloga role = ulogaServis.findByName("Admin");
+		u.setUloga(role);
+		
+		this.korisnikRepozitorijum.save(u);// TODO Auto-generated method stub
+		return lozinka;
+		}
+
+	public List<Korisnik> findByUloga(String uloga) {
+		List<String> uloge = new ArrayList<String>();
+		uloge.add("Admin");
+		uloge.add("Klijent");
+		uloge.add("VikendicaVlasnik");
+		uloge.add("BrodVlasnik");
+		uloge.add("Instruktor");
+		if (!uloge.contains(uloga)) return null;
+		List<Korisnik> svi = this.korisnikRepozitorijum.findAll();
+		List<Korisnik> korisnici = new ArrayList<Korisnik>();
+		Uloga role = ulogaServis.findByName(uloga);
+		for (Korisnik k : svi)
+		{
+			if(k.getUloga().equals(role)) korisnici.add(k);
+		}
+		return korisnici;
 	}
 
 
