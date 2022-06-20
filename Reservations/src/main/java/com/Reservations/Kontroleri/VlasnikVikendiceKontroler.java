@@ -262,13 +262,13 @@ public class VlasnikVikendiceKontroler {
    {
 	   System.out.println("Prikaz mojih klijenata!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnikaVikendice(vlasnik);
 	   
 
 	   model.addAttribute("vlasnikVikendice", vlasnik);
 	   model.addAttribute("mojiKlijenti", mojiKlijenti);
 	   
-	   return "/vikendice/mojiKlijenti.html";
+	   return "/vikendice/klijentiMojihVikendica.html";
 	   
    }
    

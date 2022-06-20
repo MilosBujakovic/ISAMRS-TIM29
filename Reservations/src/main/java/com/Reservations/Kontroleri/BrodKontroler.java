@@ -20,6 +20,7 @@ import com.Reservations.DTO.BrodDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
 @Controller
@@ -204,6 +205,16 @@ public class BrodKontroler {
 		else return "/vikendice/pogresnaPoruka.html";
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 		
-		
+	}
+	
+	@RequestMapping(value="/brodovi"+"/brze-rezervacije/{vlasnikID}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long vlasnikID)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		List<Brod> mojiBrodovi = brodServis.nadjiBrodovePoVlasniku(vlasnik);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		model.addAttribute("brodovi", mojiBrodovi);
+		return "/brodovi/brzeRezervacijeBrodova.html";
 	}
 }

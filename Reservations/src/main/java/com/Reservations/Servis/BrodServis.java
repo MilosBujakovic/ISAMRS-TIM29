@@ -66,6 +66,7 @@ public class BrodServis
 			}
 			else System.out.println("Odbacena!");
 		}
+		System.out.println("Size: "+mojiBrodovi.size());
 		return mojiBrodovi;
 	}
 
