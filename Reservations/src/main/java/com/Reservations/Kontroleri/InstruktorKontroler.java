@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Korisnik;
@@ -101,5 +102,38 @@ public class InstruktorKontroler {
 		List<Usluga> lista = uslugaServis.findByInstruktor(id);
 		model.addAttribute("usluge", lista);
 		return "instruktor/instruktorIzvestaji";
+	}
+	
+	@RequestMapping(value = "/izvjestajiPoslovanja/")
+	public String izvjestajiPoslovanja(Model model, @PathVariable Long id) 
+	{
+		System.out.println("Izvjestaji poslovanja page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = uslugaServis.izracunajSedmicnaPoslovanjaBrodova(instruktor);
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = uslugaServis.izracunajMjesecnaPoslovanjaBrodova(instruktor);
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = uslugaServis.izracunajGodisnjaPoslovanjaBrodova(instruktor);
+		model.addAttribute("sedmicnaPoslovanja", sedmicnaPoslovanja);
+		model.addAttribute("mjesecnaPoslovanja", mjesecnaPoslovanja);
+		model.addAttribute("godisnjaPoslovanja", godisnjaPoslovanja);
+		
+		return "/brodovi/izvjestajiOposlovanjuBrodova.html";
+	}
+	
+	@RequestMapping(value = "/izvjestajPoslovanjaPeriod")
+	public String izvjestajPoslovanjaPeriod(Model model, @PathVariable Long id, PoslovanjeEntitetaDTO poslovanje) 
+	{
+		System.out.println("Izvjestaji poslovanja period page was called!");
+		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
+		System.out.println("kraj: "+poslovanje.getKrajnjiDatum());
+		Korisnik vlasnik = korisnikServis.findById(id);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		poslovanje.srediDatume();
+		List<PoslovanjeEntitetaDTO> poslovanjeUsluga = uslugaServis.poslovanjeUslugaPeriod(poslovanje, vlasnik);
+		model.addAttribute("poslovanja", poslovanjeUsluga);
+		model.addAttribute("period", poslovanje);
+		for(int i = 0; i< poslovanjeUsluga.size(); i++) System.out.println(poslovanjeUsluga.get(i));
+		return "/brodovi/izvjestajPoslovanjaPeriod.html";
 	}
 }

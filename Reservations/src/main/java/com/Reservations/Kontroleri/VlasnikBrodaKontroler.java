@@ -279,6 +279,14 @@ public class VlasnikBrodaKontroler
 		System.out.println("Izvjestaji poslovanja page was called!");
 		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = brodServis.izracunajSedmicnaPoslovanjaBrodova(vlasnik);
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = brodServis.izracunajMjesecnaPoslovanjaBrodova(vlasnik);
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = brodServis.izracunajGodisnjaPoslovanjaBrodova(vlasnik);
+		model.addAttribute("sedmicnaPoslovanja", sedmicnaPoslovanja);
+		model.addAttribute("mjesecnaPoslovanja", mjesecnaPoslovanja);
+		model.addAttribute("godisnjaPoslovanja", godisnjaPoslovanja);
+		
 		return "/brodovi/izvjestajiOposlovanjuBrodova.html";
 	}
 	

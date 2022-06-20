@@ -280,6 +280,13 @@ public class VlasnikVikendiceKontroler {
 		System.out.println("Izvjestaji poslovanja page was called!");
 		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
 		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = vikendicaServis.izracunajSedmicnaPoslovanjaVikendica(vlasnik);
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = vikendicaServis.izracunajMjesecnaPoslovanjaVikendica(vlasnik);
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = vikendicaServis.izracunajGodisnjaPoslovanjaVikendica(vlasnik);
+		model.addAttribute("sedmicnaPoslovanja", sedmicnaPoslovanja);
+		model.addAttribute("mjesecnaPoslovanja", mjesecnaPoslovanja);
+		model.addAttribute("godisnjaPoslovanja", godisnjaPoslovanja);
 		return "/vikendice/izvjestajiOposlovanjuVikendice.html";
 	}
 	
