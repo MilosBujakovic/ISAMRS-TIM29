@@ -929,6 +929,10 @@ tr:nth-child(even) {
         <li><a href="#">Moje rezervacije</a></li>
          <li><a href="#">Pisanje zalbe</a></li>
          <li><a href="#">Istorija rezervacija</a></li>
+         <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
+        <li><a href="#" onclick="sort2()"> Sort po datumu</a></li>
+        <li><a href="#" onclick="sort3()"> Sort po trajanju</a></li>
+        
         <li><a th:href="@{/login}">Log out</a></li>
       </ul>
     </div>
@@ -936,7 +940,7 @@ tr:nth-child(even) {
 </div>
 
 
-
+<div id="unsorted">
 <table >
   <tr >
     <th >Naziv</th>
@@ -947,10 +951,87 @@ tr:nth-child(even) {
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
+       <td th:text="${rez.trajanje}"></td>
   </tr>
   
 </table>
 
+</div>
+<div id="sorted" style="display:none">
+<table >
+  <tr >
+    <th >Naziv</th>
+    <th>Datum</th>
+    <th>Cena</th>
+  </tr>
+  <tr th:each="rez:${sortcene}">
+    <td th:text="${rez.nazivEntiteta}"></td>
+    <td th:text="${rez.datum}" ></td>
+    <td th:text="${rez.cena}"></td>
+      <td th:text="${rez.trajanje}"></td>
+  </tr>
+  
+</table>
+</div>
+
+<div id="sorted2" style="display:none">
+<table >
+  <tr >
+    <th >Naziv</th>
+    <th>Datum</th>
+    <th>Cena</th>
+  </tr>
+  <tr th:each="rez:${sortdatum}">
+    <td th:text="${rez.nazivEntiteta}"></td>
+    <td th:text="${rez.datum}" ></td>
+    <td th:text="${rez.cena}"></td>
+       <td th:text="${rez.trajanje}"></td>
+  </tr>
+  
+</table>
+</div>
+
+<div id="sorted3" style="display:none">
+<table >
+  <tr >
+    <th >Naziv</th>
+    <th>Datum</th>
+    <th>Cena</th>
+  </tr>
+  <tr th:each="rez:${sorttrajanje}">
+    <td th:text="${rez.nazivEntiteta}"></td>
+    <td th:text="${rez.datum}" ></td>
+    <td th:text="${rez.cena}"></td>
+       <td th:text="${rez.trajanje}"></td>
+  </tr>
+  
+</table>
+</div>
+<script>
+function sort(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="block";
+	 document.getElementById("sorted2").style.display="none";
+	 document.getElementById("sorted3").style.display="none";
+	 
+
+}
+function sort2(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="block";
+	 document.getElementById("sorted3").style.display="none";
+}
+
+function sort3(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="none";
+	 document.getElementById("sorted3").style.display="block";
+}
+
+</script>
 
 </body>
+
 </html>

@@ -1051,7 +1051,7 @@ body {
 
 }
 
-*{
+ *{
   box-sizing: border-box;
 }
 
@@ -1148,8 +1148,10 @@ footer {
 	 
       <ul class="nav">
       
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Kontakt</a></li>
+        <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
+        <li><a href="#" onclick="sort2()"> Sort po nazivu</a></li>
+        <li><a href="#" onclick="sort3()"> Sort po adresi</a></li>
+        
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
@@ -1157,17 +1159,24 @@ footer {
 </div>
 
 <br><br><br><br><br>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <form align="center">
   
     <div class="search-box" align="center">
-    <button class="btn-search" id="go"  th:onclick="myFunction()"><i class="fas fa-search"></i></button>
-    <input type="text" id="search" class="input-search" placeholder="Type to Search...">
+    <button class="btn-search" id="go" th:formaction="@{/PretragaVik/}+${kor.ID}"><i class="fas fa-search"></i></button>
+    <input type="text" id="search" name="s"  class="input-search" placeholder="Type to Search...">
   </div>
   
-  
+ 
+
 </form>
+
+
+ <button   th:onclick="@{/Filter/}+${kor.ID}">Filter po camcu</button>
 <br><br><br>
+<div id="unsorted">
 <div class="column" th:each="vik:${vikendice}">
 <div class="row">
 <div class="container page-wrapper">
@@ -1180,6 +1189,7 @@ footer {
             <div class="info-inner">
              
               <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
+               <span class="p-company"  th:text="${vik.adresa}">Zlatibor</span>
             </div>
            
           </div>
@@ -1190,8 +1200,8 @@ footer {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" th:href="@{/Regvikendice/}+${vik.ID+'/'}+${kor.ID}">
-            <span class="price"  th:alt="${vik.cena}" th:text="${vik.cena}">$120</span>
+          <a class="cart" th:href="@{/vikendice/}+${vik.ID}">
+            <span class="price"  th:text="${vik.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Prikazi profil</span>
             </span>
@@ -1203,13 +1213,135 @@ footer {
 </div>
 </div>
 </div>
+</div>
+<div id="sorted" style="display:none">
+
+<div class="column" th:each="vik:${sortvikendice}">
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
+        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
+          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
+               <span class="p-company"  th:text="${vik.adresa}">Zlatibor</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/vikendice/}+${vik.ID}">
+            <span class="price"  th:text="${vik.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="sorted2" style="display:none">
+
+<div class="column" th:each="vik:${sortviknaziv}">
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
+        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
+          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
+               <span class="p-company"  th:text="${vik.adresa}">Zlatibor</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/vikendice/}+${vik.ID}">
+            <span class="price"  th:text="${vik.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="sorted3" style="display:none">
+
+<div class="column" th:each="vik:${sortvikadresa}">
+<div class="row">
+<div class="container page-wrapper">
+  <div class="page-inner">
+    <div class="row">
+      <div class="el-wrapper" th:alt="${vik.naziv.toLowerCase()}">
+        <div class="box-up" th:alt="${vik.naziv.toLowerCase()}">
+          <img class="img1"  th:src="${vik.linkSlike}" th:alt="${vik.naziv.toLowerCase()}">
+          <div class="img-info">
+            <div class="info-inner">
+             
+              <span class="p-company"  th:text="${vik.naziv}">Zlatibor</span>
+               <span class="p-company"  th:text="${vik.adresa}">Zlatibor</span>
+            </div>
+           
+          </div>
+        </div>
+
+        <div class="box-down">
+          <div class="h-bg">
+            <div class="h-bg-inner"></div>
+          </div>
+
+          <a class="cart" th:href="@{/vikendice/}+${vik.ID}">
+            <span class="price"  th:text="${vik.cena}">$120</span>
+            <span class="add-to-cart">
+              <span class="txt">Prikazi profil</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
 <script th:inline="javascript">
  function myFunction() {
 	  $('form').submit(function(e) {
 	  e.preventDefault(); 
-	  $('div img').hide();
-	  $('div img[alt*="' + $('#search').val() + '"]').show();
-	  $('div img[alt*="logo"]').show();
+	  $('div p').hide();
+	  $('div p[alt*="' + $('#search').val() + '"]').show();
+	  $('div p[alt*="logo"]').show();
 	  
 	});
 	 $('form').submit(function(e) {
@@ -1217,8 +1349,33 @@ footer {
 	  $('.el-wrapper').hide();
 	  $('.el-wrapper[alt*="' + $('#search').val().toLowerCase() + '"]').show();
 	  
+	  
 	});
+	 
+	 
 	}
+ 
+ function sort(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="block";
+	 document.getElementById("sorted2").style.display="none";
+	 document.getElementById("sorted3").style.display="none";
+ }
+ function sort2(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="block";
+	
+	 document.getElementById("sorted3").style.display="none";
+ }
+ 
+ function sort3(){
+	 document.getElementById("unsorted").style.display="none";
+	 document.getElementById("sorted").style.display="none";
+	 document.getElementById("sorted2").style.display="none";
+	 document.getElementById("sorted3").style.display="block";
+ }
+ 
     </script>
 </body>
 

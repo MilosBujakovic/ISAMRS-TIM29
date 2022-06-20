@@ -76,17 +76,17 @@ public class RezervacijaKontroler {
 	
 
 	@RequestMapping(value = "/rezervisiBrod/{id}/{id2}")
-	public String rezerve( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model)
+	public String rezerve( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model)
 	{
 		Rezervacija user=rezervacijaServis.findById(id);
 
-		Korisnik k=korisnikServis.findById(klijent_id);
+		Korisnik k=korisnikServis.findById(id2);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rezervacijaServis.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,klijent_id);
+		this.rezervacijaServis.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,id2);
 		try {
 			this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
 		} catch (AddressException e) {
@@ -102,7 +102,7 @@ public class RezervacijaKontroler {
 		return "profilKorisnika";
 	}
 	
-	@RequestMapping(value = "/rezervisiUslugu/{id}")
+	@RequestMapping(value = "/rezervisiUslugu/{id}/{klijent_id}")
 	public String rezerv( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) throws AddressException, MessagingException, IOException {
 	Korisnik k=korisnikServis.findById(klijent_id);
 		Rezervacija user=rezervacijaServis.findById(id);
@@ -137,13 +137,14 @@ public class RezervacijaKontroler {
 	 		System.out.println("AzurirajPodatke page was called!");
 
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
-
+            
 	 		
 
 	 		model.addAttribute("pod", user);
 	 		System.out.println(model.toString());
 	 		 return "IstorijaRezervacija";
 	 	  }
+	
 	
 	@RequestMapping(value = "/IstorijaRezVik/{id}")
 	public String IstMoje(@PathVariable Long id,Model model){
@@ -152,7 +153,19 @@ public class RezervacijaKontroler {
 	 		System.out.println("AzurirajPodatke page was called!");
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateVik(id);
 	 		model.addAttribute("pod", user);
-	 		System.out.println(model.toString());
+	 		
+            
+			List<Rezervacija>vik1=rezervacijaServis.RezSortCena(user);
+			List<Rezervacija>vik2=rezervacijaServis.RezSortDatum(user);
+			List<Rezervacija>vik3=rezervacijaServis.RezSortTrajanje(user);
+			for (Rezervacija rezervacija : vik1) {
+				System.out.println(rezervacija.toString());
+			}
+			
+			model.addAttribute("sortcene", vik1);
+			model.addAttribute("sortdatum", vik2);
+			model.addAttribute("sorttrajanje",vik3);
+	 		
 	 		 return "IstorijaRezEntiteta";
 	 	  }
 	

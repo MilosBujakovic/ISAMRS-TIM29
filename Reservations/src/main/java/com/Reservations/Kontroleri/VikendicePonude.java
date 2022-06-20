@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Servis.KorisnikServis;
@@ -29,7 +31,28 @@ public class VikendicePonude {
 		Korisnik k=korServis.findById(id);
 		model.addAttribute("vikendice", vikendice);
 		model.addAttribute("kor",k);
-		System.out.println(model.toString());
+		
+		List<Vikendica>vik1=vikendicaServis.VikSortCena();
+		List<Vikendica>vik2=vikendicaServis.VikSortNaziv();
+		List<Vikendica>vik3=vikendicaServis.VikSortAdresa();
+		for (Vikendica vikendica : vikendice) {
+			System.out.println(vikendica.toString());
+		}
+		model.addAttribute("sortvikendice", vik1);
+		model.addAttribute("sortviknaziv", vik2);
+		model.addAttribute("sortvikadresa",vik3);
+	   for (Vikendica vikendica : vik1) {
+		   System.out.println(vikendica.toString());
+		
+	} for (Vikendica vikendica : vik2) {
+		   System.out.println(vikendica.toString());
+			
+	}
+	 for (Vikendica vikendica : vik3) {
+		   System.out.println(vikendica.toString());
+		
+	}
+	   
 	      return "prikazVikendica";
 	  }
 	@RequestMapping(value = "/OsnovniprikazVikendica")
@@ -40,4 +63,25 @@ public class VikendicePonude {
 			System.out.println(model.toString());
 	      return "OsnovniPodaciVik";
 	  }
+	
+	@RequestMapping(value = "/PretragaVik/{id}")
+	  public String getOsPage(Model model,@PathVariable Long id,@RequestParam String s){
+		System.out.println("PrikazBrodova page was called!");
+		List<Vikendica>vikendice=vikendicaServis.VikendicaPretraga(s);
+		Korisnik k=korServis.findById(id);
+		model.addAttribute("vikendice", vikendice);
+		model.addAttribute("kor",k);
+		
+		List<Vikendica>vik1=vikendicaServis.VikSortCena();
+		List<Vikendica>vik2=vikendicaServis.VikSortNaziv();
+		List<Vikendica>vik3=vikendicaServis.VikSortAdresa();
+		
+		model.addAttribute("sortvikendice", vik1);
+		model.addAttribute("sortviknaziv", vik2);
+		model.addAttribute("sortvikadresa",vik3);
+		System.out.println(model.toString());
+	      return "prikazVikendica";
+	  }
+		
+	   
 }

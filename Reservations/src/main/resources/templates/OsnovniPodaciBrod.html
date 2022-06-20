@@ -1051,6 +1051,66 @@ body {
 
 }
 
+.search-box{
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all .5s ease-in-out;
+  background-color: #00ccff;
+  padding-right: 40px;
+  color:#fff;
+  margin-left:950px;
+}
+.input-search::placeholder{
+  color:rgba(255,255,255,.5);
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 100;
+  margin-left:800px;
+}
+.btn-search{
+  width: 50px;
+  height: 50px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color:#ffffff ;
+  background-color:transparent;
+  pointer-events: painted;  
+  margin-left:800px;
+}
+.btn-search:focus ~ .input-search{
+  width: 300px;
+  border-radius: 10px;
+  background-color: #00ccff;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  margin-left:800px;
+}
+.input-search:focus{
+  width: 300px;
+  border-radius: 10px;
+  background-color:  #00ccff;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  margin-left:800px;
+  
+}
     </style>
 </head>
 
@@ -1061,8 +1121,9 @@ body {
     
 	 
       <ul class="nav">
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Kontakt</a></li>
+      
+     
+         <li><a th:href="@{/}">Pocetna</a></li>
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
@@ -1070,24 +1131,33 @@ body {
 </div>
 
 <br><br><br><br><br>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <form align="center">
-  <input type="text" id="search" placeholder="Unesite naziv mesta" />
-  <button id="go"  th:onclick="myFunction()" > Search</button>
+  
+    <div class="search-box" align="center">
+    <button class="btn-search" id="go"  th:formaction="@{/OSPretragaBrod}"><i class="fas fa-search"></i></button>
+    <input type="text" id="search" name="s"  class="input-search" placeholder="Type to Search...">
+  </div>
+  
 </form>
+
 <br><br><br>
-<div class="column" th:each="brod:${brodovi}">
+
+<div class="column"  th:each="brod:${brodovi}">
 <div class="row">
 <div class="container page-wrapper">
   <div class="page-inner">
-    <div class="row">
-      <div class="el-wrapper" th:alt="${brod.tip.toLowerCase()}">
-        <div class="box-up" th:alt="${brod.tip.toLowerCase()}">
-          <img class="img1"  th:src="${brod.linkSlike}" th:alt="${brod.tip.toLowerCase()}">
+    <div class="row" th:alt="${brod.tip.toLowerCase()}">
+      <div class="el-wrapper" id="s" th:alt="${brod.adresa.toLowerCase()}">
+        <div class="box-up" >
+          <img class="img1"  th:src="${brod.linkSlike}" >
           <div class="img-info">
             <div class="info-inner">
              
-              <span class="p-company"  th:text="${brod.tip}">Zlatibor</span>
+              <span class="p-company" th:alt="${brod.tip.toLowerCase()}" th:text="${brod.tip}">Zlatibor</span>
+          
+               <span class="p-company"   th:alt="${brod.adresa.toLowerCase()}" th:text="${brod.adresa}">Zlatibor</span>
             </div>
            
           </div>
@@ -1098,7 +1168,7 @@ body {
             <div class="h-bg-inner"></div>
           </div>
 
-          <a class="cart" th:href="@{/brod/}+${brod.ID}">
+                   <a class="cart" th:href="@{/brod/}+${brod.ID}">
             <span class="price"  th:text="${brod.cena}" th:alt="${brod.cena}">$120</span>
             <span class="add-to-cart">
               <span class="txt">Prikazi Profil</span>
@@ -1112,23 +1182,9 @@ body {
 </div>
 </div>
 
-<script th:inline="javascript">
- function myFunction() {
-	  $('form').submit(function(e) {
-	  e.preventDefault(); 
-	  $('div img').hide();
-	  $('div img[alt*="' + $('#search').val() + '"]').show();
-	  $('div img[alt*="logo"]').show();
-	  
-	});
-	 $('form').submit(function(e) {
-	  e.preventDefault(); 
-	  $('.el-wrapper').hide();
-	  $('.el-wrapper[alt*="' + $('#search').val().toLowerCase() + '"]').show();
-	  
-	});
-	}
-    </script>
+
+
 </body>
+
 
 </html>

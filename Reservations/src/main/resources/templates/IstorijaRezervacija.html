@@ -929,6 +929,7 @@ tr:nth-child(even) {
         <li><a href="#">Moje rezervacije</a></li>
          <li><a href="#">Pisanje zalbe</a></li>
          <li><a href="#">Istorija rezervacija</a></li>
+        
         <li><a th:href="@{/login}">Log out</a></li>
       </ul>
     </div>
@@ -945,25 +946,28 @@ tr:nth-child(even) {
     <div class="content">
       <h2 class="title">Istorija rezervacija vikendica</h2>
       <p class="copy">Pogledajte vase rezervacije</p>
-     <a th:href="@{/IstorijaRezVik/}+${id}"><button class="btn">Prikazi</button></a>
+     <a th:href="@{/rezervacije/IstorijaRezVik/}+${id}"><button class="btn">Prikazi</button></a>
     </div>
   </div>
   <div class="card">
     <div class="content">
       <h2 class="title">Istorija rezervacija brodova</h2>
       <p class="copy">Pogledajte vase rezervacije </p>
-       <a th:href="@{/IstorijaRezBrd/}+${id}"><button class="btn">Prikazi</button></a>
+       <a th:href="@{/rezervacije/IstorijaRezBrd/}+${id}"><button class="btn">Prikazi</button></a>
     </div>
   </div>
   <div class="card">
     <div class="content">
       <h2 class="title">Istorija rezervacija vikendica</h2>
       <p class="copy">Pogledajte vase rezervacije pecanja</p>
-     <a th:href="@{/IstorijaRezUsl/}+${id}"> <button class="btn">Prikazi</button></a>
+     <a th:href="@{/rezervacije/IstorijaRezUsl/}+${id}"> <button class="btn">Prikazi</button></a>
     </div>
   </div>
 </main>
 </div>
 </body>
+<script>
 
+
+</script>
 </html>

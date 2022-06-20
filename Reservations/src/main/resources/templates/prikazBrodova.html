@@ -1172,9 +1172,21 @@ footer {
  
 
 </form>
+<form th:action="@{/Filter/}+${kor.ID}">
+  
+<input type="radio" value="camac" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Camac</input>
+<br>
+
+<input type="radio" value="speed boat" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Speed boat</input>
+<br>
+
+<input type="radio" value="jezerski brod" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px" >Jezerski brod</input>
+<br>
+
+<input type="radio" value="recni brod"  onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Recni brod</input>
 
 
- <button   th:onclick="@{/Filter/}+${kor.ID}">Filter po camcu</button>
+</form>
 <br><br><br>
 <div id="unsorted">
 <div class="column"  th:each="brod:${brodovi}">

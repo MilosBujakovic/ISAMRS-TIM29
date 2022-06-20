@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.UslugaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.enums.TipoviUsluga;
@@ -96,4 +98,46 @@ public class UslugaServis {
 	public void deleteById(long id) {
 		this.uslugaRepozitorijum.deleteById(id);
 	}
+	
+	public List<Usluga>UslugaSortCena(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Usluga>li=uslugaRepozitorijum.findAll(Sort.by(Sort.Direction.DESC, "cena"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Usluga>UslugaSortNaziv(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Usluga>li=uslugaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "naziv"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Usluga>UslugaSortAdresa(){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Usluga>li=uslugaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "adresa"));
+		System.out.println(li.toString());
+		return li;
+		}
+	
+	public List<Usluga>UslugaPretraga(String pretraga){
+		//List<Brod>li2=new ArrayList<Brod>();
+		List<Usluga>li=new ArrayList<Usluga>();
+		List<Usluga>li2=uslugaRepozitorijum.findAll();
+		for (Usluga e : li2) {
+			if(e.getAdresa().toLowerCase().contains(pretraga.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(e.getNaziv().toLowerCase().contains(pretraga.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(String.valueOf(e.getCena()).contains(pretraga)) {
+				li.add(e);
+				continue;
+			}
+		}
+		return li;
+		}
 }

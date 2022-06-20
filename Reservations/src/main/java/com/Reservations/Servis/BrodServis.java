@@ -80,14 +80,17 @@ public class BrodServis
 		return li;
 		}
 	
-	public List<Brod>BrodFilter(){
+	public List<Brod>BrodFilter(String tip){
 		//List<Brod>li2=new ArrayList<Brod>();
 		
 		List<Brod>li2=brodRepozitorijum.findAll();
-		
-		 return li2.stream()
-	            .filter(o -> !o.getTip().equals("camac")) != null
-	        ? li2 : null;
+	    List<Brod>li=new ArrayList<Brod>();
+		 for (Brod brod : li2) {
+			if(brod.getTip().equals(tip)) {
+				li.add(brod);
+			}
+		}
+		 return li;
 		}
 
 }
