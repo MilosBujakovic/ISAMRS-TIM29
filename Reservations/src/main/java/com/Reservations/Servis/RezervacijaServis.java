@@ -197,8 +197,8 @@ public class RezervacijaServis {
 			List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
 			for (int rezID = 0; rezID < rezervacijeVikendica.size(); rezID++) {
 				for (int vikID = 0; vikID < mojeVikendice.size(); vikID++) {
-					System.out.println("ID iz rezervacije: " + rezervacijeVikendica.get(rezID).getEntitetId());
-					System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
+					//System.out.println("ID iz rezervacije: " + rezervacijeVikendica.get(rezID).getEntitetId());
+					//System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
 					if (rezervacijeVikendica.get(rezID).getTip().equals(TipRezervacije.obicna) &&
 						rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
 						
@@ -217,9 +217,9 @@ public class RezervacijaServis {
 			for (int rezID = 0; rezID < rezervacijeBrodova.size(); rezID++) {
 				for (int brodID = 0; brodID < mojiBrodovi.size(); brodID++) 
 				{
-					System.out.println("ID rezervacije: "+rezervacijeBrodova.get(rezID).getID());
-					System.out.println("ID iz rezervacije: " + rezervacijeBrodova.get(rezID).getEntitetId());
-					System.out.println("ID iz broda:" + mojiBrodovi.get(brodID).getID());
+					//System.out.println("ID rezervacije: "+rezervacijeBrodova.get(rezID).getID());
+					//System.out.println("ID iz rezervacije: " + rezervacijeBrodova.get(rezID).getEntitetId());
+					//System.out.println("ID iz broda:" + mojiBrodovi.get(brodID).getID());
 					if (
 						rezervacijeBrodova.get(rezID).getTip().equals(TipRezervacije.obicna) &&
 						rezervacijeBrodova.get(rezID).getEntitetId() == mojiBrodovi.get(brodID).getID()) {
@@ -237,8 +237,8 @@ public class RezervacijaServis {
 			List<Usluga> mojeUsluge = uslugaServis.findByInstruktor(vlasnik.getID());
 			for (int rezID = 0; rezID < rezervacijeUsluga.size(); rezID++) {
 				for (int brodID = 0; brodID < mojeUsluge.size(); brodID++) {
-					System.out.println("ID iz rezervacije: " + rezervacijeUsluga.get(rezID).getEntitetId());
-					System.out.println("ID iz usluge:" + mojeUsluge.get(brodID).getID());
+					//System.out.println("ID iz rezervacije: " + rezervacijeUsluga.get(rezID).getEntitetId());
+					//System.out.println("ID iz usluge:" + mojeUsluge.get(brodID).getID());
 					if (rezervacijeUsluga.get(rezID).getTip().equals(TipRezervacije.obicna) &&
 						rezervacijeUsluga.get(rezID).getEntitetId() == mojeUsluge.get(brodID).getID()) {
 
