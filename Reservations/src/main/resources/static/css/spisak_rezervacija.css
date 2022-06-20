@@ -877,7 +877,8 @@ body {
 }
 
 .labels {
-    font-size: 11px
+    font-size: 11px;
+    color: black
 }
 
 .add-experience:hover {

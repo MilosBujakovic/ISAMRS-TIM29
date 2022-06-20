@@ -1,5 +1,7 @@
 package com.Reservations.Servis;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.BrodDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
@@ -28,6 +31,12 @@ public class BrodServis
 
 	@Autowired
 	private RezervacijaRepozitorijum rezervacijaRepozitorijum;
+	
+	@Autowired
+	private RezervacijaServis rezervacijaServis;
+	
+	@Autowired
+	private GVarijableServis globalneVarijable;
 	
 	public List<Brod> listAll(){
 		return brodRepozitorijum.findAll();
@@ -292,5 +301,49 @@ public class BrodServis
 			poruka[1] = "reserved";
 		}
 		return poruka;
+	}
+	
+	public List<PoslovanjeEntitetaDTO> poslovanjeBrodovaPeriod(PoslovanjeEntitetaDTO poslovanje, Korisnik vlasnik) 
+	{
+		List<Rezervacija> mojeRezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
+		List<Brod> mojiBrodovi = this.nadjiBrodovePoVlasniku(vlasnik);
+		System.out.println("Rez datum: "+mojeRezervacije.get(0).getDatum());
+		System.out.println("Pocetni dat: "+poslovanje.getPocetniDatum());
+		List<PoslovanjeEntitetaDTO> poslovanjaBrodova = new ArrayList<PoslovanjeEntitetaDTO>();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate pocetni = LocalDate.parse(poslovanje.getPocetniDatum(), dtf);
+		LocalDate krajnji = LocalDate.parse(poslovanje.getKrajnjiDatum(), dtf);
+		double vlasnikovProcenat = 1-Double.parseDouble(globalneVarijable.findByName("procenat").getVrednost());
+		
+		for(Brod brod : mojiBrodovi)
+		{
+			PoslovanjeEntitetaDTO poslovanjeBroda = new PoslovanjeEntitetaDTO(poslovanje);
+			poslovanjeBroda.setVlasnikID(vlasnik.getID());
+			poslovanjeBroda.setEntitetID(brod.getID());
+			poslovanjeBroda.setNazivEntiteta(brod.getNaziv());
+			poslovanje.setOcjenaEntiteta(0.0);
+			double prihod = 0;
+			Long brojRezervacija = 0L;
+			double zarada = 0;
+			for(Rezervacija rezervacija: mojeRezervacije) 
+			{
+				if(rezervacija.getEntitetId()==brod.getID())
+				{
+					LocalDate datum = LocalDate.parse(rezervacija.getDatum(), dtf);
+					if(datum.isAfter(pocetni) && datum.isBefore(krajnji))
+					{
+						brojRezervacija++;
+						zarada += rezervacija.getCena();
+					}
+				}
+				//if(LocalDate.parse(r.getDatum(), dtf).isAfter())
+			}
+			poslovanjeBroda.setZarada(zarada);
+			poslovanjeBroda.setBrojRezervacija(brojRezervacija);
+			prihod = zarada*vlasnikovProcenat;
+			poslovanjeBroda.setPrihod(prihod);
+			poslovanjaBrodova.add(poslovanjeBroda);
+		}
+		return poslovanjaBrodova;
 	}
 }

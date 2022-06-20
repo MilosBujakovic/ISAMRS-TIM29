@@ -29,7 +29,7 @@
 	        <li><a th:href="@{/brodVlasnik/profil/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moj profil</a></li>
 	        <li><a th:href="@{/brodVlasnik/prikaziBrodove/prikazi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moji brodovi</a></li>
 	         <li><a th:href="@{/brodVlasnik/moji-klijenti/}+${vlasnikBroda.ID}" target="glavni_prikaz">Moji klijenti</a></li>
-	         <li><a href="#" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
+	         <li><a th:href="@{/brodVlasnik/izvjestajiPoslovanja/}+${vlasnikBroda.ID}" target="glavni_prikaz">Izvještaji o poslovanju</a></li>
 	        <li><a th:href="@{/login}">Log out</a></li>
 	      </ul>
 	    </div>
@@ -64,7 +64,7 @@
 					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Kalendar zauzetosti
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Napiši izvještaj
+					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Izvještaji o rezervacijama
 							</a></li>
 					<li class="delete"><a class="delete" th:href="@{/vikendicaVlasnik/brisanjeNaloga}" target="glavni_prikaz">Obriši nalog
 							</a></li>
