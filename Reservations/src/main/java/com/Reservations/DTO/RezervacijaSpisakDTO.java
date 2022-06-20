@@ -83,6 +83,13 @@ public class RezervacijaSpisakDTO
 	public void setKlijentID(Long klijentID) {
 		this.klijentID = klijentID;
 	}
+
+	@Override
+	public String toString() {
+		return "RezervacijaSpisakDTO [rezervacijaID=" + rezervacijaID + ", nazivEntiteta=" + nazivEntiteta + ", datum="
+				+ datum + ", vreme=" + vreme + ", cena=" + cena + ", klijent=" + klijent + ", klijentID=" + klijentID
+				+ "]";
+	}
 	
 	
 }

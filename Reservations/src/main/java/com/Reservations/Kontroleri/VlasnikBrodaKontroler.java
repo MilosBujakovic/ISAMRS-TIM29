@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.BrodDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
@@ -261,16 +262,43 @@ public class VlasnikBrodaKontroler
    {
 	   System.out.println("Prikaz mojih klijenata!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnikaBroda(vlasnik);
 	   
 
-	   model.addAttribute("vlasnikVikendice", vlasnik);
+	   model.addAttribute("vlasnikBroda", vlasnik);
 	   model.addAttribute("mojiKlijenti", mojiKlijenti);
 	   
-	   return "/vikendice/mojiKlijenti.html";
+	   return "/brodovi/klijentiMojihBrodova.html";
 	   
    }
    
+   
+   @RequestMapping(value = "/izvjestajiPoslovanja/{vlasnikID}")
+	public String izvjestajiPoslovanja(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Izvjestaji poslovanja page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		return "/brodovi/izvjestajiOposlovanjuBrodova.html";
+	}
+	
+	@RequestMapping(value = "/izvjestajPoslovanjaPeriod/{vlasnikID}")
+	public String izvjestajPoslovanjaPeriod(Model model, @PathVariable Long vlasnikID, PoslovanjeEntitetaDTO poslovanje) 
+	{
+		System.out.println("Izvjestaji poslovanja period page was called!");
+		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
+		System.out.println("kraj: "+poslovanje.getKrajnjiDatum());
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		poslovanje.srediDatume();
+		List<PoslovanjeEntitetaDTO> poslovanjaBrodova = brodServis.poslovanjeBrodovaPeriod(poslovanje, vlasnik);
+		model.addAttribute("poslovanja", poslovanjaBrodova);
+		model.addAttribute("period", poslovanje);
+		for(int i = 0; i< poslovanjaBrodova.size(); i++) System.out.println(poslovanjaBrodova.get(i));
+		return "/brodovi/izvjestajPoslovanjaPeriod.html";
+	}
+	
+	
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 

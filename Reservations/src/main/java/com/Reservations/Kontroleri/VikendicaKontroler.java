@@ -267,6 +267,6 @@ public class VikendicaKontroler
 		List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		model.addAttribute("vikendice", mojeVikendice);
-		return "/vikendice/brzeRezervacije.html";
+		return "/vikendice/brzeRezervacijeVikendica.html";
 	}
 }

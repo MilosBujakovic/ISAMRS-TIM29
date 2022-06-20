@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
@@ -262,24 +263,43 @@ public class VlasnikVikendiceKontroler {
    {
 	   System.out.println("Prikaz mojih klijenata!");
 	   Korisnik vlasnik = korisnikServis.findById(vlasnikID);
-	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnika(vlasnik);
+	   List<KlijentSpisakDTO> mojiKlijenti = rezervacijaServis.nadjiKlijenteVlasnikaVikendice(vlasnik);
 	   
 
 	   model.addAttribute("vlasnikVikendice", vlasnik);
 	   model.addAttribute("mojiKlijenti", mojiKlijenti);
 	   
-	   return "/vikendice/mojiKlijenti.html";
+	   return "/vikendice/klijentiMojihVikendica.html";
 	   
    }
    
-/*
-	@RequestMapping(value = "/admin/reports")
-	public String getReportsDates() 
-	{
-		System.out.println("Report page was called!");
-		return "adminReports";
-	}
 
+	@RequestMapping(value = "/izvjestajiPoslovanja/{vlasnikID}")
+	public String izvjestajiPoslovanja(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Izvjestaji poslovanja page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		return "/vikendice/izvjestajiOposlovanjuVikendice.html";
+	}
+	
+	@RequestMapping(value = "/izvjestajPoslovanjaPeriod/{vlasnikID}")
+	public String izvjestajPoslovanjaPeriod(Model model, @PathVariable Long vlasnikID, PoslovanjeEntitetaDTO poslovanje) 
+	{
+		System.out.println("Izvjestaji poslovanja period page was called!");
+		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
+		System.out.println("kraj: "+poslovanje.getKrajnjiDatum());
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		poslovanje.srediDatume();
+		List<PoslovanjeEntitetaDTO> poslovanjaVikendica = vikendicaServis.poslovanjeVikendicaPeriod(poslovanje, vlasnik);
+		model.addAttribute("poslovanja", poslovanjaVikendica);
+		model.addAttribute("period", poslovanje);
+		for(int i = 0; i< poslovanjaVikendica.size(); i++) System.out.println(poslovanjaVikendica.get(i));
+		return "/vikendice/izvjestajPoslovanjaPeriod.html";
+	}
+	
+/*
 	@GetMapping("/admin/reports/print")
     public void exportToPDF(HttpServletResponse response, @RequestParam String pocDatum, @RequestParam String krajDatum) throws DocumentException, IOException, ParseException 
 	{

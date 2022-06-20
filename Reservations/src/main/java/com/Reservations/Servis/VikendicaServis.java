@@ -1,5 +1,7 @@
 package com.Reservations.Servis;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -7,6 +9,7 @@ import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
@@ -29,6 +32,9 @@ public class VikendicaServis {
 	
 	@Autowired
 	private KorisnikServis korisnikServis;
+	
+	@Autowired
+	GVarijableServis globalneVarijable;
 	
 	public List<Vikendica> listAll(){
 		return vikendicaRepozitorijum.findAll();
@@ -223,6 +229,54 @@ public class VikendicaServis {
 			else System.out.println("Odbacena!");
 		}
 		return mojeVikendice;
+	}
+	public List<PoslovanjeEntitetaDTO> poslovanjeVikendicaPeriod(PoslovanjeEntitetaDTO poslovanje, Korisnik vlasnik) {
+		List<Rezervacija> mojeRezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
+		List<Vikendica> mojeVikendice = this.nadjiVikendicePoVlasniku(vlasnik);
+		System.out.println("Rez datum: "+mojeRezervacije.size());
+		System.out.println("Pocetni dat: "+poslovanje.getPocetniDatum());
+		List<PoslovanjeEntitetaDTO> poslovanjaVikendica = new ArrayList<PoslovanjeEntitetaDTO>();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate pocetni = LocalDate.parse(poslovanje.getPocetniDatum(), dtf);
+		LocalDate krajnji = LocalDate.parse(poslovanje.getKrajnjiDatum(), dtf);
+		double vlasnikovProcenat = 1-Double.parseDouble(globalneVarijable.findByName("procenat").getVrednost());
+		
+		for(Vikendica vikendica : mojeVikendice)
+		{
+			PoslovanjeEntitetaDTO poslovanjeVikendice = new PoslovanjeEntitetaDTO(poslovanje);
+			poslovanjeVikendice.setVlasnikID(vlasnik.getID());
+			poslovanjeVikendice.setEntitetID(vikendica.getID());
+			poslovanjeVikendice.setNazivEntiteta(vikendica.getNaziv());
+			poslovanje.setOcjenaEntiteta(0.0);
+			double prihod = 0;
+			Long brojRezervacija = 0L;
+			double zarada = 0;
+			for(Rezervacija rezervacija: mojeRezervacije) 
+			{
+				if(rezervacija.getEntitetId()==vikendica.getID())
+				{
+					LocalDate datum = LocalDate.parse(rezervacija.getDatum(), dtf);
+					if(datum.isAfter(pocetni) && datum.isBefore(krajnji))
+					{
+						brojRezervacija++;
+						zarada += rezervacija.getCena();
+					}
+				}
+				//if(LocalDate.parse(r.getDatum(), dtf).isAfter())
+			}
+			poslovanjeVikendice.setZarada(zarada);
+			poslovanjeVikendice.setBrojRezervacija(brojRezervacija);
+			prihod = zarada*vlasnikovProcenat;
+			poslovanjeVikendice.setPrihod(prihod);
+			poslovanjaVikendica.add(poslovanjeVikendice);
+		}
+		return poslovanjaVikendica;
+	}
+		
+	public PoslovanjeEntitetaDTO srediDatume(PoslovanjeEntitetaDTO poslovanje) {
+		String[] pocetni = poslovanje.getPocetniDatum().split("-");
+		System.out.println("Duzina: "+pocetni.length);
+		return poslovanje;
 	}
 
 }
