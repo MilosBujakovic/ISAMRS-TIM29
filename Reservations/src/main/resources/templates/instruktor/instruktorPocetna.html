@@ -24,7 +24,8 @@
 							profil</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
 							rezervacija</a></li>
-					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji
+							o poslovanju</a></li>
 
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
@@ -58,10 +59,48 @@
 						<p th:text="${rez.datum}">Pocetni datum</p>
 						<p th:text="${rez.trajanje}">Trajanje</p>
 					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
-						class="edit"></a></li>
+						class="edit"></a>
+				</li>
 			</ul>
 		</div>
 	</div>
-	<div class="panel important"></div>
+	<div>
+		<div class="panel ">
+			<h2>Brze rezervacije</h2>
+			<ul th:each="brza : ${brze}">
+				<li>
+					<div class="txt">
+						<h2 th:text="${brza.nazivEntiteta}">Naslov</h2>
+						<p th:text="${brza.klijent.ime + ' ' + brza.klijent.prezime}">Klijent</p>
+						<p th:text="${brza.datum}">Pocetni datum</p>
+						<p th:text="${brza.trajanje}">Trajanje</p>
+					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
+						class="edit"></a>
+				</li>
+			</ul>
+			<a th:href="@{/instruktor/}+${id+'/novaBrzaRezervacija'}"><button
+					type="button"
+					style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Dodaj
+					brzu rezervaciju</button></a>
+		</div>
+		<div class="panel ">
+			<h2>Brze rezervacije</h2>
+			<ul th:each="akcija : ${akcije}">
+				<li>
+					<div class="txt">
+						<h2 th:text="">Naslov</h2>
+						<p th:text="">Klijent</p>
+						<p th:text="">Pocetni datum</p>
+						<p th:text="">Trajanje</p>
+					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
+						class="edit"></a>
+				</li>
+			</ul>
+			<a th:href="@{/instruktor/}+${id+'/novaAkcija'}"><button
+					type="button"
+					style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Dodaj
+					akciju</button></a>
+		</div>
+	</div>
 </body>
 </html>

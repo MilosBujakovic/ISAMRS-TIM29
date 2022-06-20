@@ -57,6 +57,9 @@ public class Rezervacija {
 	@Column(name="tip")
 	private TipRezervacije tip;
 	
+	@Column(name="izvestaj")
+	private String izvestaj;
+	
 	public Rezervacija () {
 		
 	}
@@ -153,10 +156,18 @@ public class Rezervacija {
 		this.klijent = klijent;
 	}
 
+	public String getIzvestaj() {
+		return izvestaj;
+	}
+
+	public void setIzvestaj(String izvestaj) {
+		this.izvestaj = izvestaj;
+	}
+
 	@Override
 	public String toString() {
 		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme
-				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + "]";
+				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", izvestaj=" + izvestaj +"]";
 	}
 
 	

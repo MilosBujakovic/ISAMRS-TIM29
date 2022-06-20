@@ -1,6 +1,9 @@
 package com.Reservations.Kontroleri;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,8 @@ public class InstruktorKontroler {
 
 	@Autowired
 	BrisanjeNalogaServis bnServis;
+
+	private Boolean[] select = new Boolean[10000];
 
 	@RequestMapping(value = "")
 	public String getHomePage(Model model, @PathVariable Long id) {
@@ -91,15 +96,30 @@ public class InstruktorKontroler {
 	public String getHistoryPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
+		for (int i = 0; i < rezervacije.size(); i++)
+			select[i] = false;
+		model.addAttribute("postoji", select);
 		model.addAttribute("rezervacije", rezervacije);
 		return "instruktor/instruktorIstorija";
+	}
+
+	@RequestMapping(value = "/izvestaj/{rId}")
+	public String getReportsPage(Model model, @PathVariable Long id, @PathVariable Long rId,
+			@RequestParam String izvestaj) {
+		System.out.println("Izvestaj page was called!");
+		System.out.println(izvestaj);
+		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
+		Rezervacija rez = rezervacijaServis.findById(rId);
+		System.out.println(rez.toString());
+		System.out.println(rez.getIzvestaj());
+		//this.select[rezervacije.indexOf(rez)] = rezervacijaServis.upisiIzvestajVI(rId, izvestaj);
+		System.out.println(select.toString());
+		return "redirect:/instruktor/" + String.valueOf(id) + "/istorija";
 	}
 
 	@RequestMapping(value = "/izvestaji")
 	public String getReportsPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
-		List<Usluga> lista = uslugaServis.findByInstruktor(id);
-		model.addAttribute("usluge", lista);
 		return "instruktor/instruktorIzvestaji";
 	}
 }
