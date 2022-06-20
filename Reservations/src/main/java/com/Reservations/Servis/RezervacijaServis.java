@@ -206,8 +206,9 @@ public class RezervacijaServis {
 				for (int vikID = 0; vikID < mojeVikendice.size(); vikID++) {
 					System.out.println("ID iz rezervacije: " + rezervacijeVikendica.get(rezID).getEntitetId());
 					System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
-					if (rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
-
+					if (rezervacijeVikendica.get(rezID).getTip().equals(TipRezervacije.obicna) &&
+						rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
+						
 						mojeRezervacije.add(rezervacijeVikendica.get(rezID));
 						System.out.println("Ubacen!");
 						break;
@@ -226,7 +227,9 @@ public class RezervacijaServis {
 					System.out.println("ID rezervacije: "+rezervacijeBrodova.get(rezID).getID());
 					System.out.println("ID iz rezervacije: " + rezervacijeBrodova.get(rezID).getEntitetId());
 					System.out.println("ID iz broda:" + mojiBrodovi.get(brodID).getID());
-					if (rezervacijeBrodova.get(rezID).getEntitetId() == mojiBrodovi.get(brodID).getID()) {
+					if (
+						rezervacijeBrodova.get(rezID).getTip().equals(TipRezervacije.obicna) &&
+						rezervacijeBrodova.get(rezID).getEntitetId() == mojiBrodovi.get(brodID).getID()) {
 
 						mojeRezervacije.add(rezervacijeBrodova.get(rezID));
 						System.out.println("Ubacen!");
@@ -237,15 +240,16 @@ public class RezervacijaServis {
 		}
 		else if(tipEntiteta.equals(TipEntiteta.usluga))
 		{
-			List<Rezervacija> rezervacijeBrodova = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
+			List<Rezervacija> rezervacijeUsluga = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
 			List<Usluga> mojeUsluge = uslugaServis.findByInstruktor(vlasnik.getID());
-			for (int rezID = 0; rezID < rezervacijeBrodova.size(); rezID++) {
+			for (int rezID = 0; rezID < rezervacijeUsluga.size(); rezID++) {
 				for (int brodID = 0; brodID < mojeUsluge.size(); brodID++) {
-					System.out.println("ID iz rezervacije: " + rezervacijeBrodova.get(rezID).getEntitetId());
+					System.out.println("ID iz rezervacije: " + rezervacijeUsluga.get(rezID).getEntitetId());
 					System.out.println("ID iz usluge:" + mojeUsluge.get(brodID).getID());
-					if (rezervacijeBrodova.get(rezID).getEntitetId() == mojeUsluge.get(brodID).getID()) {
+					if (rezervacijeUsluga.get(rezID).getTip().equals(TipRezervacije.obicna) &&
+						rezervacijeUsluga.get(rezID).getEntitetId() == mojeUsluge.get(brodID).getID()) {
 
-						mojeRezervacije.add(rezervacijeBrodova.get(rezID));
+						mojeRezervacije.add(rezervacijeUsluga.get(rezID));
 						System.out.println("Ubacen!");
 						break;
 					}
