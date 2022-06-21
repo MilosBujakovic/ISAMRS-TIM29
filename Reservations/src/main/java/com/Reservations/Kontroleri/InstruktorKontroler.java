@@ -1,9 +1,6 @@
 package com.Reservations.Kontroleri;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
+import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Usluga;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
@@ -103,21 +102,7 @@ public class InstruktorKontroler {
 		return "instruktor/instruktorIstorija";
 	}
 
-	@RequestMapping(value = "/izvestaj/{rId}")
-	public String getReportsPage(Model model, @PathVariable Long id, @PathVariable Long rId,
-			@RequestParam String izvestaj) {
-		System.out.println("Izvestaj page was called!");
-		Korisnik instruktor = korisnikServis.findById(id);
-		model.addAttribute("instruktor", instruktor);
-		System.out.println(izvestaj);
-		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
-		Rezervacija rez = rezervacijaServis.findById(rId);
-		System.out.println(rez.toString());
-		System.out.println(rez.getIzvjestaj());
-		return "redirect:/instruktor/" + String.valueOf(id) + "/istorija";
-	}
-
-	@RequestMapping(value = "/izvestaji")
+	@RequestMapping(value = "/izvestajiPoslovanja")
 	public String getReportsPage(Model model, @PathVariable Long id) {
 		System.out.println("Izvestaji poslovanja page was called!");
 		Korisnik instruktor = korisnikServis.findById(id);
@@ -133,7 +118,7 @@ public class InstruktorKontroler {
 		return "instruktor/instruktorIzvestaji";
 	}
 	
-	@RequestMapping(value = "/izvestaji/tabela")
+	@RequestMapping(value = "/izvestajiPoslovanja/tabela")
 	public String getReportsTablePage(Model model, @PathVariable Long id, PoslovanjeEntitetaDTO poslovanje) {
 		System.out.println("Izvjestaji poslovanja period page was called!");
 		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
@@ -156,5 +141,58 @@ public class InstruktorKontroler {
 		Korisnik u = korisnikServis.findById(rId);
 		model.addAttribute("user", u);
 		return "instruktor/instruktorProfilKlijenta";
+	}
+	
+	@RequestMapping(value = "/novaBrzaRezervacija", method = RequestMethod.GET)
+	public String addQuickReservation(Model model, @PathVariable Long id) {
+		System.out.println("Dodajemo brzu rezervaciju!");
+		return "instruktor/dodajBrzuRezervaciju";
+	}
+	
+	@RequestMapping(value = "/novaAkcija", method = RequestMethod.GET)
+	public String addSpecialOffer(Model model, @PathVariable Long id) {
+		System.out.println("Dodajemo akciju!");
+		return "instruktor/dodajAkciju";
+	}
+	
+	@RequestMapping(value = "/izvestajiRezervacija")
+	public String getCommentsPage(Model model, @PathVariable Long id) {
+		System.out.println("Izveštaji rezervacije page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		List<IzvjestajRezervacijaDTO> rezervacijeSa = rezervacijaServis.nadjiRezervacijeSaIzvjestajem(TipEntiteta.usluga, instruktor);
+		List<IzvjestajRezervacijaDTO> rezervacijeBez = rezervacijaServis.nadjiRezervacijeBezIzvjestaja(TipEntiteta.usluga, instruktor);
+		model.addAttribute("rezervacijeSa", rezervacijeSa);
+		model.addAttribute("rezervacijeBez", rezervacijeBez);
+		return "instruktor/instruktorIzvestajiRez";
+	}
+	
+	@RequestMapping(value = "/napisiIzvestajRezervacija/{rId}")
+	public String writeCommentPage(Model model, @PathVariable Long id, @PathVariable Long rId)	 {
+		System.out.println("Pisi izveštaj page was called! rID: " + String.valueOf(rId));
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rId);
+		IzvjestajRezervacijaDTO izvestaj = new IzvjestajRezervacijaDTO(rezervacija);
+		
+		model.addAttribute("rezervacija", izvestaj);
+		return "instruktor/instruktorNapisiIzvestaj";
+	}
+	
+	@RequestMapping(value = "/upisiIzvestajRezervacija/{rId}", method=RequestMethod.POST)
+	public String addComment(@PathVariable Long id, @PathVariable Long rId, IzvjestajRezervacijaDTO izvestaj)	 {
+		System.out.println("Upis izveštaja page was called! rID: " + String.valueOf(rId));
+		Rezervacija rezervacija = rezervacijaServis.findById(rId);
+		rezervacija.setIzvjestaj(izvestaj.getIzvjestaj());
+		boolean success = rezervacijaServis.upisiRezervaciju(rezervacija);
+		if(success)
+		{
+			return "redirect:/instruktor/" + String.valueOf(id) + "/izvestajiRezervacija";
+		}
+		else
+		{
+			return "redirect:/instruktor/" + String.valueOf(id) + "/napisiIzvestajRezervacija/" + String.valueOf(rId);
+		}
 	}
 }

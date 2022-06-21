@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.apache.commons.collections.functors.IfClosure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -107,10 +106,10 @@ public class RezervacijaServis {
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
 			if (r.getKlijent().getID() == id) {
-			
-				if(LocalDate.parse(r.getDatum(), dtf).isAfter(now))
-			
-				li2.add(r);
+
+				if (LocalDate.parse(r.getDatum(), dtf).isAfter(now))
+
+					li2.add(r);
 
 			}
 		}
@@ -189,38 +188,35 @@ public class RezervacijaServis {
 	public List<Rezervacija> pronadjiRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) {
 		List<Rezervacija> mojeRezervacije = new ArrayList<Rezervacija>();
 		System.out.println("TipoviEntiteta jednaki: " + tipEntiteta.equals(TipEntiteta.vikendica));
-		if (tipEntiteta.equals(TipEntiteta.vikendica)) 
-		{
+		if (tipEntiteta.equals(TipEntiteta.vikendica)) {
 			List<Rezervacija> rezervacijeVikendica = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
 			List<Vikendica> mojeVikendice = vikendicaServis.nadjiVikendicePoVlasniku(vlasnik);
 			for (int rezID = 0; rezID < rezervacijeVikendica.size(); rezID++) {
 				for (int vikID = 0; vikID < mojeVikendice.size(); vikID++) {
-					//System.out.println("ID iz rezervacije: " + rezervacijeVikendica.get(rezID).getEntitetId());
-					//System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
-					if (rezervacijeVikendica.get(rezID).getTip().equals(TipRezervacije.obicna) &&
-						rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
-						
+					// System.out.println("ID iz rezervacije: " +
+					// rezervacijeVikendica.get(rezID).getEntitetId());
+					// System.out.println("ID iz vikendice:" + mojeVikendice.get(vikID).getID());
+					if (rezervacijeVikendica.get(rezID).getTip().equals(TipRezervacije.obicna)
+							&& rezervacijeVikendica.get(rezID).getEntitetId() == mojeVikendice.get(vikID).getID()) {
+
 						mojeRezervacije.add(rezervacijeVikendica.get(rezID));
 						System.out.println("Ubacen!");
 						break;
 					}
 				}
 			}
-		}
-		else if (tipEntiteta.equals(TipEntiteta.brod) )
-		{
+		} else if (tipEntiteta.equals(TipEntiteta.brod)) {
 			List<Rezervacija> rezervacijeBrodova = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
 			List<Brod> mojiBrodovi = brodServis.nadjiBrodovePoVlasniku(vlasnik);
-			System.out.println("AAAAA brodovi po vlasniku: "+vlasnik.getKorisnickoIme());
+			System.out.println("AAAAA brodovi po vlasniku: " + vlasnik.getKorisnickoIme());
 			for (int rezID = 0; rezID < rezervacijeBrodova.size(); rezID++) {
-				for (int brodID = 0; brodID < mojiBrodovi.size(); brodID++) 
-				{
-					//System.out.println("ID rezervacije: "+rezervacijeBrodova.get(rezID).getID());
-					//System.out.println("ID iz rezervacije: " + rezervacijeBrodova.get(rezID).getEntitetId());
-					//System.out.println("ID iz broda:" + mojiBrodovi.get(brodID).getID());
-					if (
-						rezervacijeBrodova.get(rezID).getTip().equals(TipRezervacije.obicna) &&
-						rezervacijeBrodova.get(rezID).getEntitetId() == mojiBrodovi.get(brodID).getID()) {
+				for (int brodID = 0; brodID < mojiBrodovi.size(); brodID++) {
+					// System.out.println("ID rezervacije: "+rezervacijeBrodova.get(rezID).getID());
+					// System.out.println("ID iz rezervacije: " +
+					// rezervacijeBrodova.get(rezID).getEntitetId());
+					// System.out.println("ID iz broda:" + mojiBrodovi.get(brodID).getID());
+					if (rezervacijeBrodova.get(rezID).getTip().equals(TipRezervacije.obicna)
+							&& rezervacijeBrodova.get(rezID).getEntitetId() == mojiBrodovi.get(brodID).getID()) {
 
 						mojeRezervacije.add(rezervacijeBrodova.get(rezID));
 						System.out.println("Ubacen!");
@@ -228,17 +224,16 @@ public class RezervacijaServis {
 					}
 				}
 			}
-		}
-		else if(tipEntiteta.equals(TipEntiteta.usluga))
-		{
+		} else if (tipEntiteta.equals(TipEntiteta.usluga)) {
 			List<Rezervacija> rezervacijeUsluga = rezervacijaRepozitorijum.findByTipEntiteta(tipEntiteta);
 			List<Usluga> mojeUsluge = uslugaServis.findByInstruktor(vlasnik.getID());
 			for (int rezID = 0; rezID < rezervacijeUsluga.size(); rezID++) {
 				for (int brodID = 0; brodID < mojeUsluge.size(); brodID++) {
-					//System.out.println("ID iz rezervacije: " + rezervacijeUsluga.get(rezID).getEntitetId());
-					//System.out.println("ID iz usluge:" + mojeUsluge.get(brodID).getID());
-					if (rezervacijeUsluga.get(rezID).getTip().equals(TipRezervacije.obicna) &&
-						rezervacijeUsluga.get(rezID).getEntitetId() == mojeUsluge.get(brodID).getID()) {
+					// System.out.println("ID iz rezervacije: " +
+					// rezervacijeUsluga.get(rezID).getEntitetId());
+					// System.out.println("ID iz usluge:" + mojeUsluge.get(brodID).getID());
+					if (rezervacijeUsluga.get(rezID).getTip().equals(TipRezervacije.obicna)
+							&& rezervacijeUsluga.get(rezID).getEntitetId() == mojeUsluge.get(brodID).getID()) {
 
 						mojeRezervacije.add(rezervacijeUsluga.get(rezID));
 						System.out.println("Ubacen!");
@@ -246,8 +241,8 @@ public class RezervacijaServis {
 					}
 				}
 			}
-		}
-		else System.out.println("Not Implemented");
+		} else
+			System.out.println("Not Implemented");
 		return mojeRezervacije;
 	}
 
@@ -290,160 +285,133 @@ public class RezervacijaServis {
 		return rez;
 	}
 
-	public List<KlijentSpisakDTO> nadjiKlijenteVlasnikaVikendice(Korisnik vlasnik) 
-	{
-	   
-	   List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
-	   List<Korisnik> korisnici = korisnikServis.listAll();
-	   List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
-	   
-	   Long brojRezervacija;
-	   for(int i = 0; i < korisnici.size(); i++)
-	   {
-		   brojRezervacija = 0L;
-		   for(Rezervacija rezervacija : mojeRezervacije)
-		   {
-			   if(rezervacija.getKlijent().equals(korisnici.get(i) ) )
-			   {
-				   //System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
-			   brojRezervacija++;
-			   }
-		   }
-		   if(brojRezervacija>0)
-		   {
-			   //System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
-			   mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija) );
-		   }
-	   }
-	   return mojiKlijenti;
-	
-	}
-	
-	public List<KlijentSpisakDTO> nadjiKlijenteVlasnikaBroda(Korisnik vlasnik) 
-	{
-	   
-	   List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
-	   
-	   List<Korisnik> korisnici = korisnikServis.listAll();
-	   List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
-	   
-	   Long brojRezervacija;
-	   for(int i = 0; i < korisnici.size(); i++)
-	   {
-		   brojRezervacija = 0L;
-		   for(Rezervacija rezervacija : mojeRezervacije)
-		   {
-			   if(rezervacija.getKlijent().equals(korisnici.get(i) ) )
-			   {
-				   //System.out.println("Pronadjen klijent: "+korisnici.get(i).getKorisnickoIme());
-			   brojRezervacija++;
-			   }
-		   }
-		   if(brojRezervacija>0)
-		   {
-			   //System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u listu!");
-			   mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija) );
-		   }
-	   }
-	   return mojiKlijenti;
-	
+	public List<KlijentSpisakDTO> nadjiKlijenteVlasnikaVikendice(Korisnik vlasnik) {
+
+		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
+		List<Korisnik> korisnici = korisnikServis.listAll();
+		List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
+
+		Long brojRezervacija;
+		for (int i = 0; i < korisnici.size(); i++) {
+			brojRezervacija = 0L;
+			for (Rezervacija rezervacija : mojeRezervacije) {
+				if (rezervacija.getKlijent().equals(korisnici.get(i))) {
+					// System.out.println("Pronadjen klijent:
+					// "+korisnici.get(i).getKorisnickoIme());
+					brojRezervacija++;
+				}
+			}
+			if (brojRezervacija > 0) {
+				// System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u
+				// listu!");
+				mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija));
+			}
+		}
+		return mojiKlijenti;
+
 	}
 
-	public List<Rezervacija> RezSortCena( List<Rezervacija> user) {
-		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
-		Collections.sort(li, Comparator.comparing(Rezervacija::getCena));
-		return li ;
-		
-	}
-	public List<Rezervacija> RezSortDatum(List<Rezervacija> user) {
-	//	Collections.sort(user, Rezervacija.getAttribute1Comparator());
-		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
-		Collections.sort(li, Comparator.comparing(Rezervacija::getDatum));
-	            
-		return li;
-		
-	}
-	
-	public List<Rezervacija> RezSortTrajanje(List<Rezervacija> user) {
-		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
-		Collections.sort(li, Comparator.comparing(Rezervacija::getTrajanje));
-        
-		return li;
+	public List<KlijentSpisakDTO> nadjiKlijenteVlasnikaBroda(Korisnik vlasnik) {
+
+		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
+
+		List<Korisnik> korisnici = korisnikServis.listAll();
+		List<KlijentSpisakDTO> mojiKlijenti = new ArrayList<KlijentSpisakDTO>();
+
+		Long brojRezervacija;
+		for (int i = 0; i < korisnici.size(); i++) {
+			brojRezervacija = 0L;
+			for (Rezervacija rezervacija : mojeRezervacije) {
+				if (rezervacija.getKlijent().equals(korisnici.get(i))) {
+					// System.out.println("Pronadjen klijent:
+					// "+korisnici.get(i).getKorisnickoIme());
+					brojRezervacija++;
+				}
+			}
+			if (brojRezervacija > 0) {
+				// System.out.println("Ubacen "+korisnici.get(i).getKorisnickoIme()+" u
+				// listu!");
+				mojiKlijenti.add(new KlijentSpisakDTO(korisnici.get(i), brojRezervacija));
+			}
 		}
-	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeBezIzvjestaja(TipEntiteta tipEntiteta, Korisnik vlasnik) 
-	{
+		return mojiKlijenti;
+
+	}
+
+	public List<Rezervacija> RezSortCena(List<Rezervacija> user) {
+		List<Rezervacija> li = new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getCena));
+		return li;
+
+	}
+
+	public List<Rezervacija> RezSortDatum(List<Rezervacija> user) {
+		// Collections.sort(user, Rezervacija.getAttribute1Comparator());
+		List<Rezervacija> li = new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getDatum));
+
+		return li;
+
+	}
+
+	public List<Rezervacija> RezSortTrajanje(List<Rezervacija> user) {
+		List<Rezervacija> li = new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getTrajanje));
+
+		return li;
+	}
+
+	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeBezIzvjestaja(TipEntiteta tipEntiteta, Korisnik vlasnik) {
 		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
 		List<IzvjestajRezervacijaDTO> rezultat = new ArrayList<IzvjestajRezervacijaDTO>();
-		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		
-		
-		for(Rezervacija rez : mojeRezervacije)
-		{
-			if(rez.getIzvjestaj()==null || rez.getIzvjestaj().trim().equals("") )
-			{
+		// DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+		for (Rezervacija rez : mojeRezervacije) {
+			if (rez.getIzvjestaj() == null || rez.getIzvjestaj().trim().equals("")) {
 				IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rez);
-				
+
 				/*
-				try
-				{
-					Long trajanje = Long.parseLong(rez.getTrajanje());
-					LocalDate kraj = LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
-					System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
-					izvjestaj.setDatumKraja(kraj.format(dtf) );
-				}
-				catch(Exception e)
-				{
-					izvjestaj.setDatumKraja(rez.getDatum());
-				}
-				*/
+				 * try { Long trajanje = Long.parseLong(rez.getTrajanje()); LocalDate kraj =
+				 * LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
+				 * System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
+				 * izvjestaj.setDatumKraja(kraj.format(dtf) ); } catch(Exception e) {
+				 * izvjestaj.setDatumKraja(rez.getDatum()); }
+				 */
 				rezultat.add(izvjestaj);
 			}
-				
+
 		}
 		return rezultat;
 	}
 
-	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeSaIzvjestajem(TipEntiteta tipEntiteta, Korisnik vlasnik)
-		{
-			List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
-			List<IzvjestajRezervacijaDTO> rezultat = new ArrayList<IzvjestajRezervacijaDTO>();
-			//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-			for(Rezervacija rez : mojeRezervacije)
-			{
-				if(rez.getIzvjestaj()!=null && !rez.getIzvjestaj().trim().equals("") )
-				{
-					IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rez);
-					System.out.println("Trajanje: "+Integer.parseInt(rez.getTrajanje() ) );
-					/*
-					try
-					{
-						Long trajanje = Long.parseLong(rez.getTrajanje());
-						LocalDate kraj = LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
-						System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
-						izvjestaj.setDatumKraja(kraj.format(dtf) );
-					}
-					catch(Exception e)
-					{
-						izvjestaj.setDatumKraja(rez.getDatum());
-					}
-					*/
-					rezultat.add(izvjestaj);
-				}
+	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeSaIzvjestajem(TipEntiteta tipEntiteta, Korisnik vlasnik) {
+		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
+		List<IzvjestajRezervacijaDTO> rezultat = new ArrayList<IzvjestajRezervacijaDTO>();
+		// DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		for (Rezervacija rez : mojeRezervacije) {
+			if (rez.getIzvjestaj() != null && !rez.getIzvjestaj().trim().equals("")) {
+				IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rez);
+				System.out.println("Trajanje: " + Integer.parseInt(rez.getTrajanje()));
+				/*
+				 * try { Long trajanje = Long.parseLong(rez.getTrajanje()); LocalDate kraj =
+				 * LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
+				 * System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
+				 * izvjestaj.setDatumKraja(kraj.format(dtf) ); } catch(Exception e) {
+				 * izvjestaj.setDatumKraja(rez.getDatum()); }
+				 */
+				rezultat.add(izvjestaj);
 			}
-			return rezultat;
 		}
+		return rezultat;
+	}
 
-	public boolean upisiRezervaciju(Rezervacija rezervacija) 
-	{
-		try
-		{
+	public boolean upisiRezervaciju(Rezervacija rezervacija) {
+		try {
 			System.out.println("Upisujem izvjestaj rezervacije");
 			rezervacijaRepozitorijum.save(rezervacija);
 			System.out.println("Izvjestaj upisan");
 			return true;
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("doslo je do greske pri upisu!");
 			return false;
 		}
