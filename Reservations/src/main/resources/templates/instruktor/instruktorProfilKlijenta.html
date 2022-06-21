@@ -10,29 +10,13 @@
 	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-<style>
-a.klijent:link {
-	color: #000;
-	text-decoration: none;
-}
-
-a.klijent:visited {
-	color: #999;
-	text-decoration: none;
-}
-
-a.klijent:hover {
-	text-decoration: none;
-	font-weight: bold;
-}
-</style>
 </head>
 <body>
 	<div class="hold">
 		<div class="header">
 			<div class="container">
 				<div id="logo">
-					<img alt="logo" th:src="${instruktor.linkSlike}" height="90px"
+					<img alt="logo" th:src="${user.linkSlike}" height="90px"
 						width="90px" style="margin-bottom: 90px;">
 					<h3 style="float: right;">Instruktor</h3>
 				</div>
@@ -41,6 +25,8 @@ a.klijent:hover {
 					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj
 							profil</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
+							rezervacija</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji
 							o poslovanju</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
@@ -49,25 +35,46 @@ a.klijent:hover {
 		</div>
 	</div>
 	<div class="panel important">
-		<h2>Prošle rezervacije</h2>
-		<table>
+		<table id="hide" class="twothirds">
 			<tr>
-				<th>Naziv</th>
-				<th style="width:15%">Klijent</th>
-				<th>Datum</th>
-				<th>Trajanje</th>
+				<td><img height="200px" width="200px"
+					th:src="${user.linkSlike}"></img></td>
+				<td></td>
 			</tr>
-			<tr th:each="rez, rezStat : ${rezervacije}">
-				<td th:text="${rez.nazivEntiteta}">Naziv</td>
-				<td><a
-					th:href="@{/instruktor/}+${id+'/klijent/'}+${rez.klijent.ID}"
-					th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}"
-					class="klijent">Klijent</a></td>
-				<td th:text="${rez.datum}">Datum</td>
-				<td th:text="${rez.trajanje}">Trajanje</td>
+
+			<tr>
+				<td>Ime</td>
+				<td th:text="${user.ime}">Ime</td>
+			</tr>
+			<tr>
+				<td>Prezime</td>
+				<td th:text="${user.prezime}">Prezime</td>
+			</tr>
+			<tr>
+				<td>Korisnicko ime</td>
+				<td th:text="${user.korisnickoIme}">Korisnicko ime</td>
+			</tr>
+			<tr>
+				<td>Email</td>
+				<td th:text="${user.email}">Email</td>
+			</tr>
+			<tr>
+				<td>Broj telefona</td>
+				<td th:text="${user.brojTel}">Broj telefona</td>
+			</tr>
+			<tr>
+				<td>Adresa</td>
+				<td th:text="${user.adresa}">Adresa</td>
+			</tr>
+			<tr>
+				<td>Grad</td>
+				<td th:text="${user.grad}">Grad</td>
+			</tr>
+			<tr>
+				<td>Drzava</td>
+				<td th:text="${user.drzava}">Drzava</td>
 			</tr>
 		</table>
-
 
 	</div>
 

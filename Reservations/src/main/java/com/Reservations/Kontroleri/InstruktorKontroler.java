@@ -41,11 +41,11 @@ public class InstruktorKontroler {
 	@Autowired
 	BrisanjeNalogaServis bnServis;
 
-	private Boolean[] select = new Boolean[10000];
-
 	@RequestMapping(value = "")
 	public String getHomePage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
 		List<Usluga> usluge = uslugaServis.findByInstruktor(id);
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, false);
 		model.addAttribute("id", id);
@@ -96,10 +96,9 @@ public class InstruktorKontroler {
 	@RequestMapping(value = "/istorija")
 	public String getHistoryPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
-		for (int i = 0; i < rezervacije.size(); i++)
-			select[i] = false;
-		model.addAttribute("postoji", select);
 		model.addAttribute("rezervacije", rezervacije);
 		return "instruktor/instruktorIstorija";
 	}
@@ -108,13 +107,13 @@ public class InstruktorKontroler {
 	public String getReportsPage(Model model, @PathVariable Long id, @PathVariable Long rId,
 			@RequestParam String izvestaj) {
 		System.out.println("Izvestaj page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
 		System.out.println(izvestaj);
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
 		Rezervacija rez = rezervacijaServis.findById(rId);
 		System.out.println(rez.toString());
 		System.out.println(rez.getIzvjestaj());
-		//this.select[rezervacije.indexOf(rez)] = rezervacijaServis.upisiIzvestajVI(rId, izvestaj);
-		System.out.println(select.toString());
 		return "redirect:/instruktor/" + String.valueOf(id) + "/istorija";
 	}
 
@@ -149,4 +148,13 @@ public class InstruktorKontroler {
 		return "/instruktor/instruktorIzvestajiTabela";
 	}
 	
+	@RequestMapping(value = "/klijent/{rId}")
+	public String getDataPage(Model model, @PathVariable Long id, @PathVariable Long rId) {
+		System.out.println("Profil klijenta za instruktora page was called!");
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		Korisnik u = korisnikServis.findById(rId);
+		model.addAttribute("user", u);
+		return "instruktor/instruktorProfilKlijenta";
+	}
 }
