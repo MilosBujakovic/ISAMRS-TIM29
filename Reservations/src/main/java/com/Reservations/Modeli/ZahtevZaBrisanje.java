@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.RegistracijaVlasnikaInstruktoraDTO;
 import com.Reservations.Modeli.enums.TipRegistracije;
 @Entity
@@ -76,6 +77,20 @@ public class ZahtevZaBrisanje {
 			this.brojTel = regRequest.getPhone();
 			
 			this.razlogRegistracije = regRequest.getRegisterReason();
+		}
+
+		public ZahtevZaBrisanje(BrisanjeKorisnikaZahtjevDTO zahtjev) {
+			
+			this.korisnickoIme = zahtjev.getKorisnickoIme();
+			this.ime = zahtjev.getIme();
+			this.prezime = zahtjev.getPrezime();
+			this.email = zahtjev.getEmail();
+			this.lozinka = zahtjev.getLozinka();
+			this.adresa = zahtjev.getAdresa();
+			this.grad = zahtjev.getGrad();
+			this.drzava = zahtjev.getDrzava();
+			this.brojTel = zahtjev.getBrojTel();
+			this.razlogRegistracije = zahtjev.getRazlog();
 		}
 
 		public long getID() {

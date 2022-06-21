@@ -8,8 +8,8 @@
 <title>Profil instruktora</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
-		<script
-src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 </script>
 </head>
 <body>
@@ -34,10 +34,237 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 			</div>
 		</div>
 	</div>
-			
+
 
 	<div class="panel important">
-	<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-</div>
+	<form>
+		<label class="opis" for="pocetniDatum">Početni datum: </label> <input
+			class="opis" id="pocetniDatum" type="date" name="pocetniDatum"
+			value=""> <label class="opis" for="krajnjiDatum">Krajnji
+			datum: </label> <input class="opis" id="krajnjiDatum" type="date"
+			name="krajnjiDatum" value="">
+
+
+		<!--input th:formaction="@{/admin/izvestaji/print}" type="submit" value="Odstampaj" /-->
+		<input class="btn btn-primary"
+			th:formaction="@{/instruktor/}+${id+'/izvestaji/tabela'}"
+			type="submit" value="Prikaži" /> 
+			</form>
+		<select id="odabirGrafika" onchange="prikazi_grafik()">
+			<option value="grafikSedmica">Sedmični</option>
+			<option value="grafikMjesec">Mesečni</option>
+			<option value="grafikGodina">Godišnji</option>
+		</select>
+
+		<canvas class="twothirds" id="grafikSedmica" width="200px" height="200px"></canvas>
+		<canvas class="twothirds" style="display: none;"
+			id="grafikMjesec" width="200px" height="200px"></canvas>
+		<canvas style="display: none;"
+			id="grafikGodina" width="200px" height="200px"></canvas>
+
+		<script th:inline="javascript">
+	
+	function prikazi_grafik()
+	{
+		var grafik = document.getElementById("odabirGrafika");
+		if(grafik.value=="grafikSedmica")
+		{
+			document.getElementById("grafikSedmica").style.display="block";
+			document.getElementById("grafikMjesec").style.display="none";
+			document.getElementById("grafikGodina").style.display="none";
+		}
+		else if(grafik.value=="grafikMjesec")
+		{
+			document.getElementById("grafikSedmica").style.display="none";
+			document.getElementById("grafikMjesec").style.display="block";
+			document.getElementById("grafikGodina").style.display="none";
+		}
+		else if(grafik.value=="grafikGodina")
+		{
+			document.getElementById("grafikSedmica").style.display="none";
+			document.getElementById("grafikMjesec").style.display="none";
+			document.getElementById("grafikGodina").style.display="block";
+		}
+	}
+	
+	/*<![CDATA[*/
+	var sedmicnaPoslovanja = /*[[${sedmicnaPoslovanja}]]*/ 'default';
+	var mjesecnaPoslovanja = /*[[${mjesecnaPoslovanja}]]*/ 'default';
+	var godisnjaPoslovanja = /*[[${godisnjaPoslovanja}]]*/ 'default';
+	/*]]>*/
+	//console.log(sedmicnaPoslovanja);
+	var sedmicneLabele = [];
+	var sedmicniPrihodi = [];
+	for(var poslovanje of sedmicnaPoslovanja)
+	{
+		sedmicneLabele.push(poslovanje.nazivEntiteta);
+	}
+	//console.log(sedmicneLabele);
+	for(var poslovanje of sedmicnaPoslovanja)
+	{
+		sedmicniPrihodi.push(poslovanje.prihod);
+	}
+	//console.log(sedmicniPrihodi);
+	const ctx = document.getElementById('grafikSedmica').getContext('2d');
+	const sedmicniGraf = new Chart(ctx, {
+	    type: 'bar',
+	    data: {
+	        labels: sedmicneLabele,
+	        datasets: [{
+	            label: 'Broj rezervacija po danu',
+	            data: sedmicniPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(102, 51, 0, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(102, 51, 0, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+	
+	//console.log(mjesecnaPoslovanja);
+	var mjesecneLabele = [];
+	var mjesecniPrihodi = [];
+	for(var poslovanje of mjesecnaPoslovanja)
+	{
+		mjesecneLabele.push(poslovanje.nazivEntiteta);
+	}
+	//console.log(mjesecneLabele);
+	for(var poslovanje of mjesecnaPoslovanja)
+	{
+		mjesecniPrihodi.push(poslovanje.prihod);
+	}
+	//console.log(mjesecniPrihodi);
+	const ctx2 = document.getElementById('grafikMjesec').getContext('2d');
+	const mjesecniGraf = new Chart(ctx2, {
+	    type: 'bar',
+	    data: {
+	        labels: mjesecneLabele,
+	        datasets: [{
+	            label: 'Broj rezervacija u sedmici',
+	            data: mjesecniPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(102, 51, 0, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(102, 51, 0, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+	
+	
+	//console.log(godisnjaPoslovanja);
+	var godisnjeLabele = [];
+	var godisnjiPrihodi = [];
+	for(var poslovanje of godisnjaPoslovanja)
+	{
+		godisnjeLabele.push(poslovanje.nazivEntiteta);
+	}
+	//console.log(godisnjeLabele);
+	for(var poslovanje of godisnjaPoslovanja)
+	{
+		godisnjiPrihodi.push(poslovanje.prihod);
+	}
+	//console.log(godisnjiPrihodi);
+	const ctx3 = document.getElementById('grafikGodina').getContext('2d');
+	const godisnjiGraf = new Chart(ctx3, {
+	    type: 'bar',
+	    data: {
+	        labels: godisnjeLabele,
+	        datasets: [{
+	            label: 'Broj rezervacija u mjesecu',
+	            data: godisnjiPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(102, 51, 0, 0.2)',
+	                'rgba(0, 255, 255, 0.2)',
+	                'rgba(255, 51, 204, 0.2)',
+	                'rgba(0, 255, 0, 0.2)',
+	                'rgba(204, 51, 0, 0.2)',
+	                'rgba(102, 102, 153, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(102, 51, 0, 1)',
+	                'rgba(0, 255, 255, 1)',
+	                'rgba(255, 51, 204, 1)',
+	                'rgba(0, 255, 0, 1)',
+	                'rgba(204, 51, 0, 1)',
+	                'rgba(102, 102, 153, 1)'
+	            ],
+	            borderWidth: 1
+	        }]
+	    },
+	    options: {
+	        responsive: true,
+	        scales: {
+	            yAxes: [{
+	                ticks: {
+	                    beginAtZero: true
+	                }
+	            }]
+	        }
+	    }
+	});
+	
+	
+	</script>
+	</div>
 </body>
 </html>

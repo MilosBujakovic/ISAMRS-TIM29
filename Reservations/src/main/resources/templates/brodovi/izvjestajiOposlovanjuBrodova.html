@@ -96,9 +96,11 @@ href="/css/moje_vikendice.css"></link>
 	var mjesecnaPoslovanja = /*[[${mjesecnaPoslovanja}]]*/ 'default';
 	var godisnjaPoslovanja = /*[[${godisnjaPoslovanja}]]*/ 'default';
 	/*]]>*/
+	
 	//console.log(sedmicnaPoslovanja);
 	var sedmicneLabele = [];
 	var sedmicniPrihodi = [];
+	var sedmicneRezervacije = [];
 	for(var poslovanje of sedmicnaPoslovanja)
 	{
 		sedmicneLabele.push(poslovanje.nazivEntiteta);
@@ -107,6 +109,7 @@ href="/css/moje_vikendice.css"></link>
 	for(var poslovanje of sedmicnaPoslovanja)
 	{
 		sedmicniPrihodi.push(poslovanje.prihod);
+		sedmicneRezervacije.push(poslovanje.brojRezervacija);
 	}
 	//console.log(sedmicniPrihodi);
 	const ctx = document.getElementById('grafikSedmica').getContext('2d');
@@ -115,8 +118,31 @@ href="/css/moje_vikendice.css"></link>
 	    data: {
 	        labels: sedmicneLabele,
 	        datasets: [{
-	            label: 'Broj rezervacija po danu',
+	            label: 'Prihod po danu',
 	            data: sedmicniPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(102, 51, 0, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(102, 51, 0, 1)'
+	            ],
+	            borderWidth: 1
+	        },
+	        {
+	            label: 'Broj rezervacija po danu',
+	            data: sedmicneRezervacije,
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.2)',
 	                'rgba(54, 162, 235, 0.2)',
@@ -153,6 +179,7 @@ href="/css/moje_vikendice.css"></link>
 	//console.log(mjesecnaPoslovanja);
 	var mjesecneLabele = [];
 	var mjesecniPrihodi = [];
+	var mjesecneRezervacije = [];
 	for(var poslovanje of mjesecnaPoslovanja)
 	{
 		mjesecneLabele.push(poslovanje.nazivEntiteta);
@@ -161,6 +188,7 @@ href="/css/moje_vikendice.css"></link>
 	for(var poslovanje of mjesecnaPoslovanja)
 	{
 		mjesecniPrihodi.push(poslovanje.prihod);
+		mjesecneRezervacije.push(poslovanje.brojRezervacija);
 	}
 	//console.log(mjesecniPrihodi);
 	const ctx2 = document.getElementById('grafikMjesec').getContext('2d');
@@ -169,8 +197,29 @@ href="/css/moje_vikendice.css"></link>
 	    data: {
 	        labels: mjesecneLabele,
 	        datasets: [{
-	            label: 'Broj rezervacija u sedmici',
+	            label: 'Prihod u sedmici',
 	            data: mjesecniPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(102, 51, 0, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(102, 51, 0, 1)'
+	            ],
+	            borderWidth: 1
+	        },
+	        {
+	            label: 'Broj rezervacija u sedmici',
+	            data: mjesecneRezervacije,
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.2)',
 	                'rgba(54, 162, 235, 0.2)',
@@ -206,6 +255,7 @@ href="/css/moje_vikendice.css"></link>
 	//console.log(godisnjaPoslovanja);
 	var godisnjeLabele = [];
 	var godisnjiPrihodi = [];
+	var godisnjeRezervacije = [];
 	for(var poslovanje of godisnjaPoslovanja)
 	{
 		godisnjeLabele.push(poslovanje.nazivEntiteta);
@@ -214,6 +264,7 @@ href="/css/moje_vikendice.css"></link>
 	for(var poslovanje of godisnjaPoslovanja)
 	{
 		godisnjiPrihodi.push(poslovanje.prihod);
+		godisnjeRezervacije.push(poslovanje.brojRezervacija);
 	}
 	//console.log(godisnjiPrihodi);
 	const ctx3 = document.getElementById('grafikGodina').getContext('2d');
@@ -222,8 +273,41 @@ href="/css/moje_vikendice.css"></link>
 	    data: {
 	        labels: godisnjeLabele,
 	        datasets: [{
-	            label: 'Broj rezervacija u mjesecu',
+	            label: 'Prihod u mjesecu',
 	            data: godisnjiPrihodi,
+	            backgroundColor: [
+	                'rgba(255, 99, 132, 0.2)',
+	                'rgba(54, 162, 235, 0.2)',
+	                'rgba(255, 206, 86, 0.2)',
+	                'rgba(75, 192, 192, 0.2)',
+	                'rgba(153, 102, 255, 0.2)',
+	                'rgba(255, 159, 64, 0.2)',
+	                'rgba(102, 51, 0, 0.2)',
+	                'rgba(0, 255, 255, 0.2)',
+	                'rgba(255, 51, 204, 0.2)',
+	                'rgba(0, 255, 0, 0.2)',
+	                'rgba(204, 51, 0, 0.2)',
+	                'rgba(102, 102, 153, 0.2)'
+	            ],
+	            borderColor: [
+	                'rgba(255, 99, 132, 1)',
+	                'rgba(54, 162, 235, 1)',
+	                'rgba(255, 206, 86, 1)',
+	                'rgba(75, 192, 192, 1)',
+	                'rgba(153, 102, 255, 1)',
+	                'rgba(255, 159, 64, 1)',
+	                'rgba(102, 51, 0, 1)',
+	                'rgba(0, 255, 255, 1)',
+	                'rgba(255, 51, 204, 1)',
+	                'rgba(0, 255, 0, 1)',
+	                'rgba(204, 51, 0, 1)',
+	                'rgba(102, 102, 153, 1)'
+	            ],
+	            borderWidth: 1
+	        },
+	        {
+	            label: 'Broj rezervacija u mjesecu',
+	            data: godisnjeRezervacije,
 	            backgroundColor: [
 	                'rgba(255, 99, 132, 0.2)',
 	                'rgba(54, 162, 235, 0.2)',
@@ -266,6 +350,7 @@ href="/css/moje_vikendice.css"></link>
 	        }
 	    }
 	});
+	
 	
 	
 	</script>

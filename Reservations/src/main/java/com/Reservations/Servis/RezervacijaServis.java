@@ -8,12 +8,11 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.collections.functors.IfClosure;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import org.springframework.data.domain.Sort;
-
+import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
-
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
@@ -349,5 +348,84 @@ public class RezervacijaServis {
 	   }
 	   return mojiKlijenti;
 	
+	}
+
+	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeBezIzvjestaja(TipEntiteta tipEntiteta, Korisnik vlasnik) 
+	{
+		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
+		List<IzvjestajRezervacijaDTO> rezultat = new ArrayList<IzvjestajRezervacijaDTO>();
+		//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		
+		
+		for(Rezervacija rez : mojeRezervacije)
+		{
+			if(rez.getIzvjestaj()==null || rez.getIzvjestaj().trim().equals("") )
+			{
+				IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rez);
+				
+				/*
+				try
+				{
+					Long trajanje = Long.parseLong(rez.getTrajanje());
+					LocalDate kraj = LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
+					System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
+					izvjestaj.setDatumKraja(kraj.format(dtf) );
+				}
+				catch(Exception e)
+				{
+					izvjestaj.setDatumKraja(rez.getDatum());
+				}
+				*/
+				rezultat.add(izvjestaj);
+			}
+				
+		}
+		return rezultat;
+	}
+
+	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeSaIzvjestajem(TipEntiteta tipEntiteta, Korisnik vlasnik)
+		{
+			List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
+			List<IzvjestajRezervacijaDTO> rezultat = new ArrayList<IzvjestajRezervacijaDTO>();
+			//DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			for(Rezervacija rez : mojeRezervacije)
+			{
+				if(rez.getIzvjestaj()!=null && !rez.getIzvjestaj().trim().equals("") )
+				{
+					IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rez);
+					System.out.println("Trajanje: "+Integer.parseInt(rez.getTrajanje() ) );
+					/*
+					try
+					{
+						Long trajanje = Long.parseLong(rez.getTrajanje());
+						LocalDate kraj = LocalDate.parse(rez.getDatum(), dtf).plusDays(trajanje);
+						System.out.println("Trajanje: "+ trajanje+" kraj: "+ kraj.format(dtf));
+						izvjestaj.setDatumKraja(kraj.format(dtf) );
+					}
+					catch(Exception e)
+					{
+						izvjestaj.setDatumKraja(rez.getDatum());
+					}
+					*/
+					rezultat.add(izvjestaj);
+				}
+			}
+			return rezultat;
+		}
+
+	public boolean upisiRezervaciju(Rezervacija rezervacija) 
+	{
+		try
+		{
+			System.out.println("Upisujem izvjestaj rezervacije");
+			rezervacijaRepozitorijum.save(rezervacija);
+			System.out.println("Izvjestaj upisan");
+			return true;
+		}
+		catch(Exception e)
+		{
+			System.out.println("doslo je do greske pri upisu!");
+			return false;
+		}
 	}
 }
