@@ -109,7 +109,7 @@ public class RezervacijaKontroler {
 		return "profilKorisnika";
 	}
 	
-	@RequestMapping(value = "/rezervisiUslugu/{id}")
+	@RequestMapping(value = "/rezervisiUslugu/{id}/{klijent_id}")
 	public String rezerv( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) throws AddressException, MessagingException, IOException {
 	Korisnik k=korisnikServis.findById(klijent_id);
 		Rezervacija user=rezervacijaServis.findById(id);
@@ -128,13 +128,14 @@ public class RezervacijaKontroler {
 	
 	
 	 		System.out.println("AzurirajPodatke page was called!");
-
+	 		Korisnik k=korisnikServis.findById(id);
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
 
 	 		
 
 	 		model.addAttribute("pod", user);
-	 		System.out.println(model.toString());
+	 		model.addAttribute("kor",k);
+	 		System.out.println(user.size());
 	 		 return "MojeRezervacije";
 	 	  }
 	@RequestMapping(value = "/IstorijaRez/{id}")
@@ -142,15 +143,16 @@ public class RezervacijaKontroler {
 	
 	
 	 		System.out.println("AzurirajPodatke page was called!");
-
+	 		Korisnik k=korisnikServis.findById(id);
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
-
+            
 	 		
-
+	 		model.addAttribute("kor",k);
 	 		model.addAttribute("pod", user);
 	 		System.out.println(model.toString());
 	 		 return "IstorijaRezervacija";
 	 	  }
+	
 	
 	@RequestMapping(value = "/IstorijaRezVik/{id}")
 	public String IstMoje(@PathVariable Long id,Model model){
@@ -159,7 +161,19 @@ public class RezervacijaKontroler {
 	 		System.out.println("AzurirajPodatke page was called!");
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateVik(id);
 	 		model.addAttribute("pod", user);
-	 		System.out.println(model.toString());
+	 		
+	 		Korisnik k=korisnikServis.findById(id);
+			List<Rezervacija>vik1=rezervacijaServis.RezSortCena(user);
+			List<Rezervacija>vik2=rezervacijaServis.RezSortDatum(user);
+			List<Rezervacija>vik3=rezervacijaServis.RezSortTrajanje(user);
+			for (Rezervacija rezervacija : vik1) {
+				System.out.println(rezervacija.toString());
+			}
+			model.addAttribute("kor",k);
+			model.addAttribute("sortcene", vik1);
+			model.addAttribute("sortdatum", vik2);
+			model.addAttribute("sorttrajanje",vik3);
+	 		
 	 		 return "IstorijaRezEntiteta";
 	 	  }
 	
@@ -170,6 +184,14 @@ public class RezervacijaKontroler {
 	 		System.out.println("AzurirajPodatke page was called!");
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateBrod(id);
 	 		model.addAttribute("pod", user);
+	 		Korisnik k=korisnikServis.findById(id);
+	 		List<Rezervacija>brd1=rezervacijaServis.RezSortCena(user);
+			List<Rezervacija>brd2=rezervacijaServis.RezSortDatum(user);
+			List<Rezervacija>brd3=rezervacijaServis.RezSortTrajanje(user);
+			model.addAttribute("kor",k);
+			model.addAttribute("sortcene", brd1);
+			model.addAttribute("sortdatum", brd2);
+			model.addAttribute("sorttrajanje",brd3);
 	 		System.out.println(model.toString());
 	 		 return "IstorijaRezEntiteta";
 	 	  }
@@ -180,6 +202,14 @@ public class RezervacijaKontroler {
 	 		System.out.println("AzurirajPodatke page was called!");
 	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDateUsluga(id);
 	 		model.addAttribute("pod", user);
+	 		Korisnik k=korisnikServis.findById(id);
+	 		List<Rezervacija>usl1=rezervacijaServis.RezSortCena(user);
+			List<Rezervacija>usl2=rezervacijaServis.RezSortDatum(user);
+			List<Rezervacija>usl3=rezervacijaServis.RezSortTrajanje(user);
+			model.addAttribute("kor",k);
+			model.addAttribute("sortcene", usl1);
+			model.addAttribute("sortdatum", usl2);
+			model.addAttribute("sorttrajanje",usl3);
 	 		System.out.println(model.toString());
 	 		 return "IstorijaRezEntiteta";
 	 	  }

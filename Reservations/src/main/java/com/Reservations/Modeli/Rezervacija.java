@@ -1,5 +1,9 @@
 package com.Reservations.Modeli;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -204,7 +208,12 @@ public class Rezervacija {
 				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + "]";
 	}
 
+	 
 	
+
+	
+	
+		 
 	
 	
 }
