@@ -450,4 +450,21 @@ public class RezervacijaServis {
 			return false;
 		}
 	}
+
+	public List<String> findByVikendica(Vikendica usluga) {
+		List<Rezervacija>li2=rezervacijaRepozitorijum.findAll();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			if(rezervacija.getTipEntiteta().equals(TipEntiteta.vikendica)) {
+				li.add(rezervacija.getDatum());
+				for (int i=1;i<Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}
+		}
+		return li;
+	}
 }

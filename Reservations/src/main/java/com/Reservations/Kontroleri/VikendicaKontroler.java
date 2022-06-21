@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +21,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 import com.Reservations.Servis.KorisnikServis;
+import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.SnimanjeDatotekaServis;
 import com.Reservations.Servis.VikendicaServis;
 
@@ -40,6 +44,9 @@ public class VikendicaKontroler
 	
 	@Autowired
 	SnimanjeDatotekaServis snimanjeDatotekaServis;
+	
+	@Autowired
+	RezervacijaServis rezervacijaServis;
 	
 	public String putanjaSlika = "/img/vikendice/";
 
@@ -250,6 +257,21 @@ public class VikendicaKontroler
 		System.out.println("ProfilVikendice page was called!");
 		Korisnik k=korisnikServis.findById(id2);
 		Vikendica usluga = vikendicaServis.findById(id);
+		List<String>li=rezervacijaServis.findByVikendica(usluga);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<LocalDate>d=new ArrayList<LocalDate>();
+		List<String>datumi=new ArrayList<String>(li);
+		for (String string : li) {
+			d.add(LocalDate.parse(string,dtf2));
+		}
+		for (LocalDate localDate : d) {
+			datumi.add(localDate.format(dtf));
+		}
+		
+		//LocalDate.parse(datumi.toString(),dtf);
+		
+		model.addAttribute("datumi",datumi);
 		List<Vikendica> lista = vikendicaServis.findByVlasnik(usluga.getVlasnik().getID());
 		model.addAttribute("vik", usluga);
 		model.addAttribute("vikVlas", lista);
