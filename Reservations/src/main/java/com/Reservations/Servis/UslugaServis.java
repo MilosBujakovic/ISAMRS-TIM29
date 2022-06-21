@@ -309,4 +309,18 @@ public class UslugaServis {
 		return godisnjaPoslovanja;
 	}
 
+	public List<Usluga> UslFilter(String brodovifil) {
+		List<Usluga>li2=uslugaRepozitorijum.findAll();
+	    List<Usluga>li=new ArrayList<Usluga>();
+		 for (Usluga usluga : li2) {
+			if(usluga.getAdresa().equals(brodovifil)) {
+				li.add(usluga);
+			}else if (brodovifil.equals("svi")) {
+				return li2;
+			}
+		}
+		 return li;
+		
+	}
+
 }

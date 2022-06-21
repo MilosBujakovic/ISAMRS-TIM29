@@ -1151,7 +1151,7 @@ footer {
         <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
         <li><a href="#" onclick="sort2()"> Sort po nazivu</a></li>
         <li><a href="#" onclick="sort3()"> Sort po adresi</a></li>
-        
+          <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
@@ -1172,7 +1172,13 @@ footer {
  
 
 </form>
+
+
 <form th:action="@{/Filter/}+${kor.ID}">
+  
+  
+<input type="radio" value="svi" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Svi</input>
+<br>
   
 <input type="radio" value="camac" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Camac</input>
 <br>
@@ -1184,7 +1190,13 @@ footer {
 <br>
 
 <input type="radio" value="recni brod"  onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Recni brod</input>
-
+ 
+ <input type="radio" value="Novi Sad"  onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Novi Sad</input>
+ 
+ <input type="radio" value="Beograd"  onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Beograd</input>
+ 
+ <input type="radio" value="Manjaca"  onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Manjaca</input>
+ 
 
 </form>
 <br><br><br>

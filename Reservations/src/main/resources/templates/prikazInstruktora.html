@@ -1148,13 +1148,34 @@ footer {
       <ul class="nav">
       
        <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
-        <li><a href="#" onclick="sort2()"> Sort po nazivu</a></li>
-        <li><a href="#" onclick="sort3()"> Sort po adresi</a></li>
+        <li><a href="#" onclick="sort2()"> Sort po nazivu avanture</a></li>
+        <li><a href="#" onclick="sort3()"> Sort po lokaciji avanture</a></li>
+                  <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
   </div>
 </div>
+
+<br><br><br><br><br>
+<form th:action="@{/FilterUsl/}+${kor.ID}">
+  
+  
+<input type="radio" value="svi" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Svi</input>
+<br>
+  
+<input type="radio" value="Novi Sad" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Novi Sad</input>
+<br>
+
+<input type="radio" value="Beograd" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px">Beograd</input>
+<br>
+
+<input type="radio" value="Nis" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px" >Nis</input>
+<br>
+<input type="radio" value="Bec" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px" >Bec</input>
+<br>
+<input type="radio" value="Bujanovac" onclick="this.form.submit()" name="brodovifil" style="margin-left:45px" >Bujanovac</input>
+<br>
 
 <br><br><br><br><br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>

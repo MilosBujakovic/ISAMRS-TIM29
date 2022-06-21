@@ -424,6 +424,18 @@ public class VikendicaServis {
 		System.out.println(li.toString());
 		return li;
 	}
+	public List<Vikendica> VikFilter(String brodovifil) {
+		List<Vikendica>li2=vikendicaRepozitorijum.findAll();
+	    List<Vikendica>li=new ArrayList<Vikendica>();
+		 for (Vikendica vik : li2) {
+			 if(brodovifil.equals("svi")){
+				return li2;
+			}else if(vik.getAdresa().equals(brodovifil)) {
+				li.add(vik);
+			}
+		}
+		 return li;
+	}
 
 
 }

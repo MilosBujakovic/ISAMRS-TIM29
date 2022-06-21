@@ -926,9 +926,7 @@ tr:nth-child(even) {
 
 
       <ul class="nav">
-        <li><a href="#">Moje rezervacije</a></li>
-         <li><a href="#">Pisanje zalbe</a></li>
-         <li><a href="#">Istorija rezervacija</a></li>
+             <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
          <li><a href="#" onclick="sort()" >Sort po ceni</a></li>
         <li><a href="#" onclick="sort2()"> Sort po datumu</a></li>
         <li><a href="#" onclick="sort3()"> Sort po trajanju</a></li>

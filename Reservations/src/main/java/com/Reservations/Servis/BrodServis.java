@@ -271,6 +271,12 @@ public class BrodServis
 		 for (Brod brod : li2) {
 			if(brod.getTip().equals(tip)) {
 				li.add(brod);
+				}
+				else if(brod.getAdresa().equals(tip)) {
+					li.add(brod);
+				
+			}else if (tip.equals("svi")) {
+				return li2;
 			}
 		}
 		 return li;

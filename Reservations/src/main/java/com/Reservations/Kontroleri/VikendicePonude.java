@@ -83,5 +83,26 @@ public class VikendicePonude {
 	      return "prikazVikendica";
 	  }
 		
+	@RequestMapping(value = "/FilterVik/{id}")
+	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String brodovifil){
+		System.out.println("PrikazBrodova page was called!");
+		List<Vikendica>br=vikendicaServis.VikFilter(brodovifil);
+		System.out.println("velicina:"+br.size());
+		System.out.println(br.toString());
+		//List<Brod>brodovi=brodServis.BrodPretraga(s);
+		Korisnik k=korServis.findById(id);
+		model.addAttribute("kor", k);
+		model.addAttribute("vikendice", br);
+		System.out.println(model.toString());
+		List<Vikendica>vik1=vikendicaServis.VikSortCena();
+		List<Vikendica>vik2=vikendicaServis.VikSortNaziv();
+		List<Vikendica>vik3=vikendicaServis.VikSortAdresa();
+		
+		model.addAttribute("sortvikendice", vik1);
+		model.addAttribute("sortviknaziv", vik2);
+		model.addAttribute("sortvikadresa",vik3);
+		
+	      return "prikazVikendica";
+	  }
 	   
 }

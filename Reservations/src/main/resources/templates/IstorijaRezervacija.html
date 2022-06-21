@@ -926,10 +926,8 @@ tr:nth-child(even) {
 
 
       <ul class="nav">
-        <li><a href="#">Moje rezervacije</a></li>
-         <li><a href="#">Pisanje zalbe</a></li>
-         <li><a href="#">Istorija rezervacija</a></li>
-        
+ 
+            <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
         <li><a th:href="@{/login}">Log out</a></li>
       </ul>
     </div>

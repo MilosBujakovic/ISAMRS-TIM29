@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
@@ -67,6 +68,28 @@ public class InstruktoriPonude {
 		model.addAttribute("sortnaziv", vik2);
 		model.addAttribute("sortadresa",vik3);
 		System.out.println(model.toString());
+	      return "prikazInstruktora";
+	  }
+	
+	@RequestMapping(value = "/FilterUsl/{id}")
+	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String brodovifil){
+		System.out.println("PrikazBrodova page was called!");
+		List<Usluga>br=uslugaServis.UslFilter(brodovifil);
+		System.out.println("velicina:"+br.size());
+		System.out.println(br.toString());
+		//List<Brod>brodovi=brodServis.BrodPretraga(s);
+		Korisnik k=korServis.findById(id);
+		model.addAttribute("kor", k);
+		model.addAttribute("usluga", br);
+		System.out.println(model.toString());
+		List<Usluga>usl1=uslugaServis.UslugaSortCena();
+		List<Usluga>usl2=uslugaServis.UslugaSortNaziv();
+		List<Usluga>usl3=uslugaServis.UslugaSortAdresa();
+		
+		model.addAttribute("sortcena", usl1);
+		model.addAttribute("sortnaziv", usl2);
+		model.addAttribute("sortadresa",usl3);
+		
 	      return "prikazInstruktora";
 	  }
 }
