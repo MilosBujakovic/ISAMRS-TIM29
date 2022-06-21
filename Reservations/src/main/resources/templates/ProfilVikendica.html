@@ -45,10 +45,8 @@ button{
 <meta charset="UTF-8">
 <title>Profil usluge</title>
 
-<link rel="stylesheet" type="text/css" media="all"
-	href="/css/instruktorProfil.css" th:href="@{/css/index.css}">
-<link rel="stylesheet" type="text/css" media="all"
-	href="/css/uslugaProfil.css" th:href="@{/css/uslugaProfil.css}">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/index.css}">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/uslugaProfil.css}">
 	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	
 </head>
@@ -59,8 +57,7 @@ button{
 			
 
 				<ul class="nav">
-					<li><a href="#">O nama</a></li>
-					<li><a href="#">Kontakt</a></li>
+					  <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
 					<li><a th:href="@{/login}">Log in</a></li>
 				</ul>
 			</div>
@@ -93,13 +90,13 @@ button{
 <br>
 <div class="block">
     <label>Trajanje:</label>
-    <input type="text"  name="trajanje" />
+    <input type="number"  name="trajanje" />
   
 </div>
 <br>
 <div class="block">
     <label>Broj osoba:</label>
-    <input type="text" name="maxOsoba" />
+    <input type="number" name="maxOsoba" />
   
 </div>
 
