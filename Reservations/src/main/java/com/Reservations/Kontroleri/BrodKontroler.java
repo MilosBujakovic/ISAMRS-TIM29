@@ -31,12 +31,16 @@ public class BrodKontroler {
 	@Autowired
 	KorisnikServis korisnikServis;
 	
+
+	
+
 	@Autowired
 	BrodServis brodServis;
 	
 	public String putanjaSlikaBrodova = "/img/brodovi/";
 	
-	@RequestMapping(value = "/klijent/brod/{id}")
+	//@RequestMapping(value = "/klijent/brod/{id}")
+    @RequestMapping(value = "/brod/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id) {
 		System.out.println("BrodKlijentProfil page was called!");
 		Brod usluga = uslugaServis.findById(id);

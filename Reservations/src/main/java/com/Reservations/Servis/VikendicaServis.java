@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.VikendicaDTO;
+
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
@@ -386,5 +389,53 @@ public class VikendicaServis {
 		
 		return godisnjaPoslovanja;
 	}
+	public List<Vikendica> VikendicaPretraga(String s) {
+		
+		List<Vikendica>li=new ArrayList<Vikendica>();
+		List<Vikendica>li2=vikendicaRepozitorijum.findAll();
+		for (Vikendica e : li2) {
+			if(e.getAdresa().toLowerCase().contains(s.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(e.getNaziv().toLowerCase().contains(s.toLowerCase())) {
+				li.add(e);
+				continue;
+			}
+			if(String.valueOf(e.getCena()).contains(s)) {
+				li.add(e);
+				continue;
+			}
+		}
+		return li;
+	}
+	public List<Vikendica> VikSortCena() {
+		List<Vikendica>li=vikendicaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "cena"));
+		System.out.println(li.toString());
+		return li;
+	}
+	public List<Vikendica> VikSortNaziv() {
+		List<Vikendica>li=vikendicaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "naziv"));
+		System.out.println(li.toString());
+		return li;
+	}
+	public List<Vikendica> VikSortAdresa() {
+		List<Vikendica>li=vikendicaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "adresa"));
+		System.out.println(li.toString());
+		return li;
+	}
+	public List<Vikendica> VikFilter(String brodovifil) {
+		List<Vikendica>li2=vikendicaRepozitorijum.findAll();
+	    List<Vikendica>li=new ArrayList<Vikendica>();
+		 for (Vikendica vik : li2) {
+			 if(brodovifil.equals("svi")){
+				return li2;
+			}else if(vik.getAdresa().equals(brodovifil)) {
+				li.add(vik);
+			}
+		}
+		 return li;
+	}
+
 
 }

@@ -80,6 +80,13 @@ public String registerOwner( @PathVariable Long id,Korisnik user,ZahtevZaBrisanj
 	return "AzurirajPodatke";
 }
 
+@RequestMapping("/zalba/{id}")
+public  ModelAndView home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id) {
 
+    user=userService.findById(id);
+     model.addAttribute("pod",user);
+    System.out.println(user.toString());
+    return new  ModelAndView("StranicaZaZalbu");
+}
 	
 } 

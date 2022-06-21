@@ -51,6 +51,9 @@ public class BrodoviPonude {
 		List<Brod>brodovi=brodServis.listAll();
 		model.addAttribute("brodovi", brodovi);
 		
+		
+
+		
 	      return "OsnovniPodaciBrod";
 	  }
 
@@ -72,14 +75,26 @@ public class BrodoviPonude {
 		
 	      return "prikazBrodova";
 	  }
-	@RequestMapping(value = "/Filter/{id}")
-	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String s){
+	
+	@RequestMapping(value = "/OSPretragaBrod")
+	  public String getOsPage(Model model,@RequestParam String s){
 		System.out.println("PrikazBrodova page was called!");
-		List<Brod>br=brodServis.BrodFilter();
 		List<Brod>brodovi=brodServis.BrodPretraga(s);
+		model.addAttribute("brodovi", brodovi);
+		
+	      return "OsnovniPodaciBrod";
+	  }
+	
+	@RequestMapping(value = "/Filter/{id}")
+	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String brodovifil){
+		System.out.println("PrikazBrodova page was called!");
+		List<Brod>br=brodServis.BrodFilter(brodovifil);
+		System.out.println("velicina:"+br.size());
+		System.out.println(br.toString());
+		//List<Brod>brodovi=brodServis.BrodPretraga(s);
 		Korisnik k=korServis.findById(id);
 		model.addAttribute("kor", k);
-		model.addAttribute("brodovi", brodovi);
+		model.addAttribute("brodovi", br);
 		System.out.println(model.toString());
 		List<Brod>brod=brodServis.BrodSortCena();
 		List<Brod>brod2=brodServis.BrodSortNaziv();
