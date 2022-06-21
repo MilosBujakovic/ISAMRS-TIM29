@@ -65,6 +65,7 @@ public class VlasnikVikendiceKontroler {
 		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
 		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
+		
 		return "/vikendice/vlasnikVikendicePocetna.html";
 	}
 

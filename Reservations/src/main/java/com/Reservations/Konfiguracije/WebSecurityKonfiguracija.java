@@ -72,7 +72,7 @@ public class WebSecurityKonfiguracija extends WebSecurityConfigurerAdapter {
                 //svim korisnicima dopusti da pristupe putanjama /auth/**
                 //.antMatchers("/auth/**").permitAll()
                     .antMatchers("/auth/change-password").permitAll()
-                    .antMatchers("*/vikendicaVlasnik/prikaziVikendice").hasAuthority("VikendicaVlasnik")
+                    .antMatchers("*/vikendicaVlasnik/prikaziVikendice/*/*").hasAuthority("VikendicaVlasnik")
                     .antMatchers("/patient/getMedicalRecords").hasAuthority("VikendicaVlasnik")
                 //svaki zahtev mora biti autorizovan
                 .anyRequest().authenticated().and()
