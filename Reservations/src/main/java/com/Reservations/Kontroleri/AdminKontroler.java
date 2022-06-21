@@ -40,14 +40,19 @@ import com.Reservations.Modeli.GlobalnaVarijabla;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Prihod;
 import com.Reservations.Modeli.Registracija;
+import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.ZahtevZaBrisanje;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RegistracijaServis;
+import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.UslugaServis;
 import com.Reservations.Servis.VikendicaServis;
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -70,7 +75,13 @@ public class AdminKontroler {
 	RegistracijaServis regServis;
 
 	@Autowired
+	RezervacijaServis rezServis;
+	
+	@Autowired
 	BrodServis brodServis;
+	
+	@Autowired
+	UslugaServis uslugaServis;
 
 	@Autowired
 	VikendicaServis vikendicaServis;
@@ -147,15 +158,56 @@ public class AdminKontroler {
 		} else if (radio.equals("accept")) {
 			try {
 				Korisnik k = korisnikServis.findByUsername(zb.getKorisnickoIme());
+				this.obrisiVezaneEntitete(k);
 				korisnikServis.delete(k.getID());
 			} catch (Exception e) {
-				System.out.println(e.getStackTrace().toString());
+				System.out.println("I dalje postoje vrednosti vezane za korisnika!");
 			}
 			bnServis.delete(rId);
 		} else {
 			System.out.println("Something went wrong!");
 		}
 		return "redirect:/admin/" + String.valueOf(id);
+	}
+	
+	public void obrisiVezaneEntitete(Korisnik kor) {
+		if (kor.getUloga().getIme().equals("Klijent")) {
+			List<Rezervacija> rezervacije = rezServis.findByKlijent(kor.getID(), null);
+			for (Rezervacija rezervacija : rezervacije) {
+				rezServis.delete(rezervacija.getID());
+			}
+		}
+		else if (kor.getUloga().getIme().equals("VikendicaVlasnik")) {
+			List<Rezervacija> rezervacije = rezServis.pronadjiRezervacijePoVlasniku(kor, TipEntiteta.vikendica);
+			for (Rezervacija rezervacija : rezervacije) {
+				rezServis.delete(rezervacija.getID());
+			}
+			List<Vikendica> vikendice = vikendicaServis.findByVlasnik(kor.getID());
+			for (Vikendica vikendica : vikendice) {
+				vikendicaServis.obrisiVikendicu(kor.getID(), vikendica.getID());
+			}
+		}
+		else if (kor.getUloga().getIme().equals("BrodVlasnik")) {
+			List<Rezervacija> rezervacije = rezServis.pronadjiRezervacijePoVlasniku(kor, TipEntiteta.brod);
+			for (Rezervacija rezervacija : rezervacije) {
+				rezServis.delete(rezervacija.getID());
+			}
+			List<Brod> brodovi = brodServis.findByVlasnik(kor.getID());
+			for (Brod brod : brodovi) {
+				brodServis.obrisiBrod(kor.getID(), brod.getID());
+			}
+		}
+		else if (kor.getUloga().getIme().equals("Instruktor")) {
+			List<Rezervacija> rezervacije = rezServis.pronadjiRezervacijePoVlasniku(kor, TipEntiteta.usluga);
+			for (Rezervacija rezervacija : rezervacije) {
+				rezServis.delete(rezervacija.getID());
+			}
+			List<Usluga> usluge = uslugaServis.findByInstruktor(kor.getID());
+			for (Usluga usluga : usluge) {
+				uslugaServis.deleteById(usluga.getID());
+			}
+		}
+		else System.out.println("Nepostojeca uloga!");
 	}
 
 	@RequestMapping(value = "/pregled", method = RequestMethod.GET)
