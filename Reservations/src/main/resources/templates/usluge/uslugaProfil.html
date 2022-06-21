@@ -17,6 +17,7 @@ button{
 </style>
  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="/resources/demos/style.css">
+  <link rel="stylesheet" href="/uslugaProfil.css">
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
   <script>
@@ -31,9 +32,8 @@ button{
 <title>Profil usluge</title>
 
 <link rel="stylesheet" type="text/css" media="all"
-	href="/css/instruktorProfil.css" th:href="@{/css/index.css}">
-<link rel="stylesheet" type="text/css" media="all"
-	href="/css/uslugaProfil.css" th:href="@{/css/uslugaProfil.css}">
+	href="/css/uslugaProfil.css" th:href="@{/css/index.css}">
+
 	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	
 </head>
@@ -102,7 +102,7 @@ button{
 						<p th:text="${'O instruktoru: ' + usluga.biografijaInstruktora}">Biografija</p>
 					
 					</div>
-					 <button  class="btn btn-primary profile-button" th:formaction="@{/rezervisiUslugu/}+${usluga.ID+'/'}+${kor.ID}" align="right"  >Rezervisi</button>
+					 <button  class="btn btn-primary profile-button" th:formaction="@{/rezervacije/rezervisiUslugu/}+${usluga.ID+'/'}+${kor.ID}" align="right"  >Rezervisi</button>
 			</form>
 				</div>
 				

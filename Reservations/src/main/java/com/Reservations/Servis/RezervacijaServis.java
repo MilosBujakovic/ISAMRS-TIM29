@@ -3,6 +3,8 @@ package com.Reservations.Servis;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -105,13 +107,10 @@ public class RezervacijaServis {
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
 			if (r.getKlijent().getID() == id) {
-
-				if (LocalDate.parse(r.getDatum(), dtf).isAfter(now))
-
-					li2.add(r);
-
-				if (LocalDate.parse(r.getDatum(), dtf).isAfter(now))
-					li2.add(r);
+			
+				if(LocalDate.parse(r.getDatum(), dtf).isAfter(now))
+			
+				li2.add(r);
 
 			}
 		}
@@ -350,6 +349,27 @@ public class RezervacijaServis {
 	
 	}
 
+	public List<Rezervacija> RezSortCena( List<Rezervacija> user) {
+		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getCena));
+		return li ;
+		
+	}
+	public List<Rezervacija> RezSortDatum(List<Rezervacija> user) {
+	//	Collections.sort(user, Rezervacija.getAttribute1Comparator());
+		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getDatum));
+	            
+		return li;
+		
+	}
+	
+	public List<Rezervacija> RezSortTrajanje(List<Rezervacija> user) {
+		List<Rezervacija>li=new ArrayList<Rezervacija>(user);
+		Collections.sort(li, Comparator.comparing(Rezervacija::getTrajanje));
+        
+		return li;
+		}
 	public List<IzvjestajRezervacijaDTO> nadjiRezervacijeBezIzvjestaja(TipEntiteta tipEntiteta, Korisnik vlasnik) 
 	{
 		List<Rezervacija> mojeRezervacije = this.pronadjiRezervacijePoVlasniku(vlasnik, tipEntiteta);
