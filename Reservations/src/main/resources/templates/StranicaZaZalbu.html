@@ -1105,14 +1105,17 @@ input[type=submit]:hover {
 <div class="container">
   <form action="/action_page.php">
     <label for="fname">Vase Korisnicko ime:</label>
-    <input type="text" id="fname" name="firstname" readonly  th:value="${pod.korisnickoIme}" placeholder="vase korisnicko ime..">
-
+    <input type="text" id="fname" name="naziv_klijenta" readonly  th:value="${pod.korisnickoIme}" placeholder="vase korisnicko ime..">
+     
+     <input type="text" id="fname" name="rez_id" readonly  th:value="${rez.ID}" placeholder="vase korisnicko ime..">
+     
   
 
     <label for="subject">Zalba</label>
-    <textarea id="subject" name="subject" placeholder="Napisite nesto.." style="height:200px"></textarea>
+    <textarea id="subject" name="zalba"  placeholder="Napisite nesto.." style="height:200px"></textarea>
 
-    <input type="submit" value="Submit">
+
+      <button class="btn btn-primary profile-button" type="submit" th:formaction="@{/zalba2/}+${pod.ID}">Posalji zalbu</button></div>
   </form>
 </div>
 </body>

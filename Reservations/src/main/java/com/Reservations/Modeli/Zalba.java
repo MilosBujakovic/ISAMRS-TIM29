@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -22,12 +24,21 @@ public class Zalba {
 	
 	@Column(name="zalba")
     private String zalba;
+	
+	@OneToOne
+	@JoinColumn(name="rezId")
+    private Rezervacija rezervacija;
 
-	public Zalba(long iD, String naziv, String zalba) {
+	public Zalba(long iD, String naziv, String zalba, Rezervacija rezervacija) {
 		super();
 		ID = iD;
 		this.naziv = naziv;
 		this.zalba = zalba;
+		this.rezervacija = rezervacija;
+	}
+
+	public Zalba() {
+		
 	}
 
 	public long getID() {
@@ -54,12 +65,18 @@ public class Zalba {
 		this.zalba = zalba;
 	}
 
+	public Rezervacija getRezervacija() {
+		return rezervacija;
+	}
+
+	public void setRezervacija(Rezervacija rezervacija) {
+		this.rezervacija = rezervacija;
+	}
+
 	@Override
 	public String toString() {
-		return "Zalba [ID=" + ID + ", naziv=" + naziv + ", zalba=" + zalba + "]";
+		return "Zalba [ID=" + ID + ", naziv=" + naziv + ", zalba=" + zalba + ", rezervacija=" + rezervacija + "]";
 	}
-	
-	
-	
 
+	
 }

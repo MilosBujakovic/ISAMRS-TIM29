@@ -940,16 +940,19 @@ tr:nth-child(even) {
 
 <div id="unsorted">
 <table >
-  <tr >
+  <tr>
     <th >Naziv</th>
     <th>Datum</th>
     <th>Cena</th>
+    <th>Trajanje</th>
+    <th>Zalba</th>
   </tr>
-  <tr th:each="rez:${pod}">
+    <tr th:each="rez:${pod}">
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
-       <td th:text="${rez.trajanje}"></td>
+     <td th:text="${rez.trajanje}"></td>
+     <td><a th:href="@{/zalba/}+${kor.ID+'/'}+${rez.ID}"> <button>zalba</button></a></td>
   </tr>
   
 </table>
@@ -961,12 +964,15 @@ tr:nth-child(even) {
     <th >Naziv</th>
     <th>Datum</th>
     <th>Cena</th>
+      <th>Trajanje</th>
+    <th>Zalba</th>
   </tr>
   <tr th:each="rez:${sortcene}">
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
       <td th:text="${rez.trajanje}"></td>
+           <td><a th:href="@{/zalba/}+${kor.ID+'/'}+${rez.ID}"> <button>zalba</button></a></td>
   </tr>
   
 </table>
@@ -978,12 +984,15 @@ tr:nth-child(even) {
     <th >Naziv</th>
     <th>Datum</th>
     <th>Cena</th>
+      <th>Trajanje</th>
+    <th>Zalba</th>
   </tr>
   <tr th:each="rez:${sortdatum}">
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
        <td th:text="${rez.trajanje}"></td>
+         <td><a th:href="@{/zalba/}+${kor.ID+'/'}+${rez.ID}"> <button>zalba</button></a></td>
   </tr>
   
 </table>
@@ -995,12 +1004,15 @@ tr:nth-child(even) {
     <th >Naziv</th>
     <th>Datum</th>
     <th>Cena</th>
+      <th>Trajanje</th>
+    <th>Zalba</th>
   </tr>
   <tr th:each="rez:${sorttrajanje}">
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
        <td th:text="${rez.trajanje}"></td>
+            <td><a th:href="@{/zalba/}+${kor.ID+'/'}+${rez.ID}"> <button>zalba</button></a></td>
   </tr>
   
 </table>
