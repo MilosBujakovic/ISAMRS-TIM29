@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
+import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
@@ -132,7 +133,7 @@ public class VlasnikVikendiceKontroler {
 	public String izmijeniPodatke(@PathVariable Long idVlasnika, SlikaDTO slikaDTO, Model model, VlasnikVikendiceDTO vlasnikVikendice) throws IOException
 	{		String poruka;
 			System.out.println("slika naziv: "+slikaDTO.getNazivSlike());
-	 		if(slikaDTO.getNazivSlike()!=null || !slikaDTO.getNazivSlike().trim().equals(""))
+	 		if(slikaDTO.getNazivSlike()!=null && !slikaDTO.getNazivSlike().trim().equals(""))
 	 		{
 				String apsolutnaPutanja= (new File("src/main/resources/static")).getAbsolutePath();
 				File slika = new File(apsolutnaPutanja+this.putanjaSlikaKorisnika+slikaDTO.getNazivSlike());
@@ -156,11 +157,20 @@ public class VlasnikVikendiceKontroler {
 			System.out.println("Azuriranje Podataka page was called!");
 	 		System.out.println(vlasnikVikendice);
 	 		Korisnik podaci=korisnikServis.azurirajPodatkeVlasnika(vlasnikVikendice);
-	 		model.addAttribute("vlasnikVikendice", podaci);
-	 		System.out.println(model.toString());
-	 		poruka = "Uspjesno azurirani podaci korisnika";
-	 		model.addAttribute("poruka", poruka);
-	 		return "/vikendice/potvrdnaPoruka";		
+	 		if(podaci!=null)
+	 		{
+	 			model.addAttribute("vlasnikVikendice", podaci);
+	 			System.out.println(model.toString());
+	 			poruka = "Uspjesno azurirani podaci korisnika";
+	 			model.addAttribute("poruka", poruka);
+	 			return "/vikendice/potvrdnaPoruka";
+	 		}
+	 		else
+	 		{
+	 			poruka = "Korisnik sa unijetim korisničkim imenom već postoji!";
+	 			model.addAttribute("poruka", poruka);
+	 			return "/vikendice/pogresnaPoruka";
+	 		}
 	 	  }
 	
 	@RequestMapping(value = "/promjenaLozinke/{ID}")
@@ -305,6 +315,113 @@ public class VlasnikVikendiceKontroler {
 		for(int i = 0; i< poslovanjaVikendica.size(); i++) System.out.println(poslovanjaVikendica.get(i));
 		return "/vikendice/izvjestajPoslovanjaPeriod.html";
 	}
+	
+	@RequestMapping(value = "/izvjestajiRezervacija/{vlasnikID}")
+	public String izvjestajiRezervacija(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Izvjestaji rezervacija page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		List<IzvjestajRezervacijaDTO> rezervacijeBezIzvjestaja = rezervacijaServis.nadjiRezervacijeBezIzvjestaja(TipEntiteta.vikendica, vlasnik);
+		List<IzvjestajRezervacijaDTO> rezervacijeSaIzvjestajem = rezervacijaServis.nadjiRezervacijeSaIzvjestajem(TipEntiteta.vikendica, vlasnik);
+		
+		model.addAttribute("rezervacijeBez", rezervacijeBezIzvjestaja);
+		model.addAttribute("rezervacijeSa", rezervacijeSaIzvjestajem);
+		
+		return "/vikendice/izvjestajiOrezervacijamaVikendica.html";
+	}
+	
+	@RequestMapping(value = "/napisiIzvjestajRezervacije/{vlasnikID}/{rezID}")
+	public String izvjestajiRezervacija(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID) 
+	{
+		System.out.println("Napisi izvjestaj page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rezervacija);
+		
+		model.addAttribute("rezervacija", izvjestaj);
+		
+		return "/vikendice/napisiIzvjestajRezervacije.html";
+	}
+	
+	@RequestMapping(value = "/upisIzvjestajaRezervacija/{vlasnikID}/{rezID}", method=RequestMethod.POST)
+	public String upisIzvjestajaRezervacija(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID, IzvjestajRezervacijaDTO izvjestaj) 
+	{
+		System.out.println("Unos izvjestaja page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		rezervacija.setIzvjestaj(izvjestaj.getIzvjestaj());
+		boolean uspjesan = rezervacijaServis.upisiRezervaciju(rezervacija);
+		if(uspjesan)
+		{
+			model.addAttribute("poruka", "Izvještaj uspješno dodat!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}
+	
+	@RequestMapping(value = "/prikaziIzvjestajRezervacije/{vlasnikID}/{rezID}")
+	public String prikaziIzvjestajRezervacije(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID) 
+	{
+		System.out.println("Prikazi izvjestaj page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rezervacija);
+		
+		model.addAttribute("rezervacija", izvjestaj);
+		
+		return "/vikendice/prikaziIzvjestajRezervacije.html";
+	}
+	
+	@RequestMapping(value = "/brisanjeNaloga/{vlasnikID}")
+	public String formaZaBrisanje(Model model, @PathVariable Long vlasnikID) throws IOException
+	{		
+		System.out.println("Obrisi nalog zahtjev called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		BrisanjeKorisnikaZahtjevDTO zahtjev = new BrisanjeKorisnikaZahtjevDTO();
+		model.addAttribute("zahtjev", zahtjev);
+		
+		return "/vikendice/brisanjeNaloga.html";
+	}
+	
+	@RequestMapping(value = "/obrisiNalog/zahtjev/{vlasnikID}")
+	public String zahtjevZaBrisanje(Model model, @PathVariable Long vlasnikID, BrisanjeKorisnikaZahtjevDTO zahtjev) throws IOException
+	{		
+		System.out.println("Obrisi nalog zahtjev called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		
+		//TODO: zastita od brisanja ukoliko postoje rezervacije?s
+		
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		
+		String poruka[] = korisnikServis.posaljiZahtjevZaBrisanje(vlasnik, zahtjev);
+		model.addAttribute("poruka", poruka[0]);
+		
+		if(poruka[1].toLowerCase().equals("success"))
+		{
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else return "/vikendice/pogresnaPoruka.html";
+		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+	}
+	
 	
 /*
 	@GetMapping("/admin/reports/print")

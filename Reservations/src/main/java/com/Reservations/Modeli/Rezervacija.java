@@ -31,9 +31,6 @@ public class Rezervacija {
 	@Column(name="tip_entiteta")
 	private TipEntiteta tipEntiteta;
 	
-	
-
-	
 	@Column(name="nazivEntiteta")
 	private String nazivEntiteta;
 	
@@ -49,8 +46,6 @@ public class Rezervacija {
 	@Column(name="maxOsoba")
 	private int maxOsoba;
 	
-	
-	
 	@Column(name="cena")
 	private double cena;
 	
@@ -61,8 +56,48 @@ public class Rezervacija {
 	@Column(name="tip")
 	private TipRezervacije tip;
 	
+	@Column(name="izvjestaj")
+	private String izvjestaj;
+	
 	public Rezervacija () {
 		
+	}
+	
+
+	public Rezervacija(long iD, long entitetId, TipEntiteta tipEntiteta, String nazivEntiteta, String datum,
+			String vreme, String trajanje, int maxOsoba, double cena, Korisnik klijent, TipRezervacije tip,
+			String izvjestaj) 
+	{
+		super();
+		ID = iD;
+		this.entitetId = entitetId;
+		this.tipEntiteta = tipEntiteta;
+		this.nazivEntiteta = nazivEntiteta;
+		this.datum = datum;
+		this.vreme = vreme;
+		this.trajanje = trajanje;
+		this.maxOsoba = maxOsoba;
+		this.cena = cena;
+		this.klijent = klijent;
+		this.tip = tip;
+		this.izvjestaj = izvjestaj;
+	}
+
+	public Rezervacija(Rezervacija r) 
+	{
+		super();
+		ID = r.ID;
+		this.entitetId = r.entitetId;
+		this.tipEntiteta = r.tipEntiteta;
+		this.nazivEntiteta = r.nazivEntiteta;
+		this.datum = r.datum;
+		this.vreme = r.vreme;
+		this.trajanje = r.trajanje;
+		this.maxOsoba = r.maxOsoba;
+		this.cena = r.cena;
+		this.klijent = r.klijent;
+		this.tip = r.tip;
+		this.izvjestaj = r.izvjestaj;
 	}
 
 	public long getID() {
@@ -155,6 +190,16 @@ public class Rezervacija {
 
 	public void setKlijent(Korisnik klijent) {
 		this.klijent = klijent;
+	}
+	
+	
+
+	public String getIzvjestaj() {
+		return izvjestaj;
+	}
+
+	public void setIzvjestaj(String izvjestaj) {
+		this.izvjestaj = izvjestaj;
 	}
 
 	@Override

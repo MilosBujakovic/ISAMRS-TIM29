@@ -55,7 +55,7 @@
 					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihVikendica/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Spisak rezervacija
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi dostupnosti vikendica
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi zauzetosti vikendica
 					</a></li>
 					
 					<li class=""><a th:href="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Brze rezervacije
@@ -64,23 +64,29 @@
 					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Kalendar zauzetosti
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestajiPoslovanja/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Izvještaji o rezervacijama
+					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestajiRezervacija/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Izvještaji o rezervacijama
 							</a></li>
-					<li class="delete"><a class="delete" th:href="@{/vikendicaVlasnik/brisanjeNaloga}" target="glavni_prikaz">Obriši nalog
+					<li class="delete"><a class="delete" th:href="@{/vikendicaVlasnik/brisanjeNaloga/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Obriši nalog
 							</a></li>
 				</ul>
 			</nav>          
         </div>
         </section>
-        
-        <!--div class="col-md-7 justify-content-md-center"-->
-        <section class="right-top">
+        <section id="welcome" class="right-top">
 				<h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
 				<h2><p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p></h2>
 		</section><!--/div-->
-			<section class=right><iframe width=800px height=450px name="glavni_prikaz"></iframe></section>
+        <!--div class="col-md-7 justify-content-md-center"-->
+        
+			<section id="glavni_prikaz" class=right><iframe  width=800px height=450px name="glavni_prikaz">
+				
+			</iframe></section>
 	</div>
 	</div>
+	
+	<script>
+		//document.[iframe].innerHTML!=""
+	</script>
 
 </body>
 </html>

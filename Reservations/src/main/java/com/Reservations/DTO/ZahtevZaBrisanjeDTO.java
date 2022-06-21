@@ -1,5 +1,7 @@
 package com.Reservations.DTO;
 
+import com.Reservations.Modeli.ZahtevZaBrisanje;
+
 public class ZahtevZaBrisanjeDTO {
 	
 	private long id;
@@ -55,8 +57,6 @@ public class ZahtevZaBrisanjeDTO {
 	public void setId(long id) {
 		this.id = id;
 	}
-
-
 
 
 

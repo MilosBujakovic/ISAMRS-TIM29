@@ -77,4 +77,14 @@ public class BrisanjeNalogaServis {
 		
 	}
 
+	public boolean posaljiZahtjev(ZahtevZaBrisanje zahtjevZaBrisanje) {
+		ZahtevZaBrisanje duplikat = brisanjeRepozitorijum.findByKorisnickoIme(zahtjevZaBrisanje.getKorisnickoIme() );
+		if(duplikat==null)
+		{
+			brisanjeRepozitorijum.save(zahtjevZaBrisanje);
+			return true;
+		}
+		else return false;
+	}
+
 }
