@@ -8,14 +8,30 @@
 <title>Profil instruktora</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="/css/instruktorProfil.css" th:href="@{/css/instruktorProfil.css}">
+<style>
+a.klijent:link {
+	color: #000;
+	text-decoration: none;
+}
+
+a.klijent:visited {
+	color: #999;
+	text-decoration: none;
+}
+
+a.klijent:hover {
+	text-decoration: none;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<div class="hold">
 		<div class="header">
 			<div class="container">
 				<div id="logo">
-					<img alt="logo" src="/img/avatar.png" height="90px" width="90px"
-						style="margin-bottom: 90px;">
+					<img alt="logo" th:src="${instruktor.linkSlike}" height="90px"
+						width="90px" style="margin-bottom: 90px;">
 					<h3 style="float: right;">Instruktor</h3>
 				</div>
 
@@ -24,7 +40,10 @@
 							profil</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
 							rezervacija</a></li>
-					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestajiPoslovanja'}">Izvestaji
+							o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestajiRezervacija'}">Izvestaji
+							za rezervacije</a></li>
 
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
@@ -50,18 +69,93 @@
 		</div>
 		<div class="panel">
 			<h2>Trenutne rezervacije</h2>
-			<ul th:each="rez : ${rezervacije}">
-				<li>
-					<div class="txt">
-						<h2 th:text="${rez.nazivEntiteta}">Naslov</h2>
-						<p th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}">Klijent</p>
-						<p th:text="${rez.datum}">Pocetni datum</p>
-						<p th:text="${rez.trajanje}">Trajanje</p>
-					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
-						class="edit"></a></li>
-			</ul>
+			<table>
+				<tr>
+					<th>Naziv</th>
+					<th>Klijent</th>
+					<th>Datum</th>
+					<th>Trajanje</th>
+				</tr>
+				<tr th:each="rez, rezStat : ${rezervacije}">
+					<td th:text="${rez.nazivEntiteta}">Naziv</td>
+					<td><a
+						th:href="@{/instruktor/}+${id+'/klijent/'}+${rez.klijent.ID}"
+						th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}"
+						class="klijent">Klijent</a></td>
+					<td th:text="${rez.datum}">Datum</td>
+					<td th:text="${rez.trajanje}">Trajanje</td>
+				</tr>
+			</table>
 		</div>
 	</div>
-	<div class="panel important"></div>
+	<div>
+		<div class="panel ">
+			<h2>Brze rezervacije</h2>
+			<table>
+				<tr>
+					<th>Naziv</th>
+					<th style="width:15%">Klijent</th>
+					<th>Datum</th>
+					<th>Trajanje</th>
+					<th></th>
+				</tr>
+				<tr th:each="brza : ${brze}">
+					<td th:text="${brza.nazivEntiteta}">Naziv</td>
+					<td><a
+						th:href="@{/instruktor/}+${id+'/klijent/'}+${brza.klijent.ID}"
+						th:text="${brza.klijent.ime + ' ' + brza.klijent.prezime}"
+						class="klijent">Klijent</a></td>
+					<td th:text="${brza.datum}">Datum</td>
+					<td th:text="${brza.trajanje}">Trajanje</td>
+					<td><a href="#"><img src="/img/pencil.png" alt="promeni"
+							class="edit"></a></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td><a th:href="@{/instruktor/}+${id+'/novaBrzaRezervacija'}"><button
+								type="button"
+								style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Dodaj
+								brzu rezervaciju</button></a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="panel ">
+			<h2>Moje akcije</h2><table>
+				<tr>
+					<th>Naziv</th>
+					<th>Klijent</th>
+					<th>Datum</th>
+					<th>Trajanje</th>
+					<th></th>
+				</tr>
+				<tr th:each="akcija : ${akcije}">
+					<td th:text="">Naziv</td>
+					<td th:text="">Klijent</td>
+					<td th:text="">Datum</td>
+					<td th:text="">Trajanje</td>
+					<td><a href="#"><img src="/img/pencil.png" alt="promeni"
+						class="edit"></a></td>
+				</tr>
+			</table>
+			<ul th:each="akcija : ${akcije}">
+				<li>
+					<div class="txt">
+						<h2 th:text="">Naslov</h2>
+						<p th:text="">Klijent</p>
+						<p th:text="">Pocetni datum</p>
+						<p th:text="">Trajanje</p>
+					</div> <a href="#"><img src="/img/pencil.png" alt="promeni"
+						class="edit"></a>
+				</li>
+			</ul>
+			<a th:href="@{/instruktor/}+${id+'/novaAkcija'}"><button
+					type="button"
+					style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Dodaj
+					akciju</button></a>
+		</div>
+	</div>
 </body>
 </html>

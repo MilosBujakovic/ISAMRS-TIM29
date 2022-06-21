@@ -15,7 +15,7 @@
 		<div class="header">
 			<div class="container">
 				<div id="logo">
-					<img alt="logo" src="/img/avatar.png" height="90px" width="90px"
+					<img alt="logo" th:src="${user.linkSlike}" height="90px" width="90px"
 						style="margin-bottom: 90px;">
 					<h3 style="float: right;">Instruktor</h3>
 				</div>
@@ -23,15 +23,23 @@
 				<ul class="nav">
 					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija rezervacija</a></li>
-					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestajiPoslovanja'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestajiRezervacija'}">Izvestaji
+							za rezervacije</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="panel important">
+	
 		<table id="hide" class="twothirds">
-				<tr>
+			<tr>
+				<td><img height="200px" width="200px"
+					th:src="${user.linkSlike}"></img></td>
+				<td></td>
+			</tr>
+			<tr>
 					<td>Ime</td>
 					<td th:text = "${user.ime}">Ime</td>
 				</tr>
