@@ -25,7 +25,8 @@
 					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj
 							profil</a></li>
-					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji o poslovanju</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestaji'}">Izvestaji
+							o poslovanju</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>
 			</div>
@@ -33,7 +34,7 @@
 	</div>
 	<div class="panel important">
 		<h2>Prošle rezervacije</h2>
-		<ul th:each="rez : ${rezervacije}">
+		<ul th:each="rez, rezStat : ${rezervacije}">
 			<li>
 				<div class="txt">
 					<h2 th:text="${rez.nazivEntiteta}">Naslov</h2>
@@ -41,10 +42,38 @@
 					<p th:text="${rez.datum}">Pocetni datum</p>
 					<p th:text="${rez.trajanje}">Trajanje</p>
 				</div>
+				<button id="hide" onclick="openReportForm()" type="button"
+					style="float: right; cursor: pointer; margin: 0.75rem; margin-top: 1.5rem; padding: 0.75rem 1.5rem; font-size: 0.65rem; font-weight: bold; letter-spacing: 0.025rem; text-transform: uppercase; color: white; background-color: black; border: none;">Napiši
+					izveštaj</button>
+				<div id="report" style="display: none;">
+					<form class="form-container" method="post">
+						<textarea name="izvestaj" rows="10" cols="50"
+							placeholder="Napisi komentar..." required></textarea>
+						<button class="btn"
+							th:formaction="@{/instruktor/}+${id + '/izvestaj/' + rez.ID}"
+							th:disabled="${postoji[__${rezStat.index}__]}">
+							<i class="fa fa-check" aria-hidden="true"></i>
+						</button>
+						<button type="button" class="btn cancel"
+							onclick="closeReportForm()">
+							<i class="fa fa-times" aria-hidden="true"></i>
+						</button>
+					</form>
+				</div>
 			</li>
 		</ul>
 
 	</div>
+	<script>
+		function openReportForm() {
+			document.getElementById("report").style.display = "block";
+			document.getElementById("hide").style.display = "none";
+		}
 
+		function closeReportForm() {
+			document.getElementById("report").style.display = "none";
+			document.getElementById("hide").style.display = "block";
+		}
+	</script>
 </body>
 </html>

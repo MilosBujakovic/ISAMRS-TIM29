@@ -205,7 +205,7 @@ public class Rezervacija {
 	@Override
 	public String toString() {
 		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme
-				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + "]";
+				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", izvjestaj=" + izvjestaj +"]";
 	}
 
 	 
