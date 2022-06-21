@@ -10,12 +10,14 @@ import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.AdminDTO;
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
+import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.RegistracijaKorisnikaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Uloga;
+import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Modeli.enums.TipRegistracije;
 import com.Reservations.Repozitorijumi.KorisnikRepozitorijum;
 
@@ -29,6 +31,9 @@ public class KorisnikServis {
 
 	@Autowired
 	private UlogaServis ulogaServis;
+
+	@Autowired
+	private BrisanjeNalogaServis brisanjeNalogaServis;
 
 	public Korisnik findByUsername(String username) {
 		return korisnikRepozitorijum.findByKorisnickoIme(username);
@@ -157,17 +162,36 @@ public class KorisnikServis {
 	}
 
 	public Korisnik azurirajPodatkeVlasnika(VlasnikVikendiceDTO vlasnik) {
+		List<Korisnik> korisnici = korisnikRepozitorijum.findAll();
 		Korisnik korisnik = this.findById(vlasnik.getId());
-		if (korisnik != null) {
-			korisnik.setAdresa(vlasnik.getAdresa());
-			korisnik.setBrojTel(vlasnik.getBrojTel());
-			korisnik.setDrzava(vlasnik.getDrzava());
-			korisnik.setEmail(vlasnik.getEmail());
-			korisnik.setGrad(vlasnik.getGrad());
-			korisnik.setIme(vlasnik.getIme());
-			korisnik.setKorisnickoIme(vlasnik.getKorisnickoIme());
-			korisnik.setPrezime(vlasnik.getPrezime());
-			korisnik.setLinkSlike(vlasnik.getLinkSlike());
+		
+		if (korisnik != null) 
+		{
+			try
+			{
+				for(int i = 0; i<korisnici.size(); i++)
+				{
+					if(vlasnik.getKorisnickoIme().equals(korisnici.get(i).getKorisnickoIme()) 
+					&& !vlasnik.getKorisnickoIme().equals(korisnik.getKorisnickoIme()))
+					{
+						
+						return null;
+					}
+				}
+				korisnik.setAdresa(vlasnik.getAdresa());
+				korisnik.setBrojTel(vlasnik.getBrojTel());
+				korisnik.setDrzava(vlasnik.getDrzava());
+				korisnik.setEmail(vlasnik.getEmail());
+				korisnik.setGrad(vlasnik.getGrad());
+				korisnik.setIme(vlasnik.getIme());
+				korisnik.setKorisnickoIme(vlasnik.getKorisnickoIme());
+				korisnik.setPrezime(vlasnik.getPrezime());
+				if(vlasnik.getLinkSlike()!=null && !vlasnik.getLinkSlike().trim().equals(""))korisnik.setLinkSlike(vlasnik.getLinkSlike());
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
 		}
 		return this.korisnikRepozitorijum.save(korisnik);
 	}
@@ -212,6 +236,57 @@ public class KorisnikServis {
 			if(k.getUloga().equals(role)) korisnici.add(k);
 		}
 		return korisnici;
+	}
+
+	public String[] posaljiZahtjevZaBrisanje(Korisnik vlasnik, BrisanjeKorisnikaZahtjevDTO zahtjev) 
+	{
+		String poruka[] = new String[2];
+		poruka[1] = "error";
+		if(!zahtjev.getIme().equals(vlasnik.getIme()))
+		{
+			poruka[0] = "Pogrešno unijeto ime!";
+		}
+		else if(!zahtjev.getPrezime().equals(vlasnik.getPrezime()))
+		{
+			poruka[0] = "Pogrešno unijeto prezime!";
+		}
+		else if(!zahtjev.getKorisnickoIme().equals(vlasnik.getKorisnickoIme()))
+		{
+			poruka[0] = "Pogrešno unijeto korisničko ime!";
+		}
+		else if(!zahtjev.getEmail().equals(vlasnik.getEmail()))
+		{
+			poruka[0] = "Pogrešno unijeta email adresa!";
+		}
+		else if(!zahtjev.getLozinka().equals(vlasnik.getLozinka()) || !zahtjev.getLozinkaPonovo().equals(vlasnik.getLozinka()))
+		{
+			poruka[0] = "Pogrešno unijeta lozinka!";
+		}
+		else
+		{
+			try
+			{
+				ZahtevZaBrisanje zahtjevZaBrisanje = new ZahtevZaBrisanje(zahtjev);
+				boolean poslat = brisanjeNalogaServis.posaljiZahtjev(zahtjevZaBrisanje);
+				if(poslat)
+				{
+					poruka[1]="success";
+					poruka[0]="Zahtjev za brisanje naloga poslat!";
+				}
+				else
+				{
+					poruka[1]="duplicate";
+					poruka[0]="Zahtjev za brisanje naloga već postoji!";
+				}
+			}
+			catch(Exception e)
+			{
+				poruka[0] = "Došlo je do greške prilikom slanja zahtjeva!";
+				poruka[1]="error";
+			}
+			
+		}
+		return poruka;
 	}
 
 

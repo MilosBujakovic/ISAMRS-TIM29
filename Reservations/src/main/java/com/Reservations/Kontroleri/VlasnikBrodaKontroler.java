@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.BrodDTO;
+import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
@@ -23,7 +25,9 @@ import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
@@ -306,7 +310,111 @@ public class VlasnikBrodaKontroler
 		return "/brodovi/izvjestajPoslovanjaPeriod.html";
 	}
 	
+	@RequestMapping(value = "/izvjestajiRezervacija/{vlasnikID}")
+	public String izvjestajiRezervacija(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Izvjestaji rezervacija page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		List<IzvjestajRezervacijaDTO> rezervacijeBezIzvjestaja = rezervacijaServis.nadjiRezervacijeBezIzvjestaja(TipEntiteta.brod, vlasnik);
+		List<IzvjestajRezervacijaDTO> rezervacijeSaIzvjestajem = rezervacijaServis.nadjiRezervacijeSaIzvjestajem(TipEntiteta.brod, vlasnik);
+		
+		model.addAttribute("rezervacijeBez", rezervacijeBezIzvjestaja);
+		model.addAttribute("rezervacijeSa", rezervacijeSaIzvjestajem);
+		
+		return "/brodovi/izvjestajiOrezervacijamaBrodova.html";
+	}
 	
+	@RequestMapping(value = "/napisiIzvjestajRezervacije/{vlasnikID}/{rezID}")
+	public String izvjestajiRezervacija(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID) 
+	{
+		System.out.println("Napisi izvjestaj page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rezervacija);
+		
+		model.addAttribute("rezervacija", izvjestaj);
+		
+		return "/brodovi/napisiIzvjestajRezervacije.html";
+	}
+	
+	@RequestMapping(value = "/upisIzvjestajaRezervacija/{vlasnikID}/{rezID}", method=RequestMethod.POST)
+	public String upisIzvjestajaRezervacija(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID, IzvjestajRezervacijaDTO izvjestaj) 
+	{
+		System.out.println("Unos izvjestaja page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		rezervacija.setIzvjestaj(izvjestaj.getIzvjestaj());
+		boolean uspjesan = rezervacijaServis.upisiRezervaciju(rezervacija);
+		if(uspjesan)
+		{
+			model.addAttribute("poruka", "Izvještaj uspješno dodat!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}
+	
+	@RequestMapping(value = "/prikaziIzvjestajRezervacije/{vlasnikID}/{rezID}")
+	public String prikaziIzvjestajRezervacije(Model model, @PathVariable Long vlasnikID, @PathVariable Long rezID) 
+	{
+		System.out.println("Prikazi izvjestaj page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Rezervacija rezervacija = rezervacijaServis.findById(rezID);
+		IzvjestajRezervacijaDTO izvjestaj = new IzvjestajRezervacijaDTO(rezervacija);
+		
+		model.addAttribute("rezervacija", izvjestaj);
+		
+		return "/brodovi/prikaziIzvjestajRezervacije.html";
+	}
+	
+	@RequestMapping(value = "/brisanjeNaloga/{vlasnikID}")
+	public String formaZaBrisanje(Model model, @PathVariable Long vlasnikID) throws IOException
+	{		
+		System.out.println("Obrisi nalog zahtjev called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		BrisanjeKorisnikaZahtjevDTO zahtjev = new BrisanjeKorisnikaZahtjevDTO();
+		model.addAttribute("zahtjev", zahtjev);
+		
+		return "/brodovi/brisanjeNaloga.html";
+	}
+	
+	@RequestMapping(value = "/obrisiNalog/zahtjev/{vlasnikID}")
+	public String zahtjevZaBrisanje(Model model, @PathVariable Long vlasnikID, BrisanjeKorisnikaZahtjevDTO zahtjev) throws IOException
+	{		
+		System.out.println("Obrisi nalog zahtjev called!");
+		//slikaDTO.setNazivSlike(slikaDTO.getNazivSlike().split("\\")[2]);
+		
+		//TODO: zastita od brisanja ukoliko postoje rezervacije?s
+		
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		
+		String poruka[] = korisnikServis.posaljiZahtjevZaBrisanje(vlasnik, zahtjev);
+		model.addAttribute("poruka", poruka[0]);
+		
+		if(poruka[1].toLowerCase().equals("success"))
+		{
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else return "/vikendice/pogresnaPoruka.html";
+		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
+	}
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 
