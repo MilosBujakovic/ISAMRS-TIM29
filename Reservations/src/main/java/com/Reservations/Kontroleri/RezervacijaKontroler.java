@@ -76,7 +76,7 @@ public class RezervacijaKontroler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "profilKorisnika";
+		 return "redirect:/profilKorisnika/"+String.valueOf(klijent_id);
 	}
 	
 
@@ -106,7 +106,7 @@ public class RezervacijaKontroler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "profilKorisnika";
+		 return "redirect:/profilKorisnika/"+String.valueOf(id2);
 	}
 	
 	@RequestMapping(value = "/rezervisiUslugu/{id}/{klijent_id}")
@@ -120,8 +120,23 @@ public class RezervacijaKontroler {
 		
 		this.rezervacijaServis.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,klijent_id);
 		this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
-		return "profilKorisnika";
+		 return "redirect:/profilKorisnika/"+String.valueOf(klijent_id);
 	}
+	@RequestMapping(value = "/otkaziRez/{id}/{klijent_id}")
+	public String OtkazirezMoje(@PathVariable Long id,Model model,@PathVariable Long klijent_id){
+	
+	 		try {
+            rezervacijaServis.delete(id);
+            System.out.println("adasdsaddasdasdasdsadsadasdsd");
+	 		}catch(Exception e) {
+	 			
+	 			e.printStackTrace();
+	 			  System.out.println(e.getStackTrace().toString());
+	 		}
+	 		
+	 		
+	 		 return "redirect:/rezervacije/mojeRez/"+String.valueOf(klijent_id);
+	 	  }
 	
 	@RequestMapping(value = "/mojeRez/{id}")
 	public String rezMoje(@PathVariable Long id,Model model){

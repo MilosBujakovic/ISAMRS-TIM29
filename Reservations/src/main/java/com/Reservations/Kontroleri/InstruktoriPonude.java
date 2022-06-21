@@ -71,6 +71,16 @@ public class InstruktoriPonude {
 	      return "prikazInstruktora";
 	  }
 	
+	@RequestMapping(value = "/OSPretragaInst")
+	  public String getOsPage(Model model,@RequestParam String s){
+		System.out.println("PrikazBrodova page was called!");
+		List<Usluga>usluga=uslugaServis.UslugaPretraga(s);
+		model.addAttribute("usluga", usluga);
+		
+	      return "OsnovniPodaciInstruktora";
+	  }
+	
+	
 	@RequestMapping(value = "/FilterUsl/{id}")
 	  public String getOPage(Model model,@PathVariable Long id,@RequestParam String brodovifil){
 		System.out.println("PrikazBrodova page was called!");
