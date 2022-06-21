@@ -55,7 +55,7 @@
 					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihBrodova/}+${vlasnikBroda.ID}" target="glavni_prikaz">Spisak rezervacija
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Periodi dostupnosti vikendica
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Periodi zauzetosti brodova
 					</a></li>
 					
 					<li class=""><a th:href="@{/brodovi/brze-rezervacije/}+${vlasnikBroda.ID}" target="glavni_prikaz">Brze rezervacije
@@ -64,9 +64,9 @@
 					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Kalendar zauzetosti
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/izvjestaji}" target="glavni_prikaz">Izvještaji o rezervacijama
+					<li class=""><a th:href="@{/brodVlasnik/izvjestajiRezervacija/}+${vlasnikBroda.ID}" target="glavni_prikaz">Izvještaji o rezervacijama
 							</a></li>
-					<li class="delete"><a class="delete" th:href="@{/vikendicaVlasnik/brisanjeNaloga}" target="glavni_prikaz">Obriši nalog
+					<li class="delete"><a class="delete" th:href="@{/brodVlasnik/brisanjeNaloga/}+${vlasnikBroda.ID}" target="glavni_prikaz">Obriši nalog
 							</a></li>
 				</ul>
 			</nav>          
