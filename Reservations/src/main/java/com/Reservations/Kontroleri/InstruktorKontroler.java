@@ -112,7 +112,7 @@ public class InstruktorKontroler {
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
 		Rezervacija rez = rezervacijaServis.findById(rId);
 		System.out.println(rez.toString());
-		System.out.println(rez.getIzvestaj());
+		System.out.println(rez.getIzvjestaj());
 		//this.select[rezervacije.indexOf(rez)] = rezervacijaServis.upisiIzvestajVI(rId, izvestaj);
 		System.out.println(select.toString());
 		return "redirect:/instruktor/" + String.valueOf(id) + "/istorija";

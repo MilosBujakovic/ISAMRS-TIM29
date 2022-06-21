@@ -198,18 +198,10 @@ public class Rezervacija {
 		this.izvjestaj = izvjestaj;
 	}
 
-	public String getIzvestaj() {
-		return izvestaj;
-	}
-
-	public void setIzvestaj(String izvestaj) {
-		this.izvestaj = izvestaj;
-	}
-
 	@Override
 	public String toString() {
 		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme
-				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", izvestaj=" + izvestaj +"]";
+				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", izvjestaj=" + izvjestaj +"]";
 	}
 
 	
