@@ -22,10 +22,21 @@ button{
   <script>
   $( function() {
     $( "#datepicker" ).datepicker();
+    
   } );
   $( function() {
-	    $( "#datepicker2" ).datepicker();
+	  
+	  var array = ["2022-06-14","2022-06-15","2022-06-16"]
+
+	  $('#datepicker2').datepicker({
+	      beforeShowDay: function(date){
+	          var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+	          return [ array.indexOf(string) == -1 ]
+	      }
+	  });
 	  } );
+  
+
   </script>
 <meta charset="UTF-8">
 <title>Profil usluge</title>
