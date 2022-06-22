@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.UslugaDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Termin;
 import com.Reservations.Modeli.Usluga;
+import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Modeli.enums.TipoviUsluga;
 import com.Reservations.Repozitorijumi.UslugaRepozitorijum;
 
@@ -27,6 +31,9 @@ public class UslugaServis {
 	
 	@Autowired
 	private RezervacijaServis rezervacijaServis;
+
+	@Autowired
+	private TerminServis terminServis;
 	
 	@Autowired
 	private GVarijableServis globalneVarijable;
@@ -474,5 +481,87 @@ public class UslugaServis {
 	public void ubaciUsluguBazu(Usluga usluga) {
 		uslugaRepozitorijum.save(usluga);
 		
+	}
+
+	public List<PeriodPrikazDTO> dobaviPeriode(Usluga usluga) 
+	{
+		terminServis.popraviPeriodeUsluge(usluga);
+				
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : usluga.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()==null)
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat period: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermine(Usluga usluga) 
+	{
+		List<Rezervacija> rezervacije = rezervacijaServis.listAll();
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		System.out.println("termini vikendice: "+usluga.getTerminiZauzetosti().size());
+		for(Termin termin : usluga.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null)
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin zauzetosti: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineBrzihRezervacija(Usluga usluga) 
+	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.brza);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
+		
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : usluga.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.brza))
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin brze: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineObicnihRezervacija(Usluga usluga) 
+	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.obicna);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : usluga.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.obicna))
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin obicne: "+ period);
+			}
+		}
+		return periodi;
 	}
 }

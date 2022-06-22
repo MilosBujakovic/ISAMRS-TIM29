@@ -231,7 +231,7 @@ public class TerminServis
 	public boolean popraviPeriodeUsluge(Usluga usluga) 
 	{
 		boolean promjena = false;
-		List<Termin> termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.brod);
+		List<Termin> termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.usluga);
 		for(Termin termin : termini)
 		{
 			if(termin.getUsluga().getID()==usluga.getID() 

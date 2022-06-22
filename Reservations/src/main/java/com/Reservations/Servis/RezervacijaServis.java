@@ -8,11 +8,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.BrzaRezervacijaDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PrihodDTO;
@@ -670,4 +670,31 @@ public class RezervacijaServis {
 	
 
 	
+	
+	public Rezervacija napraviBrzuRezervaciju(BrzaRezervacijaDTO brza, TipEntiteta tip) {
+		Rezervacija r = new Rezervacija();
+		r.setDatum(brza.getDatum());
+		r.setVreme(brza.getVreme());
+		r.setAkcija(brza.getAkcija());
+		r.setCena(brza.getCena());
+		r.setTipEntiteta(tip);
+		r.setTip(TipRezervacije.brza);
+		r.setEntitetId(brza.getId());
+		r.setMaxOsoba(brza.getMaxOsoba());
+		r.setTrajanje(brza.getTrajanje());
+		if(tip.equals(TipEntiteta.vikendica)) {
+			Vikendica v = vikendicaServis.findById(brza.getId());
+			r.setNazivEntiteta(v.getNaziv());
+		}
+		else if(tip.equals(TipEntiteta.brod)) {
+			Brod b = brodServis.findById(brza.getId());
+			r.setNazivEntiteta(b.getNaziv());
+		}
+		else if(tip.equals(TipEntiteta.usluga)) {
+			Usluga u = uslugaServis.findById(brza.getId());
+			r.setNazivEntiteta(u.getNaziv());
+		}
+		
+		return this.rezervacijaRepozitorijum.save(r);
+	}
 }
