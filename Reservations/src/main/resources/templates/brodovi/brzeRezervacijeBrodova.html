@@ -15,7 +15,16 @@
 </head>
 
 <body>
+<form align="center">
+  
+    <div class="search-box" align="center">
+    <button class="btn-search" id="go" th:formaction="@{/PretragaVik/}+${kor.ID}"><i class="fas fa-search"></i></button>
+    <input type="text" id="search" name="s"  class="input-search" placeholder="Type to Search...">
+  </div>
+  
+ 
 
+</form>
 <div class="container rounded bg-white mt-1 mb-5 ml-0">
 <div class="row justify-content-start">      
 	<input type="hidden" id="vlasnikID" name="vlasnikID" th:value="${vlasnikBroda.ID}"></input>

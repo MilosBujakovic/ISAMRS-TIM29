@@ -600,6 +600,7 @@ public class AdminKontroler {
 
 	// BRISANJE POVEZANIH ENTITETA DA BI UOPŠTE MOGLO DA SE OBRIŠE IZ BAZE
 	public void obrisiVezaneEntitete(Korisnik kor) {
+		kor.setUloge(null);
 		if (kor.getUloga().getIme().equals("Klijent")) {
 			List<Rezervacija> rezervacije = rezServis.findByKlijent(kor.getID(), null);
 			for (Rezervacija rezervacija : rezervacije) {

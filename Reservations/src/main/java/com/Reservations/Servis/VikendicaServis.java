@@ -401,7 +401,9 @@ public class VikendicaServis {
 		
 		List<Vikendica>li=new ArrayList<Vikendica>();
 		List<Vikendica>li2=vikendicaRepozitorijum.findAll();
+		
 		for (Vikendica e : li2) {
+			List<Termin>termini=e.getTerminiZauzetosti();
 			if(e.getAdresa().toLowerCase().contains(s.toLowerCase())) {
 				li.add(e);
 				continue;
@@ -414,9 +416,32 @@ public class VikendicaServis {
 				li.add(e);
 				continue;
 			}
-		}
+			Boolean postoji=false;
+			if(s.contains("/")) {
+			for (Termin ter : termini) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+				LocalDate datum_pocetka=LocalDate.parse(ter.getDatumVremePocetak(),dtf);
+				LocalDate datum_kraja=LocalDate.parse(ter.getDatumVremeKraj(),dtf);
+				LocalDate datum_unosa=LocalDate.parse((s),dtf);
+				
+				
+				if(datum_pocetka.isAfter(datum_unosa) || datum_kraja.isBefore(datum_unosa)) {
+					continue;
+				}else {
+					postoji=true;
+					break;
+				}
+				
+			}
+			if(!postoji) {
+				li.add(e);
+			}
+			
+		}	}
+			
+		
 		return li;
-	}
+}
 	public List<Vikendica> VikSortCena() {
 		List<Vikendica>li=vikendicaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "cena"));
 		System.out.println(li.toString());

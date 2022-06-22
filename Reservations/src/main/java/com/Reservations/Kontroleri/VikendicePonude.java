@@ -1,5 +1,6 @@
 package com.Reservations.Kontroleri;
 
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,7 @@ public class VikendicePonude {
 	@RequestMapping(value = "/PretragaVik/{id}")
 	  public String getOsPage(Model model,@PathVariable Long id,@RequestParam String s){
 		System.out.println("PrikazBrodova page was called!");
+		   try {
 		List<Vikendica>vikendice=vikendicaServis.VikendicaPretraga(s);
 		Korisnik k=korServis.findById(id);
 		model.addAttribute("vikendice", vikendice);
@@ -82,11 +84,14 @@ public class VikendicePonude {
 		List<Vikendica>vik1=vikendicaServis.VikSortCena();
 		List<Vikendica>vik2=vikendicaServis.VikSortNaziv();
 		List<Vikendica>vik3=vikendicaServis.VikSortAdresa();
-		
+		   
 		model.addAttribute("sortvikendice", vik1);
 		model.addAttribute("sortviknaziv", vik2);
 		model.addAttribute("sortvikadresa",vik3);
 		System.out.println(model.toString());
+		   } catch (DateTimeParseException e) {
+				return "pogresanUnos";
+		    }
 	      return "prikazVikendica";
 	  }
 		
