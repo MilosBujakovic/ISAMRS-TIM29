@@ -543,6 +543,11 @@ public class RezervacijaServis {
 		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
 	}
 
+	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) 
+	{
+		return this.rezervacijaRepozitorijum.findByTip(tip);
+	}
+
 	public List<PrihodDTO> izracunajPrihodeSvihRezervacija() {
 		List<PrihodDTO> prihodi = new ArrayList<PrihodDTO>();
 		List<Rezervacija> rezervacije = this.listAll();

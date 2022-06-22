@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Modeli.enums.TipRezervacije;
 
 public interface RezervacijaRepozitorijum extends JpaRepository<Rezervacija,Long>{
 	
@@ -15,6 +16,7 @@ public interface RezervacijaRepozitorijum extends JpaRepository<Rezervacija,Long
 	Optional<Rezervacija> findById(Long Id);
 	List<Rezervacija> findByEntitetId(Long entitetId);
 	List<Rezervacija> findByTipEntiteta(TipEntiteta tipEntiteta);
+	List<Rezervacija> findByTip(TipRezervacije tip);
 	
     
 }

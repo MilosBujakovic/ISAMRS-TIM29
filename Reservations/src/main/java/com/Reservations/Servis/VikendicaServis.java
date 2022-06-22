@@ -26,6 +26,8 @@ import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 public class VikendicaServis {
 	
 	@Autowired
+	private TerminServis terminServis;
+	@Autowired
 	private VikendicaRepozitorijum vikendicaRepozitorijum;
 	
 	@Autowired
@@ -594,6 +596,8 @@ public class VikendicaServis {
 	}
 	public List<PeriodPrikazDTO> dobaviPeriode(Vikendica vikendica) 
 	{
+		terminServis.popraviPeriodeVikendice(vikendica);
+				
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : vikendica.getTerminiZauzetosti() )
 		{
@@ -609,6 +613,12 @@ public class VikendicaServis {
 	
 	public List<PeriodPrikazDTO> dobaviTermine(Vikendica vikendica) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.listAll();
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		System.out.println("termini vikendice: "+vikendica.getTerminiZauzetosti().size());
 		for(Termin termin : vikendica.getTerminiZauzetosti() )
@@ -625,6 +635,13 @@ public class VikendicaServis {
 	
 	public List<PeriodPrikazDTO> dobaviTermineBrzihRezervacija(Vikendica vikendica) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.brza);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : vikendica.getTerminiZauzetosti() )
 		{
@@ -640,6 +657,12 @@ public class VikendicaServis {
 	
 	public List<PeriodPrikazDTO> dobaviTermineObicnihRezervacija(Vikendica vikendica) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.obicna);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : vikendica.getTerminiZauzetosti() )
 		{
@@ -651,6 +674,12 @@ public class VikendicaServis {
 			}
 		}
 		return periodi;
+	}
+	
+	
+	public void ubaciVikendicuUbazu(Vikendica vikendica) {
+		vikendicaRepozitorijum.save(vikendica);
+		
 	}
 	
 
