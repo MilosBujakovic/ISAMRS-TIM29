@@ -41,39 +41,28 @@
 			<table>
 				<tr>
 					<th>ID</th>
-					<th>Ime</th>
-					<th>Prezime</th>
-					<th>Email</th>
-					<th>Korisnicko ime</th>
-					<th>Broj telefona</th>
-					<th>Adresa</th>
-					<th>Grad</th>
-					<th>Drzava</th>
-					<th>Razlog registracije</th>
+					<th>Klijent</th>
+					<th>Tekst zalbe</th>
+					<th>Rezervacija ID</th>
 				</tr>
 				<tr>
-					<td th:text="${zahtev.ID}">ID</td>
-					<td th:text="${zahtev.ime}">Ime</td>
-					<td th:text="${zahtev.prezime}">Prezime</td>
-					<td th:text="${zahtev.email}">Email</td>
-					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
-					<td th:text="${zahtev.brojTel}">Broj telefona</td>
-					<td th:text="${zahtev.adresa}">Adresa</td>
-					<td th:text="${zahtev.grad}">Grad</td>
-					<td th:text="${zahtev.drzava}">Drzava</td>
-					<td th:text="${zahtev.razlogRegistracije}">Razlog registracije</td>
+					<td th:text="${zalba.ID}">ID</td>
+					<td th:text="${zalba.naziv}">Klijent</td>
+					<td th:text="${zalba.zalba}">Tekst zalbe</td>
+					<td th:text="${zalba.rezervacija.ID}">Rezervacija ID</td>
+				</tr>
 				</tr>
 			</table>
 		</section>
 		<section class="panel important">
 			<form
-				th:action="@{/admin/}+ ${id +'/zahtevZB/'} + ${zahtev.ID} + @{/submit}">
+				th:action="@{/admin/}+ ${id +'/zalba/'} + ${zalba.ID} + @{/submit}">
+				<div class="twothirds">
+					<label for="textarea">Odgovor na žalbu:</label>
+					<textarea cols="40" rows="8" name="textarea" id="textarea"></textarea>
+				</div>
 				<div class="onethird">
-					<label for="y"> <input type="radio" name="radio" id="y"
-						value="accept" /> Prihvati zahtev
-					</label> <label for="n"> <input type="radio" name="radio" id="n"
-						value="deny" /> Odbij zahtev
-					</label> <input type="submit" value="Pošalji" />
+					 <input type="submit" value="Pošalji" />
 				</div>
 			</form>
 		</section>

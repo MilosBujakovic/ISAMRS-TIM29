@@ -470,4 +470,9 @@ public class UslugaServis {
 		
 		return godisnjaPoslovanja;
 	}
+
+	public void ubaciUsluguBazu(Usluga usluga) {
+		uslugaRepozitorijum.save(usluga);
+		
+	}
 }

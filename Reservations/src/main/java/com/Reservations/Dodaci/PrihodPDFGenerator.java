@@ -55,9 +55,9 @@ public class PrihodPDFGenerator {
              c.setTime(pocDatum); 
         	while(!c.getTime().after(krajDatum))
         	{
-                table.addCell(String.valueOf(p.getVrednost()));
-                table.addCell(String.valueOf(p.getRezervacija().getID()));
-                table.addCell(p.getRezervacija().getDatum().toString());
+//                table.addCell(String.valueOf(p.getVrednost()));
+//                table.addCell(String.valueOf(p.getRezervacija().getID()));
+//                table.addCell(p.getRezervacija().getDatum().toString());
         	}
         }
     }

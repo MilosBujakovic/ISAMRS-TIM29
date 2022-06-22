@@ -21,12 +21,16 @@ public class PeriodPrikazDTO
 	public PeriodPrikazDTO(Termin termin)
 	{
 		this.ID = termin.getID();
-		this.rezervacijaID = termin.getRezervacija().getID();
+		if(termin.getRezervacija()!=null)
+		{
+			this.rezervacijaID = termin.getRezervacija().getID();
+			this.tipRezervacije = termin.getRezervacija().getTip().toString();
+		}
 		this.vlasnikID = termin.getVlasnik().getID();
 		this.datumPocetka = termin.getDatumVremePocetak();
 		this.datumKraja = termin.getDatumVremeKraj();
 		
-		this.tipRezervacije = termin.getRezervacija().getTip().toString();
+		
 		
 		switch(termin.getTipEntiteta())
 		{

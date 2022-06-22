@@ -41,8 +41,15 @@ public class BrodServis
 	@Autowired
 	private GVarijableServis globalneVarijable;
 	
+	@Autowired
+	private TerminServis terminServis;
+	
 	public List<Brod> listAll(){
 		return brodRepozitorijum.findAll();
+	}
+	
+	public void delete(Long id){
+		this.brodRepozitorijum.deleteById(id);
 	}
 
 	public Brod findById(Long id){
@@ -620,6 +627,8 @@ public class BrodServis
 	
 	public List<PeriodPrikazDTO> dobaviPeriode(Brod brod) 
 	{
+		terminServis.popraviPeriodeBroda(brod);
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : brod.getTerminiZauzetosti() )
 		{
@@ -634,6 +643,12 @@ public class BrodServis
 	
 	public List<PeriodPrikazDTO> dobaviTermine(Brod brod) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.listAll();
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : brod.getTerminiZauzetosti() )
 		{
@@ -647,6 +662,12 @@ public class BrodServis
 	
 	public List<PeriodPrikazDTO> dobaviTermineBrzihRezervacija(Brod brod) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.brza);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : brod.getTerminiZauzetosti() )
 		{
@@ -660,6 +681,12 @@ public class BrodServis
 	
 	public List<PeriodPrikazDTO> dobaviTermineObicnihRezervacija(Brod brod) 
 	{
+		List<Rezervacija> rezervacije = rezervacijaServis.nadjiPoTipuRezervacije(TipRezervacije.obicna);
+		for(Rezervacija rez : rezervacije)
+		{
+			terminServis.popraviTerminRezervacije(rez);
+		}
+		
 		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
 		for(Termin termin : brod.getTerminiZauzetosti() )
 		{
@@ -669,5 +696,10 @@ public class BrodServis
 			}
 		}
 		return periodi;
+	}
+	
+	public void ubaciBrodUbazu(Brod brod) {
+		brodRepozitorijum.save(brod);
+		
 	}
 }

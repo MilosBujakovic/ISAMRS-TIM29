@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
@@ -89,9 +92,10 @@ public class VlasnikVikendiceKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnikV);
 		System.out.println(model.toString());
 		if(vrstaPrikaza.equals("upravljanje"))return "/vikendice/upravljanjeVikendicama.html";
-		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else if(vrstaPrikaza.equals("kalendar")) return "/vikendice/kalendarVikendica.html";
 		else if(vrstaPrikaza.equals("periodiZauzetosti")) return "/vikendice/periodiZauzetostiVikendica.html";
-		else return "/vikendice/mojeVikendice";
+		else if(vrstaPrikaza.equals("prikazi") )return "/vikendice/mojeVikendice";
+		else return "/vikendice/brisanjeVikendica.html";
 	}
 	
 	@RequestMapping(value = "/profil/{vlasnikID}")
@@ -456,10 +460,28 @@ public class VlasnikVikendiceKontroler {
 		List<PeriodPrikazDTO> periodi = vikendicaServis.dobaviPeriode(vikendica);
 		model.addAttribute("periodi", periodi);
 		
-		List<PeriodPrikazDTO> termini = vikendicaServis.dobaviTermine(vikendica);
+		List<PeriodPrikazDTO> termini = vikendicaServis.dobaviTermineBrzihRezervacija(vikendica);
 		model.addAttribute("termini", termini);
 		return "/vikendice/periodiDostupnostiVikendice.html";
 	}
+
+	@RequestMapping(value = "/kalendarZauzetosti/{vlasnikID}/{vikID}")
+	public String kalendarTerminaZauzetosti(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikID);
+		model.addAttribute("vikendica", vikendica);
+		
+		List<PeriodPrikazDTO> periodi = vikendicaServis.dobaviPeriode(vikendica);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = vikendicaServis.dobaviTermine(vikendica);
+		Collections.sort(termini, Comparator.comparing(PeriodPrikazDTO::getDatumPocetka));
+		model.addAttribute("termini", termini);
+		return "/vikendice/kalendarZauzetostiVikendice.html";
+	}	
 	
 /*
 	@GetMapping("/admin/reports/print")

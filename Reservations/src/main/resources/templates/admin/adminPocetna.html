@@ -35,7 +35,7 @@
 	</nav>
 
 	<main role="main">
-		
+
 		<section class="panel important">
 			<h2>Zahtevi za registraciju</h2>
 			<table>
@@ -82,6 +82,25 @@
 					<td th:text="${zahtev.korisnickoIme}">Korisnicko ime</td>
 					<td th:text="${zahtev.razlogRegistracije}">Razlog za brisanje</td>
 					<td><a th:href="@{/admin/}+${id+'/zahtevZB/'} + ${zahtev.ID}">►</a></td>
+				</tr>
+			</table>
+		</section>
+		<section class="panel important">
+			<h2>Zalbe klijenata</h2>
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Klijent</th>
+					<th>Tekst zalbe</th>
+					<th>Rezervacija ID</th>
+					<th>Odgovor</th>
+				</tr>
+				<tr th:each="zalba : ${zalbe}">
+					<td th:text="${zalba.ID}">ID</td>
+					<td th:text="${zalba.naziv}">Klijent</td>
+					<td th:text="${zalba.zalba}">Tekst zalbe</td>
+					<td th:text="${zalba.rezervacija.ID}">Rezervacija ID</td>
+					<td><a th:href="@{/admin/}+${id+'/zalba/'} + ${zalba.ID}">►</a></td>
 				</tr>
 			</table>
 		</section>

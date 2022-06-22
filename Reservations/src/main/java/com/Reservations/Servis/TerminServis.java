@@ -64,7 +64,8 @@ public class TerminServis
 							
 							for(int i = 0; i<vikendica.getTerminiZauzetosti().size();i++)
 							{
-								if(vikendica.getTerminiZauzetosti().get(i).getID()==terminRezervacije.getID())
+								if(vikendica.getTerminiZauzetosti().get(i).getID()==terminRezervacije.getID()
+								&& vikendica.getTerminiZauzetosti().get(i).getRezervacija().getID()==terminRezervacije.getRezervacija().getID())
 								{
 									vikendica.getTerminiZauzetosti().set(i, terminRezervacije);
 									pronadjenEntitet = true;
@@ -109,7 +110,8 @@ public class TerminServis
 							
 							for(int i = 0; i<brod.getTerminiZauzetosti().size();i++)
 							{
-								if(brod.getTerminiZauzetosti().get(i).getID()==terminRezervacije.getID())
+								if(brod.getTerminiZauzetosti().get(i).getID()==terminRezervacije.getID()
+								&& brod.getTerminiZauzetosti().get(i).getRezervacija().getID()==terminRezervacije.getRezervacija().getID())
 								{
 									brod.getTerminiZauzetosti().set(i, terminRezervacije);
 									pronadjenEntitet = true;
@@ -155,7 +157,7 @@ public class TerminServis
 							for(int i = 0; i<usluga.getTerminiZauzetosti().size();i++)
 							{
 								if(usluga.getTerminiZauzetosti().get(i).getID()==terminRezervacije.getID()
-								&& terminRezervacije.getTipEntiteta().equals(TipEntiteta.usluga))
+								&& usluga.getTerminiZauzetosti().get(i).getRezervacija().getID()==terminRezervacije.getRezervacija().getID())
 								{
 									usluga.getTerminiZauzetosti().set(i, terminRezervacije);
 									pronadjenEntitet = true;
@@ -190,107 +192,58 @@ public class TerminServis
 		return rezultat;
 	}
 	
-	public boolean popraviTermineVikendice(Vikendica vikendica, Termin terminVikendice) 
+	public boolean popraviPeriodeVikendice(Vikendica vikendica) 
 	{
-		Termin terminEntiteta = null ;
-		List<Termin> termini;
-		boolean rezultat = false;
-		/*
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		System.out.println("Trazim termine za vikendicu: "+vikendica.getID());
-
-		boolean pronadjen = false;
-		System.out.println("dobavljam po tipu vikendice");
-		termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
-		System.out.println(termini.isEmpty());
-		if(termini!=null && !termini.isEmpty())for(Termin termin : termini)
+		boolean promjena = false;
+		List<Termin> termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
+		for(Termin termin : termini)
 		{
-			if(termin.getVikendica()!=null && !vikendica.getTerminiZauzetosti().isEmpty() 
-				&& vikendica.getID()==termin.getVikendica().getID())
+			if(termin.getVikendica().getID()==vikendica.getID() 
+			&& !vikendica.getTerminiZauzetosti().contains(termin))
 			{
-				for(Termin terminZauzetosti : vikendica.getTerminiZauzetosti())
-				{
-					if(termin.getID()==terminZauzetosti.getID())
-					{
-					terminZauzetosti.setDatumVremePocetak(terminVikendice.getDatumVremePocetak());
-					termin.setDatumVremeKraj(terminZauzetosti.getDatumVremeKraj());
-					pronadjen = true;
-					}
-				}
+				vikendica.getTerminiZauzetosti().add(termin);
+				promjena = true;
 			}
 		}
-		if(!pronadjen)
-		{
-			termin = 
-			System.out.println("rezultat: "+terminEntiteta);
-			terminEntiteta = new Termin(vikendica);
-			this.dodijeliVlasnikaIentitet(terminEntiteta, vikendica);
-			System.out.println("rez-ter: "+vikendica.getTermin());
-		}
-		System.out.println("rezultat: "+terminEntiteta);
-		break;
+		if(promjena)vikendicaServis.ubaciVikendicuUbazu(vikendica);
+		
+		return promjena;
 	}
-			case 3: //vlasnik broda
-			{
-				boolean pronadjen = false;
-				System.out.println("dobavljam po tipu broda");
-				termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.brod);
-				if(termini!=null && !termini.isEmpty())for(Termin termin : termini)
-				{
-					if(vikendica.getEntitetId()==termin.getBrod().getID() && termin.getRezervacija()!=null
-					&& vikendica.getID()==termin.getRezervacija().getID())
-					{
-						terminRezervacije = termin;
-						terminRezervacije.setDatumVremePocetak(vikendica.getDatum());
-						terminRezervacije.izracunajDatumKraja(vikendica.getTrajanje());
-						pronadjen = true;
-					}
-				}
-				if(!pronadjen)
-				{
-					System.out.println("rezultat: "+terminRezervacije);
-					terminRezervacije = new Termin(vikendica);
-					this.dodijeliVlasnikaIentitet(terminRezervacije, vikendica);
-					System.out.println("rez-ter: "+vikendica.getTermin());
-				}
-				System.out.println("rezultat: "+terminRezervacije);
-				break;
-			}
-			case 4: //Instruktor
-			{
-				boolean pronadjen = false;
-				System.out.println("dobavljam po tipu usluge");
-				termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.usluga);
-				if(termini!=null && !termini.isEmpty())for(Termin termin : termini)
-				{
-					if(vikendica.getEntitetId()==termin.getUsluga().getID() && termin.getRezervacija()!=null
-					&& vikendica.getID()==termin.getRezervacija().getID())
-					{
-						terminRezervacije = termin;
-						terminRezervacije.setDatumVremePocetak(vikendica.getDatum());
-						terminRezervacije.izracunajDatumKraja(vikendica.getTrajanje());
-						pronadjen = true;
-					}
-				}
-				if(!pronadjen)
-				{
-					System.out.println("rezultat: "+terminRezervacije);
-					terminRezervacije = new Termin(vikendica);
-					this.dodijeliVlasnikaIentitet(terminRezervacije, vikendica);
-					System.out.println("rez-ter: "+vikendica.getTermin());
-				}
-				System.out.println("rezultat: "+terminRezervacije);
-				break;
-			}
-			
-		}
-		if(terminRezervacije!=null)
+	
+	public boolean popraviPeriodeBroda(Brod brod) 
+	{
+		boolean promjena = false;
+		List<Termin> termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.brod);
+		for(Termin termin : termini)
 		{
-			rezultat = true;
-			System.out.println("rezulzat je: "+rezultat);
-			terminRepozitorijum.save(terminRezervacije);
-		}*/
-		return rezultat;
+			if(termin.getBrod().getID()==brod.getID() 
+			&& !brod.getTerminiZauzetosti().contains(termin))
+			{
+				brod.getTerminiZauzetosti().add(termin);
+				promjena = true;
+			}
+		}
+		if(promjena)brodServis.ubaciBrodUbazu(brod);
+		
+		return promjena;
+	}
+	
+	public boolean popraviPeriodeUsluge(Usluga usluga) 
+	{
+		boolean promjena = false;
+		List<Termin> termini = terminRepozitorijum.findByTipEntiteta(TipEntiteta.brod);
+		for(Termin termin : termini)
+		{
+			if(termin.getUsluga().getID()==usluga.getID() 
+			&& !usluga.getTerminiZauzetosti().contains(termin))
+			{
+				usluga.getTerminiZauzetosti().add(termin);
+				promjena = true;
+			}
+		}
+		if(promjena)uslugaServis.ubaciUsluguBazu(usluga);
+		
+		return promjena;
 	}
 	
 	public void dodijeliVlasnikaIentitet(Termin termin, Rezervacija rez)
@@ -323,4 +276,7 @@ public class TerminServis
 		}
 	}
 	
+	public void obrisiPoID(long id) {
+		this.terminRepozitorijum.deleteById(id);
+	}
 }
