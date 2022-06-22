@@ -63,7 +63,14 @@ public class VikendicePonude {
 			System.out.println(model.toString());
 	      return "OsnovniPodaciVik";
 	  }
-	
+	@RequestMapping(value = "/OSPretragaVik")
+	  public String getOsPage(Model model,@RequestParam String s){
+		System.out.println("PrikazBrodova page was called!");
+		List<Vikendica>vikendice=vikendicaServis.VikendicaPretraga(s);
+		model.addAttribute("vikendice", vikendice);
+		
+	      return "OsnovniPodaciVik";
+	  }
 	@RequestMapping(value = "/PretragaVik/{id}")
 	  public String getOsPage(Model model,@PathVariable Long id,@RequestParam String s){
 		System.out.println("PrikazBrodova page was called!");
