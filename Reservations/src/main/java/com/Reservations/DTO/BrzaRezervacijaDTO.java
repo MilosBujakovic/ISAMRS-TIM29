@@ -3,7 +3,7 @@ package com.Reservations.DTO;
 import javax.persistence.Column;
 
 public class BrzaRezervacijaDTO {
-	private Long id; //entitet ID
+	private Long entitetId; //entitet ID
 	
 	private String datum;
 	
@@ -19,7 +19,7 @@ public class BrzaRezervacijaDTO {
 
 	public BrzaRezervacijaDTO(Long id, String datum, String vreme, String trajanje, int maxOsoba, double cena,
 			double akcija) {
-		this.id = id;
+		this.entitetId = id;
 		this.datum = datum;
 		this.vreme = vreme;
 		this.trajanje = trajanje;
@@ -31,12 +31,12 @@ public class BrzaRezervacijaDTO {
 	public BrzaRezervacijaDTO() {
 	}
 
-	public Long getId() {
-		return id;
+	public Long getEntitetId() {
+		return entitetId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEntitetId(Long entitetId) {
+		this.entitetId = entitetId;
 	}
 
 	public String getDatum() {
@@ -89,7 +89,7 @@ public class BrzaRezervacijaDTO {
 
 	@Override
 	public String toString() {
-		return "BrzaRezervacijaDTO [id=" + id + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
+		return "BrzaRezervacijaDTO [id=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
 				+ ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", akcija=" + akcija + "]";
 	}
 	

@@ -243,4 +243,31 @@ public class BrodKontroler {
 		model.addAttribute("brodovi", mojiBrodovi);
 		return "/brodovi/brzeRezervacijeBrodova.html";
 	}
+	
+	
+	@RequestMapping(value="/brodovi"+"/brza-rezervacija/{vlasnikID}/{brodID}")
+	public String brzaRezervacijaVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
+	{
+		System.out.println("Brzo-rezervisi page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(brodID);
+		model.addAttribute("brod", brod);
+		
+		return "/brodovi/rezervacijaBrodaBrza.html";
+	}
+	
+	@RequestMapping(value="/brodovi"+"/dodajPeriod/{vlasnikID}/{brodID}")
+	public String dodajPeriod(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID)
+	{
+		System.out.println("Brzo-rezervisi page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(brodID);
+		model.addAttribute("brod", brod);
+		
+		return "/brodovi/napraviPeriodBroda.html";
+	}
 }

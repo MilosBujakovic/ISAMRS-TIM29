@@ -679,19 +679,19 @@ public class RezervacijaServis {
 		r.setCena(brza.getCena());
 		r.setTipEntiteta(tip);
 		r.setTip(TipRezervacije.brza);
-		r.setEntitetId(brza.getId());
+		r.setEntitetId(brza.getEntitetId());
 		r.setMaxOsoba(brza.getMaxOsoba());
 		r.setTrajanje(brza.getTrajanje());
 		if(tip.equals(TipEntiteta.vikendica)) {
-			Vikendica v = vikendicaServis.findById(brza.getId());
+			Vikendica v = vikendicaServis.findById(brza.getEntitetId());
 			r.setNazivEntiteta(v.getNaziv());
 		}
 		else if(tip.equals(TipEntiteta.brod)) {
-			Brod b = brodServis.findById(brza.getId());
+			Brod b = brodServis.findById(brza.getEntitetId());
 			r.setNazivEntiteta(b.getNaziv());
 		}
 		else if(tip.equals(TipEntiteta.usluga)) {
-			Usluga u = uslugaServis.findById(brza.getId());
+			Usluga u = uslugaServis.findById(brza.getEntitetId());
 			r.setNazivEntiteta(u.getNaziv());
 		}
 		

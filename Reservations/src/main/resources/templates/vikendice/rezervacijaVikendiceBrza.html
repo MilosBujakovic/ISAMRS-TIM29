@@ -77,23 +77,21 @@
 		</div>
 
 
-            <div class="col-md-8"><label class="labels">Naziv</label><input readonly type="text" class="form-control" placeholder="Unesite naziv" th:value="${vikendica.naziv}" name="naziv"></input></div>
+            <div class="col-md-8"><label class="labels" th:text="${vikendica.naziv}"></label><input readonly type="hidden" class="form-control" placeholder="Unesite naziv" th:value="${vikendica.ID}" name="entitetId"></input></div>
             <div class="col-md-8"><label class="labels">Adresa</label><input readonly type="text" class="form-control" placeholder="Unesite adresu" th:value="${vikendica.adresa}" name="adresa"></input></div>
-            <div class="col-md-8"><label class="labels">Najveći broj osoba</label><input readonly type="text" class="form-control" placeholder="Unesite broj soba" th:value="${vikendica.brojSoba*vikendica.brojKreveta}" name="brojSoba"></input></div>
+            <div class="col-md-8"><label class="labels">Najveći broj osoba</label><input readonly type="text" class="form-control" placeholder="Unesite broj soba" th:value="${vikendica.brojSoba*vikendica.brojKreveta}" name="maxOsoba"></input></div>
             <div class="col-md-8"><label class="labels">Cijena</label><input readonly type="text" class="form-control" placeholder="Unesite cijenu" th:value="${vikendica.cena}" name="cena"></input></div>
        		<!--div class="col-md-7"><input  type="date" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike" id="naziv"></input></div-->
-       		<div class="col-md-8"><label class="labels">Broj oosoba</label><input type="number" min="1" th:max="${vikendica.brojSoba*vikendica.brojKreveta}" class="form-control" placeholder="Unesite broj osoba" th:value="${vikendica.brojKreveta}" name="brojKreveta"></input></div>
+       		<div class="col-md-8"><label class="labels">Sniženje (množilac pune cijene)</label><input type="number" min="0.5" max="1" step="0.05" class="form-control" placeholder="Unsite sniženje" value="0.8" name="akcija"></input></div>
        		<div class="col-md-8">
-       		<label class="opis" for="pocetniDatum">Početni datum: </label>
-			<input class="opis form-control" id="pocetniDatum" type="date" name="pocetniDatum" value=""></input>
-			</div>
-			<div class="col-md-8"><label class="opis" for="krajnjiDatum">Trajanje: </label>
+       		<label class="opis" for="datum">Početni datum i vrijeme: </label>
+		    <input class="opis form-control" id="datum" type="date" name="datum" value=""></input>
+			<input class="opis form-control" id="vreme" type="time" name="vreme" value=""></input></div>
+			
+			<div class="col-md-8"><label class="opis" for="trajanje">Trajanje: </label>
 			<input class="opis form-control" id="trajanje" type="number" min="1"  name="trajanje" value=""></input>
 			</div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" id="putanja"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="nazivSlike2" id="naziv2"></input></div>
-       		<div class="col-md-7"><input  type="hidden" class="form-control" placeholder="Unesite ime" value="" name="putanja2" id="putanja2"></input></div>
-			<div class="mt-5 text-left"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/izmijeniVikendicu/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}" type="submit" value="0">Napravi rezervaciju</button> <button class="btn btn-primary profile-button" th:formaction="@{/vikendicaVlasnik/obrisiVikendicu/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}" type="submit" value="0">Obriši Vikendicu</button>
+       		<div class="mt-5 text-left"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/napraviBrzuRezervaciju/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}" type="submit" value="0">Napravi rezervaciju</button>
          </div>
     </div>
     </form>

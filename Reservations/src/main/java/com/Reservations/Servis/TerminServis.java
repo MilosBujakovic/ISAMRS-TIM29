@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
@@ -278,5 +279,36 @@ public class TerminServis
 	
 	public void obrisiPoID(long id) {
 		this.terminRepozitorijum.deleteById(id);
+	}
+
+	public Termin napraviPeriodDostupnosti(PeriodPrikazDTO period, TipEntiteta tip, Korisnik vlasnik) {
+		Termin termin = new Termin();
+		termin.setTipEntiteta(tip);
+		termin.setDatumVremePocetak(period.getDatumPocetka());
+		termin.setDatumVremeKraj(period.getDatumKraja());
+		termin.setVlasnik(vlasnik);
+		switch (tip) 
+		{
+			case vikendica:
+			{
+				Vikendica vikendica = vikendicaServis.findById(period.getEnteitetID());
+				termin.setVikendica(vikendica);
+				break;
+			}
+			case brod:
+			{
+				Brod brod = brodServis.findById(period.getEnteitetID());
+				termin.setBrod(brod);
+				break;
+			}
+			case usluga:
+			{
+				Usluga usluga = uslugaServis.findById(period.getEnteitetID());
+				termin.setUsluga(usluga);
+				break;
+			}
+		}
+		
+		return terminRepozitorijum.save(termin);
 	}
 }
