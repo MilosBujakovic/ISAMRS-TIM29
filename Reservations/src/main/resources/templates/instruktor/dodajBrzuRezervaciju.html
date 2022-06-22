@@ -37,7 +37,51 @@
 		</div>
 	</div>
 	<div class="panel important">
-		
+		<form method="post"
+			th:action="@{/instruktor/}+${id + '/novaBrzaRezervacija/dodaj'}">
+			<table class="container">
+				<tr>
+					<td>Usluga</td>
+					<td><select  name="id" required>
+					<option th:each="usl : ${usluge}" th:value="${usl.ID}" th:text="${usl.naziv}"></option>
+					</select></td>
+				</tr>
+				<tr>
+					<td>Datum</td>
+					<td><input type="date" name="datum"
+						required/></td>
+				</tr>
+				<tr>
+					<td>Vreme</td>
+					<td><input type="time" name="vreme"
+						required/></td>
+				</tr>
+				<tr>
+					<td>Trajanje</td>
+					<td><input type="number" min="1"
+						name="trajanje" required/></td>
+				</tr>
+				<tr>
+					<td>Broj osoba</td>
+					<td><input type="number" min="1"
+						name="maxOsoba" required/></td>
+				</tr>
+				<tr>
+					<td>Cena</td>
+					<td><input type="text" name="cena"
+						pattern="\d*(?:\.\d*)?" required/></td>
+				</tr>
+				<tr>
+					<td>Popust</td>
+					<td><input type="text" name="akcija"
+						pattern="\d*(?:\.\d*)?" required/></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><input type="submit" /></td>
+				</tr>
+			</table>
+		</form>
 	</div>
 
 </body>

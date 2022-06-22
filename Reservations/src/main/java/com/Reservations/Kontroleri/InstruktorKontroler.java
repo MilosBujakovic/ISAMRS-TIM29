@@ -1,6 +1,7 @@
 package com.Reservations.Kontroleri;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
+import com.Reservations.DTO.BrzaRezervacijaDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Exception.ResourceConflictException;
@@ -23,6 +26,7 @@ import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.TerminServis;
 import com.Reservations.Servis.UslugaServis;
 
 @Controller
@@ -38,6 +42,9 @@ public class InstruktorKontroler {
 	RezervacijaServis rezervacijaServis;
 
 	@Autowired
+	TerminServis terminServis;
+
+	@Autowired
 	BrisanjeNalogaServis bnServis;
 
 	@RequestMapping(value = "")
@@ -46,10 +53,12 @@ public class InstruktorKontroler {
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
 		List<Usluga> usluge = uslugaServis.findByInstruktor(id);
-		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, false);
+		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(instruktor, TipEntiteta.usluga);
+		List<Rezervacija> brze = rezervacijaServis.pronadjiBrzeRezervacijePoVlasniku(instruktor, TipEntiteta.usluga);
 		model.addAttribute("id", id);
 		model.addAttribute("usluge", usluge);
 		model.addAttribute("rezervacije", rezervacije);
+		model.addAttribute("brze", brze);
 		return "instruktor/instruktorPocetna";
 	}
 
@@ -146,13 +155,20 @@ public class InstruktorKontroler {
 	@RequestMapping(value = "/novaBrzaRezervacija", method = RequestMethod.GET)
 	public String addQuickReservation(Model model, @PathVariable Long id) {
 		System.out.println("Dodajemo brzu rezervaciju!");
+		List<Usluga> usluge = uslugaServis.findByInstruktor(id);
+		model.addAttribute("usluge", usluge);
 		return "instruktor/dodajBrzuRezervaciju";
 	}
 	
-	@RequestMapping(value = "/novaAkcija", method = RequestMethod.GET)
-	public String addSpecialOffer(Model model, @PathVariable Long id) {
-		System.out.println("Dodajemo akciju!");
-		return "instruktor/dodajAkciju";
+	@RequestMapping(value = "/novaBrzaRezervacija/dodaj", method = RequestMethod.POST)
+	public String addQuickR(Model model, @PathVariable Long id, BrzaRezervacijaDTO brza) {
+		System.out.println("Dodajemo brzu rezervaciju!");
+		List<Usluga> usluge = uslugaServis.findByInstruktor(id);
+		brza.srediDatume();
+		Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(brza, TipEntiteta.usluga);
+		terminServis.popraviTerminRezervacije(rez);
+		model.addAttribute("usluge", usluge);
+		return "redirect:/instruktor/" + String.valueOf(id);
 	}
 	
 	@RequestMapping(value = "/izvestajiRezervacija")
@@ -195,4 +211,60 @@ public class InstruktorKontroler {
 			return "redirect:/instruktor/" + String.valueOf(id) + "/napisiIzvestajRezervacija/" + String.valueOf(rId);
 		}
 	}
+	
+	@RequestMapping(value = "/osveziTermine")
+	public String refresh(@PathVariable Long id)	 {
+		System.out.println("Osvjezi termine page was called!");
+		Korisnik vlasnik = korisnikServis.findById(id);
+		
+		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.usluga);
+		rezervacije.addAll(rezervacijaServis.pronadjiBrzeRezervacijePoVlasniku(vlasnik, TipEntiteta.usluga));
+		boolean uspjesan = rezervacijaServis.popraviTermineRezervacija(rezervacije);
+		
+		if(uspjesan)
+		{
+			return "redirect:/instruktor/" + String.valueOf(id);
+		}
+		else
+		{
+			System.out.println("TERMINI NISU POPRAVLJENI!");
+			return "redirect:/instruktor/" + String.valueOf(id);
+		}
+	}
+	
+	@RequestMapping(value = "/periodiZauzetosti/{uslID}")
+	public String spisakPeriodaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID)
+	{
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		
+		Usluga usluga = uslugaServis.findById(uslID);
+		model.addAttribute("usluga", usluga);
+		
+		List<PeriodPrikazDTO> periodi = uslugaServis.dobaviPeriode(usluga);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = uslugaServis.dobaviTermineBrzihRezervacija(usluga);
+		model.addAttribute("termini", termini);
+		return "/instruktor/instruktorPeriodi";
+	}
+
+	@RequestMapping(value = "/kalendarZauzetosti/{uslID}")
+	public String kalendarTerminaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID)
+	{
+		Korisnik instruktor = korisnikServis.findById(id);
+		model.addAttribute("instruktor", instruktor);
+		
+		Usluga usluga = uslugaServis.findById(uslID);
+		model.addAttribute("usluga", usluga);
+		
+		List<PeriodPrikazDTO> periodi = uslugaServis.dobaviPeriode(usluga);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = uslugaServis.dobaviTermine(usluga);
+		Collections.sort(termini, Comparator.comparing(PeriodPrikazDTO::getDatumPocetka));
+		model.addAttribute("termini", termini);
+		return "";
+	}	
+	
 }
