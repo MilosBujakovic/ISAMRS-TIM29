@@ -1,5 +1,7 @@
 package com.Reservations.Kontroleri;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,13 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
 import com.Reservations.DTO.ZalbaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Usluga;
+import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.ZahtevZaBrisanje;
 import com.Reservations.Modeli.Zalba;
 import com.Reservations.Servis.BrisanjeNalogaServis;
+import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.UslugaServis;
+import com.Reservations.Servis.VikendicaServis;
 import com.Reservations.Servis.ZalbaServis;
 
 @Controller
@@ -27,6 +35,16 @@ public class KlijentKontroler {
 	
 	@Autowired
 	RezervacijaServis resService;
+	
+	
+	@Autowired
+	VikendicaServis vikservis;
+	
+	
+	@Autowired
+	BrodServis brodservis;
+	@Autowired
+	UslugaServis uslugaservis;
 		
 	@Autowired
 	BrisanjeNalogaServis brisanjeService;
@@ -103,6 +121,26 @@ public  String home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVar
    
     System.out.println(user.toString());
     return "StranicaZaZalbu";
+}
+
+@RequestMapping("/pretplata/{id}")
+public  String hom(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id) {
+	 user=userService.findById(id);
+	 
+	 Rezervacija r=resService.findById(id);
+   List<Vikendica>li=vikservis.findByPretplaceniKorisnikVik(user);
+   
+   List<Brod>li2=brodservis.findByPretplaceniKorisnikBrod(user);
+   List<Usluga>li3=uslugaservis.findByPretplaceniKorisnikUsluga(user);
+   System.out.println(li);
+   model.addAttribute("rez",r);
+   user=userService.findById(id);
+   model.addAttribute("pod",user);
+   model.addAttribute("vikendica", li);
+   model.addAttribute("brodovi", li2);
+   model.addAttribute("usluge", li3);
+    System.out.println(user.toString());
+    return "MojePretplate";
 }
 
 @RequestMapping(value = "/zalba2/{id}")

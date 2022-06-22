@@ -78,7 +78,7 @@ button{
 				
 				<div class="block">
     <label>Datum pocetka:</label>
-    <input type="text" id="datepicker2" name="datum"/>
+    <input type="text" readonly id="datepicker2" name="datum"/>
 </div>
 <br>
 <div class="block">
@@ -90,13 +90,13 @@ button{
 <br>
 <div class="block">
     <label>Trajanje:</label>
-    <input type="number"  name="trajanje" />
+    <input type="number" required min="1" max="6"  name="trajanje" />
   
 </div>
 <br>
 <div class="block">
     <label>Broj osoba:</label>
-    <input type="number" name="maxOsoba" />
+    <input type="number" required min="1"  name="maxOsoba" />
   
 </div>
 
@@ -115,8 +115,12 @@ button{
 					
 					</div>
 					 <button  class="btn btn-primary profile-button" align="right"  th:formaction="@{/rezervacije/rezervisiVik/}+${vik.ID+'/'}+${kor.ID}">Rezervisi</button>
+					 
+					 <button  class="btn btn-primary profile-button" align="right" th:formaction="@{/pretplataVik/}+${kor.ID+'/'}+${vik.ID}">Pretplata</button>
 			</form>
+			 
 				</div>
+				
 				
 			</div>
 			

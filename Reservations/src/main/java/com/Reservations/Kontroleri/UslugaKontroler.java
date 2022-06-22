@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.UslugaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
+import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
+import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UslugaServis;
 
 @Controller
@@ -28,14 +34,35 @@ public class UslugaKontroler {
 
 	@Autowired
 	KorisnikServis korisnikServis;
-
+	
 	public String putanjaSlika = "/img/usluge/";
 
+	@Autowired
+	RezervacijaServis rezervacijaServis;
+	
 	@RequestMapping(value = "/klijent/{klijent_id}/usluga/{id}")
 	public String getProfilePage(Model model, @PathVariable Long id, @PathVariable Long klijent_id) {
 		System.out.println("Usluga page was called!");
 		Usluga usluga = uslugaServis.findById(id);
 		Korisnik k = korisnikServis.findById(klijent_id);
+		List<String>li=rezervacijaServis.findByTerminUsluge(usluga);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<LocalDate>d=new ArrayList<LocalDate>();
+		List<String>datumi=new ArrayList<String>();
+		
+		for (String string : li) {
+			d.add(LocalDate.parse(string,dtf2));
+		}
+		for (LocalDate localDate : d) {
+			datumi.add(localDate.format(dtf));
+		}
+		
+		//LocalDate.parse(datumi.toString(),dtf);
+		
+		model.addAttribute("datumi",datumi);
+		
+		
 		List<Usluga> lista = uslugaServis.findByInstruktor(usluga.getInstruktor().getID());
 		model.addAttribute("usluga", usluga);
 		model.addAttribute("uslugeInst", lista);
@@ -105,7 +132,19 @@ public class UslugaKontroler {
 		model.addAttribute("usluga", usluga);
 		return "usluge/izmeniUslugu";
 	}
-
+	@RequestMapping(value="/pretplataUsluga/{id}/{id2}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long id,@PathVariable Long id2)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik klijent = korisnikServis.findById(id);
+		Usluga brod=uslugaServis.findById(id2);
+		Boolean uspelo = uslugaServis.dodajPretplatuNaUsluga(klijent,brod);
+		
+		model.addAttribute("usluge", brod);
+		model.addAttribute("pod", klijent);
+		return "redirect:/pretplata/"+String.valueOf(id);
+		
+	}
 	@RequestMapping(value = "/instruktor/{instruktor_id}/usluga/{id}/izmena", method = RequestMethod.POST, consumes = {
 			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String serviceModified(Model model, @PathVariable Long id, @PathVariable Long instruktor_id,

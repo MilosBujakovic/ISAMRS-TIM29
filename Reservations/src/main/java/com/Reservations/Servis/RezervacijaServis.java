@@ -21,6 +21,7 @@ import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.GlobalnaVarijabla;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Termin;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
@@ -61,7 +62,8 @@ public class RezervacijaServis {
 	public Rezervacija save(RezervacijaDTO regRequest, TipEntiteta e, Long id, TipRezervacije tip, Long id2) {
 
 		Rezervacija r = new Rezervacija();
-
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		r.setTip(tip);
 		r.setEntitetId(id);
 		r.setTipEntiteta(e);
@@ -71,24 +73,29 @@ public class RezervacijaServis {
 			Vikendica v = vikendicaServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
+			
 		}
 		if (e.equals(TipEntiteta.brod)) {
 			System.out.println("Rezervacija broda: ");
 			Brod v = brodServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
+			
 		}
 		if (e.equals(TipEntiteta.usluga)) {
 			System.out.println("Rezervacija usluge: ");
 			Usluga v = uslugaServis.findById(id);
 			r.setNazivEntiteta(v.getNaziv());
 			r.setCena(v.getCena());
+			
 		}
+		
 		r.setDatum(regRequest.getDatum());
 		r.setVreme(regRequest.getVreme());
 		r.setTrajanje(regRequest.getTrajanje());
 		r.setMaxOsoba(regRequest.getMaxOsoba());
-
+	
+		
 		return this.rezervacijaRepozitorijum.save(r);// TODO Auto-generated method stub
 
 	}
@@ -528,6 +535,65 @@ public class RezervacijaServis {
 		}
 		return li;
 	}
+	public List<String> findByTerminVikendice(Vikendica usluga) {
+		List<Rezervacija>li2=this.findByTip(TipEntiteta.vikendica);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			System.out.println(rezervacija.toString());
+			for(Termin ter: usluga.getTerminiZauzetosti()) {
+			if(rezervacija.getTermin().equals(ter)) {
+				li.add(rezervacija.getTermin().getDatumVremePocetak());
+				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}}
+	
+		}
+		return li;
+	}
+	public List<String> findByTerminBroda(Brod usluga) {
+		List<Rezervacija>li2=this.findByTip(TipEntiteta.brod);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			System.out.println(rezervacija.toString());
+			for(Termin ter: usluga.getTerminiZauzetosti()) {
+			if(rezervacija.getTermin().equals(ter)) {
+				li.add(rezervacija.getTermin().getDatumVremePocetak());
+				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}}
+	
+		}
+		return li;
+	}
+
+	public List<String> findByTerminUsluge(Usluga usluga) {
+		List<Rezervacija>li2=this.findByTip(TipEntiteta.usluga);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			System.out.println(rezervacija.toString());
+			for(Termin ter: usluga.getTerminiZauzetosti()) {
+			if(rezervacija.getTermin().equals(ter)) {
+				li.add(rezervacija.getTermin().getDatumVremePocetak());
+				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}}
+	
+		}
+		return li;
+	}
+	
 
 	public List<Rezervacija> findByTip(TipEntiteta tip) {
 		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);

@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.VikendicaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Termin;
+import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
@@ -401,7 +403,9 @@ public class VikendicaServis {
 		
 		List<Vikendica>li=new ArrayList<Vikendica>();
 		List<Vikendica>li2=vikendicaRepozitorijum.findAll();
+		
 		for (Vikendica e : li2) {
+			List<Termin>termini=e.getTerminiZauzetosti();
 			if(e.getAdresa().toLowerCase().contains(s.toLowerCase())) {
 				li.add(e);
 				continue;
@@ -414,9 +418,32 @@ public class VikendicaServis {
 				li.add(e);
 				continue;
 			}
-		}
+			Boolean postoji=false;
+			if(s.contains("/")) {
+			for (Termin ter : termini) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+				LocalDate datum_pocetka=LocalDate.parse(ter.getDatumVremePocetak(),dtf);
+				LocalDate datum_kraja=LocalDate.parse(ter.getDatumVremeKraj(),dtf);
+				LocalDate datum_unosa=LocalDate.parse((s),dtf);
+				
+				
+				if(datum_pocetka.isAfter(datum_unosa) || datum_kraja.isBefore(datum_unosa)) {
+					continue;
+				}else {
+					postoji=true;
+					break;
+				}
+				
+			}
+			if(!postoji) {
+				li.add(e);
+			}
+			
+		}	}
+			
+		
 		return li;
-	}
+}
 	public List<Vikendica> VikSortCena() {
 		List<Vikendica>li=vikendicaRepozitorijum.findAll(Sort.by(Sort.Direction.ASC, "cena"));
 		System.out.println(li.toString());
@@ -681,7 +708,44 @@ public class VikendicaServis {
 		vikendicaRepozitorijum.save(vikendica);
 		
 	}
+
+
+	public Boolean dodajPretplatuNaVik(Korisnik klijent, Vikendica vik) {
+		Vikendica br=this.findById(vik.getID());
+		if(klijent==null || br==null) {
+			return false;
+		}
+		List<Korisnik>li=br.getPretplaceniKorisnici();
+		li.add(klijent);
+		br.setPretplaceniKorisnici(li);
+		this.vikendicaRepozitorijum.save(br);
+		return true;
+	}
 	
+	public List<Vikendica> findByPretplaceniKorisnikVik(Korisnik kor) {
+		
+		
+	
+		List<Vikendica>li=new ArrayList<Vikendica>();
+		
+		List<Vikendica>li2=this.vikendicaRepozitorijum.findAll();
+		for (Vikendica v : li2) {
+			System.out.println(v.getPretplaceniKorisnici().size());
+		if(v.getPretplaceniKorisnici().size()==0)
+		
+			continue;
+		
+			for (Korisnik k : v.getPretplaceniKorisnici()) {
+				  System.out.println(kor);
+				if(k.equals(kor)) {
+					li.add(v);
+				}
+			}
+		}
+	   
+		  System.out.println(li);
+		return li;
+	}
 
 	
 	

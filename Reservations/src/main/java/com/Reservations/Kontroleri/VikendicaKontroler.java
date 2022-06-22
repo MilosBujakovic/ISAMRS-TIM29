@@ -257,11 +257,12 @@ public class VikendicaKontroler
 		System.out.println("ProfilVikendice page was called!");
 		Korisnik k=korisnikServis.findById(id2);
 		Vikendica usluga = vikendicaServis.findById(id);
-		List<String>li=rezervacijaServis.findByVikendica(usluga);
+		List<String>li=rezervacijaServis.findByTerminVikendice(usluga);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<LocalDate>d=new ArrayList<LocalDate>();
-		List<String>datumi=new ArrayList<String>(li);
+		List<String>datumi=new ArrayList<String>();
+		
 		for (String string : li) {
 			d.add(LocalDate.parse(string,dtf2));
 		}
@@ -280,6 +281,20 @@ public class VikendicaKontroler
 		return "ProfilVikendica";
 
 	}
+	@RequestMapping(value="/pretplataVik/{id}/{id2}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long id,@PathVariable Long id2)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik klijent = korisnikServis.findById(id);
+		Vikendica vik=vikendicaServis.findById(id2);
+		Boolean uspelo = vikendicaServis.dodajPretplatuNaVik(klijent,vik);
+		System.out.println(uspelo);
+		model.addAttribute("vikendica", vik);
+		model.addAttribute("pod",klijent );
+		return "redirect:/pretplata/"+String.valueOf(id);
+	}
+	
+	
 	
 	@RequestMapping(value="/vikendice"+"/brze-rezervacije/{vlasnikID}")
 	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long vlasnikID)

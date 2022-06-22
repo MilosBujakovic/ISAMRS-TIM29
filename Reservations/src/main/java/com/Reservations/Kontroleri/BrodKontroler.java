@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
+import com.Reservations.Servis.RezervacijaServis;
 @Controller
 public class BrodKontroler {
 	@Autowired
@@ -37,6 +40,8 @@ public class BrodKontroler {
 	@Autowired
 	BrodServis brodServis;
 	
+	@Autowired
+	RezervacijaServis rezervacijaServis;
 	public String putanjaSlikaBrodova = "/img/brodovi/";
 	
 	//@RequestMapping(value = "/klijent/brod/{id}")
@@ -55,9 +60,26 @@ public class BrodKontroler {
 		System.out.println("BrodProfil page was called!");
 		Brod usluga = uslugaServis.findById(id);
 		Korisnik k=korisnikServis.findById(id2);
-		List<Brod> lista = uslugaServis.findByVlasnik(4L);
+	
+		List<String>li=rezervacijaServis.findByTerminBroda(usluga);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		List<LocalDate>d=new ArrayList<LocalDate>();
+		List<String>datumi=new ArrayList<String>();
+		
+		for (String string : li) {
+			d.add(LocalDate.parse(string,dtf2));
+		}
+		for (LocalDate localDate : d) {
+			datumi.add(localDate.format(dtf));
+		}
+		System.out.println(datumi);
+		//LocalDate.parse(datumi.toString(),dtf);
+		
+		model.addAttribute("datumi",datumi);
+		List<Brod> listabrd = brodServis.findByVlasnik(usluga.getVlasnik().getID());
 		model.addAttribute("brod", usluga);
-		model.addAttribute("brodVlas", lista);
+		model.addAttribute("brodVlas", listabrd);
 		model.addAttribute("kor",k);
 		System.out.println(model.toString());
 		return "ProfilBroda";
@@ -187,6 +209,20 @@ public class BrodKontroler {
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 		if(poruka[1].equalsIgnoreCase("success")) return "/vikendice/potvrdnaPoruka";
 		else return "/vikendice/pogresnaPoruka";
+	}
+	
+	@RequestMapping(value="/pretplataBrod/{id}/{id2}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long id,@PathVariable Long id2)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik klijent = korisnikServis.findById(id);
+		Brod brod=brodServis.findById(id2);
+		Boolean uspelo = brodServis.dodajPretplatuNaBrod(klijent,brod);
+		
+		model.addAttribute("brodovi", brod);
+		model.addAttribute("pod", klijent);
+		
+		return "redirect:/pretplata/"+String.valueOf(id);
 	}
 	
 	@RequestMapping(value = "/brodovi"+"/obrisi/{vlasnikID}/{brodID}")
