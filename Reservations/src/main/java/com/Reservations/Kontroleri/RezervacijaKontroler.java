@@ -1,6 +1,7 @@
 package com.Reservations.Kontroleri;
 
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +36,7 @@ import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.TerminServis;
 import com.Reservations.Servis.VikendicaServis;
 
 @Controller
@@ -52,19 +54,24 @@ public class RezervacijaKontroler {
 	 VikendicaServis vikendicaServis;
 	 
 	 @Autowired
+	 TerminServis terminServis;
+	 
+	 @Autowired
 	 BrodServis brodServis;
 	
 	@RequestMapping(value = "/rezervisiVik/{id}/{klijent_id}")
 	public String registerOwner( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) {
 	Korisnik k=korisnikServis.findById(klijent_id);
-		Rezervacija user=rezervacijaServis.findById(id);
+		Vikendica user=vikendicaServis.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rezervacijaServis.save(regRequest,TipEntiteta.vikendica,id,TipRezervacije.obicna,klijent_id);
+		Rezervacija r=this.rezervacijaServis.save(regRequest,TipEntiteta.vikendica,id,TipRezervacije.obicna,klijent_id);
+		terminServis.popraviTerminRezervacije(r);
 		try {
+			
 			this.sendEmailToUser(TipEntiteta.vikendica,k.getEmail());
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
@@ -75,7 +82,9 @@ public class RezervacijaKontroler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}catch (DateTimeParseException e) {
+			return "pogresanUnos";
+	    }
 		 return "redirect:/profilKorisnika/"+String.valueOf(klijent_id);
 	}
 	
@@ -105,7 +114,9 @@ public class RezervacijaKontroler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}catch (DateTimeParseException e) {
+			return "pogresanUnos";
+	    }
 		 return "redirect:/profilKorisnika/"+String.valueOf(id2);
 	}
 	
@@ -119,7 +130,22 @@ public class RezervacijaKontroler {
 		System.out.println("Rezervacija poslata POSLAT!");
 		
 		this.rezervacijaServis.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,klijent_id);
-		this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
+		
+try {
+			
+	this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (DateTimeParseException e) {
+			return "pogresanUnos";
+	    }
 		 return "redirect:/profilKorisnika/"+String.valueOf(klijent_id);
 	}
 	@RequestMapping(value = "/otkaziRez/{id}/{klijent_id}")

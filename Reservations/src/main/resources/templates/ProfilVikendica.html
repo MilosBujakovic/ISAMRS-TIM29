@@ -90,13 +90,13 @@ button{
 <br>
 <div class="block">
     <label>Trajanje:</label>
-    <input type="number"  name="trajanje" />
+    <input type="number" required min="1"  name="trajanje" />
   
 </div>
 <br>
 <div class="block">
     <label>Broj osoba:</label>
-    <input type="number" name="maxOsoba" />
+    <input type="number" required min="1"  name="maxOsoba" />
   
 </div>
 
@@ -115,8 +115,12 @@ button{
 					
 					</div>
 					 <button  class="btn btn-primary profile-button" align="right"  th:formaction="@{/rezervacije/rezervisiVik/}+${vik.ID+'/'}+${kor.ID}">Rezervisi</button>
+					 
+					
 			</form>
+			  <button  class="btn btn-primary profile-button" align="right" >Pretplata</button>
 				</div>
+				
 				
 			</div>
 			

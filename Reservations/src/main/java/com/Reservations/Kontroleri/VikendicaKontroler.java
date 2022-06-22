@@ -257,11 +257,12 @@ public class VikendicaKontroler
 		System.out.println("ProfilVikendice page was called!");
 		Korisnik k=korisnikServis.findById(id2);
 		Vikendica usluga = vikendicaServis.findById(id);
-		List<String>li=rezervacijaServis.findByVikendica(usluga);
+		List<String>li=rezervacijaServis.findByTerminVikendice(usluga);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<LocalDate>d=new ArrayList<LocalDate>();
 		List<String>datumi=new ArrayList<String>(li);
+		
 		for (String string : li) {
 			d.add(LocalDate.parse(string,dtf2));
 		}

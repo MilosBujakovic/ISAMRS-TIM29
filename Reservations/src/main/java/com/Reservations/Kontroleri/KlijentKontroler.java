@@ -105,6 +105,18 @@ public  String home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVar
     return "StranicaZaZalbu";
 }
 
+@RequestMapping("/pretplata/{id}")
+public  String hom(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id) {
+    Rezervacija r=resService.findById(id);
+   
+   model.addAttribute("rez",r);
+    user=userService.findById(id);
+     model.addAttribute("pod",user);
+   
+    System.out.println(user.toString());
+    return "MojePretplate";
+}
+
 @RequestMapping(value = "/zalba2/{id}")
 public String registerOwner( @PathVariable Long id,Korisnik user,ZalbaDTO regRequest,ZalbaServis k,Model model) {
     user=userService.findById(id);
