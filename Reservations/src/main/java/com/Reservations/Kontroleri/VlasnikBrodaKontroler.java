@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,9 +93,10 @@ public class VlasnikBrodaKontroler
 		model.addAttribute("vlasnikBroda", vlasnikV);
 		System.out.println(model.toString());
 		if(vrstaPrikaza.equals("upravljanje"))return "/brodovi/upravljanjeBrodovima.html";
-		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else if(vrstaPrikaza.equals("kalendar")) return "/brodovi/kalendarBrodova.html";
 		else if(vrstaPrikaza.equals("periodiZauzetosti")) return "/brodovi/periodiZauzetostiBrodova.html";
-		else return "/brodovi/mojiBrodovi";
+		else if(vrstaPrikaza.equals("prikazi")) return "/brodovi/mojiBrodovi";
+		else return "/brodovi/upravljanjeBrodovima.html";
 	}
 	
 	@RequestMapping(value = "/profil/{vlasnikID}")
@@ -449,9 +452,27 @@ public class VlasnikBrodaKontroler
 		List<PeriodPrikazDTO> periodi = brodServis.dobaviPeriode(brod);
 		model.addAttribute("periodi", periodi);
 		
-		List<PeriodPrikazDTO> termini = brodServis.dobaviTermine(brod);
+		List<PeriodPrikazDTO> termini = brodServis.dobaviTermineBrzihRezervacija(brod);
 		model.addAttribute("termini", termini);
 		return "/brodovi/periodiDostupnostiBroda.html";
+	}
+	
+	@RequestMapping(value = "/kalendarZauzetosti/{vlasnikID}/{vikID}")
+	public String kalendarTerminaZauzetosti(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(vikID);
+		model.addAttribute("brod", brod);
+		
+		List<PeriodPrikazDTO> periodi = brodServis.dobaviPeriode(brod);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = brodServis.dobaviTermine(brod);
+		Collections.sort(termini, Comparator.comparing(PeriodPrikazDTO::getDatumPocetka));
+		model.addAttribute("termini", termini);
+		return "/brodovi/kalendarZauzetostiBroda.html";
 	}
 /*
 	@RequestMapping(value = "/admin/reports")

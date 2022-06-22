@@ -24,33 +24,11 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	<link rel="stylesheet" href="/css/spisak_rezervacija.css"/>
 </head>
 <body>
-	<h1 class="naslov" th:text="${'Spisak perioda dostupnosti: '+ vikendica.naziv}"></h1>
-	<form>
-	<button type="submit" class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/dodajPeriod/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}">Dodaj period</button>
-	<input type="hidden" readonly th:value="${vlasnikVikendice.ID}" name="vlasnikID"></input>
-	<table>
-	<tr>
-		<th>ID</th>
-	    <th>Datum početka</th>
-	    <th>Datum kraja</th>
-	    <th>Izmjena:</th>
-	    <th>Brisanje:</th>
-	 </tr>
-	 <tr th:each="period:${periodi}">
-	    <td th:text="${period.ID}"></td>
-	    <td th:text="${period.datumPocetka}" ></td>
-	    <td th:text="${period.datumKraja}" ></td>
-	    <td><button type="submit" class="btn btn-warning" th:formaction="@{/vikendicaVlasnik/napisiIzvjestajRezervacije/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}">Napiši izvještaj</button></td>
-	    <td><button type="submit" class="btn btn-danger" th:formaction="@{/vikendicaVlasnik/napisiIzvjestajRezervacije/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}">Napiši izvještaj</button></td>
-	 </tr>
-	 </table>
-		
-	</form>
 	
 	
-	<h1 class="naslov" th:text="${'Spisak termina zauzetosti: '+ vikendica.naziv}"></h1>
+	<h1 class="naslov" th:text="${'Kalendar zauzetosti: '+ brod.naziv}"></h1>
 	<form>
-	<input type="hidden" readonly th:value="${vlasnikVikendice.ID}" name="vlasnikID"></input>
+	<input type="hidden" readonly th:value="${vlasnikBroda.ID}" name="vlasnikID"></input>
 	<table> <!-- SAMO PRIKAZ!!! -->
 	<tr>
 		<th>ID</th>
@@ -58,7 +36,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	    <th>Datum početka</th>
 	    <th>Datum kraja</th>
 	    <th>ID rezervacije</th>
-	    <th>Rezervacija:</th>
+	    <!--th>Rezervacija:</th-->
 	 </tr>
 	 <tr th:each="termin:${termini}">
 	    <td th:text="${termin.ID}"></td>
@@ -66,7 +44,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	    <td th:text="${termin.datumPocetka}" ></td>
 	    <td th:text="${termin.datumKraja}" ></td>
 	    <td th:text="${termin.rezervacijaID}"></td>
-	    <td><button type="submit" class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/napisiIzvjestajRezervacije/}+${vlasnikVikendice.ID+'/'}+${termin.rezervacijaID}">Prikaži rezervaciju</button></td>
+	    <!--td><button type="submit" class="btn btn-primary" th:formaction="@{/brodVlasnik/napisiIzvjestajRezervacije/}+${vlasnikBroda.ID+'/'}+${termin.rezervacijaID}">Prikaži rezervaciju</button></td>
+	 	-->
 	 </tr>
 	 </table>
 		

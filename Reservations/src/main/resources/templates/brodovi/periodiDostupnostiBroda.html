@@ -26,7 +26,7 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 <body>
 	<h1 class="naslov" th:text="${'Spisak perioda dostupnosti: '+ brod.naziv}"></h1>
 	<form>
-	
+	<button type="submit" class="btn btn-primary" th:formaction="@{/brodVlasnik/dodajPeriod/}+${vlasnikBroda.ID+'/'}+${brod.ID}">Dodaj period</button>
 	<input type="hidden" readonly th:value="${vlasnikBroda.ID}" name="vlasnikID"></input>
 	<table>
 	<tr>
@@ -40,8 +40,8 @@ xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	    <td th:text="${period.ID}"></td>
 	    <td th:text="${period.datumPocetka}" ></td>
 	    <td th:text="${period.datumKraja}" ></td>
-	    <td><button type="submit" class="btn btn-primary" th:formaction="@{/brodVlasnik/napisiIzvjestajRezervacije/}+${vlasnikBroda.ID+'/'}+${rez.rezervacijaID}">Napiši izvještaj</button></td>
-	    <td><button type="submit" class="btn btn-danger" th:formaction="@{/brodVlasnik/napisiIzvjestajRezervacije/}+${vlasnikBroda.ID+'/'}+${rez.rezervacijaID}">Napiši izvještaj</button></td>
+	    <td><button type="submit" class="btn btn-primary" th:formaction="@{/brodVlasnik/napisiIzvjestajRezervacije/}+${vlasnikBroda.ID+'/'}+${brod.ID}">Napiši izvještaj</button></td>
+	    <td><button type="submit" class="btn btn-danger" th:formaction="@{/brodVlasnik/napisiIzvjestajRezervacije/}+${vlasnikBroda.ID+'/'}+${brod.ID}">Napiši izvještaj</button></td>
 	 </tr>
 	 </table>
 		

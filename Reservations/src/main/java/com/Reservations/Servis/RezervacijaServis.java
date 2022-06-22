@@ -518,4 +518,8 @@ public class RezervacijaServis {
 	public List<Rezervacija> findByTip(TipEntiteta tip) {
 		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
 	}
+
+	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) {
+		return this.rezervacijaRepozitorijum.findByTip(tip);
+	}
 }
