@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -75,7 +77,18 @@ public class Brod {
 	@OneToMany
 	private List<Termin> terminiZauzetosti;
 	
+	@ManyToMany
+	@JoinTable(name="pretplateBrod",joinColumns=@JoinColumn(name="brod_id",referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="klijent_id",referencedColumnName="id"))
+	private List<Korisnik> pretplaceniKorisnici;
 	
+	public List<Korisnik> getPretplaceniKorisnici() {
+		return pretplaceniKorisnici;
+	}
+
+	public void setPretplaceniKorisnici(List<Korisnik> pretplaceniKorisnici) {
+		this.pretplaceniKorisnici = pretplaceniKorisnici;
+	}
+
 	public Brod() {
 		this.terminiZauzetosti = new ArrayList<Termin>();
 	}

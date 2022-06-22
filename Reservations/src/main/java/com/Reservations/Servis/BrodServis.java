@@ -17,6 +17,7 @@ import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Termin;
+import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
@@ -701,5 +702,43 @@ public class BrodServis
 	public void ubaciBrodUbazu(Brod brod) {
 		brodRepozitorijum.save(brod);
 		
+	}
+
+
+
+	public List<Brod> findByPretplaceniKorisnikBrod(Korisnik user) {
+     List<Brod>li=new ArrayList<Brod>();
+		
+		List<Brod>li2=this.brodRepozitorijum.findAll();
+		for (Brod v : li2) {
+			System.out.println(v.getPretplaceniKorisnici().size());
+		if(v.getPretplaceniKorisnici().size()==0)
+		
+			continue;
+		
+			for (Korisnik k : v.getPretplaceniKorisnici()) {
+				  System.out.println(user);
+				if(k.equals(user)) {
+					li.add(v);
+				}
+			}
+		}
+	   
+		  System.out.println(li);
+		return li;
+	}
+
+	public Boolean dodajPretplatuNaBrod(Korisnik klijent, Brod brod) {
+		Brod br=this.findById(brod.getID());
+		if(klijent==null || brod==null) {
+			return false;
+		}
+		List<Korisnik>li=br.getPretplaceniKorisnici();
+		li.add(klijent);
+		br.setPretplaceniKorisnici(li);
+		
+		this.brodRepozitorijum.save(br);
+		
+		return true;
 	}
 }

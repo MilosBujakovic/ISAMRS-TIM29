@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.UslugaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Usluga;
 import com.Reservations.Servis.BrodServis;
@@ -48,7 +49,7 @@ public class UslugaKontroler {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<LocalDate>d=new ArrayList<LocalDate>();
-		List<String>datumi=new ArrayList<String>(li);
+		List<String>datumi=new ArrayList<String>();
 		
 		for (String string : li) {
 			d.add(LocalDate.parse(string,dtf2));
@@ -131,7 +132,19 @@ public class UslugaKontroler {
 		model.addAttribute("usluga", usluga);
 		return "usluge/izmeniUslugu";
 	}
-
+	@RequestMapping(value="/pretplataUsluga/{id}/{id2}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long id,@PathVariable Long id2)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik klijent = korisnikServis.findById(id);
+		Usluga brod=uslugaServis.findById(id2);
+		Boolean uspelo = uslugaServis.dodajPretplatuNaUsluga(klijent,brod);
+		
+		model.addAttribute("usluge", brod);
+		model.addAttribute("pod", klijent);
+		return "redirect:/pretplata/"+String.valueOf(id);
+		
+	}
 	@RequestMapping(value = "/instruktor/{instruktor_id}/usluga/{id}/izmena", method = RequestMethod.POST, consumes = {
 			MediaType.MULTIPART_FORM_DATA_VALUE })
 	public String serviceModified(Model model, @PathVariable Long id, @PathVariable Long instruktor_id,
