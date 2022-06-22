@@ -433,4 +433,8 @@ public class RezervacijaServis {
 		}
 		return li;
 	}
+	
+	public List<Rezervacija> findByTip(TipEntiteta tip) {
+		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
+	}
 }
