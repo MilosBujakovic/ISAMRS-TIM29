@@ -1,9 +1,5 @@
 package com.Reservations.Modeli;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.Reservations.Modeli.enums.TipEntiteta;
@@ -59,6 +55,10 @@ public class Rezervacija {
 	@Column(name="izvjestaj")
 	private String izvjestaj;
 	
+	@OneToOne
+	@JoinColumn(name="termin_id")
+	private Termin termin;
+	
 	public Rezervacija () {
 		
 	}
@@ -81,6 +81,27 @@ public class Rezervacija {
 		this.klijent = klijent;
 		this.tip = tip;
 		this.izvjestaj = izvjestaj;
+		this.termin = new Termin(this);
+	}
+	
+	public Rezervacija(long iD, long entitetId, TipEntiteta tipEntiteta, String nazivEntiteta, String datum,
+			String vreme, String trajanje, int maxOsoba, double cena, Korisnik klijent, TipRezervacije tip,
+			String izvjestaj, Termin termin) 
+	{
+		super();
+		ID = iD;
+		this.entitetId = entitetId;
+		this.tipEntiteta = tipEntiteta;
+		this.nazivEntiteta = nazivEntiteta;
+		this.datum = datum;
+		this.vreme = vreme;
+		this.trajanje = trajanje;
+		this.maxOsoba = maxOsoba;
+		this.cena = cena;
+		this.klijent = klijent;
+		this.tip = tip;
+		this.izvjestaj = izvjestaj;
+		this.termin = termin;
 	}
 
 	public Rezervacija(Rezervacija r) 
@@ -98,6 +119,7 @@ public class Rezervacija {
 		this.klijent = r.klijent;
 		this.tip = r.tip;
 		this.izvjestaj = r.izvjestaj;
+		this.termin = new Termin(this);
 	}
 
 	public long getID() {
@@ -201,6 +223,18 @@ public class Rezervacija {
 	public void setIzvjestaj(String izvjestaj) {
 		this.izvjestaj = izvjestaj;
 	}
+	
+	
+
+	public Termin getTermin() {
+		return termin;
+	}
+
+
+	public void setTermin(Termin termin) {
+		this.termin = termin;
+	}
+
 
 	@Override
 	public String toString() {

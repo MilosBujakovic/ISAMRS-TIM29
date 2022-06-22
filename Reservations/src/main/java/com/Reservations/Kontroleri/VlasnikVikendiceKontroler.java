@@ -61,6 +61,7 @@ public class VlasnikVikendiceKontroler {
 		Korisnik korisnik = korisnikServis.findByUsername(korisnickoIme);
 		VlasnikVikendiceDTO vlasnik = new VlasnikVikendiceDTO(korisnik);
 		model.addAttribute("vlasnikVikendice", vlasnik);
+		
 		return "/vikendice/vlasnikVikendicePocetna.html";
 	}
 
@@ -88,6 +89,7 @@ public class VlasnikVikendiceKontroler {
 		System.out.println(model.toString());
 		if(vrstaPrikaza.equals("upravljanje"))return "/vikendice/upravljanjeVikendicama.html";
 		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else if(vrstaPrikaza.equals("periodiZauzetosti")) return "/vikendice/periodiZauzetostiVikendica.html";
 		else return "/vikendice/mojeVikendice";
 	}
 	
@@ -418,6 +420,27 @@ public class VlasnikVikendiceKontroler {
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 	}
 	
+	@RequestMapping(value = "/osvjeziTermine/{vlasnikID}")
+	public String osvjeziTermine(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Osvjezi termine page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
+		boolean uspjesan = rezervacijaServis.popraviTermine(rezervacije);
+		
+		if(uspjesan)
+		{
+			model.addAttribute("poruka", "Termini uspješno popravljeni!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}		
 	
 /*
 	@GetMapping("/admin/reports/print")
