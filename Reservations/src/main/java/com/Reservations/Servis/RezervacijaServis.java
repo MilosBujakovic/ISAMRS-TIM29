@@ -687,4 +687,32 @@ public class RezervacijaServis {
 	}
 
 	
+
+	public Rezervacija napraviBrzuRezervaciju(BrzaRezervacijaDTO brza, TipEntiteta tip) {
+		Rezervacija r = new Rezervacija();
+		r.setDatum(brza.getDatum());
+		r.setVreme(brza.getVreme());
+		r.setAkcija(brza.getAkcija());
+		r.setCena(brza.getCena());
+		r.setTipEntiteta(tip);
+		r.setTip(TipRezervacije.brza);
+		r.setEntitetId(brza.getEntitetId());
+		r.setMaxOsoba(brza.getMaxOsoba());
+		r.setTrajanje(brza.getTrajanje());
+		if(tip.equals(TipEntiteta.vikendica)) {
+			Vikendica v = vikendicaServis.findById(brza.getEntitetId());
+			r.setNazivEntiteta(v.getNaziv());
+		}
+		else if(tip.equals(TipEntiteta.brod)) {
+			Brod b = brodServis.findById(brza.getEntitetId());
+			r.setNazivEntiteta(b.getNaziv());
+		}
+		else if(tip.equals(TipEntiteta.usluga)) {
+			Usluga u = uslugaServis.findById(brza.getEntitetId());
+			r.setNazivEntiteta(u.getNaziv());
+		}
+		
+		return this.rezervacijaRepozitorijum.save(r);
+	}
+
 }

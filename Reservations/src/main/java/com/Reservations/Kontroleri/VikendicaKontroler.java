@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Vikendica;
@@ -306,4 +307,30 @@ public class VikendicaKontroler
 		model.addAttribute("vikendice", mojeVikendice);
 		return "/vikendice/brzeRezervacijeVikendica.html";
 	}
+	
+	@RequestMapping(value="/vikendice"+"/brza-rezervacija/{vlasnikID}/{vikendicaID}")
+	public String brzaRezervacijaVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+	{
+		System.out.println("Brzo-rezervisi page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikendicaID);
+		model.addAttribute("vikendica", vikendica);
+		
+		return "/vikendice/rezervacijaVikendiceBrza.html";
+	}
+	@RequestMapping(value="/vikendice"+"/dodajPeriod/{vlasnikID}/{vikID}")
+	public String dodajPeriod(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID)
+	{
+		System.out.println("Brzo-rezervisi page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikID);
+		model.addAttribute("vikendica", vikendica);
+		
+		return "/vikendice/napraviPeriodVikendice.html";
+	}
+	
 }

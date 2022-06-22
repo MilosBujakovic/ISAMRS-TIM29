@@ -4,7 +4,7 @@ import com.Reservations.Modeli.Rezervacija;
 
 public class BrzaRezervacijaDTO {
 	private Long entitetId; //entitet ID
-	 
+
 	private String datum;
 	
 	private String vreme;
@@ -19,6 +19,7 @@ public class BrzaRezervacijaDTO {
 
 	public BrzaRezervacijaDTO(Long entitetId, String datum, String vreme, String trajanje, int maxOsoba, double cena,
 			double akcija) {
+
 		this.entitetId = entitetId;
 		this.datum = datum;
 		this.vreme = vreme;
@@ -99,7 +100,11 @@ public class BrzaRezervacijaDTO {
 
 	@Override
 	public String toString() {
+<<<<<<< HEAD
+		return "BrzaRezervacijaDTO [id=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
+=======
 		return "BrzaRezervacijaDTO [entitetId=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
+>>>>>>> master
 				+ ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", akcija=" + akcija + "]";
 	}
 	

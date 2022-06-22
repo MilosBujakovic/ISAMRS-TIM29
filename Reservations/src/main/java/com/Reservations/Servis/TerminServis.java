@@ -249,6 +249,36 @@ public class TerminServis {
 		this.terminRepozitorijum.deleteById(id);
 	}
 
+	public Termin napraviPeriodDostupnosti(PeriodPrikazDTO period, TipEntiteta tip, Korisnik vlasnik) {
+		Termin termin = new Termin();
+		termin.setTipEntiteta(tip);
+		termin.setDatumVremePocetak(period.getDatumPocetka());
+		termin.setDatumVremeKraj(period.getDatumKraja());
+		termin.setVlasnik(vlasnik);
+		switch (tip) 
+		{
+			case vikendica:
+			{
+				Vikendica vikendica = vikendicaServis.findById(period.getEnteitetID());
+				termin.setVikendica(vikendica);
+				break;
+			}
+			case brod:
+			{
+				Brod brod = brodServis.findById(period.getEnteitetID());
+				termin.setBrod(brod);
+				break;
+			}
+			case usluga:
+			{
+				Usluga usluga = uslugaServis.findById(period.getEnteitetID());
+				termin.setUsluga(usluga);
+				break;
+			}
+		}
+		
+		return terminRepozitorijum.save(termin);
+	}
 	public Vikendica napraviPeriodDostupnostiVikendice(PeriodPrikazDTO ppDTO) {
 		Termin termin = new Termin();
 

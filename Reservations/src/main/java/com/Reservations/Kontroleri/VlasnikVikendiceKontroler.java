@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
+import com.Reservations.DTO.BrzaRezervacijaDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PeriodPrikazDTO;
@@ -25,14 +26,15 @@ import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
-import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Termin;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.TerminServis;
 import com.Reservations.Servis.UlogaServis;
 import com.Reservations.Servis.VikendicaServis;
 
@@ -57,6 +59,9 @@ public class VlasnikVikendiceKontroler {
 	@Autowired
 	VikendicaServis vikendicaServis;
 
+	@Autowired
+	TerminServis terminServis;
+	
 
 	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
 	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
@@ -483,6 +488,56 @@ public class VlasnikVikendiceKontroler {
 		return "/vikendice/kalendarZauzetostiVikendice.html";
 	}	
 	
+	@RequestMapping(value="/napraviBrzuRezervaciju/{vlasnikID}/{vikID}")
+	public String napraviBrzuRezervaciju(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID, BrzaRezervacijaDTO rezervacija)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikID);
+		model.addAttribute("vikendica", vikendica);
+		
+		Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(rezervacija, TipEntiteta.vikendica);
+		terminServis.popraviTerminRezervacije(rez);
+		
+		if(rez!=null)
+		{
+			model.addAttribute("poruka", "Brza rezervacija uspješna!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}
+	
+	
+	@RequestMapping(value="/dodajPeriodUbazu/{vlasnikID}/{vikID}")
+	public String dodajPeriod(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID, PeriodPrikazDTO period)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikID);
+		model.addAttribute("vikendica", vikendica);
+		
+		Termin rez = this.terminServis.napraviPeriodDostupnosti(period, TipEntiteta.vikendica, vlasnik);
+		terminServis.popraviPeriodeVikendice(vikendica);
+		System.out.println("REZ: "+period);
+		//Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(period, TipEntiteta.brod);
+		//terminServis.popraviTerminRezervacije(rez);
+		if(rez!=null)
+		{
+			model.addAttribute("poruka", "Brza rezervacija uspješna!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}
 /*
 	@GetMapping("/admin/reports/print")
     public void exportToPDF(HttpServletResponse response, @RequestParam String pocDatum, @RequestParam String krajDatum) throws DocumentException, IOException, ParseException 

@@ -18,23 +18,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.BrodDTO;
+import com.Reservations.DTO.BrzaRezervacijaDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
 import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
-import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.DTO.VlasnikVikendiceDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
-import com.Reservations.Modeli.Vikendica;
+import com.Reservations.Modeli.Termin;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
 import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.TerminServis;
 import com.Reservations.Servis.UlogaServis;
 
 @Controller
@@ -58,6 +59,9 @@ public class VlasnikBrodaKontroler
 	
 	@Autowired
 	BrodServis brodServis;
+	
+	@Autowired
+	TerminServis terminServis;
 	
 	@RequestMapping(value="/pocetna/{korisnickoIme}", method = RequestMethod.GET)
 	public String prikaziPocetnu(Model model, @PathVariable String korisnickoIme)
@@ -473,6 +477,52 @@ public class VlasnikBrodaKontroler
 		Collections.sort(termini, Comparator.comparing(PeriodPrikazDTO::getDatumPocetka));
 		model.addAttribute("termini", termini);
 		return "/brodovi/kalendarZauzetostiBroda.html";
+	}
+	
+	@RequestMapping(value="/napraviBrzuRezervaciju/{vlasnikID}/{brodID}")
+	public String napraviBrzuRezervaciju(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID, BrzaRezervacijaDTO rezervacija)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(brodID);
+		model.addAttribute("brod", brod);
+		
+		Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(rezervacija, TipEntiteta.brod);
+		terminServis.popraviTerminRezervacije(rez);
+		if(rez!=null)
+		{
+			model.addAttribute("poruka", "Brza rezervacija uspješna!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}
+	
+	@RequestMapping(value="/dodajPeriodUbazu/{vlasnikID}/{brodID}")
+	public String dodajPeriod(Model model, @PathVariable Long vlasnikID, @PathVariable Long brodID, PeriodPrikazDTO period)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(brodID);
+		model.addAttribute("brod", brod);
+		
+		Termin rez = this.terminServis.napraviPeriodDostupnosti(period, TipEntiteta.brod, vlasnik);
+		terminServis.popraviPeriodeBroda(brod);
+		if(rez!=null)
+		{
+			model.addAttribute("poruka", "Brza rezervacija uspješna!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
 	}
 /*
 	@RequestMapping(value = "/admin/reports")
