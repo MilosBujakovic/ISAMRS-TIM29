@@ -493,6 +493,7 @@ public class UslugaServis {
 			if(termin.getRezervacija()==null)
 			{
 				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				System.out.println();
 				periodi.add(period);
 				System.out.println("Dodat period: "+ period);
 			}
