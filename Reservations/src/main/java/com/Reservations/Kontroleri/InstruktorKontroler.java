@@ -66,6 +66,7 @@ public class InstruktorKontroler {
 	public String getDataPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
 		Korisnik u = korisnikServis.findById(id);
+		model.addAttribute("id", id);
 		model.addAttribute("user", u);
 		return "instruktor/instruktorProfil";
 	}
@@ -104,6 +105,7 @@ public class InstruktorKontroler {
 	@RequestMapping(value = "/istorija")
 	public String getHistoryPage(Model model, @PathVariable Long id) {
 		System.out.println("Instruktor page was called!");
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
 		List<Rezervacija> rezervacije = rezervacijaServis.findByVlasnikInst(id, true);
@@ -114,52 +116,57 @@ public class InstruktorKontroler {
 	@RequestMapping(value = "/izvestajiPoslovanja")
 	public String getReportsPage(Model model, @PathVariable Long id) {
 		System.out.println("Izvestaji poslovanja page was called!");
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
-		
+
 		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = uslugaServis.izracunajSedmicnaPoslovanjaUsluga(instruktor);
 		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = uslugaServis.izracunajMjesecnaPoslovanjaUsluga(instruktor);
 		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = uslugaServis.izracunajGodisnjaPoslovanjaUsluga(instruktor);
 		model.addAttribute("sedmicnaPoslovanja", sedmicnaPoslovanja);
 		model.addAttribute("mjesecnaPoslovanja", mjesecnaPoslovanja);
 		model.addAttribute("godisnjaPoslovanja", godisnjaPoslovanja);
-		
+
 		return "instruktor/instruktorIzvestaji";
 	}
-	
+
 	@RequestMapping(value = "/izvestajiPoslovanja/tabela")
 	public String getReportsTablePage(Model model, @PathVariable Long id, PoslovanjeEntitetaDTO poslovanje) {
 		System.out.println("Izvjestaji poslovanja period page was called!");
-		System.out.println("pocetak: "+poslovanje.getPocetniDatum());
-		System.out.println("kraj: "+poslovanje.getKrajnjiDatum());
+		model.addAttribute("id", id);
+		System.out.println("pocetak: " + poslovanje.getPocetniDatum());
+		System.out.println("kraj: " + poslovanje.getKrajnjiDatum());
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
 		poslovanje.srediDatume();
 		List<PoslovanjeEntitetaDTO> poslovanjeUsluga = uslugaServis.poslovanjeUslugaPeriod(poslovanje, instruktor);
 		model.addAttribute("poslovanja", poslovanjeUsluga);
 		model.addAttribute("period", poslovanje);
-		for(int i = 0; i< poslovanjeUsluga.size(); i++) System.out.println(poslovanjeUsluga.get(i));
+		for (int i = 0; i < poslovanjeUsluga.size(); i++)
+			System.out.println(poslovanjeUsluga.get(i));
 		return "/instruktor/instruktorIzvestajiTabela";
 	}
-	
+
 	@RequestMapping(value = "/klijent/{rId}")
 	public String getDataPage(Model model, @PathVariable Long id, @PathVariable Long rId) {
 		System.out.println("Profil klijenta za instruktora page was called!");
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
 		Korisnik u = korisnikServis.findById(rId);
 		model.addAttribute("user", u);
 		return "instruktor/instruktorProfilKlijenta";
 	}
-	
+
 	@RequestMapping(value = "/novaBrzaRezervacija", method = RequestMethod.GET)
 	public String addQuickReservation(Model model, @PathVariable Long id) {
 		System.out.println("Dodajemo brzu rezervaciju!");
+		model.addAttribute("id", id);
 		List<Usluga> usluge = uslugaServis.findByInstruktor(id);
 		model.addAttribute("usluge", usluge);
 		return "instruktor/dodajBrzuRezervaciju";
 	}
-	
+
 	@RequestMapping(value = "/novaBrzaRezervacija/dodaj", method = RequestMethod.POST)
 	public String addQuickR(Model model, @PathVariable Long id, BrzaRezervacijaDTO brza) {
 		System.out.println("Dodajemo brzu rezervaciju!");
@@ -170,101 +177,121 @@ public class InstruktorKontroler {
 		model.addAttribute("usluge", usluge);
 		return "redirect:/instruktor/" + String.valueOf(id);
 	}
-	
+
+	@RequestMapping(value = "/noviPeriodDostupnosti/{uslID}", method = RequestMethod.GET)
+	public String addPeriod(Model model, @PathVariable Long id, @PathVariable Long uslID) {
+		System.out.println("Dodajemo brzu rezervaciju!");
+		model.addAttribute("id", id);
+		model.addAttribute("uslID", uslID);
+		Usluga usluga = uslugaServis.findById(uslID);
+		model.addAttribute("usluga", usluga.getNaziv());
+		return "instruktor/dodajPeriodDostupnosti";
+	}
+
+	@RequestMapping(value = "/noviPeriodDostupnosti/{uslID}/dodaj", method = RequestMethod.POST)
+	public String addPeriodProcess(Model model, @PathVariable Long id, @PathVariable Long uslID, PeriodPrikazDTO dto) {
+		System.out.println("Dodajemo brzu rezervaciju!");
+		dto.srediDatume();
+		Usluga usluga = terminServis.napraviPeriodDostupnostiUsluge(dto);
+		boolean uspelo = terminServis.popraviPeriodeUsluge(usluga);
+		if (uspelo)
+			return "redirect:/instruktor/" + String.valueOf(id) + "/periodiZauzetosti/" + String.valueOf(uslID);
+		else
+			return "redirect:/instruktor/" + String.valueOf(id) + "/noviPeriodDostupnosti";
+	}
+
 	@RequestMapping(value = "/izvestajiRezervacija")
 	public String getCommentsPage(Model model, @PathVariable Long id) {
 		System.out.println("Izveštaji rezervacije page was called!");
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
-		List<IzvjestajRezervacijaDTO> rezervacijeSa = rezervacijaServis.nadjiRezervacijeSaIzvjestajem(TipEntiteta.usluga, instruktor);
-		List<IzvjestajRezervacijaDTO> rezervacijeBez = rezervacijaServis.nadjiRezervacijeBezIzvjestaja(TipEntiteta.usluga, instruktor);
+		List<IzvjestajRezervacijaDTO> rezervacijeSa = rezervacijaServis
+				.nadjiRezervacijeSaIzvjestajem(TipEntiteta.usluga, instruktor);
+		List<IzvjestajRezervacijaDTO> rezervacijeBez = rezervacijaServis
+				.nadjiRezervacijeBezIzvjestaja(TipEntiteta.usluga, instruktor);
 		model.addAttribute("rezervacijeSa", rezervacijeSa);
 		model.addAttribute("rezervacijeBez", rezervacijeBez);
 		return "instruktor/instruktorIzvestajiRez";
 	}
-	
+
 	@RequestMapping(value = "/napisiIzvestajRezervacija/{rId}")
-	public String writeCommentPage(Model model, @PathVariable Long id, @PathVariable Long rId)	 {
+	public String writeCommentPage(Model model, @PathVariable Long id, @PathVariable Long rId) {
 		System.out.println("Pisi izveštaj page was called! rID: " + String.valueOf(rId));
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
-		
+
 		Rezervacija rezervacija = rezervacijaServis.findById(rId);
 		IzvjestajRezervacijaDTO izvestaj = new IzvjestajRezervacijaDTO(rezervacija);
-		
+
 		model.addAttribute("rezervacija", izvestaj);
 		return "instruktor/instruktorNapisiIzvestaj";
 	}
-	
-	@RequestMapping(value = "/upisiIzvestajRezervacija/{rId}", method=RequestMethod.POST)
-	public String addComment(@PathVariable Long id, @PathVariable Long rId, IzvjestajRezervacijaDTO izvestaj)	 {
+
+	@RequestMapping(value = "/upisiIzvestajRezervacija/{rId}", method = RequestMethod.POST)
+	public String addComment(@PathVariable Long id, @PathVariable Long rId, IzvjestajRezervacijaDTO izvestaj) {
 		System.out.println("Upis izveštaja page was called! rID: " + String.valueOf(rId));
 		Rezervacija rezervacija = rezervacijaServis.findById(rId);
 		rezervacija.setIzvjestaj(izvestaj.getIzvjestaj());
 		boolean success = rezervacijaServis.upisiRezervaciju(rezervacija);
-		if(success)
-		{
+		if (success) {
 			return "redirect:/instruktor/" + String.valueOf(id) + "/izvestajiRezervacija";
-		}
-		else
-		{
+		} else {
 			return "redirect:/instruktor/" + String.valueOf(id) + "/napisiIzvestajRezervacija/" + String.valueOf(rId);
 		}
 	}
-	
+
 	@RequestMapping(value = "/osveziTermine")
-	public String refresh(@PathVariable Long id)	 {
+	public String refresh(@PathVariable Long id) {
 		System.out.println("Osvjezi termine page was called!");
 		Korisnik vlasnik = korisnikServis.findById(id);
-		
+
 		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.usluga);
 		rezervacije.addAll(rezervacijaServis.pronadjiBrzeRezervacijePoVlasniku(vlasnik, TipEntiteta.usluga));
 		boolean uspjesan = rezervacijaServis.popraviTermineRezervacija(rezervacije);
-		
-		if(uspjesan)
-		{
+
+		if (uspjesan) {
 			return "redirect:/instruktor/" + String.valueOf(id);
-		}
-		else
-		{
+		} else {
 			System.out.println("TERMINI NISU POPRAVLJENI!");
 			return "redirect:/instruktor/" + String.valueOf(id);
 		}
 	}
-	
+
 	@RequestMapping(value = "/periodiZauzetosti/{uslID}")
-	public String spisakPeriodaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID)
-	{
+	public String spisakPeriodaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID) {
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
-		
+
 		Usluga usluga = uslugaServis.findById(uslID);
 		model.addAttribute("usluga", usluga);
-		
+
 		List<PeriodPrikazDTO> periodi = uslugaServis.dobaviPeriode(usluga);
 		model.addAttribute("periodi", periodi);
-		
+
 		List<PeriodPrikazDTO> termini = uslugaServis.dobaviTermineBrzihRezervacija(usluga);
 		model.addAttribute("termini", termini);
 		return "/instruktor/instruktorPeriodi";
 	}
 
 	@RequestMapping(value = "/kalendarZauzetosti/{uslID}")
-	public String kalendarTerminaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID)
-	{
+	public String kalendarTerminaZauzetosti(Model model, @PathVariable Long id, @PathVariable Long uslID) {
+		model.addAttribute("id", id);
 		Korisnik instruktor = korisnikServis.findById(id);
 		model.addAttribute("instruktor", instruktor);
-		
+
 		Usluga usluga = uslugaServis.findById(uslID);
 		model.addAttribute("usluga", usluga);
-		
+
 		List<PeriodPrikazDTO> periodi = uslugaServis.dobaviPeriode(usluga);
 		model.addAttribute("periodi", periodi);
-		
+
 		List<PeriodPrikazDTO> termini = uslugaServis.dobaviTermine(usluga);
 		Collections.sort(termini, Comparator.comparing(PeriodPrikazDTO::getDatumPocetka));
 		model.addAttribute("termini", termini);
 		return "";
-	}	
-	
+	}
+
 }

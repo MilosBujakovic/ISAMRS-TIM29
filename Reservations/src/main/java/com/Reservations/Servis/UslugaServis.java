@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.UslugaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Termin;
@@ -493,6 +494,7 @@ public class UslugaServis {
 			if(termin.getRezervacija()==null)
 			{
 				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				System.out.println();
 				periodi.add(period);
 				System.out.println("Dodat period: "+ period);
 			}
@@ -564,4 +566,39 @@ public class UslugaServis {
 		}
 		return periodi;
 	}
-}
+
+	public List<Usluga> findByPretplaceniKorisnikUsluga(Korisnik user) {
+List<Usluga>li=new ArrayList<Usluga>();
+		
+		List<Usluga>li2=this.uslugaRepozitorijum.findAll();
+		for (Usluga v : li2) {
+			System.out.println(v.getPretplaceniKorisnici().size());
+		if(v.getPretplaceniKorisnici().size()==0)
+		
+			continue;
+		
+			for (Korisnik k : v.getPretplaceniKorisnici()) {
+				  System.out.println(user);
+				if(k.equals(user)) {
+					li.add(v);
+				}
+			}
+		}
+	   
+		  System.out.println(li);
+		return li;
+	}
+	
+	
+	public Boolean dodajPretplatuNaUsluga(Korisnik klijent, Usluga usluga) {
+		Usluga br=this.findById(usluga.getID());
+		if(klijent==null || br==null) {
+			return false;
+		}
+		List<Korisnik>li=br.getPretplaceniKorisnici();
+		li.add(klijent);
+		br.setPretplaceniKorisnici(li);
+		this.uslugaRepozitorijum.save(br);
+		return true;
+	}
+	}

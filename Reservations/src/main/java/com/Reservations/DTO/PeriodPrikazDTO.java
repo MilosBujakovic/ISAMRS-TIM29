@@ -52,6 +52,18 @@ public class PeriodPrikazDTO
 			
 		}
 	}
+	
+
+	public void srediDatume()
+	{
+		String[] pocetni = this.getDatumPocetka().split("-");
+		String[] krajnji = this.getDatumKraja().split("-");
+		if(pocetni.length==3 && krajnji.length==3)
+		{
+			this.datumPocetka = pocetni[1]+"/"+pocetni[2]+"/"+pocetni[0];
+			this.datumKraja = krajnji[1]+"/"+krajnji[2]+"/"+krajnji[0];
+		}
+	}
 
 	public PeriodPrikazDTO(long iD, long enteitetID, long rezervacijaID, long vlasnikID, String datumPocetka,
 			String datumKraja, TipRezervacije tipRezervacije) {
