@@ -100,11 +100,8 @@ public class BrzaRezervacijaDTO {
 
 	@Override
 	public String toString() {
-<<<<<<< HEAD
-		return "BrzaRezervacijaDTO [id=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
-=======
+
 		return "BrzaRezervacijaDTO [entitetId=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
->>>>>>> master
 				+ ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", akcija=" + akcija + "]";
 	}
 	
