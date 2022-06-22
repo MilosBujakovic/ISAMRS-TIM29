@@ -65,7 +65,7 @@ public class BrodKontroler {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		List<LocalDate>d=new ArrayList<LocalDate>();
-		List<String>datumi=new ArrayList<String>(li);
+		List<String>datumi=new ArrayList<String>();
 		
 		for (String string : li) {
 			d.add(LocalDate.parse(string,dtf2));
@@ -209,6 +209,20 @@ public class BrodKontroler {
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 		if(poruka[1].equalsIgnoreCase("success")) return "/vikendice/potvrdnaPoruka";
 		else return "/vikendice/pogresnaPoruka";
+	}
+	
+	@RequestMapping(value="/pretplataBrod/{id}/{id2}")
+	public String vikendiceZaBrzeRezervacije(Model model, @PathVariable Long id,@PathVariable Long id2)
+	{
+		System.out.println("Brze rezervacije page!");
+		Korisnik klijent = korisnikServis.findById(id);
+		Brod brod=brodServis.findById(id2);
+		Boolean uspelo = brodServis.dodajPretplatuNaBrod(klijent,brod);
+		
+		model.addAttribute("brodovi", brod);
+		model.addAttribute("pod", klijent);
+		
+		return "redirect:/pretplata/"+String.valueOf(id);
 	}
 	
 	@RequestMapping(value = "/brodovi"+"/obrisi/{vlasnikID}/{brodID}")

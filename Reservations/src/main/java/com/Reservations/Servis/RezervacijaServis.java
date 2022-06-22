@@ -564,7 +564,45 @@ public class RezervacijaServis {
 		}
 		return li;
 	}
+	public List<String> findByTerminBroda(Brod usluga) {
+		List<Rezervacija>li2=this.findByTip(TipEntiteta.brod);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			System.out.println(rezervacija.toString());
+			for(Termin ter: usluga.getTerminiZauzetosti()) {
+			if(rezervacija.getTermin().equals(ter)) {
+				li.add(rezervacija.getTermin().getDatumVremePocetak());
+				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}}
+	
+		}
+		return li;
+	}
+
+	public List<String> findByTerminUsluge(Usluga usluga) {
+		List<Rezervacija>li2=this.findByTip(TipEntiteta.usluga);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+	
+		List<String>li=new ArrayList<String>();
+		for (Rezervacija rezervacija : li2) {
+			System.out.println(rezervacija.toString());
+			for(Termin ter: usluga.getTerminiZauzetosti()) {
+			if(rezervacija.getTermin().equals(ter)) {
+				li.add(rezervacija.getTermin().getDatumVremePocetak());
+				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
+					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+					li.add(lokal.format(dtf));
+				}
+			}}
+	
+		}
+		return li;
+	}
 	
 
 	public List<Rezervacija> findByTip(TipEntiteta tip) {
@@ -628,45 +666,7 @@ public class RezervacijaServis {
 		return prihodi;
 	}
 
-	public List<String> findByTerminBroda(Brod usluga) {
-		List<Rezervacija>li2=this.findByTip(TipEntiteta.vikendica);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-	
-		List<String>li=new ArrayList<String>();
-		for (Rezervacija rezervacija : li2) {
-			System.out.println(rezervacija.toString());
-			for(Termin ter: usluga.getTerminiZauzetosti()) {
-			if(rezervacija.getTermin().equals(ter)) {
-				li.add(rezervacija.getTermin().getDatumVremePocetak());
-				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
-					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
-					li.add(lokal.format(dtf));
-				}
-			}}
-	
-		}
-		return li;
-	}
 
-	public List<String> findByTerminUsluge(Usluga usluga) {
-		List<Rezervacija>li2=this.findByTip(TipEntiteta.vikendica);
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-	
-		List<String>li=new ArrayList<String>();
-		for (Rezervacija rezervacija : li2) {
-			System.out.println(rezervacija.toString());
-			for(Termin ter: usluga.getTerminiZauzetosti()) {
-			if(rezervacija.getTermin().equals(ter)) {
-				li.add(rezervacija.getTermin().getDatumVremePocetak());
-				for (int i=1;i<=Integer.parseInt(rezervacija.getTrajanje());i++) {
-					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
-					li.add(lokal.format(dtf));
-				}
-			}}
-	
-		}
-		return li;
-	}
 	
 
 	

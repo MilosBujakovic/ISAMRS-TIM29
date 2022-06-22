@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.VikendicaDTO;
+import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Termin;
+import com.Reservations.Modeli.Usluga;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
@@ -706,7 +708,44 @@ public class VikendicaServis {
 		vikendicaRepozitorijum.save(vikendica);
 		
 	}
+
+
+	public Boolean dodajPretplatuNaVik(Korisnik klijent, Vikendica vik) {
+		Vikendica br=this.findById(vik.getID());
+		if(klijent==null || br==null) {
+			return false;
+		}
+		List<Korisnik>li=br.getPretplaceniKorisnici();
+		li.add(klijent);
+		br.setPretplaceniKorisnici(li);
+		this.vikendicaRepozitorijum.save(br);
+		return true;
+	}
 	
+	public List<Vikendica> findByPretplaceniKorisnikVik(Korisnik kor) {
+		
+		
+	
+		List<Vikendica>li=new ArrayList<Vikendica>();
+		
+		List<Vikendica>li2=this.vikendicaRepozitorijum.findAll();
+		for (Vikendica v : li2) {
+			System.out.println(v.getPretplaceniKorisnici().size());
+		if(v.getPretplaceniKorisnici().size()==0)
+		
+			continue;
+		
+			for (Korisnik k : v.getPretplaceniKorisnici()) {
+				  System.out.println(kor);
+				if(k.equals(kor)) {
+					li.add(v);
+				}
+			}
+		}
+	   
+		  System.out.println(li);
+		return li;
+	}
 
 	
 	

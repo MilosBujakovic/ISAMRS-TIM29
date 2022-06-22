@@ -937,12 +937,34 @@ tr:nth-child(even) {
 
 <table >
   <tr>
-    <th >Moje Pretplate</th>
+    <th >Pretplate vikendica</th>
     <th>Otkazi pretplatu</th>
    
   </tr>
-    <tr th:each="rez:${rez}">
-    <td th:text="${rez.nazivEntiteta}"></td>
+    <tr th:each="usl:${vikendica}">
+    <td th:text="${usl.naziv}"></td>
+   
+     <td><a href=""><button>otkazi</button></a></td>
+  </tr>
+  
+   <tr>
+    <th >Pretplate usluga</th>
+    <th>Otkazi pretplatu</th>
+   
+  </tr>
+    <tr th:each="usl:${usluge}">
+    <td th:text="${usl.naziv}"></td>
+   
+     <td><a href=""><button>otkazi</button></a></td>
+  </tr>
+   <tr>
+    <th >Pretplate brodova</th>
+    <th>Otkazi pretplatu</th>
+   
+  </tr>
+   
+    <tr th:each="usl:${brodovi}">
+    <td th:text="${usl.naziv}"></td>
    
      <td><a href=""><button>otkazi</button></a></td>
   </tr>
