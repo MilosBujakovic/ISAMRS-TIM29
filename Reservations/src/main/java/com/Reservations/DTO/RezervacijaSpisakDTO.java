@@ -11,6 +11,8 @@ public class RezervacijaSpisakDTO
 	double cena;
 	String klijent;//Ime+prezime
 	Long klijentID;
+	String tipEntiteta;
+	String tip;
 	
 	public RezervacijaSpisakDTO() {}
 	
@@ -82,6 +84,22 @@ public class RezervacijaSpisakDTO
 	}
 	public void setKlijentID(Long klijentID) {
 		this.klijentID = klijentID;
+	}
+
+	public String getTipEntiteta() {
+		return tipEntiteta;
+	}
+
+	public void setTipEntiteta(String tipEntiteta) {
+		this.tipEntiteta = tipEntiteta;
+	}
+
+	public String getTip() {
+		return tip;
+	}
+
+	public void setTip(String tip) {
+		this.tip = tip;
 	}
 
 	@Override

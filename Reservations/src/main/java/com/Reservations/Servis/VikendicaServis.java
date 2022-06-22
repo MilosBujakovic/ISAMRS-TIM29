@@ -43,6 +43,11 @@ public class VikendicaServis {
 	public List<Vikendica> listAll(){
 		return vikendicaRepozitorijum.findAll();
 	}
+	
+
+	public void delete(Long id){
+		this.vikendicaRepozitorijum.deleteById(id);
+	}
 	public Vikendica findById(Long id) {
 		try {
 			return vikendicaRepozitorijum.findById(id).get();
