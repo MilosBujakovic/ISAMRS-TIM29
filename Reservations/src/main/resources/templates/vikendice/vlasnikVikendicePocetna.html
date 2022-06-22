@@ -55,7 +55,7 @@
 					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihVikendica/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Spisak rezervacija
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi zauzetosti vikendica
+					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/periodiZauzetosti/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Periodi zauzetosti vikendica
 					</a></li>
 					
 					<li class=""><a th:href="@{/vikendice/brze-rezervacije/}+${vlasnikVikendice.ID}" target="glavni_prikaz">Brze rezervacije
@@ -73,12 +73,12 @@
         </div>
         </section>
         <section id="welcome" class="right-top">
-				<h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
+				<!-- h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
 				<h2><p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p></h2>
-		</section><!--/div-->
-        <!--div class="col-md-7 justify-content-md-center"-->
+		</section>
         
-			<section id="glavni_prikaz" class=right><iframe  width=800px height=450px name="glavni_prikaz">
+        
+			<section id="glavni_prikaz" class=--><iframe  width="65%" height="70%" name="glavni_prikaz">
 				
 			</iframe></section>
 	</div>

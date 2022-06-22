@@ -12,8 +12,24 @@
 <link rel="stylesheet" th:href="@{/css/pocetna.css}"
 	href="/css/pocetna.css">
 	
-	<script>
-	</script>
+<style type="text/css">
+   .containerWelcome {
+		margin: auto;
+		width: 40%;
+		display: flex;
+  		justify-content: center;
+  		align-items: center;
+  		height: 200px;
+  		background-color: #fff;
+		border-radius: 10px;
+  		box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
+					0 10px 10px rgba(0,0,0,0.22);
+	
+	}
+	.container h2 {
+		font-family: 'Montserrat', sans-serif;
+	}
+   </style>
 <body>
 	<section class=top>
 	<header role="banner">
@@ -55,7 +71,7 @@
 					<li class=""><a th:href="@{/rezervacije/rezervacijeMojihBrodova/}+${vlasnikBroda.ID}" target="glavni_prikaz">Spisak rezervacija
 					</a></li>
 					
-					<li class=""><a th:href="@{/vikendicaVlasnik/prikaziVikendice/obrisi/}+${vlasnikBroda.ID}" target="glavni_prikaz">Periodi zauzetosti brodova
+					<li class=""><a th:href="@{/brodVlasnik/prikaziBrodove/periodiZauzetosti/}+${vlasnikBroda.ID}" target="glavni_prikaz">Periodi zauzetosti brodova
 					</a></li>
 					
 					<li class=""><a th:href="@{/brodovi/brze-rezervacije/}+${vlasnikBroda.ID}" target="glavni_prikaz">Brze rezervacije
@@ -74,11 +90,12 @@
         </section>
         
         <!--div class="col-md-7 justify-content-md-center"-->
-        <section class="right-top">
-				<h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
-				<h2><p class="feedback">Dodavanje novih vikendica je direktno u bazi!</p></h2>
-		</section><!--/div-->
-			<section class=right><iframe width=800px height=450px name="glavni_prikaz"></iframe></section>
+        <section class="right-top"><!-- /section>-top"--> .
+				<!--h1><p align=center class="feedback">Dobrodošli na početnu stranicu</p></h1>
+				<h2><p class="feedback"><div class="containerWelcome">Dodavanje novih vikendica je direktno u bazi!</div></p></h2-->
+				
+		<!--/section>
+			<section class=right--><iframe width="65%" height="70%" src="./templates/loginFailure.html" name="glavni_prikaz"></iframe></section>
 	</div>
 	</div>
 

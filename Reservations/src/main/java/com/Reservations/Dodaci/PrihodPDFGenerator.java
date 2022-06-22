@@ -8,7 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.Reservations.Modeli.Prihod;
+import com.Reservations.DTO.PrihodDTO;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -21,11 +21,11 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
 public class PrihodPDFGenerator {
-	private List<Prihod> lista;
+	private List<PrihodDTO> lista;
 	private Date pocDatum;
 	private Date krajDatum;
 	
-    public PrihodPDFGenerator(List<Prihod> lista, Date pocDatum, Date krajDatum) {
+    public PrihodPDFGenerator(List<PrihodDTO> lista, Date pocDatum, Date krajDatum) {
         this.lista = lista;
         this.pocDatum = pocDatum;
         this.krajDatum = krajDatum;
@@ -39,10 +39,6 @@ public class PrihodPDFGenerator {
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.WHITE);
          
-        cell.setPhrase(new Phrase("Prihod ID", font));
-         
-        table.addCell(cell);
-         
         cell.setPhrase(new Phrase("Vrednost", font));
         table.addCell(cell);
          
@@ -51,21 +47,17 @@ public class PrihodPDFGenerator {
          
         cell.setPhrase(new Phrase("Datum", font));
         table.addCell(cell);
-         
-        cell.setPhrase(new Phrase("Procenat", font));
-        table.addCell(cell);       
     }	
      
     private void writeTableData(PdfPTable table) {
-        for (Prihod p : lista) {
+        for (PrihodDTO p : lista) {
         	 Calendar c = Calendar.getInstance();
              c.setTime(pocDatum); 
         	while(!c.getTime().after(krajDatum))
         	{
-        		table.addCell(String.valueOf(p.getID()));
                 table.addCell(String.valueOf(p.getVrednost()));
                 table.addCell(String.valueOf(p.getRezervacija().getID()));
-                table.addCell(p.getDatum().toString());
+                table.addCell(p.getRezervacija().getDatum().toString());
         	}
         }
     }

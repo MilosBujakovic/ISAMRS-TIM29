@@ -31,7 +31,6 @@ import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
-import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
 
@@ -41,9 +40,6 @@ public class VlasnikBrodaKontroler
 {
 
 	public String putanjaSlikaKorisnika = "/img/korisnici/";
-	
-	@Autowired
-	PrihodServis prihodServis;
 	
 	@Autowired
 	GVarijableServis gvServis;
@@ -95,6 +91,7 @@ public class VlasnikBrodaKontroler
 		System.out.println(model.toString());
 		if(vrstaPrikaza.equals("upravljanje"))return "/brodovi/upravljanjeBrodovima.html";
 		else if(vrstaPrikaza.equals("obrisi")) return "/vikendice/brisanjeVikendica.html";
+		else if(vrstaPrikaza.equals("periodiZauzetosti")) return "/brodovi/periodiZauzetostiBrodova.html";
 		else return "/brodovi/mojiBrodovi";
 	}
 	
@@ -415,6 +412,28 @@ public class VlasnikBrodaKontroler
 		else return "/vikendice/pogresnaPoruka.html";
 		//TODO:upis u bazu snimanjeDatotekaServis.snimiSlikuVikendice(slikaDTO);
 	}
+	
+	@RequestMapping(value = "/osvjeziTermine/{vlasnikID}")
+	public String osvjeziTermine(Model model, @PathVariable Long vlasnikID) 
+	{
+		System.out.println("Osvjezi termine page was called!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
+		boolean uspjesan = rezervacijaServis.popraviTermine(rezervacije);
+		
+		if(uspjesan)
+		{
+			model.addAttribute("poruka", "Termini uspješno popravljeni!");
+			return "/vikendice/potvrdnaPoruka.html";
+		}
+		else
+		{
+			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
+			return "/vikendice/pogresnaPoruka.html";
+		}
+	}	
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 

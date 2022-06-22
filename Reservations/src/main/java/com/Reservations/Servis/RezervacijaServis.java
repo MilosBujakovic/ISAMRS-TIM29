@@ -39,6 +39,9 @@ public class RezervacijaServis {
 
 	@Autowired
 	VikendicaServis vikendicaServis;
+	
+	@Autowired
+	TerminServis terminServis;
 
 	@Autowired
 	BrodServis brodServis;
@@ -437,6 +440,23 @@ public class RezervacijaServis {
 		}
 	}
 
+	public boolean popraviTermine(List<Rezervacija> rezervacije) 
+	{
+		boolean termini = false;
+		for(Rezervacija rez : rezervacije)
+		{
+			try
+			{
+				termini = terminServis.popraviTermin(rez);
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		return termini;
+	}
+	
 	public List<String> findByVikendica(Vikendica usluga) {
 		List<Rezervacija>li2=rezervacijaRepozitorijum.findAll();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
@@ -454,5 +474,7 @@ public class RezervacijaServis {
 		return li;
 	}
 	
-	
+	public List<Rezervacija> findByTip(TipEntiteta tip) {
+		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
+	}
 }
