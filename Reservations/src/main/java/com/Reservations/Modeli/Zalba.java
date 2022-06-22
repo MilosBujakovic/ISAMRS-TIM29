@@ -25,6 +25,9 @@ public class Zalba {
 	@Column(name="zalba")
     private String zalba;
 	
+	@Column(name="odgovor")
+    private String odgovor;
+	
 	@OneToOne
 	@JoinColumn(name="rezId")
     private Rezervacija rezervacija;
@@ -71,6 +74,14 @@ public class Zalba {
 
 	public void setRezervacija(Rezervacija rezervacija) {
 		this.rezervacija = rezervacija;
+	}
+
+	public String getOdgovor() {
+		return odgovor;
+	}
+
+	public void setOdgovor(String odgovor) {
+		this.odgovor = odgovor;
 	}
 
 	@Override

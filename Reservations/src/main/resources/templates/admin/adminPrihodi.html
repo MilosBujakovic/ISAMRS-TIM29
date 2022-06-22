@@ -46,8 +46,8 @@
 					<th>Datum prihoda</th>
 				</tr>
 				<tr th:each="prihod : ${prihodi}">
-					<td th:text="${prihod.rezervacija.ID}">17569</td>
-					<td th:text="${prihod.vrednost}">€150</td>
+					<td th:text="${prihod.rezervacija}">17569</td>
+					<td th:text="${prihod.vrednost + ' din'}">€150</td>
 					<td th:text="${prihod.datum}">Oct 10, 2015</td>
 
 				</tr>

@@ -11,6 +11,7 @@
 	href="/css/adminProfile.css">
 <link rel="stylesheet" th:href="@{/css/adminEntities.css}"
 href="/css/adminEntities.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 </head>
 <body>
 	<header role="banner">
@@ -38,6 +39,8 @@ href="/css/adminEntities.css">
 	</nav>
 
 	<main role="main">
+	
+	
 	<section class="panel important">
 	<div class='tabs-card'>
 	
@@ -48,7 +51,7 @@ href="/css/adminEntities.css">
 
 			<table>
 				<tr>
-					<th>Id</th>
+					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
 					<th>Korisnicko ime</th>
@@ -58,6 +61,7 @@ href="/css/adminEntities.css">
 					<th>Adresa</th>
 					<th>Grad</th>
 					<th>Drzava</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "klijent : ${klijenti}">
 					<td th:text = "${klijent.ID}">ID</td>
@@ -70,7 +74,10 @@ href="/css/adminEntities.css">
 					<td th:text = "${klijent.adresa}">Adresa</td>
 					<td th:text = "${klijent.grad}">Grad</td>
 					<td th:text = "${klijent.drzava}">Drzava</td>
-				</tr>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/klijent/'+klijent.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
+							</tr>
 			</table>
 		</section>
 	</article>
@@ -83,7 +90,7 @@ href="/css/adminEntities.css">
 		<section class="panel important">
 			<table>
 				<tr>
-					<th>Id</th>
+					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
 					<th>Korisnicko ime</th>
@@ -93,6 +100,7 @@ href="/css/adminEntities.css">
 					<th>Adresa</th>
 					<th>Grad</th>
 					<th>Drzava</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "vlasnik : ${vlasniciV}">
 					<td th:text = "${vlasnik.ID}">ID</td>
@@ -105,6 +113,9 @@ href="/css/adminEntities.css">
 					<td th:text = "${vlasnik.adresa}">Adresa</td>
 					<td th:text = "${vlasnik.grad}">Grad</td>
 					<td th:text = "${vlasnik.drzava}">Drzava</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/vvlasnik/'+vlasnik.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
 				</tr>
 			</table>
 		</section>
@@ -115,7 +126,7 @@ href="/css/adminEntities.css">
       <section class="panel important">
 			<table>
 				<tr>
-					<th>Id</th>
+					<th>ID</th>
 					<th>Naziv</th>
 					<th>Adresa</th>
 					<th>Opis</th>
@@ -123,6 +134,7 @@ href="/css/adminEntities.css">
 					<th>Broj kreveta</th>
 					<th>Cena</th>
 					<th>Vlasnik ID</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "vikendica : ${vikendice}">
 					<td th:text = "${vikendica.ID}">ID</td>
@@ -133,6 +145,9 @@ href="/css/adminEntities.css">
 					<td th:text = "${vikendica.brojKreveta}">Broj kreveta</td>
 					<td th:text = "${vikendica.cena}">Cena</td>
 					<td th:text = "${vikendica.vlasnik.ID}">Vlasnik ID</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/vikendica/'+vikendica.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
 				</tr>
 			</table>
 		</section>
@@ -145,7 +160,7 @@ href="/css/adminEntities.css">
       <section class="panel important">
 			<table>
 				<tr>
-					<th>Id</th>
+					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
 					<th>Korisnicko ime</th>
@@ -155,6 +170,7 @@ href="/css/adminEntities.css">
 					<th>Adresa</th>
 					<th>Grad</th>
 					<th>Drzava</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "vlasnik : ${vlasniciB}">
 					<td th:text = "${vlasnik.ID}">ID</td>
@@ -167,6 +183,9 @@ href="/css/adminEntities.css">
 					<td th:text = "${vlasnik.adresa}">Adresa</td>
 					<td th:text = "${vlasnik.grad}">Grad</td>
 					<td th:text = "${vlasnik.drzava}">Drzava</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/bvlasnik/'+vlasnik.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
 				</tr>
 			</table>
 		</section>
@@ -192,6 +211,7 @@ href="/css/adminEntities.css">
 					<th>Kapacitet</th>
 					<th>Pecaroska oprema</th>
 					<th>Vlasnik ID</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "brod : ${brodovi}" th:with = "vlasnik = ${brod.vlasnik}">
 					<td th:text = "${brod.ID}">ID</td>
@@ -208,6 +228,9 @@ href="/css/adminEntities.css">
 					<td th:text = "${brod.kapacitet}">Kapacitet</td>
 					<td th:text = "${brod.pecaroskaOprema}">Pecaroska oprema</td>
 					<td th:text = "${vlasnik.ID}">Vlasnik ID</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/brod/'+brod.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
 				</tr>
 			</table>
 		</section>
@@ -220,7 +243,7 @@ href="/css/adminEntities.css">
 
 			<table>
 				<tr>
-					<th>Id</th>
+					<th>ID</th>
 					<th>Ime</th>
 					<th>Prezime</th>
 					<th>Korisnicko ime</th>
@@ -230,6 +253,7 @@ href="/css/adminEntities.css">
 					<th>Adresa</th>
 					<th>Grad</th>
 					<th>Drzava</th>
+					<th>Obrisi</th>
 				</tr>
 				<tr th:each = "instruktor : ${instruktori}">
 					<td th:text = "${instruktor.ID}">ID</td>
@@ -242,13 +266,52 @@ href="/css/adminEntities.css">
 					<td th:text = "${instruktor.adresa}">Adresa</td>
 					<td th:text = "${instruktor.grad}">Grad</td>
 					<td th:text = "${instruktor.drzava}">Drzava</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/instruktor/'+instruktor.ID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i> </a></td>
 				</tr>
 			</table>
 		</section>
 	</article>
 		
+		<input class='hide' type="radio" id="tab-7" name="tractor" checked='checked'/>
+	<label for='tab-7'>Rezervacije</label>
+	<article class='tab-7'>
+		<section class="panel important">
+
+			<table>
+				<tr>
+					<th>ID</th>
+					<th>Naziv entiteta</th>
+					<th>Tip entiteta</th>
+					<th>Tip rezervacije</th>
+					<th>Klijent ID</th>
+					<th>Klijent</th>
+					<th>Datum</th>
+					<th>Vreme</th>
+					<th>Cena</th>
+					<th>Obrisi</th>
+				</tr>
+				<tr th:each = "rez : ${rezervacije}">
+					<td th:text = "${rez.rezervacijaID}">ID</td>
+					<td th:text = "${rez.nazivEntiteta}">Naziv entiteta</td>
+					<td th:text = "${rez.tipEntiteta}">Tip</td>
+					<td th:text = "${rez.tip}">Tip</td>
+					<td th:text = "${rez.klijentID}">Klijent ID</td>
+					<td th:text = "${rez.klijent}">Klijent</td>
+					<td th:text = "${rez.datum}">Datum</td>
+					<td th:text = "${rez.vreme}">Vreme</td>
+					<td th:text = "${rez.cena}">Cena</td>
+								<td><a
+									th:href="@{/admin/}+${id+'/obrisi/rezervacija/'+rez.rezervacijaID}"><i
+										class="fa fa-trash-o" aria-hidden="true"></i></a></td>
+				</tr>
+			</table>
+		</section>
+	</article>
 	</div>
 	</section>
+	
 	</main>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="/js/PrikazKorisnika.js"></script>

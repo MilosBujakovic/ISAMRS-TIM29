@@ -1,10 +1,10 @@
 .tabs-card {
 			display: grid;
-			grid-template-columns: repeat(6, 1fr);
+			grid-template-columns: repeat(7, 1fr);
 			grid-template-rows: 2;
 			grid-template-areas: 
-				"t-1 t-2 t-3 t-4 t-5 t-6"
-				"ver ver ver ver ver ver";
+				"t-1 t-2 t-3 t-4 t-5 t-6 t-7"
+				"ver ver ver ver ver ver ver";
 }
 /* & the labels go to... */
 [for*='-1'] {
@@ -24,6 +24,9 @@
 }
 [for*='-6'] {
 	grid-area: t-6;
+}
+[for*='-7'] {
+	grid-area: t-7;
 }
 /* show each content */
 :checked + label + article
@@ -93,4 +96,5 @@
 		opacity: 1;
 		max-height: 100vh;
 	}
+}
 }

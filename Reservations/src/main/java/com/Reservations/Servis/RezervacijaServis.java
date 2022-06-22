@@ -8,14 +8,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PrihodDTO;
 import com.Reservations.DTO.RezervacijaDTO;
 import com.Reservations.Modeli.Brod;
+import com.Reservations.Modeli.GlobalnaVarijabla;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Usluga;
@@ -23,8 +26,6 @@ import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
-
-import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 
 @Service
 public class RezervacijaServis {
@@ -39,12 +40,15 @@ public class RezervacijaServis {
 
 	@Autowired
 	VikendicaServis vikendicaServis;
-	
+
 	@Autowired
 	TerminServis terminServis;
 
 	@Autowired
 	BrodServis brodServis;
+
+	@Autowired
+	GVarijableServis gvServis;
 
 	public Rezervacija findById(Long id) {
 		try {
@@ -183,6 +187,26 @@ public class RezervacijaServis {
 		}
 		return li2;
 	}
+	
+	public Boolean findByDate(Rezervacija r) {
+		
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		
+	    String datum=r.getDatum();
+			if (now.isBefore(LocalDate.parse(datum,dtf).minusDays(3))) {
+				
+				return true;
+			
+			}
+			return false;
+			
+		}
+	
+
+		
+		
+	
 
 	public List<Rezervacija> nadjiRezervacijeVikendica() {
 		return rezervacijaRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
@@ -497,29 +521,82 @@ public class RezervacijaServis {
 		}
 		return termini;
 	}
-	
+
 	public List<String> findByVikendica(Vikendica usluga) {
-		List<Rezervacija>li2=rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li2 = rezervacijaRepozitorijum.findAll();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-	
-		List<String>li=new ArrayList<String>();
+
+		List<String> li = new ArrayList<String>();
 		for (Rezervacija rezervacija : li2) {
-			if(rezervacija.getTipEntiteta().equals(TipEntiteta.vikendica)) {
+			if (rezervacija.getTipEntiteta().equals(TipEntiteta.vikendica)) {
 				li.add(rezervacija.getDatum());
-				for (int i=1;i<Integer.parseInt(rezervacija.getTrajanje());i++) {
-					LocalDate lokal=LocalDate.parse(rezervacija.getDatum(),dtf).plusDays(i);
+				for (int i = 1; i < Integer.parseInt(rezervacija.getTrajanje()); i++) {
+					LocalDate lokal = LocalDate.parse(rezervacija.getDatum(), dtf).plusDays(i);
 					li.add(lokal.format(dtf));
 				}
 			}
 		}
 		return li;
 	}
-	
+
 	public List<Rezervacija> findByTip(TipEntiteta tip) {
 		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
 	}
 
-	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) {
+	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) 
+	{
 		return this.rezervacijaRepozitorijum.findByTip(tip);
+	}
+
+	public List<PrihodDTO> izracunajPrihodeSvihRezervacija() {
+		List<PrihodDTO> prihodi = new ArrayList<PrihodDTO>();
+		List<Rezervacija> rezervacije = this.listAll();
+
+		GlobalnaVarijabla gvProcenat = gvServis.findByName("procenat");
+		double procenat = Double.parseDouble(gvProcenat.getVrednost());
+
+		for (Rezervacija rezervacija : rezervacije) {
+			double vrednost = rezervacija.getCena() * procenat;
+			long rezID = rezervacija.getID();
+			String pocetni = rezervacija.getDatum();
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+			LocalDate ld = LocalDate.parse(pocetni, dtf);
+			int trajanje = Integer.parseInt(rezervacija.getTrajanje());
+			String krajnji = ld.plusDays(trajanje).format(dtf);
+			PrihodDTO prihod = new PrihodDTO(vrednost, rezID, krajnji);
+			prihodi.add(prihod);
+		}
+
+		return prihodi;
+	}
+
+	public List<PrihodDTO> izracunajPrihodeSvihRezervacija(String pocetniDatum, String krajnjiDatum) {
+		List<PrihodDTO> prihodi = new ArrayList<PrihodDTO>();
+		List<Rezervacija> rezervacije = this.listAll();
+
+		GlobalnaVarijabla gvProcenat = gvServis.findByName("procenat");
+		double procenat = Double.parseDouble(gvProcenat.getVrednost());
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		LocalDate pocetniDatumLD = LocalDate.parse(pocetniDatum, dtf);
+		LocalDate krajnjiDatumLD = LocalDate.parse(krajnjiDatum, dtf);
+
+		for (Rezervacija rezervacija : rezervacije) {
+			String pocetni = rezervacija.getDatum();
+			LocalDate rez_pocetniDatum = LocalDate.parse(pocetni, dtf);
+			int trajanje = Integer.parseInt(rezervacija.getTrajanje());
+			LocalDate rez_krajnjiDatum = rez_pocetniDatum.plusDays(trajanje);
+			if ((rez_pocetniDatum.isAfter(pocetniDatumLD) || rez_pocetniDatum.isEqual(pocetniDatumLD))
+					&& (rez_krajnjiDatum.isBefore(krajnjiDatumLD) || rez_krajnjiDatum.isEqual(krajnjiDatumLD))) {
+
+				String krajnji = rez_krajnjiDatum.format(dtf);
+				double vrednost = rezervacija.getCena() * procenat;
+				long rezID = rezervacija.getID();
+				PrihodDTO prihod = new PrihodDTO(vrednost, rezID, krajnji);
+				prihodi.add(prihod);
+			} else
+				continue;
+		}
+
+		return prihodi;
 	}
 }
