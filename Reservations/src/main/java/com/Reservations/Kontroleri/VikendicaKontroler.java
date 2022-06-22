@@ -291,4 +291,19 @@ public class VikendicaKontroler
 		model.addAttribute("vikendice", mojeVikendice);
 		return "/vikendice/brzeRezervacijeVikendica.html";
 	}
+	
+	@RequestMapping(value="/vikendice"+"/brza-rezervacija/{vlasnikID}/{vikendicaID}")
+	public String brzaRezervacijaVikendice(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikendicaID)
+	{
+		System.out.println("Brzo-rezervisi page!");
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikendicaID);
+		model.addAttribute("vikendica", vikendica);
+		
+		return "/vikendice/pregledBrzihRezervacijaVikendice.html";
+	}
+	
+	
 }

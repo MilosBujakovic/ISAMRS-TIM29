@@ -462,7 +462,7 @@ public class AdminKontroler {
 		Vikendica v = vikendicaServis.findById(kID);
 		this.obrisiVezaneEntitete(v);
 		vikendicaServis.delete(kID);
-		return "redirect:/admin/" + String.valueOf(id) + "/pregled";v
+		return "redirect:/admin/" + String.valueOf(id) + "/pregled";
 	}
 
 	@RequestMapping(value = "/obrisi/brod/{kID}")
