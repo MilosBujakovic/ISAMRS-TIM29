@@ -96,6 +96,7 @@ public String registerOwner( @PathVariable Long id,Korisnik user,ZahtevZaBrisanj
 @RequestMapping("/zalba/{id}/{id2}")
 public  String home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id,@PathVariable Long id2) {
     Rezervacija r=resService.findById(id2);
+   
    model.addAttribute("rez",r);
     user=userService.findById(id);
      model.addAttribute("pod",user);

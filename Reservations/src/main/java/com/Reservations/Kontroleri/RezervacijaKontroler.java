@@ -124,8 +124,13 @@ public class RezervacijaKontroler {
 	}
 	@RequestMapping(value = "/otkaziRez/{id}/{klijent_id}")
 	public String OtkazirezMoje(@PathVariable Long id,Model model,@PathVariable Long klijent_id){
+	Rezervacija r=rezervacijaServis.findById(id);
 	
+		if(rezervacijaServis.findByDate(r))
+			
+		{
 	 		try {
+	 		
             rezervacijaServis.delete(id);
             System.out.println("adasdsaddasdasdasdsadsadasdsd");
 	 		}catch(Exception e) {
@@ -133,7 +138,10 @@ public class RezervacijaKontroler {
 	 			e.printStackTrace();
 	 			  System.out.println(e.getStackTrace().toString());
 	 		}
-	 		
+		
+		}else {
+			return "NeuspesnoOtkazivanje";
+		}
 	 		
 	 		 return "redirect:/rezervacije/mojeRez/"+String.valueOf(klijent_id);
 	 	  }

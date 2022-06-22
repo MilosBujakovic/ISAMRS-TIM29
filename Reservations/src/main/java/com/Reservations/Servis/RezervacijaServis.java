@@ -183,6 +183,26 @@ public class RezervacijaServis {
 		}
 		return li2;
 	}
+	
+	public Boolean findByDate(Rezervacija r) {
+		
+		LocalDate now = LocalDate.now();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		
+	    String datum=r.getDatum();
+			if (now.isBefore(LocalDate.parse(datum,dtf).minusDays(3))) {
+				
+				return true;
+			
+			}
+			return false;
+			
+		}
+	
+
+		
+		
+	
 
 	public List<Rezervacija> nadjiRezervacijeVikendica() {
 		return rezervacijaRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
