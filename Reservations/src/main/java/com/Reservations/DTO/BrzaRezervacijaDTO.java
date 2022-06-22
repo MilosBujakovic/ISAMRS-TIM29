@@ -1,10 +1,10 @@
 package com.Reservations.DTO;
 
-import javax.persistence.Column;
+import com.Reservations.Modeli.Rezervacija;
 
 public class BrzaRezervacijaDTO {
-	private Long id; //entitet ID
-	
+	private Long entitetId; //entitet ID
+	 
 	private String datum;
 	
 	private String vreme;
@@ -17,9 +17,9 @@ public class BrzaRezervacijaDTO {
 	
 	private double akcija;
 
-	public BrzaRezervacijaDTO(Long id, String datum, String vreme, String trajanje, int maxOsoba, double cena,
+	public BrzaRezervacijaDTO(Long entitetId, String datum, String vreme, String trajanje, int maxOsoba, double cena,
 			double akcija) {
-		this.id = id;
+		this.entitetId = entitetId;
 		this.datum = datum;
 		this.vreme = vreme;
 		this.trajanje = trajanje;
@@ -27,16 +27,26 @@ public class BrzaRezervacijaDTO {
 		this.cena = cena;
 		this.akcija = akcija;
 	}
+	
+	public BrzaRezervacijaDTO(Rezervacija rez) {
+		this.entitetId = rez.getEntitetId();
+		this.datum = rez.getDatum();
+		this.vreme = rez.getVreme();
+		this.trajanje = rez.getTrajanje();
+		this.maxOsoba = rez.getMaxOsoba();
+		this.cena = rez.getCena();
+		this.akcija = rez.getAkcija();
+	}
 
 	public BrzaRezervacijaDTO() {
 	}
 
-	public Long getId() {
-		return id;
+	public Long getEntitetId() {
+		return entitetId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setEntitetId(Long entitetId) {
+		this.entitetId = entitetId;
 	}
 
 	public String getDatum() {
@@ -89,7 +99,7 @@ public class BrzaRezervacijaDTO {
 
 	@Override
 	public String toString() {
-		return "BrzaRezervacijaDTO [id=" + id + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
+		return "BrzaRezervacijaDTO [entitetId=" + entitetId + ", datum=" + datum + ", vreme=" + vreme + ", trajanje=" + trajanje
 				+ ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", akcija=" + akcija + "]";
 	}
 	
@@ -99,6 +109,16 @@ public class BrzaRezervacijaDTO {
 		if(pocetni.length==3)
 		{
 			this.datum = pocetni[1]+"/"+pocetni[2]+"/"+pocetni[0];
+			
+		}
+	}
+	
+	public void srediDatumeZaUpis()
+	{
+		String[] pocetni = this.getDatum().split("/");
+		if(pocetni.length==3)
+		{
+			this.datum = pocetni[2]+"-"+pocetni[0]+"-"+pocetni[1];
 			
 		}
 	}

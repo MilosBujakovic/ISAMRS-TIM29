@@ -194,30 +194,25 @@ public class RezervacijaServis {
 		}
 		return li2;
 	}
-	
+
 	public Boolean findByDate(Rezervacija r) {
-		
+
 		LocalDate now = LocalDate.now();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-		
-	    String datum=r.getDatum();
-			if (now.isBefore(LocalDate.parse(datum,dtf).minusDays(3))) {
-				
-				return true;
-			
-			}
-			return false;
-			
-		}
-	
 
-		
-		
-	
+		String datum = r.getDatum();
+		if (now.isBefore(LocalDate.parse(datum, dtf).minusDays(3))) {
+
+			return true;
+
+		}
+		return false;
+
+	}
 
 	public List<Rezervacija> nadjiRezervacijeVikendica() {
 		return rezervacijaRepozitorijum.findByTipEntiteta(TipEntiteta.vikendica);
-	} 
+	}
 
 	public List<Rezervacija> pronadjiRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) {
 		List<Rezervacija> mojeRezervacije = new ArrayList<Rezervacija>();
@@ -279,7 +274,7 @@ public class RezervacijaServis {
 			System.out.println("Not Implemented");
 		return mojeRezervacije;
 	}
-	
+
 	public List<Rezervacija> pronadjiBrzeRezervacijePoVlasniku(Korisnik vlasnik, TipEntiteta tipEntiteta) {
 		List<Rezervacija> mojeRezervacije = new ArrayList<Rezervacija>();
 		System.out.println("TipoviEntiteta jednaki: " + tipEntiteta.equals(TipEntiteta.vikendica));
@@ -512,17 +507,12 @@ public class RezervacijaServis {
 		}
 	}
 
-	public boolean popraviTermineRezervacija(List<Rezervacija> rezervacije) 
-	{
+	public boolean popraviTermineRezervacija(List<Rezervacija> rezervacije) {
 		boolean termini = false;
-		for(Rezervacija rez : rezervacije)
-		{
-			try
-			{
+		for (Rezervacija rez : rezervacije) {
+			try {
 				termini = terminServis.popraviTerminRezervacije(rez);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				return false;
 			}
 		}
@@ -609,8 +599,7 @@ public class RezervacijaServis {
 		return this.rezervacijaRepozitorijum.findByTipEntiteta(tip);
 	}
 
-	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) 
-	{
+	public List<Rezervacija> nadjiPoTipuRezervacije(TipRezervacije tip) {
 		return this.rezervacijaRepozitorijum.findByTip(tip);
 	}
 
@@ -666,35 +655,36 @@ public class RezervacijaServis {
 		return prihodi;
 	}
 
-
-	
-
-	
-	
 	public Rezervacija napraviBrzuRezervaciju(BrzaRezervacijaDTO brza, TipEntiteta tip) {
-		Rezervacija r = new Rezervacija();
-		r.setDatum(brza.getDatum());
-		r.setVreme(brza.getVreme());
-		r.setAkcija(brza.getAkcija());
-		r.setCena(brza.getCena());
-		r.setTipEntiteta(tip);
-		r.setTip(TipRezervacije.brza);
-		r.setEntitetId(brza.getId());
-		r.setMaxOsoba(brza.getMaxOsoba());
-		r.setTrajanje(brza.getTrajanje());
-		if(tip.equals(TipEntiteta.vikendica)) {
-			Vikendica v = vikendicaServis.findById(brza.getId());
-			r.setNazivEntiteta(v.getNaziv());
+		try {
+			Rezervacija r = new Rezervacija();
+			r.setDatum(brza.getDatum());
+			r.setVreme(brza.getVreme());
+			r.setAkcija(brza.getAkcija());
+			r.setCena(brza.getCena());
+			r.setTipEntiteta(tip);
+			r.setTip(TipRezervacije.brza);
+			r.setEntitetId(brza.getEntitetId());
+			r.setMaxOsoba(brza.getMaxOsoba());
+			r.setTrajanje(brza.getTrajanje());
+			if (tip.equals(TipEntiteta.vikendica)) {
+				Vikendica v = vikendicaServis.findById(brza.getEntitetId());
+				r.setNazivEntiteta(v.getNaziv());
+			} else if (tip.equals(TipEntiteta.brod)) {
+				Brod b = brodServis.findById(brza.getEntitetId());
+				r.setNazivEntiteta(b.getNaziv());
+			} else if (tip.equals(TipEntiteta.usluga)) {
+				Usluga u = uslugaServis.findById(brza.getEntitetId());
+				r.setNazivEntiteta(u.getNaziv());
+			}
+
+			return this.rezervacijaRepozitorijum.save(r);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
-		else if(tip.equals(TipEntiteta.brod)) {
-			Brod b = brodServis.findById(brza.getId());
-			r.setNazivEntiteta(b.getNaziv());
-		}
-		else if(tip.equals(TipEntiteta.usluga)) {
-			Usluga u = uslugaServis.findById(brza.getId());
-			r.setNazivEntiteta(u.getNaziv());
-		}
-		
-		return this.rezervacijaRepozitorijum.save(r);
 	}
+
+	
 }

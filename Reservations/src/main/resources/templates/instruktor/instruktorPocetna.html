@@ -102,15 +102,14 @@ a.klijent:hover {
 				<tr>
 					<th>Naziv</th>
 					<th>Datum</th>
+					<th>Vreme</th>
 					<th>Trajanje</th>
-					<th></th>
 				</tr>
 				<tr th:each="brza : ${brze}">
 					<td th:text="${brza.nazivEntiteta}">Naziv</td>
 					<td th:text="${brza.datum}">Datum</td>
+					<td th:text="${brza.vreme}">Datum</td>
 					<td th:text="${brza.trajanje}">Trajanje</td>
-					<td><a th:href="@{/instruktor/}+${id+'/izmeniBrzuRezervaciju/'+brza.ID}"><img src="/img/pencil.png" alt="promeni"
-							class="edit"></a></td>
 				</tr>
 			</table>
 			<a th:href="@{/instruktor/}+${id+'/novaBrzaRezervacija'}"><button
