@@ -40,6 +40,9 @@ public class RezervacijaServis {
 
 	@Autowired
 	VikendicaServis vikendicaServis;
+	
+	@Autowired
+	TerminServis terminServis;
 
 	@Autowired
 	BrodServis brodServis;
@@ -447,5 +450,22 @@ public class RezervacijaServis {
 			System.out.println("doslo je do greske pri upisu!");
 			return false;
 		}
+	}
+
+	public boolean popraviTermine(List<Rezervacija> rezervacije) 
+	{
+		boolean termini = false;
+		for(Rezervacija rez : rezervacije)
+		{
+			try
+			{
+				termini = terminServis.popraviTermin(rez);
+			}
+			catch(Exception e)
+			{
+				return false;
+			}
+		}
+		return termini;
 	}
 }

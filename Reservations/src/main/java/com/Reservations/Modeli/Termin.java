@@ -2,6 +2,9 @@
 
 package com.Reservations.Modeli;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,9 +13,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Servis.BrodServis;
+import com.Reservations.Servis.UslugaServis;
+import com.Reservations.Servis.VikendicaServis;
 @Entity
 @Table(name="Termin")
 public class Termin {
@@ -46,6 +55,10 @@ public class Termin {
 	
 	@Column(name="datumVremeKraj")
 	private String datumVremeKraj;
+	
+	@OneToOne
+	@JoinColumn(name="rezervacija_id")
+	private Rezervacija rezervacija;
 
 	public Termin() {
 	}
@@ -61,6 +74,35 @@ public class Termin {
 		this.tipEntiteta = tipEntiteta;
 		this.datumVremePocetak = datumVremePocetak;
 		this.datumVremeKraj = datumVremeKraj;
+	}
+	
+	public Termin(Rezervacija rez)
+	{
+		
+		this.tipEntiteta = rez.getTipEntiteta();
+		this.datumVremePocetak = rez.getDatum();
+		this.datumVremeKraj = this.izracunajDatumKraja(rez.getTrajanje());
+		this.rezervacija = rez;
+	}
+	
+	
+
+
+	public String izracunajDatumKraja(String trajanje) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+		String datumKraja;
+		try
+		{
+			Long period = Long.parseLong(trajanje);
+			LocalDate kraj = LocalDate.parse(this.getDatumVremePocetak(), dtf).plusDays(period);
+			//System.out.println("Trajanje: "+ period+" kraj: "+ kraj.format(dtf));
+			datumKraja = kraj.format(dtf);
+		}
+		catch(Exception e)
+		{
+			datumKraja = this.datumVremePocetak;
+		}
+		return datumKraja;
 	}
 
 
@@ -133,6 +175,18 @@ public class Termin {
 	public void setVlasnik(Korisnik vlasnik) {
 		this.vlasnik = vlasnik;
 	}
+
+	
+	
+	public Rezervacija getRezervacija() {
+		return rezervacija;
+	}
+
+
+	public void setRezervacija(Rezervacija rezervacija) {
+		this.rezervacija = rezervacija;
+	}
+
 
 	@Override
 	public String toString() {
