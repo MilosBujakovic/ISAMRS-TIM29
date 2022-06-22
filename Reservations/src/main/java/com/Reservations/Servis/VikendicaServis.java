@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.VikendicaDTO;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Termin;
 import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 import com.Reservations.Repozitorijumi.VikendicaRepozitorijum;
 
@@ -584,5 +587,71 @@ public class VikendicaServis {
 		
 		return godisnjaPoslovanja;
 	}
+	public List<PeriodPrikazDTO> dobaviPeriode(Vikendica vikendica) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : vikendica.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()==null)
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat period: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermine(Vikendica vikendica) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		System.out.println("termini vikendice: "+vikendica.getTerminiZauzetosti().size());
+		for(Termin termin : vikendica.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null)
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin zauzetosti: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineBrzihRezervacija(Vikendica vikendica) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : vikendica.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.brza))
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin brze: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineObicnihRezervacija(Vikendica vikendica) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : vikendica.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.obicna))
+			{
+				PeriodPrikazDTO period = new PeriodPrikazDTO(termin);
+				periodi.add(period);
+				System.out.println("Dodat termin obicne: "+ period);
+			}
+		}
+		return periodi;
+	}
+	
 
+	
+	
+	
+	
+	
 }

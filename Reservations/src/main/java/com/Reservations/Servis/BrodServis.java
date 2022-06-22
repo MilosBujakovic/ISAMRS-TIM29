@@ -11,11 +11,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.Reservations.DTO.BrodDTO;
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
+import com.Reservations.Modeli.Termin;
+import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
+import com.Reservations.Modeli.enums.TipRezervacije;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
 
@@ -613,5 +617,57 @@ public class BrodServis
 		
 		return godisnjaPoslovanja;
 	}
+	
+	public List<PeriodPrikazDTO> dobaviPeriode(Brod brod) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : brod.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()==null)
+			{
+				periodi.add(new PeriodPrikazDTO(termin));
+			}
+		}
+		return periodi;
+	}
 
+	
+	public List<PeriodPrikazDTO> dobaviTermine(Brod brod) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : brod.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null)
+			{
+				periodi.add(new PeriodPrikazDTO(termin));
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineBrzihRezervacija(Brod brod) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : brod.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.brza))
+			{
+				periodi.add(new PeriodPrikazDTO(termin));
+			}
+		}
+		return periodi;
+	}
+	
+	public List<PeriodPrikazDTO> dobaviTermineObicnihRezervacija(Brod brod) 
+	{
+		List<PeriodPrikazDTO> periodi = new ArrayList<PeriodPrikazDTO>();
+		for(Termin termin : brod.getTerminiZauzetosti() )
+		{
+			if(termin.getRezervacija()!=null && termin.getRezervacija().getTip().equals(TipRezervacije.obicna))
+			{
+				periodi.add(new PeriodPrikazDTO(termin));
+			}
+		}
+		return periodi;
+	}
 }

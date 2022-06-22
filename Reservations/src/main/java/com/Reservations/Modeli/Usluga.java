@@ -1,5 +1,6 @@
 package com.Reservations.Modeli;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -57,7 +58,7 @@ public class Usluga {
 	private List<Termin> terminiZauzetosti;
 	
 	public Usluga() {
-		
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 	
 	public Usluga(long iD, String naziv, String adresa, String opis, String biografijaInstruktora, int maxOsoba,
@@ -73,6 +74,7 @@ public class Usluga {
 		this.cena = cena;
 		this.instruktor = instruktor;
 		this.linkSlike=linkSlike;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 
 	public long getID() {
@@ -166,12 +168,23 @@ public class Usluga {
 		this.linkSlike = linkSlike;
 	}
 
+	public List<Termin> getTerminiZauzetosti() {
+		return terminiZauzetosti;
+	}
+
+	public void setTerminiZauzetosti(List<Termin> terminiZauzetosti) {
+		this.terminiZauzetosti = terminiZauzetosti;
+	}
+
 	@Override
 	public String toString() {
 		return "Usluga [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis
 				+ ", biografijaInstruktora=" + biografijaInstruktora + ", maxOsoba=" + maxOsoba + ", pecaroskaOprema="
-				+ pecaroskaOprema + ", cena=" + cena + ", tip=" + tip + ", instruktorID=" + instruktor.toString() + "]";
+				+ pecaroskaOprema + ", cena=" + cena + ", tip=" + tip + ", instruktor=" + instruktor + ", linkSlike="
+				+ linkSlike + ", terminiZauzetosti=" + terminiZauzetosti + "]";
 	}
+	
+	
 
 	
 	

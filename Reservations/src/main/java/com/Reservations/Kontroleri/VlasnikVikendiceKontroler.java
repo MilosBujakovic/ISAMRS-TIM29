@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
@@ -428,7 +429,8 @@ public class VlasnikVikendiceKontroler {
 		model.addAttribute("vlasnikVikendice", vlasnik);
 		
 		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica);
-		boolean uspjesan = rezervacijaServis.popraviTermine(rezervacije);
+		rezervacije.addAll(rezervacijaServis.pronadjiBrzeRezervacijePoVlasniku(vlasnik, TipEntiteta.vikendica));
+		boolean uspjesan = rezervacijaServis.popraviTermineRezervacija(rezervacije);
 		
 		if(uspjesan)
 		{
@@ -440,7 +442,24 @@ public class VlasnikVikendiceKontroler {
 			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
 			return "/vikendice/pogresnaPoruka.html";
 		}
-	}		
+	}
+	
+	@RequestMapping(value = "/periodiZauzetosti/{vlasnikID}/{vikID}")
+	public String spisakPeriodaZauzetosti(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikVikendice", vlasnik);
+		
+		Vikendica vikendica = vikendicaServis.findById(vikID);
+		model.addAttribute("vikendica", vikendica);
+		
+		List<PeriodPrikazDTO> periodi = vikendicaServis.dobaviPeriode(vikendica);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = vikendicaServis.dobaviTermine(vikendica);
+		model.addAttribute("termini", termini);
+		return "/vikendice/periodiDostupnostiVikendice.html";
+	}
 	
 /*
 	@GetMapping("/admin/reports/print")

@@ -18,6 +18,7 @@ import com.Reservations.DTO.BrisanjeKorisnikaZahtjevDTO;
 import com.Reservations.DTO.BrodDTO;
 import com.Reservations.DTO.IzvjestajRezervacijaDTO;
 import com.Reservations.DTO.KlijentSpisakDTO;
+import com.Reservations.DTO.PeriodPrikazDTO;
 import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.DTO.SlikaDTO;
@@ -421,7 +422,8 @@ public class VlasnikBrodaKontroler
 		model.addAttribute("vlasnikBroda", vlasnik);
 		
 		List<Rezervacija> rezervacije = rezervacijaServis.pronadjiRezervacijePoVlasniku(vlasnik, TipEntiteta.brod);
-		boolean uspjesan = rezervacijaServis.popraviTermine(rezervacije);
+		rezervacije.addAll(rezervacijaServis.pronadjiBrzeRezervacijePoVlasniku(vlasnik, TipEntiteta.brod));
+		boolean uspjesan = rezervacijaServis.popraviTermineRezervacija(rezervacije);
 		
 		if(uspjesan)
 		{
@@ -433,7 +435,24 @@ public class VlasnikBrodaKontroler
 			model.addAttribute("poruka", "Došlo je do greške prilikom upisa!");
 			return "/vikendice/pogresnaPoruka.html";
 		}
-	}	
+	}
+	
+	@RequestMapping(value = "/periodiZauzetosti/{vlasnikID}/{vikID}")
+	public String spisakPeriodaZauzetosti(Model model, @PathVariable Long vlasnikID, @PathVariable Long vikID)
+	{
+		Korisnik vlasnik = korisnikServis.findById(vlasnikID);
+		model.addAttribute("vlasnikBroda", vlasnik);
+		
+		Brod brod = brodServis.findById(vikID);
+		model.addAttribute("brod", brod);
+		
+		List<PeriodPrikazDTO> periodi = brodServis.dobaviPeriode(brod);
+		model.addAttribute("periodi", periodi);
+		
+		List<PeriodPrikazDTO> termini = brodServis.dobaviTermine(brod);
+		model.addAttribute("termini", termini);
+		return "/brodovi/periodiDostupnostiBroda.html";
+	}
 /*
 	@RequestMapping(value = "/admin/reports")
 	public String getReportsDates() 
