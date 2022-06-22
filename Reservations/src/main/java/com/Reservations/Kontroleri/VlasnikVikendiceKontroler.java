@@ -28,7 +28,6 @@ import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
-import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
 import com.Reservations.Servis.VikendicaServis;
@@ -38,9 +37,6 @@ import com.Reservations.Servis.VikendicaServis;
 public class VlasnikVikendiceKontroler {
 
 	public String putanjaSlikaKorisnika = "/img/korisnici/";
-	
-	@Autowired
-	PrihodServis prihodServis;
 	
 	@Autowired
 	GVarijableServis gvServis;

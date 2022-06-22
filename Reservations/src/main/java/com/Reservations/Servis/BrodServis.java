@@ -15,7 +15,6 @@ import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.Korisnik;
 import com.Reservations.Modeli.Rezervacija;
-import com.Reservations.Modeli.Vikendica;
 import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Repozitorijumi.BrodRepozitorijum;
 import com.Reservations.Repozitorijumi.RezervacijaRepozitorijum;
@@ -459,4 +458,160 @@ public class BrodServis
 		
 		return godisnjaPoslovanja;
 	}
+	
+	
+	// ADMINISTRATORSKI IZVESTAJI
+	// 				|
+	// 				|
+	// 				V
+
+	public List<PoslovanjeEntitetaDTO> poslovanjeBrodovaPeriod(PoslovanjeEntitetaDTO poslovanje) 
+	{
+		List<Rezervacija> mojeRezervacije = rezervacijaServis.findByTip(TipEntiteta.brod);
+		List<Brod> mojeBrodovi = new ArrayList<Brod>();
+		for (Rezervacija rez : mojeRezervacije) {
+			mojeBrodovi.add(this.findById(rez.getEntitetId()));
+		}
+		System.out.println("Rez datum: "+mojeRezervacije.get(0).getDatum());
+		System.out.println("Pocetni dat: "+poslovanje.getPocetniDatum());
+		List<PoslovanjeEntitetaDTO> poslovanjaBrodova = new ArrayList<PoslovanjeEntitetaDTO>();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate pocetni = LocalDate.parse(poslovanje.getPocetniDatum(), dtf);
+		LocalDate krajnji = LocalDate.parse(poslovanje.getKrajnjiDatum(), dtf);
+		double procenat = Double.parseDouble(globalneVarijable.findByName("procenat").getVrednost());
+		
+		for(Brod brod : mojeBrodovi)
+		{
+			PoslovanjeEntitetaDTO poslovanjeBrodovi = new PoslovanjeEntitetaDTO(poslovanje);
+			poslovanjeBrodovi.setVlasnikID(null);
+			poslovanjeBrodovi.setEntitetID(brod.getID());
+			poslovanjeBrodovi.setNazivEntiteta(brod.getNaziv());
+			poslovanje.setOcjenaEntiteta(0.0);
+			double prihod = 0;
+			Long brojRezervacija = 0L;
+			double zarada = 0;
+			for(Rezervacija rezervacija: mojeRezervacije) 
+			{
+				if(rezervacija.getEntitetId()==brod.getID())
+				{
+					LocalDate datum = LocalDate.parse(rezervacija.getDatum(), dtf);
+					if(  (datum.isAfter(pocetni) || datum.isEqual(pocetni) ) && datum.isBefore(krajnji))
+					{
+						brojRezervacija++;
+						zarada += rezervacija.getCena();
+					}
+				}
+				//if(LocalDate.parse(r.getDatum(), dtf).isAfter())
+			}
+			poslovanjeBrodovi.setZarada(zarada);
+			poslovanjeBrodovi.setBrojRezervacija(brojRezervacija);
+			prihod = zarada*procenat;
+			poslovanjeBrodovi.setPrihod(prihod);
+			poslovanjaBrodova.add(poslovanjeBrodovi);
+		}
+		return poslovanjaBrodova;
+	}
+	
+	public List<PoslovanjeEntitetaDTO> izracunajSedmicnaPoslovanjaBrodova() 
+	{
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanja = new ArrayList<PoslovanjeEntitetaDTO>();
+		List<PoslovanjeEntitetaDTO> svaPoslovanjaUdanu;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate trenutni = LocalDate.now();
+		LocalDate pocetni = trenutni.minusWeeks(3);
+		LocalDate krajnji = pocetni.plusWeeks(1);
+		System.out.println("Local date krajnji: "+krajnji.format(dtf).toString());
+		
+		for(int i = 0; i< 7; i++)
+		{
+			PoslovanjeEntitetaDTO dnevno =  new PoslovanjeEntitetaDTO();
+			dnevno.setVlasnikID(null);
+			dnevno.setPocetniDatum(pocetni.format(dtf).toString());
+			dnevno.setKrajnjiDatum(krajnji.format(dtf).toString());
+			dnevno.setNazivEntiteta(pocetni.getDayOfWeek().toString());
+			svaPoslovanjaUdanu = this.poslovanjeBrodovaPeriod(dnevno);
+			double dnevniPrihod = 0;
+			Long brojRezervacija = 0L;
+			for(int j = 0; j < svaPoslovanjaUdanu.size(); j++)
+			{
+				dnevniPrihod += svaPoslovanjaUdanu.get(j).getPrihod();
+				brojRezervacija += svaPoslovanjaUdanu.get(j).getBrojRezervacija();
+			}
+			dnevno.setBrojRezervacija(brojRezervacija);
+			dnevno.setPrihod(dnevniPrihod);
+			sedmicnaPoslovanja.add(dnevno);
+			pocetni = pocetni.plusDays(1);
+			krajnji = krajnji.plusDays(1);
+		}
+		
+		return sedmicnaPoslovanja;
+	}
+	
+	public List<PoslovanjeEntitetaDTO> izracunajMjesecnaPoslovanjaBrodova() {
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanja = new ArrayList<PoslovanjeEntitetaDTO>();
+		List<PoslovanjeEntitetaDTO> svaPoslovanjaUsedmici;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate trenutni = LocalDate.now();
+		LocalDate pocetni = trenutni.minusWeeks(4);
+		LocalDate krajnji = pocetni.plusWeeks(1);
+		System.out.println("Local date krajnji: "+krajnji.format(dtf).toString());
+		
+		for(int i = 0; i< 4; i++)
+		{
+			PoslovanjeEntitetaDTO sedmicno =  new PoslovanjeEntitetaDTO();
+			sedmicno.setVlasnikID(null);
+			sedmicno.setPocetniDatum(pocetni.format(dtf).toString());
+			sedmicno.setKrajnjiDatum(krajnji.format(dtf).toString());
+			sedmicno.setNazivEntiteta(pocetni.toString());
+			svaPoslovanjaUsedmici = this.poslovanjeBrodovaPeriod(sedmicno);
+			double mjesecniPrihod = 0;
+			Long brojRezervacija = 0L;
+			for(int j = 0; j < svaPoslovanjaUsedmici.size(); j++)
+			{
+				mjesecniPrihod += svaPoslovanjaUsedmici.get(j).getPrihod();
+				brojRezervacija += svaPoslovanjaUsedmici.get(j).getBrojRezervacija();
+			}
+			sedmicno.setBrojRezervacija(brojRezervacija);
+			sedmicno.setPrihod(mjesecniPrihod);
+			mjesecnaPoslovanja.add(sedmicno);
+			pocetni = pocetni.plusWeeks(1);
+			krajnji = krajnji.plusWeeks(1);
+		}
+		
+		return mjesecnaPoslovanja;
+	}
+	public List<PoslovanjeEntitetaDTO> izracunajGodisnjaPoslovanjaBrodova() {
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanja = new ArrayList<PoslovanjeEntitetaDTO>();
+		List<PoslovanjeEntitetaDTO> svaPoslovanjaUmjesecu;
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");  
+		LocalDate trenutni = LocalDate.now();
+		LocalDate pocetni = trenutni.minusMonths(12);
+		LocalDate krajnji = pocetni.plusMonths(1);
+		System.out.println("Local date krajnji: "+krajnji.format(dtf).toString());
+		
+		for(int i = 0; i< 12; i++)
+		{
+			PoslovanjeEntitetaDTO mjesecno =  new PoslovanjeEntitetaDTO();
+			mjesecno.setVlasnikID(null);
+			mjesecno.setPocetniDatum(pocetni.format(dtf).toString());
+			mjesecno.setKrajnjiDatum(krajnji.format(dtf).toString());
+			mjesecno.setNazivEntiteta(pocetni.getMonth().toString());
+			svaPoslovanjaUmjesecu = this.poslovanjeBrodovaPeriod(mjesecno);
+			double mjesecniPrihod = 0;
+			Long brojRezervacija = 0L;
+			for(int j = 0; j < svaPoslovanjaUmjesecu.size(); j++)
+			{
+				mjesecniPrihod += svaPoslovanjaUmjesecu.get(j).getPrihod();
+				brojRezervacija += svaPoslovanjaUmjesecu.get(j).getBrojRezervacija();
+			}
+			mjesecno.setBrojRezervacija(brojRezervacija);
+			mjesecno.setPrihod(mjesecniPrihod);
+			godisnjaPoslovanja.add(mjesecno);
+			pocetni = pocetni.plusMonths(1);
+			krajnji = krajnji.plusMonths(1);
+		}
+		
+		return godisnjaPoslovanja;
+	}
+
 }

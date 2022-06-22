@@ -17,7 +17,7 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 		<div class="header">
 			<div class="container">
 				<div id="logo">
-					<img alt="logo" src="/img/avatar.png" height="90px" width="90px"
+					<img alt="logo" th:src="${instruktor.linkSlike}" height="90px" width="90px"
 						style="margin-bottom: 90px;">
 					<h3 style="float: right;">Instruktor</h3>
 				</div>
@@ -28,6 +28,8 @@ src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
 							profil</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija
 							rezervacija</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/izvestajiRezervacija'}">Izvestaji
+							za rezervacije</a></li>
 
 					<li><a th:href="@{/login}">Log out</a></li>
 				</ul>

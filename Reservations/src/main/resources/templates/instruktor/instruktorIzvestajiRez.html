@@ -41,6 +41,7 @@ a.klijent:hover {
 					<li><a th:href="@{/instruktor/}+${id}">Pocetna</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/profil'}">Moj
 							profil</a></li>
+					<li><a th:href="@{/instruktor/}+${id+'/istorija'}">Istorija rezervacija</a></li>
 					<li><a th:href="@{/instruktor/}+${id+'/izvestajiPoslovanja'}">Izvestaji
 							o poslovanju</a></li>
 					<li><a th:href="@{/login}">Log out</a></li>
@@ -49,22 +50,48 @@ a.klijent:hover {
 		</div>
 	</div>
 	<div class="panel important">
-		<h2>Prošle rezervacije</h2>
+		<h2>Rezervacije sa izveštajima</h2>
+		<table>
+			<tr>
+				<th>Naziv</th>
+				<th style="width:15%">Klijent</th>
+				<th>Datum početka</th>
+				<th>Datum kraja</th>
+				<th>Izvestaj</th>
+			</tr>
+			<tr th:each="rez : ${rezervacijeSa}">
+				<td th:text="${rez.nazivEntiteta}">Naziv</td>
+				<td><a
+					th:href="@{/instruktor/}+${id+'/klijent/'}+${rez.klijentID}"
+					th:text="${rez.klijent}"
+					class="klijent">Klijent</a></td>
+				<td th:text="${rez.datumPocetka}">Datum</td>
+				<td th:text="${rez.datumKraja}">Trajanje</td>
+				<td th:text="${rez.izvjestaj}">Izvestaj</td>
+			</tr>
+		</table>
+
+
+	</div>
+	<div class="panel important">
+		<h2>Rezervacije bez izveštaja</h2>
 		<table>
 			<tr>
 				<th>Naziv</th>
 				<th style="width:15%">Klijent</th>
 				<th>Datum</th>
 				<th>Trajanje</th>
+				<th style="width:15%"></th>
 			</tr>
-			<tr th:each="rez, rezStat : ${rezervacije}">
+			<tr th:each="rez : ${rezervacijeBez}">
 				<td th:text="${rez.nazivEntiteta}">Naziv</td>
 				<td><a
-					th:href="@{/instruktor/}+${id+'/klijent/'}+${rez.klijent.ID}"
-					th:text="${rez.klijent.ime + ' ' + rez.klijent.prezime}"
+					th:href="@{/instruktor/}+${id+'/klijent/'}+${rez.klijentID}"
+					th:text="${rez.klijent}"
 					class="klijent">Klijent</a></td>
-				<td th:text="${rez.datum}">Datum</td>
-				<td th:text="${rez.trajanje}">Trajanje</td>
+				<td th:text="${rez.datumPocetka}">Datum</td>
+				<td th:text="${rez.datumKraja}">Trajanje</td>
+				<td><a th:href="@{/instruktor/}+${id+'/napisiIzvestajRezervacija/'+rez.rezervacijaID}">Napisi izvestaj</a></td>
 			</tr>
 		</table>
 

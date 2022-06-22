@@ -9,20 +9,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.Reservations.DTO.ZahtevZaBrisanjeDTO;
-import com.Reservations.Exception.ResourceConflictException;
+import com.Reservations.DTO.ZalbaDTO;
 import com.Reservations.Modeli.Korisnik;
+import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.ZahtevZaBrisanje;
+import com.Reservations.Modeli.Zalba;
 import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.KorisnikServis;
+import com.Reservations.Servis.RezervacijaServis;
+import com.Reservations.Servis.ZalbaServis;
 
 @Controller
 public class KlijentKontroler {
 
 	@Autowired
 	KorisnikServis userService;
+	
+	@Autowired
+	RezervacijaServis resService;
 		
 	@Autowired
 	BrisanjeNalogaServis brisanjeService;
+	
+	@Autowired
+	ZalbaServis zalbaService;
+	
 	@RequestMapping(value = "/profilKorisnika/{id}")
 	  public String getTestPage(@PathVariable Long id,Model m){
 			m.addAttribute("id",id);
@@ -73,20 +84,40 @@ public String registerOwner( @PathVariable Long id,Korisnik user,ZahtevZaBrisanj
 	System.out.println("zAHTEV ZA BRISANJE POSLAT!");
 	ZahtevZaBrisanje existKorisnik = this.brisanjeService.findByKorisnickoIme(regRequest.getUsername());
 	if (existKorisnik != null) {
-		throw new ResourceConflictException(regRequest.getId(), "Request already exists");
+		return "ZahtevVecPoslat";
+	
+		//throw new ResourceConflictException(regRequest.getId(), "Request already exists");
 	}
 	this.brisanjeService.save(regRequest);
 	
 	return "AzurirajPodatke";
 }
 
-@RequestMapping("/zalba/{id}")
-public  ModelAndView home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id) {
-
+@RequestMapping("/zalba/{id}/{id2}")
+public  String home2(@AuthenticationPrincipal Korisnik user,Model model,@PathVariable Long id,@PathVariable Long id2) {
+    Rezervacija r=resService.findById(id2);
+   model.addAttribute("rez",r);
     user=userService.findById(id);
      model.addAttribute("pod",user);
+   
     System.out.println(user.toString());
-    return new  ModelAndView("StranicaZaZalbu");
+    return "StranicaZaZalbu";
 }
+
+@RequestMapping(value = "/zalba2/{id}")
+public String registerOwner( @PathVariable Long id,Korisnik user,ZalbaDTO regRequest,ZalbaServis k,Model model) {
+    user=userService.findById(id);
+	System.out.println("zAHTEV ZA BRISANJE POSLAT!");
+	model.addAttribute("pod",user);
+	Zalba existKorisnik = this.zalbaService.findById(regRequest.getRez_id());
+	if (existKorisnik != null) {
+		return "ZahtevVecPoslat";
 	
+		//throw new ResourceConflictException(regRequest.getId(), "Request already exists");
+	}
+	this.zalbaService.save(regRequest);
+	
+	return "ProfilKorisnika";
+}
+
 } 

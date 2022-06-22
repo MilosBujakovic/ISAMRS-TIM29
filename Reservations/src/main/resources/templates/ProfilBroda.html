@@ -44,8 +44,7 @@ button{
 			
 
 				<ul class="nav">
-					<li><a href="#">O nama</a></li>
-					<li><a href="#">Kontakt</a></li>
+					  <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
 					<li><a th:href="@{/login}">Log in</a></li>
 				</ul>
 			</div>
@@ -78,13 +77,13 @@ button{
 <br>
 <div class="block">
     <label>Trajanje:</label>
-    <input type="text"  name="trajanje" />
+    <input type="number"  name="trajanje" />
   
 </div>
 <br>
 <div class="block">
     <label>Broj osoba:</label>
-    <input type="text" name="maxOsoba" />
+    <input type="number" name="maxOsoba" />
   
 </div>
 

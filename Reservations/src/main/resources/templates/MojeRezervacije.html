@@ -917,6 +917,7 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 </head>
 
 <body>
@@ -935,24 +936,29 @@ tr:nth-child(even) {
 
 
 
-
-<table >
+<form>
+<table id="tbUser" >
   <tr >
     <th >Naziv</th>
     <th>Datum</th>
     <th>Cena</th>
+    <th>Otkazi</th>
   </tr>
   <tr th:each="rez:${pod}">
     <td th:text="${rez.nazivEntiteta}"></td>
     <td th:text="${rez.datum}" ></td>
     <td th:text="${rez.cena}"></td>
+    <td><button type="submit"  th:formaction="@{/rezervacije/otkaziRez/}+${rez.ID+'/'}+${kor.ID}" >Otkazi</button></td>
   </tr>
   
 </table>
 
+</form>
+<script>
 
 
- 
+</script>
+
 </body>
 
 </html>

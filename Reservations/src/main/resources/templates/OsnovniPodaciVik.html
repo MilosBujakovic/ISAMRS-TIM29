@@ -1050,6 +1050,66 @@ body {
 	height:100%;
 
 }
+.search-box{
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+.input-search{
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  padding: 10px;
+  font-size: 18px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all .5s ease-in-out;
+  background-color: #00ccff;
+  padding-right: 40px;
+  color:#fff;
+  margin-left:950px;
+}
+.input-search::placeholder{
+  color:rgba(255,255,255,.5);
+  font-size: 18px;
+  letter-spacing: 2px;
+  font-weight: 100;
+  margin-left:800px;
+}
+.btn-search{
+  width: 50px;
+  height: 50px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color:#ffffff ;
+  background-color:transparent;
+  pointer-events: painted;  
+  margin-left:800px;
+}
+.btn-search:focus ~ .input-search{
+  width: 300px;
+  border-radius: 10px;
+  background-color: #00ccff;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  margin-left:800px;
+}
+.input-search:focus{
+  width: 300px;
+  border-radius: 10px;
+  background-color:  #00ccff;
+  border-bottom:1px solid rgba(255,255,255,.5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+  margin-left:800px;
+  
+}
 
     </style>
 </head>
@@ -1058,23 +1118,23 @@ body {
  <div class="hold">
   <div class="header" >
     <div class="container">
-     
+   
 	 
       <ul class="nav">
-        <li><a href="#">O nama</a></li>
-        <li><a href="#">Kontakt</a></li>
+        <li><a th:href="@{/}">Pocetna</a></li>
         <li><a th:href="@{/login}">Login</a></li>
       </ul>
     </div>
   </div>
 </div>
-
-<br><br><br><br><br>
+<br><br><br>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <form align="center">
-  <input type="text" id="search" placeholder="Unesite naziv mesta" />
-  <button id="go"  th:onclick="myFunction()" > Search</button>
-</form>
+  
+    <div class="search-box" align="center">
+    <button class="btn-search" id="go"  th:formaction="@{/OSPretragaVik}"><i class="fas fa-search"></i></button>
+    <input type="text" id="search" name="s"  class="input-search" placeholder="Type to Search...">
+  </div>
 <br><br><br>
 <div class="column" th:each="vik:${vikendice}">
 <div class="row">

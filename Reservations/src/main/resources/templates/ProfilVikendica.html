@@ -19,19 +19,23 @@ button{
   <link rel="stylesheet" href="/resources/demos/style.css">
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
-  <script>
+  <script th:inline="javascript">
+	/*<![CDATA[*/
+	var datumi = /*[[${datumi}]]*/ 'default';
+	
+	/*]]>*/
   $( function() {
     $( "#datepicker" ).datepicker();
     
   } );
   $( function() {
 	  
-	  var array = ["2022-06-14","2022-06-15","2022-06-16"]
+	  
 
 	  $('#datepicker2').datepicker({
 	      beforeShowDay: function(date){
 	          var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-	          return [ array.indexOf(string) == -1 ]
+	          return [ datumi.indexOf(string) == -1 ]
 	      }
 	  });
 	  } );
@@ -41,10 +45,8 @@ button{
 <meta charset="UTF-8">
 <title>Profil usluge</title>
 
-<link rel="stylesheet" type="text/css" media="all"
-	href="/css/instruktorProfil.css" th:href="@{/css/index.css}">
-<link rel="stylesheet" type="text/css" media="all"
-	href="/css/uslugaProfil.css" th:href="@{/css/uslugaProfil.css}">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/index.css}">
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/uslugaProfil.css}">
 	<link href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	
 </head>
@@ -55,8 +57,7 @@ button{
 			
 
 				<ul class="nav">
-					<li><a href="#">O nama</a></li>
-					<li><a href="#">Kontakt</a></li>
+					  <li><a th:href="@{/profilKorisnika/}+${kor.ID}">Pocetna</a></li>
 					<li><a th:href="@{/login}">Log in</a></li>
 				</ul>
 			</div>
@@ -89,13 +90,13 @@ button{
 <br>
 <div class="block">
     <label>Trajanje:</label>
-    <input type="text"  name="trajanje" />
+    <input type="number"  name="trajanje" />
   
 </div>
 <br>
 <div class="block">
     <label>Broj osoba:</label>
-    <input type="text" name="maxOsoba" />
+    <input type="number" name="maxOsoba" />
   
 </div>
 
