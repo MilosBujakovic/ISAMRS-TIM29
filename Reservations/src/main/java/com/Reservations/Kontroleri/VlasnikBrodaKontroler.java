@@ -31,7 +31,6 @@ import com.Reservations.Modeli.enums.TipEntiteta;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
-import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UlogaServis;
 
@@ -41,9 +40,6 @@ public class VlasnikBrodaKontroler
 {
 
 	public String putanjaSlikaKorisnika = "/img/korisnici/";
-	
-	@Autowired
-	PrihodServis prihodServis;
 	
 	@Autowired
 	GVarijableServis gvServis;

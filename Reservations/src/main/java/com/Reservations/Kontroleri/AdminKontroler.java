@@ -32,13 +32,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.Reservations.DTO.AdminDTO;
 import com.Reservations.DTO.AzuriranjeInstruktoraDTO;
 import com.Reservations.DTO.GVarijablaDTO;
+import com.Reservations.DTO.PoslovanjeEntitetaDTO;
 import com.Reservations.DTO.PromenaLozinkeDTO;
 import com.Reservations.Dodaci.PrihodPDFGenerator;
 import com.Reservations.Exception.ResourceConflictException;
 import com.Reservations.Modeli.Brod;
 import com.Reservations.Modeli.GlobalnaVarijabla;
 import com.Reservations.Modeli.Korisnik;
-import com.Reservations.Modeli.Prihod;
 import com.Reservations.Modeli.Registracija;
 import com.Reservations.Modeli.Rezervacija;
 import com.Reservations.Modeli.Usluga;
@@ -49,7 +49,6 @@ import com.Reservations.Servis.BrisanjeNalogaServis;
 import com.Reservations.Servis.BrodServis;
 import com.Reservations.Servis.GVarijableServis;
 import com.Reservations.Servis.KorisnikServis;
-import com.Reservations.Servis.PrihodServis;
 import com.Reservations.Servis.RegistracijaServis;
 import com.Reservations.Servis.RezervacijaServis;
 import com.Reservations.Servis.UslugaServis;
@@ -62,8 +61,6 @@ import com.lowagie.text.DocumentException;
 @RequestMapping(value = "/admin/{id}")
 public class AdminKontroler {
 
-	@Autowired
-	PrihodServis prihodServis;
 
 	@Autowired
 	GVarijableServis gvServis;
@@ -287,7 +284,6 @@ public class AdminKontroler {
 	@RequestMapping(value = "/prihodi")
 	public String getRevenuePage(Model model, @PathVariable Long id) {
 		System.out.println("Revenue page was called!");
-		List<Prihod> lista = prihodServis.listAll();
 		GlobalnaVarijabla gv = gvServis.findByName("procenat");
 		if (gv != null) {
 			double procDec = Double.parseDouble(gv.getVrednost());
@@ -299,6 +295,10 @@ public class AdminKontroler {
 			model.addAttribute("procenatDec", "undefined");
 			model.addAttribute("procenat", "undefined");
 		}
+		
+		List<Rezervacija> lista = rezServis.listAll();
+		
+
 		model.addAttribute("prihodi", lista);
 		model.addAttribute("id", id);
 		return "admin/adminPrihodi";
@@ -356,6 +356,54 @@ public class AdminKontroler {
 	public String getReportsDates(@PathVariable Long id, Model model) {
 		System.out.println("Report page was called!");
 		model.addAttribute("id", id);
+		
+		
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanjaU = uslugaServis.izracunajSedmicnaPoslovanjaUsluga();
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanjaU = uslugaServis.izracunajMjesecnaPoslovanjaUsluga();
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanjaU = uslugaServis.izracunajGodisnjaPoslovanjaUsluga();
+
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanjaV = vikendicaServis.izracunajSedmicnaPoslovanjaVikendica();
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanjaV = vikendicaServis.izracunajMjesecnaPoslovanjaVikendica();
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanjaV = vikendicaServis.izracunajGodisnjaPoslovanjaVikendica();
+
+		List<PoslovanjeEntitetaDTO> sedmicnaPoslovanjaB = brodServis.izracunajSedmicnaPoslovanjaBrodova();
+		List<PoslovanjeEntitetaDTO> mjesecnaPoslovanjaB = brodServis.izracunajMjesecnaPoslovanjaBrodova();
+		List<PoslovanjeEntitetaDTO> godisnjaPoslovanjaB = brodServis.izracunajGodisnjaPoslovanjaBrodova();
+		
+		List<String> sedmicneLabele = new ArrayList<String>();
+		List<String> mesecneLabele = new ArrayList<String>();
+		List<String> godisnjeLabele = new ArrayList<String>();
+
+		List<Double> sedmicniPrihodi = new ArrayList<Double>();
+		List<Double> mesecniPrihodi = new ArrayList<Double>();
+		List<Double> godisnjiPrihodi = new ArrayList<Double>();
+		
+		for(int i = 0; i<sedmicnaPoslovanjaU.size();i++) {
+			sedmicneLabele.add(sedmicnaPoslovanjaU.get(i).getNazivEntiteta());
+			double temp = sedmicnaPoslovanjaU.get(i).getPrihod() + sedmicnaPoslovanjaU.get(i).getPrihod() + sedmicnaPoslovanjaU.get(i).getPrihod();
+			sedmicniPrihodi.add(temp);
+		}
+		
+		for(int i = 0; i<mjesecnaPoslovanjaU.size();i++) {
+			mesecneLabele.add(mjesecnaPoslovanjaU.get(i).getNazivEntiteta());
+			double temp = mjesecnaPoslovanjaU.get(i).getPrihod() + mjesecnaPoslovanjaU.get(i).getPrihod() + mjesecnaPoslovanjaU.get(i).getPrihod();
+			mesecniPrihodi.add(temp);
+		}
+		
+		for(int i = 0; i<godisnjaPoslovanjaU.size();i++) {
+			godisnjeLabele.add(godisnjaPoslovanjaU.get(i).getNazivEntiteta());
+			double temp = godisnjaPoslovanjaU.get(i).getPrihod() + godisnjaPoslovanjaU.get(i).getPrihod() + godisnjaPoslovanjaU.get(i).getPrihod();
+			godisnjiPrihodi.add(temp);
+		}
+		
+		model.addAttribute("sedmicnaPoslovanja", sedmicniPrihodi);
+		model.addAttribute("mjesecnaPoslovanja", mesecniPrihodi);
+		model.addAttribute("godisnjaPoslovanja", godisnjiPrihodi);
+
+		model.addAttribute("sedmicnaPoslovanjaLabele", sedmicneLabele);
+		model.addAttribute("mjesecnaPoslovanjaLabele", mesecneLabele);
+		model.addAttribute("godisnjaPoslovanjaLabele", godisnjeLabele);
+		
 		return "admin/adminIzvestaji";
 	}
 
@@ -363,20 +411,20 @@ public class AdminKontroler {
 	public String exportToPDF(HttpServletResponse response, @RequestParam String pocDatum,
 			@RequestParam String krajDatum, @PathVariable Long id)
 			throws DocumentException, IOException, ParseException {
-		response.setContentType("application/pdf");
-		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
-		String currentDateTime = dateFormatter.format(new Date());
-		Date pocetni = new SimpleDateFormat("dd/MM/yyyy").parse(pocDatum);
-		Date krajnji = new SimpleDateFormat("dd/MM/yyyy").parse(krajDatum);
-
-		String headerKey = "Content-Disposition";
-		String headerValue = "attachment; filename=prihodi_" + currentDateTime + ".pdf";
-		response.setHeader(headerKey, headerValue);
-
-		List<Prihod> lista = prihodServis.listAll();
-
-		PrihodPDFGenerator pdf = new PrihodPDFGenerator(lista, pocetni, krajnji);
-		pdf.export(response);
+//		response.setContentType("application/pdf");
+//		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+//		String currentDateTime = dateFormatter.format(new Date());
+//		Date pocetni = new SimpleDateFormat("dd/MM/yyyy").parse(pocDatum);
+//		Date krajnji = new SimpleDateFormat("dd/MM/yyyy").parse(krajDatum);
+//
+//		String headerKey = "Content-Disposition";
+//		String headerValue = "attachment; filename=prihodi_" + currentDateTime + ".pdf";
+//		response.setHeader(headerKey, headerValue);
+//
+//		List<Double> lista = prihodServis.listAll();
+//
+//		PrihodPDFGenerator pdf = new PrihodPDFGenerator(lista, pocetni, krajnji);
+//		pdf.export(response);
 		return "redirect:/admin/" + String.valueOf(id) + "/izvestaji";
 	}
 
