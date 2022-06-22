@@ -45,6 +45,9 @@ public class Rezervacija {
 	@Column(name="cena")
 	private double cena;
 	
+	@Column(name="akcija")
+	private double akcija;
+	
 	@ManyToOne
 	@JoinColumn(name="klijent_id")
 	private Korisnik klijent;
@@ -60,7 +63,7 @@ public class Rezervacija {
 	private Termin termin;
 	
 	public Rezervacija () {
-		
+		this.akcija = 1;
 	}
 	
 
@@ -81,9 +84,33 @@ public class Rezervacija {
 		this.klijent = klijent;
 		this.tip = tip;
 		this.izvjestaj = izvjestaj;
+		this.akcija = 1;
 		this.termin = new Termin(this);
 	}
 	
+	
+	
+	public Rezervacija(long iD, long entitetId, TipEntiteta tipEntiteta, String nazivEntiteta, String datum,
+			String vreme, String trajanje, int maxOsoba, double cena, double akcija, Korisnik klijent,
+			TipRezervacije tip, String izvjestaj, Termin termin) {
+		super();
+		ID = iD;
+		this.entitetId = entitetId;
+		this.tipEntiteta = tipEntiteta;
+		this.nazivEntiteta = nazivEntiteta;
+		this.datum = datum;
+		this.vreme = vreme;
+		this.trajanje = trajanje;
+		this.maxOsoba = maxOsoba;
+		this.cena = cena;
+		this.akcija = akcija;
+		this.klijent = klijent;
+		this.tip = tip;
+		this.izvjestaj = izvjestaj;
+		this.termin = termin;
+	}
+
+
 	public Rezervacija(long iD, long entitetId, TipEntiteta tipEntiteta, String nazivEntiteta, String datum,
 			String vreme, String trajanje, int maxOsoba, double cena, Korisnik klijent, TipRezervacije tip,
 			String izvjestaj, Termin termin) 
@@ -102,6 +129,7 @@ public class Rezervacija {
 		this.tip = tip;
 		this.izvjestaj = izvjestaj;
 		this.termin = termin;
+		this.akcija = 1;
 	}
 
 	public Rezervacija(Rezervacija r) 
@@ -120,6 +148,7 @@ public class Rezervacija {
 		this.tip = r.tip;
 		this.izvjestaj = r.izvjestaj;
 		this.termin = new Termin(this);
+		this.akcija = r.akcija;
 	}
 
 	public long getID() {
@@ -235,12 +264,31 @@ public class Rezervacija {
 		this.termin = termin;
 	}
 
+	
+
+	public double getAkcija() {
+		return akcija;
+	}
+
+
+	public void setAkcija(double akcija) {
+		this.akcija = akcija;
+	}
+
 
 	@Override
 	public String toString() {
-		return "Rezervacija [ID=" + ID + ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme
-				+ ", trajanje=" + trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", izvjestaj=" + izvjestaj +"]";
+		return "Rezervacija [ID=" + ID + ", entitetId=" + entitetId + ", tipEntiteta=" + tipEntiteta
+				+ ", nazivEntiteta=" + nazivEntiteta + ", datum=" + datum + ", vreme=" + vreme + ", trajanje="
+				+ trajanje + ", maxOsoba=" + maxOsoba + ", cena=" + cena + ", akcija=" + akcija + ", klijent=" + klijent
+				+ ", tip=" + tip + ", izvjestaj=" + izvjestaj + ", termin=" + termin + "]";
 	}
+
+
+	
+
+
+
 
 	 
 	

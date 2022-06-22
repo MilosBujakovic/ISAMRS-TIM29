@@ -1,5 +1,6 @@
 
 package com.Reservations.Modeli;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -76,7 +77,7 @@ public class Brod {
 	
 	
 	public Brod() {
-		
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 
 	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
@@ -98,6 +99,7 @@ public class Brod {
 		this.opis = opis;
 		this.vlasnik = vlasnik;
 		this.linkSlike=linkSlike;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 	
 	
@@ -121,6 +123,7 @@ public class Brod {
 		this.vlasnik = vlasnik;
 		this.linkSlike=linkSlike;
 		this.pravilaPonasanja = pravilaPonasanja;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 	
 	public Brod(long iD, double cena, double maxBrzina, String adresa, String tip, String navigacionaOprema,
@@ -144,6 +147,7 @@ public class Brod {
 		this.linkSlike=linkSlike;
 		this.linkKabine=linkKabine;
 		this.pravilaPonasanja=pravilaPonasanja;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 
 	public long getID() {
@@ -285,14 +289,26 @@ public class Brod {
 		this.linkKabine = linkKabine;
 	}
 
+	
+	public List<Termin> getTerminiZauzetosti() {
+		return terminiZauzetosti;
+	}
+
+	public void setTerminiZauzetosti(List<Termin> terminiZauzetosti) {
+		this.terminiZauzetosti = terminiZauzetosti;
+	}
+
 	@Override
 	public String toString() {
 		return "Brod [ID=" + ID + ", naziv=" + naziv + ", tip=" + tip + ", duzina=" + duzina + ", brojMotora="
 				+ brojMotora + ", snaga=" + snaga + ", maxBrzina=" + maxBrzina + ", adresa=" + adresa + ", opis=" + opis
 				+ ", cena=" + cena + ", navigacionaOprema=" + navigacionaOprema + ", kapacitet=" + kapacitet
 				+ ", pecaroskaOprema=" + pecaroskaOprema + ", vlasnik=" + vlasnik + ", linkSlike=" + linkSlike
-				+ ", pravilaPonasanja=" + pravilaPonasanja + ", linkKabine=" + linkKabine + "]";
+				+ ", pravilaPonasanja=" + pravilaPonasanja + ", linkKabine=" + linkKabine + ", terminiZauzetosti="
+				+ terminiZauzetosti + "]";
 	}
+
+
 	
 
 	

@@ -1,5 +1,6 @@
 package com.Reservations.Modeli;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -64,7 +65,7 @@ public class Vikendica {
 	//TODO: dodati termine zauzetosti
 	
 	public Vikendica() {
-
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 	
 	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik,String linkSlike) {
@@ -77,6 +78,7 @@ public class Vikendica {
 		this.brojKreveta = brojKreveta;
 		this.vlasnik = vlasnik;
 		this.linkSlike=linkSlike;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 	
 	public Vikendica(long iD, String naziv, String adresa, String opis, int brojSoba, int brojKreveta, Korisnik vlasnik,String linkSlike, String linkSlikeInterijera, String dodatneUsluge, String pravilaPonasanja) {
@@ -92,6 +94,7 @@ public class Vikendica {
 		this.pravilaPonasanja = pravilaPonasanja;
 		this.dodatneUsluge = dodatneUsluge;
 		this.linkInterijera = linkSlikeInterijera;
+		this.terminiZauzetosti = new ArrayList<Termin>();
 	}
 
 	public long getID() {
@@ -193,14 +196,28 @@ public class Vikendica {
 	public void setDodatneUsluge(String dodatneUsluge) {
 		this.dodatneUsluge = dodatneUsluge;
 	}
+	
+	
+
+	public List<Termin> getTerminiZauzetosti() {
+		return terminiZauzetosti;
+	}
+
+	public void setTerminiZauzetosti(List<Termin> terminiZauzetosti) {
+		this.terminiZauzetosti = terminiZauzetosti;
+	}
 
 	@Override
 	public String toString() {
 		return "Vikendica [ID=" + ID + ", naziv=" + naziv + ", adresa=" + adresa + ", opis=" + opis + ", brojSoba="
 				+ brojSoba + ", brojKreveta=" + brojKreveta + ", cena=" + cena + ", vlasnik=" + vlasnik + ", linkSlike="
-				+ linkSlike + ", linkSlikeInterijera=" + linkInterijera + ", pravilaPonasanja=" + pravilaPonasanja
-				+ ", dodatneUsluge=" + dodatneUsluge + "]";
+				+ linkSlike + ", linkInterijera=" + linkInterijera + ", pravilaPonasanja=" + pravilaPonasanja
+				+ ", dodatneUsluge=" + dodatneUsluge + ", terminiZauzetosti=" + terminiZauzetosti + "]";
 	}
+
+	
+
+	
 
 
 	

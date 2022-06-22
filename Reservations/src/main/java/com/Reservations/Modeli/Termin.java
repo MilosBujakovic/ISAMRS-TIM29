@@ -59,6 +59,8 @@ public class Termin {
 	@OneToOne
 	@JoinColumn(name="rezervacija_id")
 	private Rezervacija rezervacija;
+	
+	
 
 	public Termin() {
 	}
@@ -190,7 +192,7 @@ public class Termin {
 
 	@Override
 	public String toString() {
-		return "Termin [ID=" + ID + ", vikendica=" + vikendica + ", brod=" + brod + ", usluga=" + usluga + ", vlasnik="
+		return "Termin [ID=" + ID + ", vikendica=" + (vikendica!=null) + ", brod=" + (brod!=null) + ", usluga=" + (usluga!=null) + ", vlasnik="
 				+ vlasnik + ", tipEntiteta=" + tipEntiteta + ", datumVremePocetak=" + datumVremePocetak
 				+ ", datumVremeKraj=" + datumVremeKraj + "]";
 	}
