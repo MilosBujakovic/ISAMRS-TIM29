@@ -62,6 +62,8 @@ public class RezervacijaKontroler {
 	@RequestMapping(value = "/rezervisiVik/{id}/{klijent_id}")
 	public String registerOwner( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) {
 	Korisnik k=korisnikServis.findById(klijent_id);
+	
+	try {
 		Vikendica user=vikendicaServis.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
@@ -70,7 +72,7 @@ public class RezervacijaKontroler {
 		
 		Rezervacija r=this.rezervacijaServis.save(regRequest,TipEntiteta.vikendica,id,TipRezervacije.obicna,klijent_id);
 		terminServis.popraviTerminRezervacije(r);
-		try {
+		
 			
 			this.sendEmailToUser(TipEntiteta.vikendica,k.getEmail());
 		} catch (AddressException e) {
@@ -95,15 +97,15 @@ public class RezervacijaKontroler {
 	public String rezerve( @PathVariable Long id, @PathVariable Long id2, RezervacijaDTO regRequest,Model model)
 	{
 		Rezervacija user=rezervacijaServis.findById(id);
-
+		try {
 		Korisnik k=korisnikServis.findById(id2);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rezervacijaServis.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,id2);
-		try {
+		Rezervacija r=this.rezervacijaServis.save(regRequest,TipEntiteta.brod,id,TipRezervacije.obicna,id2);
+		terminServis.popraviTerminRezervacije(r);
 			this.sendEmailToUser(TipEntiteta.brod,k.getEmail());
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
@@ -123,15 +125,17 @@ public class RezervacijaKontroler {
 	@RequestMapping(value = "/rezervisiUslugu/{id}/{klijent_id}")
 	public String rezerv( @PathVariable Long id, @PathVariable Long klijent_id, RezervacijaDTO regRequest,Model model) throws AddressException, MessagingException, IOException {
 	Korisnik k=korisnikServis.findById(klijent_id);
+		
+	try {
 		Rezervacija user=rezervacijaServis.findById(id);
 	    model.addAttribute("pod",user);
 	    System.out.println(regRequest.toString());
 	//    model.addAttribute("id",regRequest.getId() );
 		System.out.println("Rezervacija poslata POSLAT!");
 		
-		this.rezervacijaServis.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,klijent_id);
-		
-try {
+		Rezervacija r=this.rezervacijaServis.save(regRequest,TipEntiteta.usluga,id,TipRezervacije.obicna,klijent_id);
+		terminServis.popraviTerminRezervacije(r);
+
 			
 	this.sendEmailToUser(TipEntiteta.usluga,k.getEmail());
 		} catch (AddressException e) {
