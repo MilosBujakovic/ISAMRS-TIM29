@@ -323,4 +323,7 @@ public class TerminServis
 		}
 	}
 	
+	public void obrisiPoID(long id) {
+		this.terminRepozitorijum.deleteById(id);
+	}
 }

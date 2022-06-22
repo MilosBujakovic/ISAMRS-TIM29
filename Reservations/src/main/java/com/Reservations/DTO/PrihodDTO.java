@@ -1,20 +1,17 @@
 package com.Reservations.DTO;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
-import com.Reservations.Modeli.Rezervacija;
-
 public class PrihodDTO {
 
 	private double vrednost;
 
-	private Rezervacija rezervacija;
+	private long rezervacija;
+	
+	private String datum;
 
-	public PrihodDTO(double vrednost, Rezervacija rezervacija) {
+	public PrihodDTO(double vrednost, long rezervacija, String datum) {
 		this.vrednost = vrednost;
 		this.rezervacija = rezervacija;
+		this.datum = datum;
 	}
 
 	public PrihodDTO() {
@@ -28,17 +25,25 @@ public class PrihodDTO {
 		this.vrednost = vrednost;
 	}
 
-	public Rezervacija getRezervacija() {
+	public long getRezervacija() {
 		return rezervacija;
 	}
 
-	public void setRezervacija(Rezervacija rezervacija) {
+	public void setRezervacija(long rezervacija) {
 		this.rezervacija = rezervacija;
+	}
+
+	public String getDatum() {
+		return datum;
+	}
+
+	public void setDatum(String datum) {
+		this.datum = datum;
 	}
 
 	@Override
 	public String toString() {
-		return "PrihodDTO [vrednost=" + vrednost + ", rezervacija=" + rezervacija + "]";
+		return "PrihodDTO [vrednost=" + vrednost + ", rezervacija=" + rezervacija + ", datum=" + datum + "]";
 	}
 	
 	

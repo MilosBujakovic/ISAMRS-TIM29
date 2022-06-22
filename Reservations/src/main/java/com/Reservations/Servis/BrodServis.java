@@ -44,6 +44,10 @@ public class BrodServis
 	public List<Brod> listAll(){
 		return brodRepozitorijum.findAll();
 	}
+	
+	public void delete(Long id){
+		this.brodRepozitorijum.deleteById(id);
+	}
 
 	public Brod findById(Long id){
 		try {

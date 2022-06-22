@@ -35,9 +35,6 @@
 			<li class="admin"><a
 				th:href="@{/admin/}+${id+'/administratori'}">Dodaj novog
 					administratora</a></li>
-			<li class="admin"><a
-				th:href="@{/admin/}+${id+'/administratori'}">Dodaj novog
-					administratora</a></li>
 			<li class="home"><a th:href="@{/admin/}+${id}">Nazad na
 					početnu</a></li>
 		</ul>
@@ -50,18 +47,18 @@
 				<div class="onethird">
 					<label class="opis" for="pocetniDatum">Početni datum: </label> <input
 						class="opis" id="pocetniDatum" type="date" name="pocetniDatum"
-						value="">
+						value="" required>
 				</div>
 
 				<div class="onethird">
 					<label class="opis" for="krajnjiDatum">Krajnji datum: </label> <input
 						class="opis" id="krajnjiDatum" type="date" name="krajnjiDatum"
-						value="">
+						value="" required>
 				</div>
 
 				<div class="onethird">
-					<input th:formaction="@{/admin/izvestaji/print}" type="submit"
-						value="Odstampaj" />
+					<input th:formaction="@{/admin/}+${id+'/izvestaji/print'}" type="submit"
+						value="Prikazi" />
 				</div>
 			</form>
 

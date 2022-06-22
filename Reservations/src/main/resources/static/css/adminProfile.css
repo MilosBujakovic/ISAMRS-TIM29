@@ -124,16 +124,20 @@ nav[role=navigation] .euro a:before {
 }
 
 nav[role=navigation] .reports a:before {
-	content: "\f1c1";
+	content: "\f080";
 }
 
 nav[role=navigation] .admin a:before {
 	content: "\f234";
 }
 
+td .delete a:before {
+	content: "\f014";
+}
+
 /* current nav item */
 .current, .home .home a, .euro .euro a, .reports .reports a,
-	.preview .preview a, .admin .admin a {
+	.preview .preview a, .admin .admin a .delete .delete a {
 	background-color: rgba(255, 255, 255, 0.1);
 }
 
