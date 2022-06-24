@@ -42,7 +42,7 @@
 <body>
     <div class="p-3 py-5">
        <div class="d-flex align-items-center mb-3">
-           <h1 class="naslov" th:text="${'Napravi brzu rezervaciju za: '+ vikendica.naziv}"></h1><input readonly type="hidden" th:value="${vikendica.ID}"></input>
+           <h1 class="naslov" th:text="${'Definiši period dostupnosti za: '+ vikendica.naziv}"></h1><input readonly type="hidden" th:value="${vikendica.ID}"></input>
        </div>
         <form enctype="multipart/form-data" th:object="${slika}" method="post">
         <div class="row mt-3 ">
@@ -91,10 +91,10 @@
 			<input class="opis form-control" id="vreme2" type="date" name="datumKraja" value=""></input>
 			<input class="opis form-control" id="datum3" type="time" name="vreme2" value=""></input>
 			</div>
-			<div class="col-md-8"><label class="opis" for="trajanje">Trajanje: </label>
+			<!--div class="col-md-8"><label class="opis" for="trajanje">Trajanje: </label>
 			<input class="opis form-control" id="trajanje" type="number" min="1"  name="trajanje" value=""></input>
-			</div>
-       		<div class="mt-5 text-left"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/dodajPeriodUbazu/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}" type="submit" value="0">Napravi rezervaciju</button>
+			</div-->
+       		<div class="mt-5 text-left"><button class="btn btn-primary" th:formaction="@{/vikendicaVlasnik/dodajPeriodUbazu/}+${vlasnikVikendice.ID+'/'}+${vikendica.ID}" type="submit" value="0">Definiši period</button>
          </div>
     </div>
     </form>

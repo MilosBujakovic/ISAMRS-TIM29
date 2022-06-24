@@ -197,7 +197,7 @@ public class RezervacijaKontroler {
 	
 	 		System.out.println("AzurirajPodatke page was called!");
 	 		Korisnik k=korisnikServis.findById(id);
-	 		List<Rezervacija> user=rezervacijaServis.findByKlijent(id,null);
+	 		List<Rezervacija> user=rezervacijaServis.findByKlijentDate(id);
             
 	 		
 	 		model.addAttribute("kor",k);

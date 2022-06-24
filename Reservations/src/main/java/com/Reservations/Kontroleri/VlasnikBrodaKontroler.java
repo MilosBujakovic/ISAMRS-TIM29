@@ -488,6 +488,7 @@ public class VlasnikBrodaKontroler
 		Brod brod = brodServis.findById(brodID);
 		model.addAttribute("brod", brod);
 		
+		rezervacija.srediDatume();
 		Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(rezervacija, TipEntiteta.brod);
 		terminServis.popraviTerminRezervacije(rez);
 		if(rez!=null)

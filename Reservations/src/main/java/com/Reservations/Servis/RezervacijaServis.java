@@ -115,7 +115,7 @@ public class RezervacijaServis {
 
 	public List<Rezervacija> findByKlijent(long id, Sort sort) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
-		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li = rezervacijaRepozitorijum.findByTip(TipRezervacije.obicna);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
@@ -133,7 +133,7 @@ public class RezervacijaServis {
 
 	public List<Rezervacija> findByKlijentDateBrod(long id) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
-		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li = rezervacijaRepozitorijum.findByTip(TipRezervacije.obicna);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
@@ -150,7 +150,7 @@ public class RezervacijaServis {
 
 	public List<Rezervacija> findByKlijentDateVik(long id) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
-		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li = rezervacijaRepozitorijum.findByTip(TipRezervacije.obicna);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
@@ -166,7 +166,7 @@ public class RezervacijaServis {
 
 	public List<Rezervacija> findByKlijentDateUsluga(long id) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
-		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li = rezervacijaRepozitorijum.findByTip(TipRezervacije.obicna);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {
@@ -182,7 +182,7 @@ public class RezervacijaServis {
 
 	public List<Rezervacija> findByKlijentDate(long id) {
 		List<Rezervacija> li2 = new ArrayList<Rezervacija>();
-		List<Rezervacija> li = rezervacijaRepozitorijum.findAll();
+		List<Rezervacija> li = rezervacijaRepozitorijum.findByTip(TipRezervacije.obicna);
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		LocalDate now = LocalDate.now();
 		for (Rezervacija r : li) {

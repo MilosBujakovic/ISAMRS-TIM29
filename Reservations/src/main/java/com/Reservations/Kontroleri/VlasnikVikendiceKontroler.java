@@ -496,7 +496,7 @@ public class VlasnikVikendiceKontroler {
 		
 		Vikendica vikendica = vikendicaServis.findById(vikID);
 		model.addAttribute("vikendica", vikendica);
-		
+		rezervacija.srediDatume();
 		Rezervacija rez = rezervacijaServis.napraviBrzuRezervaciju(rezervacija, TipEntiteta.vikendica);
 		terminServis.popraviTerminRezervacije(rez);
 		
